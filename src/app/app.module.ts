@@ -8,18 +8,27 @@ import { RegistroComponent } from './register-component/register-component.compo
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { routes } from './app.routes'; // Importar las rutas desde app.routes
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponentComponent,
     RegistroComponent,
-    
+
   ],
   imports: [
-    BrowserModule,FormsModule,RouterModule.forRoot(routes)
+    BrowserModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+    MatButtonModule,
+    MatIconModule,
+    HomePageComponent,
   ],
-  providers: [ provideHttpClient(withInterceptorsFromDi()), AuthService ],
+  providers: [ provideHttpClient(withInterceptorsFromDi()), AuthService, provideAnimationsAsync() ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

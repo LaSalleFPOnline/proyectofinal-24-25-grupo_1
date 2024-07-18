@@ -1,0 +1,121 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  height: 50px;
+}
+
+.navigation button {
+  margin: 0 10px;
+}
+
+.login-icon button {
+  background: none;
+  border: none;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+.contenedor {
+  display: flex;
+  justify-content: space-between; /* Alinea los elementos en dos columnas */
+  align-items: flex-start; /* Alinea los elementos al principio de la columna */
+  margin: 20px;
+}
+
+.text-column,
+.image-column {
+  flex: 1; /* Hace que ambos contenedores ocupen el mismo espacio */
+  margin: 0 10px; /* Espacio entre las columnas */
+}
+
+.text-column {
+  margin-right: 0; /* Ajusta el margen derecho si es necesario */
+}
+
+.image-column {
+  flex: 1; /* Hace que ambos contenedores ocupen el mismo espacio */
+  margin: 0 10px; /* Espacio entre las columnas */
+  border: 2px solid yellow; /* Borde amarillo de 2px */
+  border-radius: 10px; /* Radio de esquina redondeado de 10px */
+  padding: 10px; /* Espacio interno del borde */
+  box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total del elemento */
+}
+
+.titulo {
+  font-size: 24px;
+  margin-bottom: 10px; /* Espacio debajo del título */
+}
+
+.texto {
+  margin: 0; /* Elimina márgenes por defecto */
+}
+
+.imagen {
+  max-width: 100%; /* Asegura que la imagen se ajuste al contenedor */
+  height: auto;
+}
+
+.agenda {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.agenda-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.event {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.event:last-child {
+  border-bottom: none; /* Elimina el borde en el último evento */
+}
+
+.event-time {
+  font-weight: bold;
+  color: #007bff;
+  margin-right: 20px;
+  min-width: 80px; /* Ancho fijo para el tiempo */
+}
+
+.event-details {
+  flex: 1;
+}
+
+.event-title {
+  font-size: 18px;
+  margin: 0 0 5px 0;
+  color: #444;
+}
+
+.event-description {
+  margin: 0;
+  color: #666;
+}
+
