@@ -18,7 +18,7 @@ function initDatabaseConnection() {
     console.log('Conexión a MySQL establecida');
 
     // Crear la base de datos si no existe
-    connection.query('CREATE DATABASE IF NOT EXISTS usuarios_db', (err) => {
+    connection.query('CREATE DATABASE IF NOT EXISTS Feria_virtual', (err) => {
       if (err) {
         console.error('Error al crear la base de datos: ', err);
         throw err;
@@ -26,12 +26,12 @@ function initDatabaseConnection() {
       console.log('Base de datos creada o ya existe');
 
       // Conectar a la base de datos usuarios_db
-      connection.changeUser({ database: 'usuarios_db' }, (err) => {
+      connection.changeUser({ database: 'Feria_virtual' }, (err) => {
         if (err) {
           console.error('Error al cambiar de base de datos: ', err);
           throw err;
         }
-        console.log('Conectado a la base de datos usuarios_db');
+        console.log('Conectado a la base de datos Feria_virtual');
 
         // Crear la tabla de usuarios si no existe
         const createTableQuery = `
