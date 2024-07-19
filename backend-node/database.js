@@ -34,16 +34,18 @@ function initDatabaseConnection() {
         console.log('Conectado a la base de datos Feria_virtual');
 
         // Crear la tabla de usuarios si no existe
-        const createTableQuery = `
+        const createTableUsuariosQuery = `
           CREATE TABLE IF NOT EXISTS usuarios (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL
+            nombre VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            rol INT NOT NULL CHECK (rol IN (1, 2, 3))
           )
         `;
-        connection.query(createTableQuery, (err) => {
+        connection.query(createTableUsuariosQuery, (err) => {
           if (err) {
-            console.error('Error al crear la tabla: ', err);
+            console.error('Error al crear la tabla usuarios: ', err);
             throw err;
           }
           console.log('Tabla de usuarios creada o ya existe');
