@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HomePageComponent } from './home-page/home-page.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { HomePageComponent } from './home-page/home-page.component';
     MatButtonModule,
     MatIconModule,
     HomePageComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   providers: [ provideHttpClient(withInterceptorsFromDi()), AuthService, provideAnimationsAsync() ],
   bootstrap: [AppComponent]
