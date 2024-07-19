@@ -50,6 +50,26 @@ function initDatabaseConnection() {
           }
           console.log('Tabla de usuarios creada o ya existe');
         });
+        const createTableEmpresasQuery = `
+        CREATE TABLE IF NOT EXISTS empresas (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          usuario_id INT,
+          web_url VARCHAR(2083),
+          spot_url VARCHAR(2083),
+          logo_url VARCHAR(2083),
+          descripcion VARCHAR(1000),
+          url_meet VARCHAR(2083),
+          horario_meet TIME,
+          FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        )
+      `;
+      connection.query(createTableEmpresasQuery, (err) => {
+        if (err) {
+          console.error('Error al crear la tabla de empresas: ', err);
+          throw err;
+        }
+        console.log('Tabla de empresas creada o ya existe');
+      });
       });
     });
   });
