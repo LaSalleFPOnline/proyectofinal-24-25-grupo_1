@@ -34,20 +34,42 @@ function initDatabaseConnection() {
         console.log('Conectado a la base de datos Feria_virtual');
 
         // Crear la tabla de usuarios si no existe
-        const createTableQuery = `
+        const createTableUsuariosQuery = `
           CREATE TABLE IF NOT EXISTS usuarios (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL
+            nombre VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            rol INT NOT NULL CHECK (rol IN (1, 2, 3))
           )
         `;
-        connection.query(createTableQuery, (err) => {
+        connection.query(createTableUsuariosQuery, (err) => {
           if (err) {
-            console.error('Error al crear la tabla: ', err);
+            console.error('Error al crear la tabla usuarios: ', err);
             throw err;
           }
           console.log('Tabla de usuarios creada o ya existe');
         });
+        const createTableEmpresasQuery = `
+        CREATE TABLE IF NOT EXISTS empresas (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          usuario_id INT,
+          web_url VARCHAR(2083),
+          spot_url VARCHAR(2083),
+          logo_url VARCHAR(2083),
+          descripcion VARCHAR(1000),
+          url_meet VARCHAR(2083),
+          horario_meet TIME,
+          FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        )
+      `;
+      connection.query(createTableEmpresasQuery, (err) => {
+        if (err) {
+          console.error('Error al crear la tabla de empresas: ', err);
+          throw err;
+        }
+        console.log('Tabla de empresas creada o ya existe');
+      });
       });
     });
   });
