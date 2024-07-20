@@ -1,11 +1,11 @@
-    <body>
-        <div class="header">
-            <img class="logo" src="assets/Images/logo.png" />
-            <div class="button">
-                <button class="label">Inicio</button>
-                <button class="label">Programa</button>
-                <button class="label">Descargas</button>
-                <button class="label"><img class="img" src="assets/Images/button-login.png" /></button>
-            </div>
+<div class="header">
+    <img class="logo" src="assets/Images/logo.png" (click)="navigateTo('/')" />
+    <div class="button">
+        <button class="label" (click)="navigateTo('/')">Inicio</button>
+        <button class="label" (click)="navigateTo('#programa')">Programa</button>
+        <button class="label" (click)="navigateTo('#descargas')">Descargas</button>
+        <button class="label" (click)="navigateTo('/login')">
+            <img class="img" src="assets/Images/button-login.png" />
+        </button>
         </div>
-    </body>
+    </div>
