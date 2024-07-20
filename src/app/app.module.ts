@@ -16,12 +16,17 @@ import { routes } from './app.routes';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { FeriaPageComponent } from './feria-page/feria-page.component'; // Importar el componente FeriaPage
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component'; // Importar el componente PerfilAdmin
+import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component'; // Importar el componente PerfilEmpresa
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponentComponent,
     RegistroComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +36,10 @@ import { FooterComponent } from './footer/footer.component';
     MatIconModule,
     // Importar componentes standalone
     HomePageComponent,
-    HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    FeriaPageComponent, // Declarar el componente FeriaPage
+    PerfilAdminComponent, // Declarar el componente PerfilAdmin
+    PerfilEmpresaComponent // Declarar el componente PerfilEmpresa
   ],
   providers: [AuthService, provideHttpClient(withInterceptorsFromDi()), provideAnimations()],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
