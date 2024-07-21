@@ -6,7 +6,7 @@ const { registerUser, loginUser } = require('./routes');
 const { parseRequestBody } = require('./middlewares');
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 // Configuración de middlewares
 app.use(cors());

@@ -70,6 +70,35 @@ function initDatabaseConnection() {
         }
         console.log('Tabla de empresas creada o ya existe');
       });
+      const createTableVisitantesQuery = `
+          CREATE TABLE IF NOT EXISTS visitantes (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT,
+            entidad VARCHAR(500),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          )
+        `;
+        connection.query(createTableVisitantesQuery, (err) => {
+          if (err) {
+            console.error('Error al crear la tabla de visitantes: ', err);
+            throw err;
+          }
+          console.log('Tabla de visitantes creada o ya existe');
+        });
+        const createTableAdministradoresQuery = `
+          CREATE TABLE IF NOT EXISTS administradores (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          )
+        `;
+        connection.query(createTableAdministradoresQuery, (err) => {
+          if (err) {
+            console.error('Error al crear la tabla de administradores: ', err);
+            throw err;
+          }
+          console.log('Tabla de administradores creada o ya existe');
+        });
       });
     });
   });
