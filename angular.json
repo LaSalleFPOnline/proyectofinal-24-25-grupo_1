@@ -23,12 +23,11 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/app/home-page/assets",
-                "output": "/assets"
+                "input": "src/app/assets",
+                "output": "assets"
               }
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []

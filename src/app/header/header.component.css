@@ -1,0 +1,71 @@
+.header {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: space-between; /* Distribuir elementos */
+    width: 1000px;
+    height: 142px;
+    padding: 32px 93px 0px 97px;
+    position: relative;
+    margin: 0 auto; /* Centrando horizontalmente */
+}
+
+.header .button {
+    display: flex; /* Cambiado de inline-flex a flex */
+    align-items: center; /* Centrado verticalmente */
+    gap: 10px;
+    padding: 20px 35px;
+    position: relative;
+    flex: 0 0 auto;
+    border-radius: 14px;
+}
+
+.header .label {
+    margin: 0; /* Elimina cualquier margen no deseado */
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    color: var(--variable-collection-dark);
+    font-size: 20px;
+    text-align: center;
+    line-height: 28px;
+    white-space: nowrap;
+}
+
+.header .div {
+    top: 12px;
+    left: 394px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 41px;
+    position: absolute;
+}
+
+.label {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px 35px;
+    position: relative;
+    flex: 0 0 auto;
+    border-radius: 14px;
+    border: 2px solid transparent; /* Inicialmente sin borde */
+    transition: border-color 0.3s; /* Transición suave para el borde */
+}
+
+.login {
+    all: unset;
+    transition: opacity 0.3s; /* Transición suave para la opacidad */
+}
+
+.label:hover,
+.label:active {
+    border: 2px solid black; /* Borde negro en hover y active */
+}
+
+.login:hover,
+.login:active {
+    opacity: 0.5; /* Opacidad del 75% en hover y active */
+}
