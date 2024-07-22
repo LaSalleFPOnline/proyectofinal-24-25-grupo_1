@@ -10,7 +10,13 @@
     margin: 0 auto; /* Centrando horizontalmente */
 }
 
-.header .button {
+.logo {
+    position: relative;
+    width: 166px;
+    height: 84px;
+}
+
+.button {
     display: flex; /* Cambiado de inline-flex a flex */
     align-items: center; /* Centrado verticalmente */
     gap: 10px;
@@ -25,7 +31,7 @@
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     color: var(--variable-collection-dark);
-    font-size: 20px;
+    font-size: 14px;
     text-align: center;
     line-height: 28px;
     white-space: nowrap;

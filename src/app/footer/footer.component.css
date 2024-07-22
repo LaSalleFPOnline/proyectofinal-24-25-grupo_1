@@ -1,0 +1,97 @@
+.footer {
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    width: 1000px;
+    height: 700px;
+    background-color: #F3F3F3;
+    border-radius: 45px 45px 0px 0px;
+    position: relative;
+    margin: 0 auto; /* Centrando horizontalmente */
+}
+
+.element-la-salle-FP {
+    font-family: 'Roboto Mono', monospace;
+    position: absolute;
+    width: 458px;
+    top: 544px;
+    left: 50px;
+    font-weight: 400;
+    color: #2B2B2A;
+    font-size: 16px;
+}
+
+.illustrations-by {
+    font-family: 'Roboto Mono', monospace;
+    position: absolute;
+    width: 458px;
+    top: 544px;
+    left: 430px;
+    font-weight: 400;
+    color: #2B2B2A;
+    font-size: 16px;
+    text-align: right;
+}
+
+.span {
+    text-decoration: underline;
+}
+
+.line {
+    position: absolute;
+    width: 840px;
+    height: 1px;
+    top: 509px;
+    left: 53px;
+    object-fit: cover;
+}
+
+.email-lasalle-com {
+    font-family: 'Roboto Mono', monospace;
+    position: absolute;
+    width: 458px;
+    top: 315px;
+    left: 50px;
+    font-weight: 400;
+    color: #2B2B2A;
+    font-size: 16px;
+}
+
+.illustration {
+    position: absolute;
+    width: 393px;
+    height: 431px;
+    top: 44px;
+    left: 450px;
+}
+
+.logo {
+    position: absolute;
+    width: 260px;
+    height: 131px;
+    top: 61px;
+    left: 56px;
+}
+
+.titulo-contacta {
+    font-family: 'Roboto Mono', monospace;
+    color: #F3F3F3;
+    font-size: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 280px;
+    left: 50px;
+}
+
+.label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0px 7px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: #AC3635;
+    border-radius: 7px;
+}
