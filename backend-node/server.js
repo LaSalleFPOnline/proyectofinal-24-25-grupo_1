@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Iniciar la base de datos y luego el servidor
 initializeDatabase((err) => {
   if (err) {
-    console.error('Error inicializando la base de datos: ', err);
+    console.error('Error inicializando la base de datos Feria_virtual: ', err);
     process.exit(1); // Salir del proceso si hay un error al inicializar la base de datos
   } else {
     console.log('Base de datos inicializada correctamente');
