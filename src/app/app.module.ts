@@ -34,6 +34,7 @@ import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.componen
     RouterModule.forRoot(routes),
     MatButtonModule,
     MatIconModule,
+    
     // Importar componentes standalone
     HomePageComponent,
     FooterComponent,

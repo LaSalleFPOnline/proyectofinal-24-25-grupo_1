@@ -1,4 +1,4 @@
-<p>register-component works!</p>
+<!--<p>register-component works!</p>
 <form (ngSubmit)="onSubmit()">
   <label for="email">Email:</label>
   <input type="email" id="email" [(ngModel)]="email" name="email" required>
@@ -7,4 +7,50 @@
   <input type="password" id="password" [(ngModel)]="password" name="password" required>
 
   <button type="submit">Register</button>
+</form>-->
+<form (ngSubmit)="onSubmit()">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" [(ngModel)]="email" name="email" required>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" [(ngModel)]="password" name="password" required>
+
+  <label for="rol">Rol:</label>
+  <select id="rol" [(ngModel)]="rol" name="rol">
+    <option value="1">Empresa</option>
+    <option value="2">Visitante</option>
+    <option value="3">Administrador</option>
+  </select>
+
+  <!-- Campos específicos para empresas -->
+  <div *ngIf="rol == 1">
+    <label for="web_url">Web URL:</label>
+    <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url">
+
+    <label for="spot_url">Spot URL:</label>
+    <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url">
+
+    <label for="logo_url">Logo URL:</label>
+    <input type="text" id="logo_url" [(ngModel)]="logo_url" name="logo_url">
+
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" [(ngModel)]="descripcion" name="descripcion"></textarea>
+
+    <label for="url_meet">URL Meet:</label>
+    <input type="text" id="url_meet" [(ngModel)]="url_meet" name="url_meet">
+
+    <label for="horario_meet">Horario Meet:</label>
+    <input type="time" id="horario_meet" [(ngModel)]="horario_meet" name="horario_meet">
+  </div>
+
+  <!-- Campo específico para visitantes -->
+  <div *ngIf="rol == 2">
+    <label for="entidad">Entidad:</label>
+    <input type="text" id="entidad" [(ngModel)]="entidad" name="entidad">
+  </div>
+
+  <button type="submit">Registrarse</button>
 </form>
