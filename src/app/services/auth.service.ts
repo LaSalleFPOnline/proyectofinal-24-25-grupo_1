@@ -33,7 +33,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3000'; // URL del servidor Node.js
+  private apiUrl = 'http://localhost:3001'; // URL del servidor Node.js
 
   constructor(private http: HttpClient) { }
 

@@ -13,6 +13,10 @@ function registerUser(req, res) {
   const insertUserQuery = 'INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)';
   connection.query(insertUserQuery, [nombre, email, password, rol], (err, result) => {
     if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        console.error('Error: El correo electrónico ya está en uso');
+        return res.status(400).json({ message: 'El correo electrónico ya está en uso' });
+      }
       console.error('Error al registrar usuario en MySQL: ', err);
       return res.status(500).json({ message: 'Error al registrar usuario en el back' });
     }
@@ -24,10 +28,10 @@ function registerUser(req, res) {
     let insertRoleQuery;
     let roleParams;
 
-    switch (rol) {
+    switch (parseInt(rol, 10)) {
       case 1: // Empresa
-        insertRoleQuery = 'INSERT INTO empresas (usuario_id, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        roleParams = [userId, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet];
+        insertRoleQuery = 'INSERT INTO empresas (usuario_id, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        roleParams = [userId, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad];
         break;
       case 2: // Visitante
         insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';
@@ -80,5 +84,6 @@ module.exports = {
   registerUser,
   loginUser,
 };
+
 
 

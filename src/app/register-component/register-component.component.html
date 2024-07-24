@@ -1,13 +1,3 @@
-<!--<p>register-component works!</p>
-<form (ngSubmit)="onSubmit()">
-  <label for="email">Email:</label>
-  <input type="email" id="email" [(ngModel)]="email" name="email" required>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" [(ngModel)]="password" name="password" required>
-
-  <button type="submit">Register</button>
-</form>-->
 <form (ngSubmit)="onSubmit()">
   <label for="nombre">Nombre:</label>
   <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" required>
@@ -44,6 +34,8 @@
 
     <label for="horario_meet">Horario Meet:</label>
     <input type="time" id="horario_meet" [(ngModel)]="horario_meet" name="horario_meet">
+    <label for="entidad">Entidad:</label>
+    <input type="text" id="entidad" [(ngModel)]="entidad" name="entidad">
   </div>
 
   <!-- Campo específico para visitantes -->

@@ -2,11 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { initializeDatabase, endDatabaseConnection } = require('./database');
-const { registerUser, loginUser } = require('./routes');
+const { registerUser, loginUser } = require('./userController');
 const { parseRequestBody } = require('./middlewares');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Configuración de middlewares
 app.use(cors());

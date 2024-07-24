@@ -3,8 +3,8 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
-  database: 'Feria_virtual'
+  password: ''
+  
 });
 
 const initializeDatabase = (callback) => {
@@ -49,6 +49,7 @@ const initializeDatabase = (callback) => {
             descripcion VARCHAR(1000),
             url_meet VARCHAR(2083),
             horario_meet TIME,
+            entidad VARCHAR(500),
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
           )`,
           `CREATE TABLE IF NOT EXISTS visitantes (
