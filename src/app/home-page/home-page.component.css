@@ -71,51 +71,364 @@ iframe {
   height: auto;
 }
 
+/* Agenda */
 .agenda {
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 600px;
-  margin: 20px auto;
-}
-
-.agenda-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.event {
   display: flex;
-  align-items: flex-start;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  flex-direction: column; /* Coloca los elementos en una columna */
+  align-items: center; /* Centra horizontalmente */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 1200px; /* Ajusta el ancho máximo si es necesario */
+  margin: 50px auto; /* Centra el contenedor en la página */
+  padding: 1rem; /* Espacio alrededor del contenedor */
 }
 
-.event:last-child {
-  border-bottom: none; /* Elimina el borde en el último evento */
+/* Estilo para cada frame */
+.frame {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: whitesmoke;
+  border-radius: 3rem;
+  border: 1px solid black;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra responsiva */
+  font-family: "Roboto Mono", Helvetica, sans-serif;
+  margin-bottom: 25px; /* Espacio entre cada div */
 }
 
-.event-time {
-  font-weight: bold;
-  color: #007bff;
-  margin-right: 20px;
-  min-width: 80px; /* Ancho fijo para el tiempo */
-}
-
-.event-details {
-  flex: 1;
-}
-
-.event-title {
-  font-size: 18px;
-  margin: 0 0 5px 0;
-  color: #444;
+.text-wrapper {
+  font-size: 60px; /* Números de la hora */
 }
 
 .event-description {
-  margin: 0;
-  color: #666;
+  font-size: 30px; /* Letras del evento */
+  margin: 0; /* Elimina margen adicional por defecto en el párrafo */
+}
+
+.plus-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.line {
+  width: 100px; /* Ajusta el tamaño de la línea según sea necesario */
+  height: 2px;
+  background-color: black; /* Cambia esto según el diseño */
+}
+
+/* Estilos para pantallas de tabletas */
+@media (max-width: 768px) {
+  .frame {
+    flex-direction: column; /* Cambia a columna en tabletas */
+    align-items: center;
+    width: 90%; /* Ajusta el ancho */
+    padding: 1rem; /* Ajusta el padding */
+  }
+
+  .text-wrapper {
+    font-size: 40px; /* Ajusta el tamaño de fuente */
+  }
+
+  .event-description {
+    font-size: 20px; /* Ajusta el tamaño de fuente */
+  }
+
+  .plus-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .line {
+    width: 80px; /* Ajusta el tamaño de la línea */
+  }
+}
+
+/* Agenda móviles */
+@media (max-width: 480px) {
+  .frame {
+    flex-direction: column; /* Cambia a columna en móviles */
+    align-items: center;
+    width: 100%; /* Ajusta el ancho */
+    padding: 0.5rem; /* Ajusta el padding */
+  }
+
+  .text-wrapper {
+    font-size: 30px; /* Ajusta el tamaño de fuente */
+  }
+
+  .event-description {
+    font-size: 18px; /* Ajusta el tamaño de fuente */
+  }
+
+  .plus-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .line {
+    width: 60px; /* Ajusta el tamaño de la línea */
+  }
+}
+
+/* Descargas */
+
+.descargas {
+  display: flex;
+  width: 100%;
+  height: 483px;
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra horizontalmente los elementos internos */
+  position: relative;
+  border-radius: 45px;
+  border: 5px solid;
+  border-color: black;
+  font-family: "Roboto Mono-Regular", Helvetica;
+}
+
+.descargas .titulo-descargas {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 45px;
+  left: 105px;
+}
+
+.descargas .titulo-descargas .label-2 {
+  font-weight: 500;
+  color: var(--variable-collection-dark);
+  font-size: 40px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+.descargas .descarga-programa,
+.descargas .descarga-concurso,
+.descargas .descarga-guia {
+  width: 30%; /* Ajusta el ancho de cada elemento al 30% del contenedor principal */
+  height: 268px; /* Altura fija para los elementos */
+  border-radius: 45px; /* Bordes redondeados */
+  display: flex;
+  justify-content: space-between; /* Espacio entre los elementos internos */
+  margin: 1rem; /* Espacio horizontal entre los elementos */
+  position: relative; /* Necesario para los elementos internos con posición absoluta */
+}
+
+.descargas .descarga-programa {
+  background-color: green;
+}
+
+.descargas .descarga-concurso {
+  background-color: red;
+}
+
+.descargas .descarga-guia {
+  background-color: blue;
+}
+
+.descargas .heading {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 44px;
+  left: 26px;
+  color: white
+}
+
+.descargas .text-wrapper {
+  font-size: 30px;
+}
+
+.descargas .link {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  position: absolute;
+  top: 194px;
+  left: 26px;
+  color: whitesmoke;
+}
+
+.descargas .icon {
+  position: relative;
+  width: 41px;
+  height: 41px;
+  border-radius: 20.5px;
+}
+
+.descargas .arrow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 11px;
+  left: 10px;
+}
+
+
+/* Descargas para tabletas */
+@media (max-width: 768px) {
+  .descargas {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .descargas .titulo-descargas {
+    top: 20px;
+    left: 20px;
+  }
+
+  .descargas .titulo-descargas .label-2 {
+    font-size: 30px;
+  }
+
+  .descargas .descarga-programa,
+  .descargas .descarga-concurso,
+  .descargas .descarga-guia {
+    width: 90%;
+    height: auto;
+    margin: 0.5rem 0;
+    padding: 1rem; /* Añade padding */
+  }
+
+  .descargas .text-wrapper {
+    font-size: 24px;
+  }
+
+  .descargas .link {
+    top: auto;
+    bottom: 10px;
+  }
+
+  .descargas .icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .descargas .arrow {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Descargas para móviles */
+@media (max-width: 480px) {
+  .descargas {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .descargas .titulo-descargas {
+    top: 10px;
+    left: 10px;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    text-align: center; /* Centra el texto */
+    margin-bottom: 1rem; /* Añade un margen inferior para separación */
+
+  }
+
+  .descargas .titulo-descargas .label-2 {
+    font-size: 24px;
+  }
+
+  .descargas .descarga-programa,
+  .descargas .descarga-concurso,
+  .descargas .descarga-guia {
+    width: 100%;
+    height: auto;
+    margin: 0.5rem 0;
+    padding: 1rem; /* Añade padding */
+  }
+
+  .descargas .text-wrapper {
+    font-size: 18px;
+  }
+
+  .descargas .link {
+    top: auto;
+    bottom: 10px;
+  }
+
+  .descargas .icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .descargas .arrow {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Patrocinadores */
+.patrocinadores {
+  display: flex;
+  width: 80%;
+  height: 483px;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente el contenedor */
+  position: relative;
+  padding-top: 100px; /* Padding superior */
+  padding-bottom: 100px; /* Padding inferior */
+  overflow: hidden; /* Oculta el overflow para que el scroll solo sea horizontal */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+
+}
+.patrocinadores .fondo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  border-radius: 45px;
+  z-index: 0; /* Envía el fondo detrás de los elementos */
+}
+
+.scroll-container {
+  width: 100%;
+  overflow-x: auto; /* Habilita el desplazamiento horizontal */
+  white-space: nowrap; /* Evita que los elementos se rompan en múltiples líneas */
+  z-index: 1; /* Asegura que el contenedor de scroll esté encima del fondo */
+}
+
+.scroll {
+  display: flex;
+  align-items: center;
+  height: 100%; /* Asegura que los elementos tengan la altura completa */
+  gap: 1rem; /* Espacio entre los elementos */
+  justify-content: space-around; /* Reparte el espacio entre los elementos */
+}
+
+.logo-1, .logo-2, .logo-3, .logo-4 {
+  flex: 1; /* Hace que todos los logos ocupen el mismo espacio */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido dentro del logo */
+  justify-content: center;
+  min-width: 200px; /* Establece un ancho mínimo para cada logo */
+}
+.overlap-group {
+  border-radius: 45px;
+  border: 3px solid yellow;
+  width: 40%;
+  height: 268px; /* Altura fija para los elementos */
+  display: flex;
+  justify-content: space-between; /* Espacio entre los elementos internos */
+}
+
+.colegio {
+  text-align: center;
+  color: #f8f9fa;
+}
+
+.titulo-patrocinadores {
+  margin-top: 50px; /* Ajusta el valor según sea necesario para el espacio deseado */
+  margin-bottom: 30px; /* Espacio inferior (opcional) */
+}
+
+/* Si necesitas más control sobre el espaciado, puedes ajustar el margen superior específico */
+.titulo-patrocinadores {
+  font-size: 1.5rem; /* Ajusta el tamaño del texto si es necesario */
 }
 
