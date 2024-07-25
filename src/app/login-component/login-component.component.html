@@ -1,13 +1,39 @@
-<h2>Login</h2>
-<form (ngSubmit)="onSubmit()">
-  <div>
-    <label>Email:</label>
-    <input type="email" [(ngModel)]="email" name="email" required>
+<div class="formulario-login">
+  <div class="titulo-bienvenido">
+    <div class="label-wrapper">
+      <div class="label-2">Bienvenido</div>
+    </div>
   </div>
-  <div>
-    <label>Password:</label>
-    <input type="password" [(ngModel)]="password" name="password" required>
-  </div>
-  <button type="submit">Login</button>
-</form>
-<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <form (ngSubmit)="onSubmit()">
+    <div class="username">
+      <div class="div">Nombre de Usuario</div>
+      <input type="email" [(ngModel)]="email" name="email" required class="input-field">
+    </div>
+    <div class="overlap">
+      <div class="overlap-group">
+        <div class="password">
+          <div class="div">Contraseña</div>
+          <input type="password" [(ngModel)]="password" name="password" required class="input-field">
+        </div>
+        <div class="button-enviar">
+          <button type="submit" class="button-label">ENVIAR</button>
+        </div>
+        <img class="illustration" src="assets/Illustrations/Illustration3.png">
+        <!-- El mensaje de error debe estar justo después del botón de enviar -->
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </div>
+      <div class="flexcontainer">
+        <p class="text">
+          <span class="text-wrapper">
+            Si tienes algún problema ponte en<br/>
+          </span>
+        </p>
+        <p class="text">
+          <span class="text-wrapper">
+            contacto con tu escuela o profesor
+          </span>
+        </p>
+      </div>
+    </div>
+  </form>
+</div>

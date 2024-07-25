@@ -1,34 +1,207 @@
-/* Estilos generales para el formulario */
-form {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Estilo para las etiquetas */
-  form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  /* Estilo para los campos de entrada */
-  form input[type="email"],
-  form input[type="password"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box;
-  }
-  
-  /* Estilo para el botón */
-  form button[type="submit"] {
-    width: 100%;
-   
-  }
+.formulario-login {
+  position: relative;
+  width: 1158px;
+  height: 657px;
+  background-color: #F6E953;
+  border-radius: 45px;
+  border: 1px solid;
+  border-color: #2B2B2A;
+  box-shadow: 0px 5px 0px #2B2B2A;
+  margin: 0 auto; /* Centrando horizontalmente */
+  margin-top: 100px;
+  margin-bottom: 350px; /* Ajusta el valor según el espacio necesario */
+
+}
+
+.overlap {
+  width: 1082px;
+  top: 285px;
+  left: 53px;
+  position: absolute;
+  height: 601px;
+  /* Ajustar la posición si es necesario */
+}
+
+.flexcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 250px;
+  left: 0;
+}
+
+.text-wrapper {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2B2B2A;
+  line-height: 0;
+}
+
+.overlap-group {
+  width: 1036px;
+  top: 0;
+  left: 46px;
+  position: absolute;
+  height: 601px;
+}
+
+.password {
+  position: absolute;
+  width: 824px;
+  height: 107px;
+  top: 0;
+  left: 0;
+  background-color: #F3F3F3;
+  border-radius: 45px;
+  border: 1px solid;
+  border-color: #2B2B2A;
+  box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.div {
+  position: absolute;
+  top: 21px;
+  left: 34px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2B2B2A;
+}
+
+.line {
+  position: absolute;
+  width: 755px;
+  height: 1px;
+  top: 78px;
+  left: 34px;
+  object-fit: cover;
+}
+
+.input-field {
+  position: absolute;
+  top: 50px;
+  left: 34px;
+  width: 90%; /* Ajusta este valor según el ancho necesario */
+  border: none;
+  border-bottom: 1px solid #2B2B2A;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2B2B2A;
+  background-color: transparent;
+  outline: none;
+  box-shadow: none; /* Eliminar cualquier sombra que pueda aparecer */
+}
+
+.button-enviar {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px 35px;
+  position: absolute;
+  top: 165px;
+  left: 412px;
+  background-color: #F3F3F3;
+  border-radius: 14px;
+  border: none; /* Agregado para asegurar que no haya bordes */
+  cursor: pointer;
+}
+
+.button-enviar:hover,
+.button-enviar:active {
+  border: 1px solid #2B2B2A; /* Borde negro en hover y active */
+}
+
+.button-label {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  line-height: 28px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2B2B2A;
+  text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.illustration {
+  position: absolute;
+  width: 545px;
+  height: 560px;
+  top: 41px;
+  left: 491px;
+}
+
+.username {
+  position: absolute;
+  width: 960px;
+  height: 107px;
+  top: 130px;
+  left: 98px;
+  background-color: #F3F3F3;
+  border-radius: 45px;
+  border: 1px solid;
+  border-color: #2B2B2A;
+  box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.line2 {
+  position: absolute;
+  width: 894px;
+  height: 1px;
+  top: 78px;
+  left: 34px;
+  object-fit: cover;
+}
+
+.titulo-bienvenido {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 50px;
+  left: 45px;
+}
+
+.label-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0px 7px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #2B2B2A;
+  border-radius: 7px;
+}
+
+.label-2 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  line-height: normal;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 40px;
+  color: #F3F3F3;
+  letter-spacing: 0;
+}
+
+.error-message {
+  color: red;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  position: absolute;
+  top: 250px; /* Ajusta la posición vertical para estar justo debajo del botón */
+  left: 46%;
+  transform: translateX(-50%);
+  background-color: #F3F3F3; /* Opcional: Para hacer el texto más legible */
+  padding: 10px; /* Opcional: Para mejorar la apariencia */
+  border-radius: 7px; /* Opcional: Para un borde más suave */
+  border: 1px solid red; /* Opcional: Para resaltar el mensaje de error */
+}
