@@ -8,4 +8,19 @@
             <img class="img" src="assets/Images/button-login.png" />
         </button>
     </div>
+    <!-- Botón de hamburguesa -->
+    <button class="hamburger" (click)="toggleMenu()" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    <!-- Menú de navegación móvil -->
+    <nav class="mobile-menu" [class.active]="isMenuOpen">
+        <button class="label" (click)="navigateTo('/')">Inicio</button>
+        <button class="label" (click)="navigateTo('/', 'programa')">Programa</button>
+        <button class="label" (click)="navigateTo('/', 'descargas')">Descargas</button>
+        <button class="login" (click)="navigateTo('/login')">
+            <img class="img" src="assets/Images/button-login.png" />
+        </button>
+    </nav>
 </div>

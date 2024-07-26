@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  isMenuOpen = false;
+
   constructor(private router: Router) {}
 
   navigateTo(path: string, fragment?: string) {
@@ -18,5 +20,9 @@ export class HeaderComponent {
         }
       }
     });
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

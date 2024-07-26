@@ -1,50 +1,40 @@
+/* Estilo base para dispositivos grandes (escritorio) */
+
 .header {
     font-family: 'Roboto', sans-serif;
     display: flex;
-    align-items: center; /* Centrar verticalmente */
-    justify-content: space-between; /* Distribuir elementos */
-    width: 1000px;
-    height: 142px;
-    padding: 32px 93px 0px 97px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 8em; /* 142px */
     position: relative;
-    margin: 0 auto; /* Centrando horizontalmente */
+    margin: 0 auto;
 }
 
 .logo {
     position: relative;
-    width: 166px;
-    height: 84px;
+    width: 10rem; /* 166px */
+    height: 5rem; /* 84px */
 }
 
 .button {
-    display: flex; /* Cambiado de inline-flex a flex */
-    align-items: center; /* Centrado verticalmente */
-    gap: 10px;
-    padding: 20px 35px;
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
     position: relative;
     flex: 0 0 auto;
-    border-radius: 14px;
+    border-radius: 0.8rem; /* 14px */
+    gap: 0.5rem;
 }
 
 .header .label {
-    margin: 0; /* Elimina cualquier margen no deseado */
+    margin: 0;
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
-    color: var(--variable-collection-dark);
-    font-size: 14px;
+    font-size: 0.8rem;
     text-align: center;
-    line-height: 28px;
+    line-height: 1.75rem; /* 28px */
     white-space: nowrap;
-}
-
-.header .div {
-    top: 12px;
-    left: 394px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 41px;
-    position: absolute;
 }
 
 .label {
@@ -52,26 +42,160 @@
     box-sizing: border-box;
     display: inline-flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 20px 35px;
+    gap: 0.625rem; /* 10px equivalente a 0.625rem */
+    padding: 1.25rem 2.1875rem; /* 20px 35px equivalente a 1.25rem 2.1875rem */
     position: relative;
     flex: 0 0 auto;
-    border-radius: 14px;
-    border: 2px solid transparent; /* Inicialmente sin borde */
-    transition: border-color 0.3s; /* Transición suave para el borde */
+    border-radius: 0.875rem; /* 14px equivalente a 0.875rem */
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
 }
 
 .login {
     all: unset;
-    transition: opacity 0.3s; /* Transición suave para la opacidad */
+    transition: opacity 0.3s;
 }
 
 .label:hover,
 .label:active {
-    border: 2px solid black; /* Borde negro en hover y active */
+    border: 2px solid black;
+    opacity: 0.5;
 }
 
-.login:hover,
-.login:active {
-    opacity: 0.5; /* Opacidad del 75% en hover y active */
+/* Ocultar el botón de hamburguesa y el menú móvil en pantallas grandes */
+.hamburger,
+.mobile-menu {
+    display: none;
+}
+
+/* Estilo para móviles */
+@media (max-width: 480px) {
+    .header {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: flex-start;
+        padding: 1rem 2rem; /* Ajusta el padding */
+        height: auto; /* Permite que el contenedor ajuste su altura automáticamente */
+        position: relative; /* Asegura que el menú se posicione correctamente */
+        width: 100%; /* Asegura que el ancho sea del 100% de la vista */
+        max-width: 100vw; /* Evita el desbordamiento lateral */
+    }
+
+    .logo {
+        width: 6rem; /* Ajusta el ancho del logo */
+        height: 3rem; /* Ajusta la altura del logo */
+        margin-bottom: 1rem; /* Añade espacio debajo del logo */
+    }
+
+    .button {
+        display: none; /* Oculta los botones en móvil */
+    }
+
+    .hamburger {
+        display: flex; /* Mostrar el botón de hamburguesa */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 2.5rem; /* Ajusta el tamaño del botón de hamburguesa */
+        height: 2rem; /* Ajusta el tamaño del botón de hamburguesa */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 100; /* Asegura que el botón esté encima del menú */
+    }
+
+    .hamburger .bar {
+        width: 2.5rem; /* Ajusta el tamaño de las barras */
+        height: 0.25rem; /* Ajusta el grosor de las barras */
+        background: black; /* Color de las barras */
+        margin: 0.2rem 0; /* Espacio entre las barras */
+        transition: background 0.3s, transform 0.3s; /* Transiciones para animaciones */
+    }
+
+    .mobile-menu {
+        display: none; /* Oculta el menú de navegación móvil por defecto */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white; /* Color de fondo del menú */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para el menú */
+        padding: 1rem;
+        z-index: 99; /* Asegura que el menú esté encima del contenido */
+        transition: transform 0.3s ease-in-out;
+        transform: translateY(-100%); /* Inicialmente oculto */
+    }
+
+    .mobile-menu.active {
+        display: block; /* Muestra el menú al hacer clic en el botón de hamburguesa */
+        transform: translateY(0); /* Muestra el menú deslizando hacia abajo */
+    }
+
+    .mobile-menu .label,
+    .mobile-menu .login {
+        display: block;
+        margin: 0.5rem 0; /* Espacio entre los botones */
+    }
+}
+
+/* Estilo para tabletas */
+@media (max-width: 768px) {
+    .header {
+        padding: 1.5rem 4rem 0 4.5rem; /* Ajusta el padding para tabletas */
+        height: 7rem; /* Ajusta la altura */
+        width: 100%; /* Asegura que el ancho sea del 100% de la vista */
+        max-width: 100vw; /* Evita el desbordamiento lateral */
+    }
+
+    .logo {
+        width: 8rem; /* Ajusta el ancho del logo */
+        height: 4rem; /* Ajusta la altura del logo */
+    }
+
+    .button {
+        padding: 1rem 1.75rem; /* Ajusta el padding */
+        gap: 0.5rem; /* Ajusta el gap */
+    }
+
+    .header .label {
+        font-size: 0.75rem; /* Ajusta el tamaño de fuente */
+        line-height: 1.5rem; /* Ajusta la altura de línea */
+    }
+
+    .hamburger {
+        display: flex; /* Mostrar el botón de hamburguesa en tabletas */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 2.5rem; /* Ajusta el tamaño del botón de hamburguesa */
+        height: 2rem; /* Ajusta el tamaño del botón de hamburguesa */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 100; /* Asegura que el botón esté encima del menú */
+    }
+
+    .mobile-menu {
+        display: none; /* Oculta el menú de navegación móvil por defecto */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white; /* Color de fondo del menú */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para el menú */
+        padding: 1rem;
+        z-index: 99; /* Asegura que el menú esté encima del contenido */
+        transition: transform 0.3s ease-in-out;
+        transform: translateY(-100%); /* Inicialmente oculto */
+    }
+
+    .mobile-menu.active {
+        display: block; /* Muestra el menú al hacer clic en el botón de hamburguesa */
+        transform: translateY(0); /* Muestra el menú deslizando hacia abajo */
+    }
+
+    .mobile-menu .label,
+    .mobile-menu .login {
+        display: block;
+        margin: 0.5rem 0; /* Espacio entre los botones */
+    }
 }
