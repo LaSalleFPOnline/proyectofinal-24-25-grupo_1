@@ -1,1 +1,65 @@
-<p>perfil-empresa works!</p>
+<div class="formulario-empresa">
+    <!-- Título -->
+    <div class="titulo-info">
+        <div class="label">
+            <div class="titulo">Información de MI Empresa</div>
+        </div>
+    </div>
+    <!-- Nombre de COLEGIO -->
+    <div class="desplegable-colegio">
+        <label class="text-wrapper">* Nombre de COLEGIO</label>
+        <input type="text" [(ngModel)]="nombreColegio" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Nombre de empresa -->
+    <div class="nombre">
+        <label class="text-wrapper">* Nombre de empresa</label>
+        <input type="text" [(ngModel)]="nombreEmpresa" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Logotipo -->
+    <div class="logotipo">
+        <label class="text-wrapper">* Logotipo</label>
+        <input type="text" [(ngModel)]="logotipo" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Página web (Producto o servicio) -->
+    <div class="web">
+        <label class="text-wrapper">* Página web (Producto o servicio)</label>
+        <input type="text" [(ngModel)]="paginaWeb" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Enlace a Sala de Espera -->
+    <div class="sala-espera">
+        <label class="text-wrapper">* Enlace a Sala de Espera</label>
+        <input type="text" [(ngModel)]="enlaceSalaEspera" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Horarios de atención al cliente -->
+    <div class="horarios">
+        <label class="text-wrapper">* Horarios de atención al cliente</label>
+        <input type="text" [(ngModel)]="horariosAtencion" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Spot Publicitario -->
+    <div class="spot">
+        <label class="text-wrapper">Spot Publicitario</label>
+        <input type="text" [(ngModel)]="spotPublicitario" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+    <!-- Descripción de productos o servicios -->
+    <div class="producto">
+        <label class="text-wrapper">Descripción de productos o servicios</label>
+        <img class="line" src="assets/Images/line.png">
+        <textarea [(ngModel)]="descripcionProductos" class="textarea"></textarea>
+    </div>
+    <!-- Contenedor de Botón de Validar y Mensaje de Error -->
+    <div class="overlap-group">
+        <button (click)="validarFormulario()" type="button" class="button-validar">
+            <div class="label-2">VALIDAR</div>
+        </button>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </div>
+    <!-- Ilustración -->
+    <img class="illustration" src="assets/Illustrations/Illustration5.png">
+</div>

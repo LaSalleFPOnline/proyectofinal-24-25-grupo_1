@@ -19,6 +19,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FeriaPageComponent } from './feria-page/feria-page.component'; // Importar el componente FeriaPage
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component'; // Importar el componente PerfilAdmin
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component'; // Importar el componente PerfilEmpresa
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.componen
     AppComponent,
     LoginComponentComponent,
     RegistroComponent,
-    HeaderComponent
+    HeaderComponent,
+    PerfilEmpresaComponent
   ],
   imports: [
     BrowserModule,
@@ -34,13 +36,12 @@ import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.componen
     RouterModule.forRoot(routes),
     MatButtonModule,
     MatIconModule,
-    
+    CommonModule,
     // Importar componentes standalone
     HomePageComponent,
     FooterComponent,
     FeriaPageComponent, // Declarar el componente FeriaPage
     PerfilAdminComponent, // Declarar el componente PerfilAdmin
-    PerfilEmpresaComponent // Declarar el componente PerfilEmpresa
   ],
   providers: [AuthService, provideHttpClient(withInterceptorsFromDi()), provideAnimations()],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -27,16 +27,16 @@
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  top: 250px;
+  top: 240px;
   left: 0;
 }
 
 .text-wrapper {
   font-family: 'Roboto Mono', monospace;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   color: #2B2B2A;
-  line-height: 0;
+  line-height: 2;
 }
 
 .overlap-group {

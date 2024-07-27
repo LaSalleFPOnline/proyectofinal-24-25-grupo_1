@@ -1,0 +1,188 @@
+.formulario-empresa {
+    position: relative;
+    width: 1158px;
+    height: 1564px;
+    background-color: #F6E953;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+    margin: 0 auto; /* Centrando horizontalmente */
+    margin-top: 50px;
+    margin-bottom: 500px; /* Ajusta el valor según el espacio necesario */
+}
+
+.titulo-info {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 50px;
+    left: 45px;
+}
+
+.label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0px 7px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: #2B2B2A;
+    border-radius: 7px;
+}
+
+.titulo {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 25px;
+    color: #F3F3F3;
+}
+
+.desplegable-colegio, .sala-espera, .logotipo, .spot, .nombre, .horarios, .web, .producto {
+    position: absolute;
+    width: 960px;
+    height: 107px;
+    left: 98px;
+    background-color: #F3F3F3;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.producto {
+    height: 347px; /* Diferente altura para producto */
+}
+
+.desplegable-colegio { top: 130px; }
+.sala-espera { top: 667px; }
+.logotipo { top: 398px; }
+.spot { top: 934px; }
+.nombre { top: 264px; }
+.horarios { top: 800px; }
+.web { top: 533px; }
+.producto { top: 1068px; }
+
+.text-wrapper {
+    position: absolute;
+    top: 20px;
+    left: 34px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 16px;
+    color: #2B2B2A;
+}
+
+.line {
+    position: absolute;
+    width: 894px;
+    height: 1px;
+    bottom: 30px;
+    left: 34px;
+    object-fit: cover;
+}
+
+.input {
+    position: absolute;
+    top: 50px;
+    left: 34px;
+    width: 894px;
+    border: none;
+    background: none;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
+.producto .input {
+    top: 50px; /* Ajusta según la altura necesaria */
+}
+
+.producto .line {
+    top: 80px; /* Asegúrate de que la línea esté justo debajo del input */
+}
+
+.producto .textarea {
+    position: absolute;
+    top: 110px; /* Justo debajo de la línea */
+    left: 34px;
+    width: 870px;
+    height: 200px; /* Ajusta la altura según sea necesario */
+    border: 1px solid #2B2B2A;
+    border-radius: 15px;
+    background: none;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    outline: none;
+    padding: 10px;
+    resize: vertical; /* Permitir al usuario redimensionar verticalmente */
+}
+
+.overlap-group {
+    position: absolute;
+    width: 100%;
+    top: 1446px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Para colocar el botón y el mensaje de error en columna */
+}
+
+.button-validar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 35px;
+    background-color: #F3F3F3;
+    border-radius: 14px;
+    border: none; /* Asegúrate de que no haya bordes */
+    cursor: pointer;
+    position: relative; /* Asegura que el botón se posicione dentro del contenedor */
+    z-index: 1; /* Asegura que la ilustración esté detrás de los elementos */
+
+}
+
+.button-validar:hover,
+.button-validar:active {
+    border: 1px solid #2B2B2A; /* Borde negro en hover y active */
+}
+
+.label-2 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 16px;
+    color: #2B2B2A;
+    text-align: center;
+    cursor: pointer;
+}
+
+.error-message {
+    color: red;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    margin-top: 6px; /* Espacio entre el botón y el mensaje */
+    background-color: #F3F3F3; /* Opcional: Para hacer el texto más legible */
+    padding: 10px; /* Opcional: Para mejorar la apariencia */
+    border-radius: 7px; /* Opcional: Para un borde más suave */
+    border: 1px solid red; /* Opcional: Para resaltar el mensaje de error */
+    text-align: center; /* Centrar el texto */
+    z-index: 1; /* Asegura que la ilustración esté detrás de los elementos */
+
+}
+
+.illustration {
+    position: absolute;
+    width: 710px;
+    height: 589px;
+    right: -30px; /* Ajusta este valor para mover la ilustración más a la derecha */
+    bottom: -460px; /* Ajusta este valor para mover la ilustración más abajo */
+    z-index: 0; /* Asegura que la ilustración esté detrás de los elementos */
+}
