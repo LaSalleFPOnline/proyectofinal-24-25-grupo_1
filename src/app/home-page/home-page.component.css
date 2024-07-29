@@ -178,7 +178,6 @@ iframe {
   width: 100%;
   height: 483px;
   align-items: center; /* Centra horizontalmente */
-  justify-content: center; /* Centra horizontalmente los elementos internos */
   position: relative;
   border-radius: 45px;
   border: 5px solid;
@@ -187,20 +186,10 @@ iframe {
 }
 
 .descargas .titulo-descargas {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
   position: absolute;
-  top: 45px;
-  left: 105px;
-}
-
-.descargas .titulo-descargas .label-2 {
-  font-weight: 500;
-  color: var(--variable-collection-dark);
-  font-size: 40px;
-  letter-spacing: 0;
-  line-height: normal;
+  top: 2rem;
+  left: 2rem;
+  font-size: 1.5rem;
 }
 .descargas .descarga-programa,
 .descargas .descarga-concurso,
@@ -326,13 +315,8 @@ iframe {
     width: 100%; /* Ocupa todo el ancho disponible */
     text-align: center; /* Centra el texto */
     margin-bottom: 1rem; /* Añade un margen inferior para separación */
-
   }
-
-  .descargas .titulo-descargas .label-2 {
-    font-size: 24px;
-  }
-
+  
   .descargas .descarga-programa,
   .descargas .descarga-concurso,
   .descargas .descarga-guia {
@@ -363,23 +347,25 @@ iframe {
 }
 
 /* Patrocinadores */
+.titulo-patrocinadores {
+  font-size: 1.5rem; /* Ajusta el tamaño del texto si es necesario */
+  margin-top: 2rem;
+  margin-bottom: -5rem;
+}
 .patrocinadores {
   display: flex;
   width: 80%;
-  height: 483px;
+  height: 500px;
   align-items: center; /* Centra verticalmente */
   justify-content: center; /* Centra horizontalmente el contenedor */
   position: relative;
-  padding-top: 100px; /* Padding superior */
-  padding-bottom: 100px; /* Padding inferior */
-  overflow: hidden; /* Oculta el overflow para que el scroll solo sea horizontal */
   margin: 0 auto; /* Centra el contenedor horizontalmente */
 
 }
 .patrocinadores .fondo {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 50%;
   background-color: blue;
   border-radius: 45px;
   z-index: 0; /* Envía el fondo detrás de los elementos */
@@ -398,6 +384,8 @@ iframe {
   height: 100%; /* Asegura que los elementos tengan la altura completa */
   gap: 1rem; /* Espacio entre los elementos */
   justify-content: space-around; /* Reparte el espacio entre los elementos */
+  animation: scroll 20s linear infinite; /* Velocidad del desplazamiento automático */
+
 }
 
 .logo-1, .logo-2, .logo-3, .logo-4 {
@@ -408,13 +396,22 @@ iframe {
   justify-content: center;
   min-width: 200px; /* Establece un ancho mínimo para cada logo */
 }
-.overlap-group {
+
+.overlap-group {        /*Cuadros amarillos*/
   border-radius: 45px;
   border: 3px solid yellow;
-  width: 40%;
-  height: 268px; /* Altura fija para los elementos */
+  width: 80%;
+  height: 150px; /* Altura fija para los elementos */
   display: flex;
-  justify-content: space-between; /* Espacio entre los elementos internos */
+  align-items: center; /* Centra la imagen verticalmente */
+  justify-content: center; /* Centra la imagen horizontalmente */
+  overflow: hidden; /* Oculta cualquier contenido desbordado */
+}
+
+.overlap-group img {       /*Iconos dentro del cuadro*/
+  max-width: 100%; /* La imagen no excederá el ancho del contenedor */
+  max-height: 100%; /* La imagen no excederá la altura del contenedor */
+  object-fit: cover; /* Asegura que la imagen cubra completamente el contenedor */
 }
 
 .colegio {
@@ -422,13 +419,10 @@ iframe {
   color: #f8f9fa;
 }
 
-.titulo-patrocinadores {
-  margin-top: 50px; /* Ajusta el valor según sea necesario para el espacio deseado */
-  margin-bottom: 30px; /* Espacio inferior (opcional) */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-25%); }
+  50% { transform: translateX(-50%); }
+  75% { transform: translateX(-75%); }
+  100% { transform: translateX(-100%); }
 }
-
-/* Si necesitas más control sobre el espaciado, puedes ajustar el margen superior específico */
-.titulo-patrocinadores {
-  font-size: 1.5rem; /* Ajusta el tamaño del texto si es necesario */
-}
-
