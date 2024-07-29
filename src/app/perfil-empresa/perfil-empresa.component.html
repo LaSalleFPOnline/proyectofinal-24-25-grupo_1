@@ -8,7 +8,12 @@
     <!-- Nombre de COLEGIO -->
     <div class="desplegable-colegio">
         <label class="text-wrapper">* Nombre de COLEGIO</label>
-        <input type="text" [(ngModel)]="nombreColegio" class="input">
+        <select [(ngModel)]="nombreColegio" class="input">
+            <option value="" disabled selected>Seleccionar Colegio</option>
+            <option value="Colegio 1">Colegio 1</option>
+            <option value="Colegio 2">Colegio 2</option>
+            <option value="Colegio 3">Colegio 3</option>
+        </select>
         <img class="line" src="assets/Images/line.png">
     </div>
     <!-- Nombre de empresa -->
@@ -38,7 +43,7 @@
     <!-- Horarios de atención al cliente -->
     <div class="horarios">
         <label class="text-wrapper">* Horarios de atención al cliente</label>
-        <input type="text" [(ngModel)]="horariosAtencion" class="input">
+        <input type="datetime-local" [(ngModel)]="horariosAtencion" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
     <!-- Spot Publicitario -->

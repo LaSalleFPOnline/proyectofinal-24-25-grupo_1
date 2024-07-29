@@ -23,10 +23,10 @@ export class LoginComponentComponent {
           const user = response.user;
           switch (user.rol) {
             case 1:
-              this.router.navigate(['/feria']);
+              this.router.navigate(['/empresa']);
               break;
             case 2:
-              this.router.navigate(['/empresa']);
+              this.router.navigate(['/feria']);
               break;
             case 3:
               this.router.navigate(['/admin']);
