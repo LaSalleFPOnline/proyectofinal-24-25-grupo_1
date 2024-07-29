@@ -44,5 +44,9 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
+  actualizarEmpresa(empresa: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/actualizar-empresa`, empresa);
+  }
+
 }
 
