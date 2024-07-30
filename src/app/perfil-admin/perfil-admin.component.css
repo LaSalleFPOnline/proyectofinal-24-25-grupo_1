@@ -1,0 +1,52 @@
+/* Mantén el resto del CSS existente, solo añade o modifica lo siguiente */
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-height: calc((60px + 30px) * 3 + 20px); /* Ajusta la altura máxima para incluir 3 filas de rectángulos y botones */
+    overflow-y: auto;
+    background-color: yellow;
+    border: 1px solid #ccc;
+    border-radius: 45px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.item {
+    width: calc((100% - 40px) / 3); /* Ancho de cada item (rectángulo + botones), considerando márgenes */
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+.rectangulo {
+    height: 60px; /* Altura del rectángulo */
+    background-color: lightgray;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center; /* Centra los botones */
+    margin-top: 5px; /* Espacio entre el rectángulo y los botones */
+}
+
+button {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde inicial */
+    padding: 5px 10px;
+    border-radius: 30px; /* Borde redondeado */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+button:hover {
+    border: 1px solid currentColor; /* Borde visible al hacer hover */
+}
+
+.edit-button {
+    color: grey; /* Color del texto del botón editar */
+}
+
+.delete-button {
+    color: grey; /* Color del texto del botón eliminar */
+}
