@@ -1,5 +1,11 @@
+require('dotenv').config(); // Carga las variables de entorno
+const jwt = require('jsonwebtoken');
 const { connection } = require('../database/database');
 const bcrypt = require('bcrypt');
+
+// Obtén las variables de entorno
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
 function registerUser(req, res) {
   console.log('Solicitud de registro recibida:', req.body);
@@ -61,73 +67,6 @@ function registerUser(req, res) {
   });
 }
 
-/*function loginUser(req, res) {
-  const { email, password } = req.body;
-  console.log('Datos recibidos:', { email, password });
-
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Faltan campos obligatorios' });
-  }
-
-  const query = 'SELECT * FROM usuarios WHERE email = ?';
-  connection.query(query, [email], (err, results) => {
-    if (err) {
-      console.error('Error al consultar usuario en MySQL: ', err);
-      return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
-    }
-
-    if (results.length > 0) {
-      const user = results[0];
-      console.log('Usuario encontrado:', user);
-
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) {
-          console.error('Error al comparar contraseñas:', err);
-          return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
-        }
-
-        if (isMatch) {
-          console.log('Contraseña válida para usuario:', user);
-
-          let empresaQuery = null;
-          let empresaParams = [];
-
-          if (user.rol === 1) { // Si es una empresa
-            empresaQuery = 'SELECT * FROM empresas WHERE usuario_id = ?';
-            empresaParams = [user.id];
-          }
-
-          if (empresaQuery) {
-            connection.query(empresaQuery, empresaParams, (err, empresaResults) => {
-              if (err) {
-                console.error('Error al consultar empresa en MySQL: ', err);
-                return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
-              }
-              console.log('Empresa encontrada:', empresaResults[0]);
-              res.status(200).json({
-                message: 'Inicio de sesión exitoso',
-                user: user,
-                empresa: empresaResults[0] || null
-              });
-            });
-          } else {
-            res.status(200).json({
-              message: 'Inicio de sesión exitoso',
-              user: user,
-              empresa: null
-            });
-          }
-        } else {
-          console.log('Contraseña inválida para usuario:', user);
-          res.status(401).json({ message: 'Credenciales inválidas' });
-        }
-      });
-    } else {
-      console.log('Usuario no encontrado con email:', email);
-      res.status(401).json({ message: 'Credenciales inválidas' });
-    }
-  });
-}*/
 function loginUser(req, res) {
   const { email, password } = req.body;
   console.log('Datos recibidos:', { email, password });
@@ -190,19 +129,29 @@ function loginUser(req, res) {
                 redirigir = 'empresa'; // Redirigir a empresa si no hay datos de la empresa
               }
 
+              // Generar el token JWT
+              const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, {
+                expiresIn: JWT_EXPIRES_IN
+              });
+
+              // Enviar respuesta con el token
               res.status(200).json({
                 message: 'Inicio de sesión exitoso',
+                token: token, // Incluye el token en la respuesta
                 user: user,
                 empresa: empresa,
-                redirigir: redirigir // Indica a qué página redirigir
+                redirigir: redirigir
               });
             });
           } else {
             res.status(200).json({
               message: 'Inicio de sesión exitoso',
+              token: jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, {
+                expiresIn: JWT_EXPIRES_IN
+              }), // Incluye el token en la respuesta
               user: user,
               empresa: null,
-              redirigir: 'feria' // Redirigir a feria si no hay datos de la empresa (para usuarios que no son empresas)
+              redirigir: 'feria'
             });
           }
         } else {

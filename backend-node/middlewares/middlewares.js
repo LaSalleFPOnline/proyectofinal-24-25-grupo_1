@@ -1,9 +1,13 @@
 const bodyParser = require('body-parser');
 
-const parseRequestBody = (req, res, next) => {
-  bodyParser.json()(req, res, () => {
-    bodyParser.urlencoded({ extended: true })(req, res, next);
-  });
+// Middleware para analizar cuerpos JSON
+const parseRequestBody = bodyParser.json();
+
+const logRequestBody = (req, res, next) => {
+  if (req.body) {
+    console.log('Cuerpo de la solicitud:', req.body);
+  }
+  next(); // Pasar al siguiente middleware
 };
 
-module.exports = { parseRequestBody };
+module.exports = { parseRequestBody, logRequestBody };
