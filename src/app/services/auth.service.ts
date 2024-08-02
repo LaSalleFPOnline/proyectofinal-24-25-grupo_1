@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3001'; // URL del servidor Node.js
-
+  private apiUrl = 'http://localhost:3001/api'; // URL del servidor Node.js
+  private user: any = null;
+  private empresa: any = null;
   constructor(private http: HttpClient) { }
 
   register(userData: any): Observable<any> {
@@ -21,6 +22,21 @@ export class AuthService {
   }
   actualizarEmpresa(empresa: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/actualizar-empresa`, empresa);
+  }
+  setUser(user: any) {
+    this.user = user;
+  }
+
+  getUser() {
+    return this.user;
+  }
+
+  setEmpresa(empresa: any) {
+    this.empresa = empresa;
+  }
+
+  getEmpresa() {
+    return this.empresa;
   }
 
 }
