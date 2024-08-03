@@ -1,26 +1,45 @@
 <div class="header">
-    <img class="logo" src="assets/Images/logo.png" (click)="navigateTo('/')" />
+    <img class="logo" src="assets/Images/logo.png" (click)="navigateTo('/')">
     <div class="button">
-        <button class="label" (click)="navigateTo('/')">Inicio</button>
-        <button class="label" (click)="navigateTo('/', 'programa')">Programa</button>
-        <button class="label" (click)="navigateTo('/', 'descargas')">Descargas</button>
-        <button class="login" (click)="navigateTo('/login')">
-            <img class="img" src="assets/Images/button-login.png" />
-        </button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/')">Inicio</button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'agenda')">Programa</button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'descargas')">Descargas</button>
+      <button class="login" *ngIf="!isLoggedIn" (click)="handleLogin()">
+        <img class="img" src="assets/Images/button-login.png">
+      </button>
+  
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria')">Inicio</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
+      <button class="login" *ngIf="isLoggedIn" (click)="handleLogin()">
+        <img class="img" src="assets/Images/button-login.png">
+      </button>
     </div>
+  
     <!-- Botón de hamburguesa -->
     <button class="hamburger" (click)="toggleMenu()" aria-label="Menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
     </button>
+  
     <!-- Menú de navegación móvil -->
     <nav class="mobile-menu" [class.active]="isMenuOpen">
-        <button class="label" (click)="navigateTo('/')">Inicio</button>
-        <button class="label" (click)="navigateTo('/', 'programa')">Programa</button>
-        <button class="label" (click)="navigateTo('/', 'descargas')">Descargas</button>
-        <button class="login" (click)="navigateTo('/login')">
-            <img class="img" src="assets/Images/button-login.png" />
-        </button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/')">Inicio</button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'agenda')">Programa</button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'descargas')">Descargas</button>
+      <button class="login" *ngIf="!isLoggedIn" (click)="handleLogin()">
+        <img class="img" src="assets/Images/button-login.png">
+      </button>
+  
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria')">Inicio</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
+      <button class="login" *ngIf="isLoggedIn" (click)="handleLogin()">
+        <img class="img" src="assets/Images/button-login.png">
+      </button>
     </nav>
-</div>
+  </div>
+  

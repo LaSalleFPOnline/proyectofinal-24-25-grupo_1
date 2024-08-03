@@ -1,75 +1,62 @@
-.header {
+.rectangle-yellow {
+  position: relative;
+  width: 1348px;
+  height: 606px;
+  left: 22px;
+  border-radius: 45px;
+  border: 5px solid;
+  border-color: #F6E953;
+}
+
+.flexcontainer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 45px; /* Ajusta este valor si es necesario */
+  position: absolute;
+  width: 568px;
+  height: 174px;
+  top: 104px;
+  left: 31px;
 }
 
-.logo img {
-  height: 50px;
+.text-intro {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  color: #2B2B2A;
+  font-size: 50px;
+  line-height: 25px; /* Ajusta el valor según lo necesario */
+  margin: 0; /* Elimina márgenes */
 }
 
-.navigation button {
-  margin: 0 10px;
+.text-intro2 {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  color: #2B2B2A;
+  font-size: 45px;
+  line-height: 30px; /* Ajusta el valor según lo necesario */
+  margin: 0; /* Elimina márgenes */
 }
 
-.login-icon button {
-  background: none;
-  border: none;
+.div {
+  width: 568px;
+  top: 333px;
+  left: 31px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  color: #2B2B2A;
+  font-size: 16px;
+  line-height: 28px;
 }
 
-.video-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
+.intro-explicacion img {
+  position: absolute;
+  width: 686px;
+  height: 456px;
+  top: 0px;
+  left: 600px; /* Ajusta este valor según sea necesario */
 }
 
-iframe {
-  max-width: 100%;
-  height: auto;
-}
-
-.contenedor {
-  display: flex;
-  justify-content: space-between; /* Alinea los elementos en dos columnas */
-  align-items: flex-start; /* Alinea los elementos al principio de la columna */
-  margin: 20px;
-}
-
-.text-column,
-.image-column {
-  flex: 1; /* Hace que ambos contenedores ocupen el mismo espacio */
-  margin: 0 10px; /* Espacio entre las columnas */
-}
-
-.text-column {
-  margin-right: 0; /* Ajusta el margen derecho si es necesario */
-}
-
-.image-column {
-  flex: 1; /* Hace que ambos contenedores ocupen el mismo espacio */
-  margin: 0 10px; /* Espacio entre las columnas */
-  border: 2px solid yellow; /* Borde amarillo de 2px */
-  border-radius: 10px; /* Radio de esquina redondeado de 10px */
-  padding: 10px; /* Espacio interno del borde */
-  box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total del elemento */
-}
-
-.titulo {
-  font-size: 24px;
-  margin-bottom: 10px; /* Espacio debajo del título */
-}
-
-.texto {
-  margin: 0; /* Elimina márgenes por defecto */
-}
-
-.imagen {
-  max-width: 100%; /* Asegura que la imagen se ajuste al contenedor */
-  height: auto;
-}
 
 /* Agenda */
 .agenda {
@@ -93,7 +80,7 @@ iframe {
   border-radius: 3rem;
   border: 1px solid black;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra responsiva */
-  font-family: "Roboto Mono", Helvetica, sans-serif;
+  font-family: 'Roboto Mono', monospace;
   margin-bottom: 25px; /* Espacio entre cada div */
 }
 
@@ -182,7 +169,7 @@ iframe {
   border-radius: 45px;
   border: 5px solid;
   border-color: black;
-  font-family: "Roboto Mono-Regular", Helvetica;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .descargas .titulo-descargas {

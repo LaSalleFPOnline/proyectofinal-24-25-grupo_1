@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router'; // Importa Router
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-empresa',
@@ -23,22 +23,26 @@ export class PerfilEmpresaComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    const user = this.authService.getUser();
-    const empresa = this.authService.getEmpresa();
+    this.authService.getUser().subscribe(user => {
+      if (user) {
+        this.usuario_id = user.id;
+      }
+    });
 
-    if (user && empresa) {
-      this.usuario_id = user.id; // Guarda el usuario_id para usarlo en la actualización
-      this.nombreColegio = empresa.entidad || '';
-      this.enlaceSalaEspera = empresa.url_meet || '';
-      this.logotipo = empresa.logo_url || '';
-      this.spotPublicitario = empresa.spot_url || '';
-      this.nombreEmpresa = user.nombre || '';
-      this.horariosAtencion = empresa.horario_meet || '';
-      this.paginaWeb = empresa.web_url || '';
-      this.descripcionProductos = empresa.descripcion || '';
-    } else {
-      console.error('No se encontraron datos de la empresa o del usuario.');
-    }
+    this.authService.getEmpresa().subscribe((empresa: any) => {
+      if (empresa) {
+        this.nombreColegio = empresa.entidad || '';
+        this.enlaceSalaEspera = empresa.url_meet || '';
+        this.logotipo = empresa.logo_url || '';
+        this.spotPublicitario = empresa.spot_url || '';
+        this.nombreEmpresa = empresa.nombre || '';
+        this.horariosAtencion = empresa.horario_meet || '';
+        this.paginaWeb = empresa.web_url || '';
+        this.descripcionProductos = empresa.descripcion || '';
+      } else {
+        console.error('No se encontraron datos de la empresa.');
+      }
+    });
   }
 
   validarFormulario() {
@@ -49,7 +53,7 @@ export class PerfilEmpresaComponent implements OnInit {
       this.errorMessage = null;
 
       const empresa = {
-        usuario_id: this.usuario_id, // Usa el usuario_id almacenado
+        usuario_id: this.usuario_id,
         nombre: this.nombreEmpresa,
         web_url: this.paginaWeb,
         spot_url: this.spotPublicitario,
@@ -61,13 +65,12 @@ export class PerfilEmpresaComponent implements OnInit {
       };
 
       this.authService.actualizarEmpresa(empresa).subscribe(
-        response => {
+        (response: any) => {
           console.log('Datos actualizados:', response);
           this.successMessage = 'Datos de la empresa actualizados correctamente.';
           this.errorMessage = null;
 
-          // Actualiza los campos con los datos recibidos después de la actualización
-          this.nombreEmpresa = response.nombreEmpresa;
+          this.nombreEmpresa = response.nombre;
           this.paginaWeb = response.web_url;
           this.spotPublicitario = response.spot_url;
           this.logotipo = response.logo_url;
@@ -75,10 +78,9 @@ export class PerfilEmpresaComponent implements OnInit {
           this.enlaceSalaEspera = response.url_meet;
           this.horariosAtencion = response.horario_meet;
           this.nombreColegio = response.entidad;
-          // Redirige a FeriaPageComponent
           this.router.navigate(['/feria']);
         },
-        error => {
+        (error: any) => {
           console.error('Error al actualizar la empresa:', error);
           this.errorMessage = 'Hubo un error al actualizar la empresa. Por favor, inténtelo de nuevo.';
           this.successMessage = null;
@@ -87,4 +89,3 @@ export class PerfilEmpresaComponent implements OnInit {
     }
   }
 }
-
