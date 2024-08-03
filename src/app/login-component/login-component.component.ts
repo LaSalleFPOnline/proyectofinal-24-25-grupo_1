@@ -19,21 +19,21 @@ export class LoginComponentComponent {
       .subscribe({
         next: (response) => {
           console.log('Login exitoso:', response);
-          // Aquí puedes redirigir al usuario a una página de éxito o hacer cualquier otra acción necesaria
           const user = response.user;
-          switch (user.rol) {
-            case 1:
-              this.router.navigate(['/empresa']);
-              break;
-            case 2:
-              this.router.navigate(['/feria']);
-              break;
-            case 3:
-              this.router.navigate(['/admin']);
-              break;
-            default:
-              console.log('Rol desconocido: ', user.rol);
-              this.errorMessage = 'Rol desconocido';
+          const empresa = response.empresa;
+          const redirigir = response.redirigir;
+
+          // Guardar datos en el servicio (si lo necesitas para futuras consultas)
+          this.authService.setUser(user);
+          this.authService.setEmpresa(empresa);
+
+          // Redirigir a la página correspondiente basada en la respuesta del backend
+          if (redirigir === 'feria') {
+            this.router.navigate(['/feria']);
+          } else if (redirigir === 'empresa') {
+            this.router.navigate(['/empresa']);
+          } else if (user.rol === 3) { // Administrador
+            this.router.navigate(['/admin']);
           }
         },
         error: (error) => {

@@ -1,10 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { initializeDatabase, endDatabaseConnection } = require('./database');
-const { registerUser, loginUser } = require('./userController');
-const { parseRequestBody } = require('./middlewares');
-const {updateEmpresa} = require('./empresaController');
+const { initializeDatabase, endDatabaseConnection } = require('./database/database');
+const routes = require('./routes/routes'); // Importa el archivo de rutas
 
 const app = express();
 const port = 3001;
@@ -29,24 +28,8 @@ initializeDatabase((err) => {
   }
 });
 
-// Endpoints
-app.post('/register', parseRequestBody, registerUser);
-app.post('/login', parseRequestBody, loginUser);
-app.post('/actualizar-empresa', (req, res) => {
-  const empresa = req.body;
-  /*updateEmpresa(empresa, (err) => {
-    if (err) {
-      return res.status(500).send('Error al actualizar la empresa: ' + err.message);
-    }
-    res.send('Empresa actualizada correctamente');
-  });
-});*/ updateEmpresa(empresa, (err) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error al registrar tu empresa: ' + err.message });
-    }
-    res.json({ message: 'Empresa actualizada correctamente' });
-  });
-});
+// Usar las rutas desde routes.js
+app.use('/api', routes); // Usar un prefijo '/api' para las rutas
 
 // Manejar cierre de la conexión a MySQL al terminar el programa (opcional)
 process.on('SIGINT', () => {

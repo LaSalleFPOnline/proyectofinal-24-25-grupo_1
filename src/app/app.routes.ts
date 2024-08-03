@@ -13,4 +13,6 @@ export const routes: Routes = [
   { path: 'empresa', component: PerfilEmpresaComponent },
   /*para registrar usuarios dummy*/
   { path: 'register', component: RegistroComponent },
+ 
+
 ];
