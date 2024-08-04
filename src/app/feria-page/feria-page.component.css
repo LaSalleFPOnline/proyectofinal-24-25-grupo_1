@@ -1,0 +1,349 @@
+/*
+GREEN - #60A96E
+BLUE - #384078
+RED - #AC3635
+YELLOW - #F6E953
+DARK - #2B2B2A
+LIGHT - #F3F3F3
+*/
+
+/* --------------- AGENDA --------------- */
+
+.agenda {
+    position: relative;
+    width: 1156px;
+    height: 655px;
+    margin: 0 auto;
+}
+
+.frame {
+    position: absolute;
+    width: 1156px;
+    height: 390px;
+    top: 107px;
+    left: 0;
+    background-color: #60A96E;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.line {
+    position: absolute;
+    width: 1093px;
+    height: 1px;
+    top: 115px;
+    left: 34px;
+    object-fit: cover;
+}
+
+.flexcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 972px;
+    height: 218px;
+    align-items: flex-start;
+    gap: 10px;
+    position: absolute;
+    top: 133px;
+    left: 97px;
+}
+
+.text {
+    position: relative;
+    align-self: stretch;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    color: #f3f3f3;
+    font-size: 23px;
+    line-height: 28px; /* Ajusta el valor según lo necesario */
+    margin: 0; /* Elimina márgenes */
+}
+
+.plus-icon {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    top: 33px;
+    left: 1069px;
+}
+
+.div-wrapper {
+    position: absolute;
+    width: 761px;
+    height: 89px;
+    top: 27px;
+    left: 34px;
+    color: #f3f3f3;
+    white-space: nowrap;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 60px;
+    line-height: normal;
+}
+
+.frame-2 {
+    display: flex;
+    width: 1156px;
+    height: 135px;
+    align-items: center;
+    gap: 571px;
+    position: absolute;
+    top: 520px;
+    left: 0;
+    background-color: #F3F3F3;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.div-wrapper-2 {
+    position: relative;
+    width: fit-content;
+    left: 34px;
+    color: #2B2B2A;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 60px;
+    line-height: normal;
+}
+
+.titulo-programa {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    top: 0;
+    left: 0;
+    gap: 10px;
+    padding: 0px 7px;
+    flex: 0 0 auto;
+    background-color: #2B2B2A;
+    border-radius: 7px;
+}
+
+.label {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: normal;
+    color: #F3F3F3;
+}
+
+/* --------------- NOTIFICACIONES --------------- */
+
+.avisos {
+    width: 605px;
+    height: 582px;
+    margin-left: 50px;
+}
+
+.overlap-group-avisos{
+    position: relative;
+    width: 598px;
+    height: 582px;
+    top: 50px;
+    background-color: #AC3635;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.text-line-container {
+    position: relative;
+    margin-top: 120px;
+    margin-bottom: 20px; /* Ajusta el espaciado según sea necesario */
+}
+
+.text-avisos {
+    position: relative;
+    width: 511px;
+    left: 43px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 35px;
+    color: #F3F3F3;
+}
+
+.line-avisos {
+    display: block;
+    width: 511px; /* Ajusta el ancho según sea necesario */
+    height: 1px;
+    margin-top: -10px; /* Ajusta la posición vertical de la línea */
+    margin-left: 43px; /* Alinea la línea con el texto */
+    background-color: #F3F3F3; /* Color de la línea */
+}
+
+.titulo-avisos {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 46px;
+    left: 43px;
+}
+
+.fondo-avisos {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0px 7px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: #F3F3F3;
+    border-radius: 7px;
+}
+
+.texto-titulo-avisos {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+/* --------------- MIS RELACIONES COMERCIALES --------------- */
+
+.mis-relaciones {
+    position: relative;
+    width: 722px;
+    height: 582px;
+    left: 670px;
+    top: -530px;
+    background-color: #384078;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+}
+
+.overlap-relaciones-1 {
+    left: 22px;
+    position: absolute;
+    width: 329px;
+    height: 438px;
+    top: 129px;
+    background-color: #F3F3F3;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+}
+
+.text-relaciones-1 {
+    position: absolute;
+    top: 10px;
+    left: 109px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+.rectangle-relaciones {
+    position: absolute;
+    width: 126px;
+    height: 109px;
+    top: 73px;
+    left: 28px;
+    background-color: #D9D9D9;
+}
+
+.text-suma-1 {
+    position: absolute;
+    top: 373px;
+    left: 28px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+.overlap-relaciones-2 {
+    left: 371px;
+    position: absolute;
+    width: 329px;
+    height: 438px;
+    top: 129px;
+    background-color: #F3F3F3;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+}
+
+.text-relaciones-2 {
+    position: absolute;
+    top: 10px;
+    left: 118px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+.rectangle-relaciones {
+    position: absolute;
+    width: 126px;
+    height: 109px;
+    top: 73px;
+    left: 28px;
+    background-color: #D9D9D9;
+}
+
+.text-suma-2 {
+    position: absolute;
+    top: 373px;
+    left: 28px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+.titulo-relaciones {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    top: 46px;
+    left: 47px;
+    gap: 10px;
+    padding: 0px 7px;
+    flex: 0 0 auto;
+    background-color: #F3F3F3;
+    border-radius: 7px;
+}
+
+.label-relaciones {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+/* --------------- IUSTRACION --------------- */
+
+.illustration {
+    display: block;
+    width: 902px;
+    height: 411px;
+    margin: -400px auto 0 auto; /* Ajusta la distancia superior según sea necesario */
+}
