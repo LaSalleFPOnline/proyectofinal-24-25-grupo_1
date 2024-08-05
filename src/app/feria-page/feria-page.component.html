@@ -4,27 +4,40 @@
 <!-- Agenda -->
 
 <div class="agenda">
-    <div class="frame">
-        <img class="line" src="assets/Images/line.png"/>
-        <div class="flexcontainer">
-            <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-            <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-            <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-            <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-            <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-            <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-        </div>
-        <img class="plus-icon" src="assets/Images/icon-minus.png">
-        <div class="div-wrapper">HORARIO Mañana</div>
-    </div>
-    <div class="frame-2">
-        <img class="plus-icon" src="assets/Images/icon-plus.png">
-        <div class="div-wrapper-2">HORARIO Tarde</div>
-    </div>
     <div class="titulo-programa">
         <div class="label">Agenda</div>
     </div>
+    <div class="frame collapsed"> <!-- Colapsado por defecto -->
+        <div class="frame-header">
+            <div class="div-wrapper">HORARIO Mañana</div>
+            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand/Collapse" (click)="toggleFrame($event)">
+        </div>
+        <img class="line" src="assets/Images/line.png" alt="Line">
+        <div class="frame-content">
+            <div class="flexcontainer">
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+            </div>
+        </div>
+    </div>
+    <div class="frame collapsed"> <!-- Colapsado por defecto -->
+        <div class="frame-header">
+            <div class="div-wrapper-2">HORARIO Tarde</div>
+            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand/Collapse" (click)="toggleFrame($event)">
+        </div>
+    </div>
 </div>
+
+
+
+
+
+
+
 
 <!-- Notificaciones -->
 
@@ -58,22 +71,30 @@
 <div class="mis-relaciones">
     <div class="overlap-relaciones-1">
         <div class="text-relaciones-1">Compra</div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
+        <div class="scroll-container">
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div> <!-- Añadir más elementos si es necesario -->
+        </div>
         <div class="text-suma-1">Total: 15 empresas</div>
     </div>
     <div class="overlap-relaciones-2">
         <div class="text-relaciones-2">Venta</div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
-        <div class="rectangle-relaciones"></div>
+        <div class="scroll-container">
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div>
+            <div class="rectangle-relaciones"></div> <!-- Añadir más elementos si es necesario -->
+        </div>
         <div class="text-suma-2">Total: 15 empresas</div>
     </div>
     <div class="titulo-relaciones">
@@ -84,5 +105,70 @@
 <!-- Ilustracion -->
 
 <img class="illustration" src="assets/Illustrations/Illustration4.png">
+
+<!-- Listado empresas -->
+
+<div class="listado-empresas">
+    <div class="overlap-empresas">
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+        <div class="rectangle-empresas"></div>
+    </div>
+    <div class="titulo-empresas">
+        <div class="label-empresas">Empresas participantes</div>
+    </div>
+</div>
+
+<!-- Listado empresas -->
+
+<div class="detalles">
+    <div class="rectangle-detalles"></div>
+    <div class="rectangle-video-detalles"></div>
+    <p class="nombre-empresa">
+        <span class="subtitulo-detalles">Nombre de empresa</span>
+        <span class="text-detalles">
+            <br/>Página web<br/>
+            Horarios de ATENCIÓN CLIENTE<br/>
+            Enlace de MEET<br/>
+        </span>
+    </p>
+    <div class="scroll-detalles">
+        <p class="p-detalles">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ullamcorper consequat diam, non laoreet velit
+            feugiat vitae. Maecenas pharetra eget leo vel venenatis. Suspendisse ornare tortor quis nibh dapibus, sed
+            luctus enim molestie. In lacus dolor, tempor et nisl et, aliquet tempus sem. In ultrices ligula id libero
+            gravida tincidunt. Donec condimentum ultricies orci, eu cursus ligula consectetur eu. Praesent malesuada
+            ligula non eros varius ultrices. Duis maximus sagittis tellus vel facilisis. Fusce erat sapien, fermentum quis
+            nulla eu, suscipit commodo nunc. Donec laoreet egestas risus, nec tempor velit volutpat nec. Praesent id enim
+            at ipsum lacinia egestas. Aliquam sagittis, arcu et sagittis venenatis, ante sapien elementum lacus, eget
+            tincidunt justo arcu non nulla. Duis maximus sagittis tellus vel facilisis. Fusce erat sapien, fermentum quis
+            nulla eu, suscipit commodo nunc. Donec laoreet egestas risus, nec tempor velit volutpat nec. Praesent id enim
+            at ipsum lacinia egestas. Aliquam sagittis, arcu et sagittis venenatis, ante sapien elementum lacus, eget
+            tincidunt justo arcu non nulla.
+        </p>
+    </div>
+    <div class="button-container">
+        <div class="button">Votar</div>
+        <div class="button">Mensaje</div>
+        <div class="button">Comprar</div>
+        <div class="button">Vender</div>
+    </div>
+    <div class="titulo-detalles">
+        <div class="label-detalles">Detalles de X empresa</div>
+    </div>
+</div>
+
 
 </body>

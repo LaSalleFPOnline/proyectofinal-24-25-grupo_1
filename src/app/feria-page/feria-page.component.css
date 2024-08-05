@@ -17,25 +17,69 @@ LIGHT - #F3F3F3
 }
 
 .frame {
-    position: absolute;
+    position: relative;
     width: 1156px;
-    height: 390px;
-    top: 107px;
-    left: 0;
-    background-color: #60A96E;
     border-radius: 45px;
     border: 1px solid;
     border-color: #2B2B2A;
     box-shadow: 0px 5px 0px #2B2B2A;
+    transition: height 0.3s ease;
+    overflow: hidden;
+}
+
+.frame.collapsed {
+    margin-top: 50px;
+    height: 135px; /* Altura cuando está colapsado */
+    background-color: #F3F3F3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.frame.expanded {
+    margin-top: 50px;
+    height: 390px; /* Altura cuando está expandido */
+    background-color: #60A96E;
+}
+
+.frame-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
 }
 
 .line {
     position: absolute;
     width: 1093px;
     height: 1px;
-    top: 115px;
+    top: 135px; /* Ajustado para la altura expandida */
     left: 34px;
     object-fit: cover;
+    display: none; /* Oculta por defecto */
+}
+
+.frame.expanded .line {
+    display: block; /* Muestra la línea solo cuando está expandido */
+}
+
+.frame-content {
+    display: none; /* Oculta el contenido por defecto */
+    padding: 20px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 135px; /* Debajo del header */
+    left: 34px;
+    width: 100%;
+}
+
+.frame.expanded .frame-content {
+    display: block; /* Muestra el contenido solo cuando está expandido */
 }
 
 .flexcontainer {
@@ -45,69 +89,43 @@ LIGHT - #F3F3F3
     height: 218px;
     align-items: flex-start;
     gap: 10px;
-    position: absolute;
-    top: 133px;
-    left: 97px;
 }
 
 .text {
-    position: relative;
-    align-self: stretch;
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     color: #f3f3f3;
     font-size: 23px;
-    line-height: 28px; /* Ajusta el valor según lo necesario */
-    margin: 0; /* Elimina márgenes */
+    line-height: 28px;
+    margin: 0;
 }
 
 .plus-icon {
-    position: absolute;
     width: 58px;
     height: 58px;
-    top: 33px;
-    left: 1069px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px; /* Alinea el ícono a la derecha del frame */
+    top: 20px; /* Ajusta la posición vertical del botón */
 }
 
 .div-wrapper {
-    position: absolute;
-    width: 761px;
-    height: 89px;
-    top: 27px;
-    left: 34px;
-    color: #f3f3f3;
+    color: #2B2B2A; /* Negro cuando colapsado */
     white-space: nowrap;
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
     font-size: 60px;
     line-height: normal;
-}
-
-.frame-2 {
-    display: flex;
-    width: 1156px;
-    height: 135px;
-    align-items: center;
-    gap: 571px;
-    position: absolute;
-    top: 520px;
-    left: 0;
-    background-color: #F3F3F3;
-    border-radius: 45px;
-    border: 1px solid;
-    border-color: #2B2B2A;
-    box-shadow: 0px 5px 0px #2B2B2A;
+    margin-left: 20px; /* Alinea el texto hacia la izquierda, dejando espacio para el botón */
 }
 
 .div-wrapper-2 {
-    position: relative;
-    width: fit-content;
-    left: 34px;
     color: #2B2B2A;
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
     font-size: 60px;
     line-height: normal;
+    margin-left: 20px; /* Alinea el texto hacia la izquierda, dejando espacio para el botón */
 }
 
 .titulo-programa {
@@ -122,6 +140,7 @@ LIGHT - #F3F3F3
     flex: 0 0 auto;
     background-color: #2B2B2A;
     border-radius: 7px;
+    margin-top: 50px;
 }
 
 .label {
@@ -135,12 +154,20 @@ LIGHT - #F3F3F3
     color: #F3F3F3;
 }
 
+
+
+
+
+
+
+
 /* --------------- NOTIFICACIONES --------------- */
 
 .avisos {
     width: 605px;
     height: 582px;
     margin-left: 50px;
+    margin-top: 50px;
 }
 
 .overlap-group-avisos{
@@ -159,6 +186,8 @@ LIGHT - #F3F3F3
     position: relative;
     margin-top: 120px;
     margin-bottom: 20px; /* Ajusta el espaciado según sea necesario */
+    overflow-y: auto;
+    max-height: 400px;
 }
 
 .text-avisos {
@@ -228,65 +257,36 @@ LIGHT - #F3F3F3
     box-shadow: 0px 5px 0px #2B2B2A;
 }
 
-.overlap-relaciones-1 {
-    left: 22px;
+.overlap-relaciones-1, .overlap-relaciones-2 {
     position: absolute;
-    width: 329px;
-    height: 438px;
-    top: 129px;
+    width: 280px;
+    height: 400px;
+    top: 120px; /* Ajusta la distancia desde el borde superior */
+    left: 25px; /* Ajusta la distancia desde el borde izquierdo */
     background-color: #F3F3F3;
     border-radius: 45px;
     border: 1px solid;
     border-color: #2B2B2A;
-}
-
-.text-relaciones-1 {
-    position: absolute;
-    top: 10px;
-    left: 109px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
-    font-size: 30px;
-    line-height: normal;
-    color: #2B2B2A;
-}
-
-.rectangle-relaciones {
-    position: absolute;
-    width: 126px;
-    height: 109px;
-    top: 73px;
-    left: 28px;
-    background-color: #D9D9D9;
-}
-
-.text-suma-1 {
-    position: absolute;
-    top: 373px;
-    left: 28px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: normal;
-    color: #2B2B2A;
+    overflow-y: auto; /* Habilita el scroll vertical */
+    padding: 20px; /* Añade padding para que el contenido no toque los bordes */
 }
 
 .overlap-relaciones-2 {
-    left: 371px;
-    position: absolute;
-    width: 329px;
-    height: 438px;
-    top: 129px;
-    background-color: #F3F3F3;
-    border-radius: 45px;
-    border: 1px solid;
-    border-color: #2B2B2A;
+    left: 380px; /* Ajusta la distancia desde el borde izquierdo para la segunda columna */
 }
 
-.text-relaciones-2 {
+.scroll-container {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas de igual ancho */
+    gap: 20px; /* Espacio entre los rectángulos */
+}
+
+.text-relaciones-1, .text-relaciones-2 {
     position: absolute;
-    top: 10px;
-    left: 118px;
+    top: 10px; /* Ajusta la distancia desde el borde superior */
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
     font-size: 30px;
@@ -295,21 +295,19 @@ LIGHT - #F3F3F3
 }
 
 .rectangle-relaciones {
-    position: absolute;
     width: 126px;
     height: 109px;
-    top: 73px;
-    left: 28px;
     background-color: #D9D9D9;
 }
 
-.text-suma-2 {
+.text-suma-1, .text-suma-2 {
     position: absolute;
-    top: 373px;
-    left: 28px;
+    bottom: -170px; /* Ajusta la distancia desde el borde inferior */
+    left: 125px;
+    transform: translateX(-50%);
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
     line-height: normal;
     color: #2B2B2A;
 }
@@ -346,4 +344,184 @@ LIGHT - #F3F3F3
     width: 902px;
     height: 411px;
     margin: -400px auto 0 auto; /* Ajusta la distancia superior según sea necesario */
+}
+
+/* --------------- LISTADO EMPRESAS --------------- */
+
+.listado-empresas {
+    position: relative;
+    width: 1156px;
+    height: 942px;
+    margin: 0 100px auto;
+    margin-top: 100px;
+    margin-bottom: 200px;
+}
+
+.overlap-empresas {
+    position: absolute;
+    width: 1156px;
+    height: 846px;
+    top: 96px;
+    background-color: #F3F3F3;
+    border-radius: 45px;
+    border: 5px solid;
+    border-color: #2B2B2A;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 47px 39px;
+    padding: 47px 39px;
+    overflow-y: auto; /* Habilita el scroll vertical */
+}
+
+.rectangle-empresas {
+    width: 100%;
+    height: 200px;
+    background-color: #D9D9D9;
+}
+
+.titulo-empresas {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 39px;
+}
+
+.label-empresas {
+    gap: 10px;
+    padding: 0px 7px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: #2B2B2A;
+    border-radius: 7px;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: normal;
+    color: #F3F3F3;
+}
+
+/* --------------- DETALLES DE EMPRESA --------------- */
+
+.detalles {
+    position: relative;
+    width: 1347px;
+    height: 922px;
+    background-color: #F6E953;
+    border-radius: 45px;
+    border: 1px solid;
+    border-color: #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+    margin: 0 auto;
+}
+
+.rectangle-detalles {
+    width: 333px;
+    height: 204px;
+    top: 151px;
+    position: absolute;
+    left: 94px;
+    background-color: #D9D9D9;
+}
+
+.rectangle-video-detalles {
+    width: 568px;
+    height: 369px;
+    top: 405px;
+    position: absolute;
+    left: 94px;
+    background-color: #D9D9D9;
+}
+
+.nombre-empresa {
+    position: absolute;
+    top: 110px;
+    left: 447px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 40px;
+    color: #2B2B2A;
+}
+
+.subtitulo-detalles {
+    font-weight: 500;
+}
+
+.text-detalles {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.scroll-detalles {
+    position: absolute;
+    top: 397px;
+    left: 682px;
+    width: 568px;
+    max-height: 369px; /* Ajusta según el tamaño del contenedor */
+    overflow-y: auto; /* Habilita el scroll vertical */
+}
+
+.p-detalles {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: normal;
+    color: #2B2B2A;
+    margin: 0; /* Elimina márgenes para ajustar el espaciado */
+}
+
+.button-container {
+    position: absolute;
+    top: 800px; /* Ajusta según el espacio disponible debajo del rectángulo de video */
+    left: 100px; /* Alinea con la parte izquierda del área de scroll-detalles */
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
+}
+
+.button {
+    display: flex;
+    width: 96px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 35px;
+    background-color: #F3F3F3;
+    border-radius: 14px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: normal;
+    color: #2B2B2A;
+}
+
+.titulo-detalles {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 63px;
+    left: 94px;
+}
+
+.label-detalles {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0px 7px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: #F3F3F3;
+    border-radius: 7px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: normal;
+    color: #2B2B2A;
 }
