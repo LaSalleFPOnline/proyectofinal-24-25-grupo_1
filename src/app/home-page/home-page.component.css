@@ -1,3 +1,6 @@
+/* Establece un ancho máximo de 1280px y centra el contenedor principal */
+
+
 /* #region video */
 .video {
   display: flex;
@@ -7,6 +10,7 @@
   height: 100vh;
   padding: 10px;
   box-sizing: border-box;
+  margin: 0 auto;
 }
 
 iframe {
@@ -22,25 +26,22 @@ iframe {
   }
 }
 
-@media (max-width: 480px) {
-  .video {
-    height: 50vh;
-  }
-}
-
-
 /* #endregion*/
 
 /* #region Intro */
-
 .intro {
-  position: relative;
+  display: flex;
+  flex-direction: row; /* Mantén la dirección de las filas */
+  justify-content: space-between; /* Espacia las columnas */
+  align-items: flex-start; /* Alinea el contenido al inicio */
   width: 100%;
-  height: 606px;
-  left: 22px;
+  max-width: 1280px; !important
+  height: auto;
   border-radius: 45px;
   border: 5px solid;
   border-color: #F6E953;
+  padding: 20px; /* Ajusta el padding según sea necesario */
+  box-sizing: border-box;
 }
 
 .flexcontainer {
@@ -48,9 +49,7 @@ iframe {
   flex-direction: column;
   align-items: flex-start;
   gap: 45px;
-  position: absolute;
-  width: 568px;
-  height: 174px;
+  width: 50%; /* La columna de texto ocupa el 50% */
 }
 
 .text-intro, .text-intro2, .desciption {
@@ -72,23 +71,31 @@ iframe {
 }
 
 .desciption {
-  width: 568px;
-  top: 333px;
-  left: 31px;
   font-size: clamp(12px, 2vw, 16px);
   line-height: 1.4em;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.image-container {
+  width: 50%; /* La columna de imagen ocupa el 50% */
+  display: flex;
+  justify-content: center; /* Centra la imagen horizontalmente */
+  align-items: center; /* Centra la imagen verticalmente */
+  gap: 50px;
 }
 
 .intro img {
-  position: absolute;
-  width: 686px;
-  height: 456px;
-  top: 0px;
-  left: 600px;
+  width: 100%; /* Ajusta el ancho de la imagen para que se adapte al contenedor */
+  height: auto; /* Mantén la proporción de la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra el contenedor */
 }
+
 
 @media (max-width: 480px) {
   .intro {
+    flex-direction: column; /* Cambia la dirección a columna para pantallas pequeñas */
     width: 100%;
     height: auto;
     padding: 20px;
@@ -99,8 +106,6 @@ iframe {
     width: 100%;
     height: auto;
     gap: 20px;
-    top: 20px;
-    left: 0;
     position: static;
   }
 
@@ -120,10 +125,18 @@ iframe {
     width: 100%;
   }
 
+  .image-container {
+    width: 100%; /* La columna de imagen ocupa el 100% */
+    display: flex;
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
+  }
+
   .intro img {
     position: static;
     width: 100%;
     height: auto;
+    border-radius: 20px; /* Ajusta el borde redondeado para pantallas pequeñas */
     top: 0;
     left: 0;
   }
@@ -131,7 +144,61 @@ iframe {
 
 
 /* #endregion */
+/* Intro para tabletas */
+@media (max-width: 768px) {
+  .intro {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a columna para pantallas pequeñas */
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    border-radius: 15px; /* Ajusta el borde redondeado para pantallas pequeñas */
+    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    overflow: visible;
+  }
 
+  .flexcontainer {
+    width: 100%;
+    height: auto;
+    gap: 15px;
+    position: static;
+  }
+  .text-intro, .text-intro2, .desciption {
+    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    width: 100%;
+  }
+  .text-intro {
+    font-size: clamp(18px, 6vw, 30px);
+    line-height: 1.2em;
+  }
+
+  .text-intro2 {
+    font-size: clamp(16px, 5vw, 28px);
+    line-height: 1.2em;
+  }
+
+.desciption {
+    font-size: clamp(12px, 4vw, 16px); /* Ajusta el tamaño de fuente proporcionalmente */
+    line-height: 1.4em;
+    max-width: 100%; /* Asegura que el ancho ocupe todo el espacio disponible */
+    margin: 0; /* Elimina el margen para evitar desbordamientos */
+    overflow-wrap: break-word; /* Asegura que el texto largo se ajuste dentro del contenedor */
+  }
+
+  .image-container {
+    width: 100%; /* La columna de imagen ocupa el 100% */
+    display: flex;
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
+    margin-top: 10px; /* Ajusta el margen superior para separar la imagen del texto */
+  }
+
+  .intro img {
+    width: 50%;
+    height: auto;
+    object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+  }
+}
 /* Intro para móviles */
 @media (max-width: 480) {
   .intro {
@@ -173,49 +240,9 @@ iframe {
   }
 }
 
-/* Intro para tabletas */
-@media (max-width: 768px) {
-  .intro {
-    width: 100%;
-    height: auto;
-    padding: 30px; /* Añade padding para evitar que el contenido toque los bordes */
-    border-radius: 30px; /* Ajusta el borde */
-  }
-
-  .flexcontainer {
-    width: 100%;
-    height: auto;
-    gap: 30px; /* Ajusta el espacio entre los elementos */
-    top: 30px;
-    left: 0;
-    position: static; /* Cambia a estático para evitar el posicionamiento absoluto */
-  }
-
-  .text-intro {
-    font-size: 6vw; /* Ajusta el tamaño de la fuente proporcionalmente */
-    line-height: 1.2em; /* Mantén una relación adecuada de la altura de línea */
-  }
-
-  .text-intro2 {
-    font-size: 5vw; /* Ajusta el tamaño de la fuente proporcionalmente */
-    line-height: 1.2em; /* Mantén una relación adecuada de la altura de línea */
-  }
-
-  .desciption {
-    font-size: 3vw; /* Ajusta el tamaño de la fuente proporcionalmente */
-    line-height: 1.5em; /* Mantén una relación adecuada de la altura de línea */
-  }
-
-  .intro img {
-    position: static; /* Cambia a estático para evitar el posicionamiento absoluto */
-    width: 80%; /* Ajusta el ancho al 80% del contenedor */
-    height: auto; /* Ajusta la altura automáticamente */
-    margin-top: 30px; /* Añade margen superior para separar la imagen del texto */
-  }
-}
-
-
 /* #region Agenda */
+
+/* Estructura general de la agenda */
 .agenda {
   display: flex;
   flex-direction: column; /* Coloca los elementos en una columna */
@@ -229,37 +256,99 @@ iframe {
 /* Estilo para cada frame */
 .frame {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Alinea los elementos verticalmente */
   width: 80%;
-  align-items: center;
   padding: 1rem 2rem;
-  background-color: whitesmoke;
+  background-color: white;
   border-radius: 3rem;
-  border: 1px solid black;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra responsiva */
+  border: 1px solid var(--dark);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra */
   font-family: 'Roboto Mono', monospace;
-  margin-bottom: 1vw; /* Espacio entre cada div */
+  margin-bottom: 1vw; /* Espacio entre cada frame */
+  transition: background-color 0.3s ease, height 0.3s ease; /* Transiciones suaves */
+  position: relative; /* Necesario para posicionar el ícono */
+}
+
+/* Estilo para el primer frame en la agenda */
+.agenda .frame:first-child {
+  background-color: green; /* Fondo verde solo para el primer evento */
+}
+
+.frame.collapsed {
+  display: flex;
+  align-items: center;
+}
+
+.frame.expanded {
+  background-color: green;
+}
+
+.frame-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
 
 .text-wrapper {
-  font-size: 2.5vw; /* Números de la hora */
+  font-size: 2.5vw; /* Tamaño de la hora */
+  flex-grow: 1;
+  margin-right: 1rem;
 }
 
 .event-description {
-  font-size: 2vw; /* Letras del evento */
-  margin: 0; /* Elimina margen adicional por defecto en el párrafo */
+  font-size: 2vw; /* Tamaño del texto del evento */
+  margin: 0; /* Elimina margen adicional en el párrafo */
+  flex: 2;
+
 }
 
 .plus-icon {
   width: 4vw;
   height: 4vw;
+  cursor: pointer;
 }
 
 .line {
-  width: 100px;
+  width: 100%;
   height: 0.2vw;
-  background-color: black;
+  background-color: var(--dark);
+  display: none; /* Oculta la línea por defecto */
 }
+
+.frame.expanded .line {
+  display: block; /* Muestra la línea cuando está expandido */
+}
+
+.frame-content {
+  display: none; /* Oculta el contenido por defecto */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.frame.expanded .frame-content {
+  display: block; /* Muestra el contenido cuando está expandido */
+  background-color: green; /* Fondo verde para el contenido expandido */
+}
+
+.flexcontainer {
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en una columna */
+  width: 100%; /* Ocupa todo el ancho del contenedor padre */
+  padding: 1rem; /* Espacio alrededor del contenido */
+  box-sizing: border-box; /* Incluye padding en el cálculo del ancho */
+}
+
+.text {
+  width: 100%; /* Asegura que el texto ocupe todo el ancho disponible */
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  color: #F3F3F3; /* Color del texto */
+  font-size: 2vw; /* Tamaño del texto */
+  line-height: 28px; /* Altura de línea */
+  margin: 0; /* Elimina márgenes por defecto */
+}
+
 
 /* #endregion */
 
@@ -289,7 +378,6 @@ iframe {
     width: 15vw; /* Ajusta el tamaño de la línea proporcionalmente */
   }
 }
-
 /* #region Descargas */
 .descargas {
   display: flex;
@@ -617,3 +705,4 @@ iframe {
     margin: 0.5rem 0; /* Añade espacio entre las líneas de texto */
   }
 }
+

@@ -1,6 +1,7 @@
+  
   <!-- Video de YouTube incrustado -->
   <div class="video">
-    <iframe src="https://www.youtube.com/embed/IJkG-4cfnVg" frameborder="0" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/IJkG-4cfnVg" frameborder="0" allowfullscreen title="YouTube video player"></iframe>
   </div>
   
 
@@ -16,36 +17,36 @@
         interdum metus mollis. Fusce ornare nisl id massa volutpat, quis dictum nisi blandit. Nam imperdiet
         in urna vitae pulvinar.
       </p>
+    </div>
+    <div class="image-container">
       <img src="assets/Illustrations/Illustration1.png" alt="Ilustración del evento"/>
     </div>
   </div>
   
 
 
+
   <!-- Agenda -->
   <div class="agenda" id="agenda">
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
+    <div *ngFor="let event of events; let i = index" class="frame" [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded }">
+      <div class="frame-header">
+        <div class="text-wrapper">00:00</div>
+        <p class="event-description">{{ event.description }}</p>
+        <img
+          class="plus-icon"
+          [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
+          alt="Toggle"
+          (click)="toggleContent(i)"
+        />
+      </div>
+      <div class="line" *ngIf="event.isExpanded"></div>
+      <div class="frame-content" [ngClass]="{'expanded': event.isExpanded}">
+        <div class="flexcontainer">
+          <p class="text">{{ event.details }}</p>
+        </div>
+      </div>
     </div>
   </div>
-  
 
 
   <!-- Div de Descargas -->
@@ -137,3 +138,41 @@
   
 
 
+
+
+
+
+
+
+
+
+
+  <!-- Agenda vieja -->
+  <!-- <div class="agenda" id="agenda">
+    <div class="frame">
+      <div class="text-wrapper">00:00</div>
+      <p class="event-description">Lorem ipsum dolor sit amet</p>
+      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
+    </div>
+    <img class="line" src="assets/Images/line.png" alt="Line">
+    <div class="frame-content">
+        <div class="flexcontainer">
+            <p class="text">Descripción de este evento de la agenda que tiene que venir del</p>
+        </div>
+    </div>
+    <div class="frame">
+      <div class="text-wrapper">00:00</div>
+      <p class="event-description">Lorem ipsum dolor sit amet</p>
+      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
+    </div>
+    <div class="frame">
+      <div class="text-wrapper">00:00</div>
+      <p class="event-description">Lorem ipsum dolor sit amet</p>
+      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
+    </div>
+    <div class="frame">
+      <div class="text-wrapper">00:00</div>
+      <p class="event-description">Lorem ipsum dolor sit amet</p>
+      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
+    </div>
+  </div> -->
