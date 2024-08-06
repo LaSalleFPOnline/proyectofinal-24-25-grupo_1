@@ -1,24 +1,48 @@
 html, body {
+    width: 100%;
     height: 100%;
     margin: 0;
+    padding: 0;
+}
+:host {
+    display: block;
+    width: 100%;
+    max-width: 1280px; /* Define el ancho máximo */
+    min-width: 375px; /* Define el ancho mínimo */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+    padding: 0;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1280px; /* Define el ancho máximo */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 0 1rem; /* Opcional: Espacio alrededor del contenedor */
+    box-sizing: border-box;
+}
+
+.content-wrap {
+    width: 100%;
+    flex: 1; /* Asegura que este contenedor crezca para ocupar el espacio disponible */
+    box-sizing: border-box;
+
 }
 
 app-root {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Hace que el contenedor ocupe al menos toda la altura de la ventana */
-}
-
-app-header {
-    /* Estilos para tu header */
-}
-
-router-outlet {
-    flex: 1; /* Hace que este contenedor ocupe el espacio disponible */
+    align-items: center; /* Centra los hijos horizontalmente */
+    margin: 0 auto; /* Centra el contenedor principal */
 }
 
 app-footer {
     background-color: #f1f1f1; /* Color de fondo del pie de página */
     padding: 1rem; /* Espacio interno */
     border-top: 1rem solid #ccc; /* Borde superior opcional */
+    width: 100%; /* Asegura que el pie de página ocupe todo el ancho */
 }
+

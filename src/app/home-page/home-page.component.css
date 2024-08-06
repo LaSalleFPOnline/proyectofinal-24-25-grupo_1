@@ -1,165 +1,384 @@
-.rectangle-yellow {
-  position: relative;
-  width: 1348px;
-  height: 606px;
-  left: 22px;
+/* Establece un ancho máximo de 1280px y centra el contenedor principal */
+
+
+/* #region video */
+.video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+iframe {
+  width: 80%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 768px) {
+  .video {
+    height: 50vh;
+  }
+}
+
+/* #endregion*/
+
+/* #region Intro */
+.intro {
+  display: flex;
+  flex-direction: row; /* Mantén la dirección de las filas */
+  justify-content: space-between; /* Espacia las columnas */
+  align-items: flex-start; /* Alinea el contenido al inicio */
+  width: 100%;
+  max-width: 1280px; !important
+  height: auto;
   border-radius: 45px;
   border: 5px solid;
   border-color: #F6E953;
+  padding: 20px; /* Ajusta el padding según sea necesario */
+  box-sizing: border-box;
 }
 
 .flexcontainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 45px; /* Ajusta este valor si es necesario */
-  position: absolute;
-  width: 568px;
-  height: 174px;
-  top: 104px;
-  left: 31px;
+  gap: 45px;
+  width: 50%; /* La columna de texto ocupa el 50% */
+}
+
+.text-intro, .text-intro2, .desciption {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  color: #2B2B2A;
 }
 
 .text-intro {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  color: #2B2B2A;
-  font-size: 50px;
-  line-height: 25px; /* Ajusta el valor según lo necesario */
-  margin: 0; /* Elimina márgenes */
+  font-size: clamp(24px, 4vw, 50px);
+  line-height: 1.2em;
+  margin: 0;
 }
 
 .text-intro2 {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  color: #2B2B2A;
-  font-size: 45px;
-  line-height: 30px; /* Ajusta el valor según lo necesario */
-  margin: 0; /* Elimina márgenes */
+  font-size: clamp(16px, 3vw, 30px);
+  line-height: 1.2em;
+  margin: 0;
 }
 
-.div {
-  width: 568px;
-  top: 333px;
-  left: 31px;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  color: #2B2B2A;
-  font-size: 16px;
-  line-height: 28px;
+.desciption {
+  font-size: clamp(12px, 2vw, 16px);
+  line-height: 1.4em;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
 }
 
-.intro-explicacion img {
-  position: absolute;
-  width: 686px;
-  height: 456px;
-  top: 0px;
-  left: 600px; /* Ajusta este valor según sea necesario */
+.image-container {
+  width: 50%; /* La columna de imagen ocupa el 50% */
+  display: flex;
+  justify-content: center; /* Centra la imagen horizontalmente */
+  align-items: center; /* Centra la imagen verticalmente */
+  gap: 50px;
+}
+
+.intro img {
+  width: 100%; /* Ajusta el ancho de la imagen para que se adapte al contenedor */
+  height: auto; /* Mantén la proporción de la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra el contenedor */
 }
 
 
-/* Agenda */
+@media (max-width: 480px) {
+  .intro {
+    flex-direction: column; /* Cambia la dirección a columna para pantallas pequeñas */
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .flexcontainer {
+    width: 100%;
+    height: auto;
+    gap: 20px;
+    position: static;
+  }
+
+  .text-intro {
+    font-size: clamp(20px, 8vw, 32px);
+    line-height: 1.2em;
+  }
+
+  .text-intro2 {
+    font-size: clamp(18px, 6vw, 28px);
+    line-height: 1.2em;
+  }
+
+  .desciption {
+    font-size: clamp(12px, 5vw, 16px);
+    line-height: 1.4em;
+    width: 100%;
+  }
+
+  .image-container {
+    width: 100%; /* La columna de imagen ocupa el 100% */
+    display: flex;
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
+  }
+
+  .intro img {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-radius: 20px; /* Ajusta el borde redondeado para pantallas pequeñas */
+    top: 0;
+    left: 0;
+  }
+}
+
+
+/* #endregion */
+/* Intro para tabletas */
+@media (max-width: 768px) {
+  .intro {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a columna para pantallas pequeñas */
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    border-radius: 15px; /* Ajusta el borde redondeado para pantallas pequeñas */
+    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    overflow: visible;
+  }
+
+  .flexcontainer {
+    width: 100%;
+    height: auto;
+    gap: 15px;
+    position: static;
+  }
+  .text-intro, .text-intro2, .desciption {
+    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    width: 100%;
+  }
+  .text-intro {
+    font-size: clamp(18px, 6vw, 30px);
+    line-height: 1.2em;
+  }
+
+  .text-intro2 {
+    font-size: clamp(16px, 5vw, 28px);
+    line-height: 1.2em;
+  }
+
+.desciption {
+    font-size: clamp(12px, 4vw, 16px); /* Ajusta el tamaño de fuente proporcionalmente */
+    line-height: 1.4em;
+    max-width: 100%; /* Asegura que el ancho ocupe todo el espacio disponible */
+    margin: 0; /* Elimina el margen para evitar desbordamientos */
+    overflow-wrap: break-word; /* Asegura que el texto largo se ajuste dentro del contenedor */
+  }
+
+  .image-container {
+    width: 100%; /* La columna de imagen ocupa el 100% */
+    display: flex;
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
+    margin-top: 10px; /* Ajusta el margen superior para separar la imagen del texto */
+  }
+
+  .intro img {
+    width: 50%;
+    height: auto;
+    object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+  }
+}
+/* Intro para móviles */
+@media (max-width: 480) {
+  .intro {
+    width: 100%;
+    height: auto;
+    padding: 20px; /* Añade padding para evitar que el contenido toque los bordes */
+    border-radius: 20px; /* Ajusta el borde */
+  }
+
+  .flexcontainer {
+    width: 100%;
+    height: auto;
+    gap: 20px; /* Ajusta el espacio entre los elementos */
+    top: 20px;
+    left: 0;
+    position: static; /* Cambia a estático para evitar el posicionamiento absoluto */
+  }
+
+  .text-intro {
+    font-size: clamp(20px, 8vw, 32px); /* Mínimo 20px, preferido 8vw, máximo 32px */
+    line-height: 1.2em; /* Mantén una relación adecuada de la altura de línea */
+  }
+
+  .text-intro2 {
+    font-size: clamp(18px, 6vw, 28px); /* Mínimo 18px, preferido 6vw, máximo 28px */
+    line-height: 1.2em; /* Mantén una relación adecuada de la altura de línea */
+  }
+
+  .desciption {
+    font-size: clamp(14px, 4vw, 20px); /* Mínimo 14px, preferido 4vw, máximo 20px */
+    line-height: 1.5em; /* Mantén una relación adecuada de la altura de línea */
+  }
+
+  .intro img {
+    position: static; /* Cambia a estático para evitar el posicionamiento absoluto */
+    width: 100%; /* Ajusta el ancho al 100% del contenedor */
+    height: auto; /* Ajusta la altura automáticamente */
+    margin-top: 20px; /* Añade margen superior para separar la imagen del texto */
+  }
+}
+
+/* #region Agenda */
+
+/* Estructura general de la agenda */
 .agenda {
   display: flex;
   flex-direction: column; /* Coloca los elementos en una columna */
   align-items: center; /* Centra horizontalmente */
   width: 100%; /* Ocupa todo el ancho disponible */
-  max-width: 1200px; /* Ajusta el ancho máximo si es necesario */
   margin: 50px auto; /* Centra el contenedor en la página */
   padding: 1rem; /* Espacio alrededor del contenedor */
+  font-size: 2vw;
 }
 
 /* Estilo para cada frame */
 .frame {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Alinea los elementos verticalmente */
   width: 80%;
-  align-items: center;
   padding: 1rem 2rem;
-  background-color: whitesmoke;
+  background-color: white;
   border-radius: 3rem;
-  border: 1px solid black;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra responsiva */
+  border: 1px solid var(--dark);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra */
   font-family: 'Roboto Mono', monospace;
-  margin-bottom: 25px; /* Espacio entre cada div */
+  margin-bottom: 1vw; /* Espacio entre cada frame */
+  transition: background-color 0.3s ease, height 0.3s ease; /* Transiciones suaves */
+  position: relative; /* Necesario para posicionar el ícono */
+}
+
+/* Estilo para el primer frame en la agenda */
+.agenda .frame:first-child {
+  background-color: green; /* Fondo verde solo para el primer evento */
+}
+
+.frame.collapsed {
+  display: flex;
+  align-items: center;
+}
+
+.frame.expanded {
+  background-color: green;
+}
+
+.frame-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
 
 .text-wrapper {
-  font-size: 60px; /* Números de la hora */
+  font-size: 2.5vw; /* Tamaño de la hora */
+  flex-grow: 1;
+  margin-right: 1rem;
 }
 
 .event-description {
-  font-size: 30px; /* Letras del evento */
-  margin: 0; /* Elimina margen adicional por defecto en el párrafo */
+  font-size: 2vw; /* Tamaño del texto del evento */
+  margin: 0; /* Elimina margen adicional en el párrafo */
+  flex: 2;
+
 }
 
 .plus-icon {
-  width: 50px;
-  height: 50px;
+  width: 4vw;
+  height: 4vw;
+  cursor: pointer;
 }
 
 .line {
-  width: 100px; /* Ajusta el tamaño de la línea según sea necesario */
-  height: 2px;
-  background-color: black; /* Cambia esto según el diseño */
+  width: 100%;
+  height: 0.2vw;
+  background-color: var(--dark);
+  display: none; /* Oculta la línea por defecto */
 }
 
-/* Estilos para pantallas de tabletas */
+.frame.expanded .line {
+  display: block; /* Muestra la línea cuando está expandido */
+}
+
+.frame-content {
+  display: none; /* Oculta el contenido por defecto */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.frame.expanded .frame-content {
+  display: block; /* Muestra el contenido cuando está expandido */
+  background-color: green; /* Fondo verde para el contenido expandido */
+}
+
+.flexcontainer {
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en una columna */
+  width: 100%; /* Ocupa todo el ancho del contenedor padre */
+  padding: 1rem; /* Espacio alrededor del contenido */
+  box-sizing: border-box; /* Incluye padding en el cálculo del ancho */
+}
+
+.text {
+  width: 100%; /* Asegura que el texto ocupe todo el ancho disponible */
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  color: #F3F3F3; /* Color del texto */
+  font-size: 2vw; /* Tamaño del texto */
+  line-height: 28px; /* Altura de línea */
+  margin: 0; /* Elimina márgenes por defecto */
+}
+
+
+/* #endregion */
+
+/* Agenda para tabletas */
 @media (max-width: 768px) {
   .frame {
     flex-direction: column; /* Cambia a columna en tabletas */
     align-items: center;
     width: 90%; /* Ajusta el ancho */
-    padding: 1rem; /* Ajusta el padding */
+    padding: 2vw; /* Ajusta el padding */
   }
 
   .text-wrapper {
-    font-size: 40px; /* Ajusta el tamaño de fuente */
+    font-size: 5vw; /* Ajusta el tamaño de fuente proporcionalmente */
   }
 
   .event-description {
-    font-size: 20px; /* Ajusta el tamaño de fuente */
+    font-size: 4vw; /* Ajusta el tamaño de fuente proporcionalmente */
   }
 
   .plus-icon {
-    width: 40px;
-    height: 40px;
+    width: 8vw; /* Ajusta el tamaño del icono proporcionalmente */
+    height: 8vw; /* Ajusta el tamaño del icono proporcionalmente */
   }
 
   .line {
-    width: 80px; /* Ajusta el tamaño de la línea */
+    width: 15vw; /* Ajusta el tamaño de la línea proporcionalmente */
   }
 }
-
-/* Agenda móviles */
-@media (max-width: 480px) {
-  .frame {
-    flex-direction: column; /* Cambia a columna en móviles */
-    align-items: center;
-    width: 100%; /* Ajusta el ancho */
-    padding: 0.5rem; /* Ajusta el padding */
-  }
-
-  .text-wrapper {
-    font-size: 30px; /* Ajusta el tamaño de fuente */
-  }
-
-  .event-description {
-    font-size: 18px; /* Ajusta el tamaño de fuente */
-  }
-
-  .plus-icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .line {
-    width: 60px; /* Ajusta el tamaño de la línea */
-  }
-}
-
-/* Descargas */
-
+/* #region Descargas */
 .descargas {
   display: flex;
   width: 100%;
@@ -170,6 +389,7 @@
   border: 5px solid;
   border-color: black;
   font-family: 'Roboto Mono', monospace;
+  font-size: 2vw;
 }
 
 .descargas .titulo-descargas {
@@ -213,17 +433,16 @@
 }
 
 .descargas .text-wrapper {
-  font-size: 30px;
+  font-size: 2.5vw;
 }
 
 .descargas .link {
   display: inline-flex;
   align-items: center;
-  gap: 15px;
-  position: absolute;
-  top: 194px;
-  left: 26px;
+  position: static;
   color: whitesmoke;
+  font-size: 2vw;
+  margin-top: 5rem;
 }
 
 .descargas .icon {
@@ -240,6 +459,7 @@
   top: 11px;
   left: 10px;
 }
+/* #endregion */
 
 
 /* Descargas para tabletas */
@@ -248,45 +468,60 @@
     flex-direction: column;
     height: auto;
     padding: 1rem;
+    font-size: 3vw;
   }
 
   .descargas .titulo-descargas {
-    top: 20px;
-    left: 20px;
-  }
-
-  .descargas .titulo-descargas .label-2 {
-    font-size: 30px;
+    position: static;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    top: 10px;
+    font-size: 4vw;
   }
 
   .descargas .descarga-programa,
   .descargas .descarga-concurso,
   .descargas .descarga-guia {
-    width: 90%;
+    width: 100%;
     height: auto;
-    margin: 0.5rem 0;
-    padding: 1rem; /* Añade padding */
-  }
-
-  .descargas .text-wrapper {
-    font-size: 24px;
+    margin: 1rem 0;
+    padding: 1rem;
   }
 
   .descargas .link {
-    top: auto;
-    bottom: 10px;
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    font-size: 3vw;
+    gap: 15px;
+
   }
 
   .descargas .icon {
     width: 30px;
     height: 30px;
+    gap: 15px;
   }
 
   .descargas .arrow {
     width: 15px;
     height: 15px;
   }
-}
+
+  .descargas .text-wrapper{
+    font-size: 3vw;
+  }
+
+  .descargas .heading {
+    position: static; /* Quitar la posición absoluta para que el heading se sitúe en el flujo del documento */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem; /* Añadir un margen inferior para separar el heading del contenido siguiente */
+    align-items: center; /* Centrar horizontalmente los elementos del heading */
+    text-align: center; /* Centrar el texto del heading */
+    width: 100%;
+  }
 
 /* Descargas para móviles */
 @media (max-width: 480px) {
@@ -294,46 +529,62 @@
     flex-direction: column;
     height: auto;
     padding: 1rem;
+    font-size: 4vw; /* Ajustar el tamaño de fuente relativo al ancho de la ventana de visualización */
   }
 
   .descargas .titulo-descargas {
+    position: static;
+    text-align: center;
+    margin-bottom: 0.5rem;
     top: 10px;
-    left: 10px;
-    width: 100%; /* Ocupa todo el ancho disponible */
-    text-align: center; /* Centra el texto */
-    margin-bottom: 1rem; /* Añade un margen inferior para separación */
+    font-size: 5vw; /* Ajustar el tamaño de fuente relativo al ancho de la ventana de visualización */
   }
-  
+
   .descargas .descarga-programa,
   .descargas .descarga-concurso,
   .descargas .descarga-guia {
     width: 100%;
     height: auto;
-    margin: 0.5rem 0;
-    padding: 1rem; /* Añade padding */
-  }
-
-  .descargas .text-wrapper {
-    font-size: 18px;
+    margin: 1rem 0;
+    padding: 1rem;
   }
 
   .descargas .link {
-    top: auto;
-    bottom: 10px;
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    font-size: 4vw; /* Ajustar el tamaño de fuente relativo al ancho de la ventana de visualización */
+    gap: 10px; /* Reducir el espacio entre los elementos internos */
   }
 
   .descargas .icon {
-    width: 25px;
-    height: 25px;
+    width: 25px; /* Ajustar el tamaño de la imagen relativa al ancho de la ventana de visualización */
+    height: 25px; /* Ajustar el tamaño de la imagen relativa al ancho de la ventana de visualización */
   }
 
   .descargas .arrow {
-    width: 12px;
-    height: 12px;
+    width: 12px; /* Ajustar el tamaño de la flecha relativa al ancho de la ventana de visualización */
+    height: 12px; /* Ajustar el tamaño de la flecha relativa al ancho de la ventana de visualización */
+  }
+
+  .descargas .text-wrapper {
+    font-size: 4vw; /* Ajustar el tamaño de fuente relativo al ancho de la ventana de visualización */
+  }
+
+  .descargas .heading {
+    position: static; /* Quitar la posición absoluta para que el heading se sitúe en el flujo del documento */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem; /* Añadir un margen inferior para separar el heading del contenido siguiente */
+    align-items: center; /* Centrar horizontalmente los elementos del heading */
+    text-align: center; /* Centrar el texto del heading */
+    width: 100%;
   }
 }
+}
 
-/* Patrocinadores */
+/* #region Patrocinadores */
 .titulo-patrocinadores {
   font-size: 1.5rem; /* Ajusta el tamaño del texto si es necesario */
   margin-top: 2rem;
@@ -413,3 +664,45 @@
   75% { transform: translateX(-75%); }
   100% { transform: translateX(-100%); }
 }
+/* #endregion */
+
+/* patrocinadores tabletas */
+@media (max-width: 768px) {
+  .logo-1, .logo-2, .logo-3, .logo-4 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido dentro del logo */
+    justify-content: center;
+    min-width: 30vw; /* Mantiene un ancho mínimo proporcional */
+    padding: 1rem; /* Añade espacio interno alrededor de los logos */
+  }
+
+  .overlap-group {
+    width: 20vw; /* Ajusta el ancho del cuadro amarillo al 80% del contenedor del logo */
+    height: 20vw; /* Ajusta la altura automáticamente para mantener la proporción */
+    display: flex;
+    align-items: center; /* Centra la imagen verticalmente */
+    justify-content: center; /* Centra la imagen horizontalmente */
+    margin: 0 auto; /* Centra el cuadro amarillo dentro del logo */
+    padding: 0;
+    overflow: hidden; /* Asegura que el contenido no se desborde */
+  }
+
+  .overlap-group img {
+    width: 80%; /* Ajusta el ancho de la imagen al 60% del contenedor del cuadro amarillo */
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor sin deformarse */
+    padding: 0;
+    margin: 0;
+  }
+
+  .colegio {
+    text-align: center;
+    color: #f8f9fa;
+    font-size: 1rem; /* Ajusta el tamaño del texto para pantallas más pequeñas */
+    line-height: 1.2; /* Mejora la legibilidad del texto */
+    margin: 0.5rem 0; /* Añade espacio entre las líneas de texto */
+  }
+}
+
