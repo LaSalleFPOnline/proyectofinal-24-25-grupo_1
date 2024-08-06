@@ -25,21 +25,21 @@
     </button>
   
     <!-- Menú de navegación móvil -->
-    <nav class="mobile-menu" [class.active]="isMenuOpen">
-      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/')">Inicio</button>
-      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'agenda')">Programa</button>
-      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'descargas')">Descargas</button>
-      <button class="login" *ngIf="!isLoggedIn" (click)="handleLogin()">
-        <img class="img" src="assets/Images/button-login.png">
-      </button>
-  
-      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria')">Inicio</button>
-      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
-      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
-      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
-      <button class="login" *ngIf="isLoggedIn" (click)="handleLogin()">
-        <img class="img" src="assets/Images/button-login.png">
-      </button>
-    </nav>
+  <nav class="mobile-menu" [class.active]="isMenuOpen">
+    <button class="label" *ngIf="!isLoggedIn" (click)="navigateAndHideMenu('/')">Inicio</button>
+    <button class="label" *ngIf="!isLoggedIn" (click)="navigateAndHideMenu('/', 'agenda')">Programa</button>
+    <button class="label" *ngIf="!isLoggedIn" (click)="navigateAndHideMenu('/', 'descargas')">Descargas</button>
+    <button class="login" *ngIf="!isLoggedIn" (click)="handleLoginAndHideMenu()">
+      <img class="img" src="assets/Images/button-login.png">
+    </button>
+
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria')">Inicio</button>
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria', 'agenda')">Agenda</button>
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria', 'avisos')">Avisos</button>
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria', 'empresas')">Empresas</button>
+    <button class="login" *ngIf="isLoggedIn" (click)="handleLoginAndHideMenu()">
+      <img class="img" src="assets/Images/button-login.png">
+    </button>
+  </nav>
   </div>
   

@@ -60,4 +60,15 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/feria']);
     }
   }
+
+  navigateAndHideMenu(path: string, fragment?: string) {
+    this.navigateTo(path, fragment);
+    this.isMenuOpen = false; // Oculta el menú hamburguesa
+  }
+
+  handleLoginAndHideMenu() {
+    this.handleLogin();
+    this.isMenuOpen = false; // Oculta el menú hamburguesa
+  }
+
 }
