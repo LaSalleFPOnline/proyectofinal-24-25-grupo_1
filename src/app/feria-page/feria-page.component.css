@@ -154,13 +154,6 @@ LIGHT - #F3F3F3
     color: #F3F3F3;
 }
 
-
-
-
-
-
-
-
 /* --------------- NOTIFICACIONES --------------- */
 
 .avisos {
@@ -495,9 +488,16 @@ LIGHT - #F3F3F3
     border-radius: 14px;
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
     line-height: normal;
     color: #2B2B2A;
+    border: none; /* Sin borde por defecto */
+}
+
+.button:hover,
+.button:active {
+    border: 2px solid #2B2B2A;
+    opacity: 1;
 }
 
 .titulo-detalles {

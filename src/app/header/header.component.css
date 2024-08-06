@@ -58,7 +58,7 @@
 
 .label:hover,
 .label:active {
-    border: 2px solid black;
+    border: 2px solid #2B2B2A;
     opacity: 0.5;
 }
 
