@@ -42,7 +42,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HomePageComponent,
     FooterComponent,
     FeriaPageComponent, // Declarar el componente FeriaPage
-    PerfilAdminComponent, // Declarar el componente PerfilAdmin
   ],
   providers: [AuthService, provideHttpClient(withInterceptorsFromDi()), provideAnimations(), provideAnimationsAsync()],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

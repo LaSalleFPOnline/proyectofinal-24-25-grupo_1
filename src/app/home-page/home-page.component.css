@@ -1,5 +1,3 @@
-/* Establece un ancho máximo de 1280px y centra el contenedor principal */
-
 
 /* #region video */
 .video {
@@ -351,7 +349,6 @@ iframe {
 
 
 /* #endregion */
-
 /* Agenda para tabletas */
 @media (max-width: 768px) {
   .frame {
@@ -378,6 +375,7 @@ iframe {
     width: 15vw; /* Ajusta el tamaño de la línea proporcionalmente */
   }
 }
+
 /* #region Descargas */
 .descargas {
   display: flex;
@@ -460,8 +458,6 @@ iframe {
   left: 10px;
 }
 /* #endregion */
-
-
 /* Descargas para tabletas */
 @media (max-width: 768px) {
   .descargas {

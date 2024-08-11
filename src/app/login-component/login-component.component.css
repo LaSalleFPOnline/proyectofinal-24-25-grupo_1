@@ -18,16 +18,20 @@
   position: absolute;
   top: 5vh;
   left: 5vh;
-  padding: 2px;
+  padding: 0px 7px;
   background-color: #2B2B2A;
   border-radius: 8px;
+  margin-top: 2vh;
 }
 .titulo-bienvenido p{
+  position: relative;
+  width: fit-content;
+  margin: 2vh;
   font-family: 'Roboto Mono', monospace;
   font-weight: 500;
-  font-size: 2vw;
+  font-size: 40px;
+  line-height: normal;
   color: #F3F3F3;
-  letter-spacing: 0.1vw;
 }
 
 .password, .username{

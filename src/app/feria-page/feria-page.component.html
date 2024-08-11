@@ -1,66 +1,69 @@
-<body>
-
 
 <!-- Agenda -->
-
 <div class="agenda">
-    <div class="titulo-programa">
-        <div class="label">Agenda</div>
+    <div class="titulo">
+        <p>Agenda</p>
     </div>
+    
     <div class="frame collapsed"> <!-- Colapsado por defecto -->
         <div class="frame-header">
             <div class="div-wrapper">HORARIO Mañana</div>
-            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand/Collapse" (click)="toggleFrame($event)">
+            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand" (click)="toggleFrame($event)">
+            <img class="minus-icon hidden" src="assets/Images/icon-minus.png" alt="Collapse" (click)="toggleFrame($event)">
         </div>
         <img class="line" src="assets/Images/line.png" alt="Line">
         <div class="frame-content">
-            <div class="flexcontainer">
                 <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
                 <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
                 <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
                 <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
                 <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
                 <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-            </div>
         </div>
     </div>
     <div class="frame collapsed"> <!-- Colapsado por defecto -->
         <div class="frame-header">
-            <div class="div-wrapper-2">HORARIO Tarde</div>
-            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand/Collapse" (click)="toggleFrame($event)">
+            <div class="div-wrapper">HORARIO Tarde</div>
+            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand" (click)="toggleFrame($event)">
+            <img class="minus-icon hidden" src="assets/Images/icon-minus.png" alt="Collapse" (click)="toggleFrame($event)">
+        </div>
+        <img class="line" src="assets/Images/line.png" alt="Line">
+        <div class="frame-content">
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
         </div>
     </div>
 </div>
 
 <!-- Notificaciones -->
-
-<div class="avisos">
-    <div class="overlap-group-avisos">
-        <div class="text-line-container">
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
-            <div class="line-avisos"></div>
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
-            <div class="line-avisos"></div>
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
-            <div class="line-avisos"></div>
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
-            <div class="line-avisos"></div>
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
-            <div class="line-avisos"></div>
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
-            <div class="line-avisos"></div>
-            <p class="text-avisos">Lorem ipsum dolor sit amet................</p>
+<div class="notificaciones">
+    <div class="titulo-notificaciones">
+        <div class="fondo-notificaciones">
+            <div class="texto-titulo-notificaciones">Notificaciones</div>
         </div>
-        <div class="titulo-avisos">
-            <div class="fondo-avisos">
-                <div class="texto-titulo-avisos">Notificaciones</div>
-            </div>
-        </div>
+    </div>
+    <div class="text-line-container">
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        <div class="line-notificaciones"></div>
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        <div class="line-notificaciones"></div>
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        <div class="line-notificaciones"></div>
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        <div class="line-notificaciones"></div>
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        <div class="line-notificaciones"></div>
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        <div class="line-notificaciones"></div>
+        <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
     </div>
 </div>
 
 <!-- Mis relaciones comerciales -->
-
 <div class="mis-relaciones">
     <div class="overlap-relaciones-1">
         <div class="text-relaciones-1">Compra</div>
@@ -69,12 +72,8 @@
             <div class="rectangle-relaciones"></div>
             <div class="rectangle-relaciones"></div>
             <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div> <!-- Añadir más elementos si es necesario -->
         </div>
-        <div class="text-suma-1">Total: 15 empresas</div>
+        <div class="text-suma">Total: <br/>10 empresas</div>
     </div>
     <div class="overlap-relaciones-2">
         <div class="text-relaciones-2">Venta</div>
@@ -83,20 +82,20 @@
             <div class="rectangle-relaciones"></div>
             <div class="rectangle-relaciones"></div>
             <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div>
-            <div class="rectangle-relaciones"></div> <!-- Añadir más elementos si es necesario -->
         </div>
-        <div class="text-suma-2">Total: 15 empresas</div>
+        
+        <div class="text-suma">Total: <br/>15 empresas</div>
     </div>
-    <div class="titulo-relaciones">
-        <div class="label-relaciones">Mis relaciones comerciales</div>
+    
+    <div class="titulo-notificaciones">
+        <div class="fondo-notificaciones">
+            <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
+        </div>
     </div>
+
 </div>
 
 <!-- Ilustracion -->
-
 <img class="illustration" src="assets/Illustrations/Illustration4.png">
 
 <!-- Listado empresas -->
@@ -162,6 +161,3 @@
         <div class="label-detalles">Detalles de X empresa</div>
     </div>
 </div>
-
-
-</body>
