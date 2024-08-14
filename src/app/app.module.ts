@@ -29,7 +29,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     LoginComponentComponent,
     RegistroComponent,
     HeaderComponent,
-    PerfilEmpresaComponent
+    PerfilEmpresaComponent,
+    PerfilAdminComponent
   ],
   imports: [
     BrowserModule,

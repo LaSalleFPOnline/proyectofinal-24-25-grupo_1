@@ -21,9 +21,9 @@
       </div>
        -->
 
-    <div class="item">
-        <div class="rectangulo"></div>
-        <p>Colegio</p>
+    <div *ngFor="let empresa of empresas" class="item">
+        <div class="rectangulo">{{ empresa.logo_url }} - {{ empresa.nombre }}</div>
+        <p>{{empresa.entidad}}</p>
         <div class="buttons">
             <button class="edit-button">Editar</button>
             <button class="delete-button">Eliminar</button>

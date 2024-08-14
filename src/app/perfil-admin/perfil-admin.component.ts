@@ -3,7 +3,6 @@ import { EmpresaService } from '../services/empresa.service';
 
 @Component({
   selector: 'app-perfil-admin',
-  standalone: true,
   templateUrl: './perfil-admin.component.html',
   styleUrls: ['./perfil-admin.component.css']
 })
