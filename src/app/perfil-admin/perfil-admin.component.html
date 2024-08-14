@@ -6,17 +6,24 @@
 
 <!-- Cuadro de empresas -->
 <div class="container">
-    <div class="item">
-        <div class="rectangulo"></div>
-        <p>Colegio</p>
-        <div class="buttons">
+    <!-- Prueba con el back -->
+    <!-- <div class="container">
+        <div *ngFor="let empresa of empresas" class="item">
+          <div class="rectangulo">
+            <img [src]="empresa.logo_url" alt="Logo de la empresa">
+          </div>
+          <p>{{ empresa.nombreEmpresa }}</p>
+          <div class="buttons">
             <button class="edit-button">Editar</button>
             <button class="delete-button">Eliminar</button>
+          </div>
         </div>
-    </div>
-    <div class="item">
-        <div class="rectangulo"></div>
-        <p>Colegio</p>
+      </div>
+       -->
+
+    <div *ngFor="let empresa of empresas" class="item">
+        <div class="rectangulo">{{ empresa.logo_url }} - {{ empresa.nombre }}</div>
+        <p>{{empresa.entidad}}</p>
         <div class="buttons">
             <button class="edit-button">Editar</button>
             <button class="delete-button">Eliminar</button>

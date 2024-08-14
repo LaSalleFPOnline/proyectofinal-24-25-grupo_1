@@ -1,98 +1,116 @@
 .footer {
     font-family: 'Roboto', sans-serif;
-    position: relative;
-    width: 1000px;
-    height: 700px;
-    top: 75px;
+    width: 100%;
     background-color: #F3F3F3;
-    border-radius: 45px 45px 0px 0px;
+    border-radius: 45px 45px 0 0;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     position: relative;
-    margin: 0 auto; /* Centrando horizontalmente */
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
-.element-la-salle-FP {
+.logo {
+    width: 260px;
+    height: auto;
+    margin-bottom: 20px; /* Espaciado abajo del logo */
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc; /* Color de la línea */
+    margin: 20px 0; /* Espaciado arriba y abajo de la línea */
+}
+
+.footer-content {
     font-family: 'Roboto Mono', monospace;
-    position: absolute;
-    width: 458px;
-    top: 544px;
-    left: 50px;
-    font-weight: 400;
     color: #2B2B2A;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1280px; /* Ajustar el ancho máximo */
+    margin: 0 auto; /* Centrar el contenido */
+}
+
+.element-la-salle-FP,
+.illustrations-by,
+.email-lasalle-com {
     font-size: 16px;
+    margin-bottom: 15px; /* Espaciado entre los párrafos */
 }
 
 .illustrations-by {
-    font-family: 'Roboto Mono', monospace;
-    position: absolute;
-    width: 458px;
-    top: 544px;
-    left: 430px;
-    font-weight: 400;
-    color: #2B2B2A;
-    font-size: 16px;
     text-align: right;
+    margin: 0;
 }
 
 .span {
     text-decoration: underline;
 }
 
-.line {
-    position: absolute;
-    width: 840px;
-    height: 1px;
-    top: 509px;
-    left: 53px;
-    object-fit: cover;
-}
-
-.email-lasalle-com {
-    font-family: 'Roboto Mono', monospace;
-    position: absolute;
-    width: 458px;
-    top: 315px;
-    left: 50px;
-    font-weight: 400;
-    color: #2B2B2A;
-    font-size: 16px;
-}
-
 .illustration {
     position: absolute;
-    width: 393px;
-    height: 431px;
-    top: 44px;
-    left: 450px;
-}
-
-.logo {
-    position: absolute;
-    width: 260px;
-    height: 131px;
-    top: 61px;
-    left: 56px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 20px 0; /* Espaciado alrededor de la ilustración */
+    right: 20px;
 }
 
 .titulo-contacta {
     font-family: 'Roboto Mono', monospace;
     color: #F3F3F3;
     font-size: 20px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 280px;
-    left: 50px;
+    background-color: #AC3635;
+    padding: 10px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.label {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 0px 7px;
-    position: relative;
-    flex: 0 0 auto;
-    background-color: #AC3635;
-    border-radius: 7px;
+@media (max-width: 767px) {
+    .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .logo {
+        width: 180px; /* Reducir el tamaño del logo */
+        margin-bottom: 15px; /* Ajustar el espaciado del logo */
+    }
+
+    .line {
+        margin: 15px 0; /* Ajustar el espaciado de la línea */
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr; /* Hacer que las columnas se apilen en una sola columna */
+        padding: 0; /* Eliminar el padding para pantallas más pequeñas */
+    }
+
+    .element-la-salle-FP,
+    .illustrations-by,
+    .email-lasalle-com {
+        font-size: 14px; /* Reducir el tamaño de fuente para móviles */
+        margin-bottom: 10px; /* Ajustar el espaciado entre los párrafos */
+    }
+
+    .illustration {
+        width: 100%; /* Ajustar el ancho de la ilustración a 100% */
+        max-width: 30%; /* Asegurarse de que la imagen no se desborde */
+        right: 0; /* Ajustar la posición de la ilustración */
+    }
+
+    .titulo-contacta {
+        font-size: 18px; /* Ajustar el tamaño de fuente del título */
+        padding: 8px; /* Ajustar el padding del título */
+    }
 }
+

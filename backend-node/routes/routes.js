@@ -4,6 +4,7 @@ const { registerUser, loginUser } = require('../controllers/userController');
 const { updateEmpresa } = require('../controllers/empresaController');
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
+const {getEmpresas} = require('../controllers/adminController');
 // Rutas relacionadas con usuarios
 router.post('/register', parseRequestBody, registerUser);
 router.post('/login', parseRequestBody, loginUser);
@@ -24,7 +25,7 @@ router.post('/actualizar-empresa', (req, res) => {
     res.status(200).json({ message: 'Empresa actualizada correctamente', data });
   });
 });
-
+router.get('/empresas',getEmpresas);
 module.exports = router;
 /*const express = require('express');
 const { body, validationResult } = require('express-validator');

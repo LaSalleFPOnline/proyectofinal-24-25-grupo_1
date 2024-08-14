@@ -1,35 +1,36 @@
 <div class="formulario-login">
   <div class="titulo-bienvenido">
-    <div class="label-wrapper">
-      <div class="label-2">Bienvenido</div>
-    </div>
+      <p>Bienvenido</p>
   </div>
+  
   <form (ngSubmit)="onSubmit()">
     <div class="username">
-      <div class="div">Nombre de Usuario</div>
-      <input type="email" [(ngModel)]="email" name="email" required class="input-field">
+      <div class="text">Nombre de Usuario</div>
+      <input type="email" [(ngModel)]="email" name="email">
     </div>
-    <div class="overlap">
-      <div class="overlap-group">
-        <div class="password">
-          <div class="div">Contraseña</div>
-          <input type="password" [(ngModel)]="password" name="password" required class="input-field">
-        </div>
-        <div class="button-enviar">
-          <button type="submit" class="button-label">ENVIAR</button>
-        </div>
-        <img class="illustration" src="assets/Illustrations/Illustration3.png">
-        <!-- El mensaje de error debe estar justo después del botón de enviar -->
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-      </div>
-      <div class="flexcontainer">
-        <p class="text">
-          <span class="text-wrapper">
-            Si tienes algún problema ponte en<br/>
-            contacto con tu escuela o profesor
-          </span>
-        </p>
-      </div>
+  
+    <div class="password">
+      <div class="text">Contraseña</div>
+      <input type="password" [(ngModel)]="password" name="password">
+    </div>
+  
+    <div class="enviar">
+      <button type="submit">ENVIAR</button>
+    </div>
+  
+    <img class="illustration" src="assets/Illustrations/Illustration3.png">
+  
+    <!-- El mensaje de error debe estar justo después del botón de enviar -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div class="flexcontainer">
+      <p class="text">
+        <span class="text-wrapper">
+          Si tienes algún problema ponte en<br/>
+          contacto con tu escuela o profesor
+        </span>
+      </p>
     </div>
   </form>
 </div>
+
+<!-- TODO componente de patrocinadores -->
