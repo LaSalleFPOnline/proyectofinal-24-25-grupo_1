@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-feria-page',
@@ -7,25 +7,31 @@ import { Component } from '@angular/core';
   styleUrls: ['./feria-page.component.css']
 })
 export class FeriaPageComponent {
+  private expandedFrame: HTMLElement | null = null;
+
+  constructor(private renderer: Renderer2, private elRef: ElementRef) {}
 
   toggleFrame(event: Event) {
     const icon = event.target as HTMLImageElement;
     const frame = icon.closest('.frame') as HTMLElement;
 
-    // Toggle between expanded and collapsed states
-    if (frame.classList.contains('expanded')) {
-      frame.classList.remove('expanded');
-      frame.classList.add('collapsed');
-    } else {
-      // Collapse all frames
-      document.querySelectorAll('.frame').forEach(f => {
-        f.classList.remove('expanded');
-        f.classList.add('collapsed');
-      });
+    if (!frame) return;
 
-      // Expand the clicked frame
-      frame.classList.remove('collapsed');
-      frame.classList.add('expanded');
+    // Collapse currently expanded frame
+    if (this.expandedFrame && this.expandedFrame !== frame) {
+      this.renderer.removeClass(this.expandedFrame, 'expanded');
+      this.renderer.addClass(this.expandedFrame, 'collapsed');
+    }
+
+    // Toggle the clicked frame
+    if (frame.classList.contains('expanded')) {
+      this.renderer.removeClass(frame, 'expanded');
+      this.renderer.addClass(frame, 'collapsed');
+      this.expandedFrame = null;
+    } else {
+      this.renderer.removeClass(frame, 'collapsed');
+      this.renderer.addClass(frame, 'expanded');
+      this.expandedFrame = frame;
     }
   }
 }
