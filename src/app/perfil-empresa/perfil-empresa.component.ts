@@ -26,6 +26,7 @@ export class PerfilEmpresaComponent implements OnInit {
     this.authService.getUser().subscribe(user => {
       if (user) {
         this.usuario_id = user.id;
+        this.nombreEmpresa = user.nombre;
       }
     });
 
@@ -35,7 +36,7 @@ export class PerfilEmpresaComponent implements OnInit {
         this.enlaceSalaEspera = empresa.url_meet || '';
         this.logotipo = empresa.logo_url || '';
         this.spotPublicitario = empresa.spot_url || '';
-        this.nombreEmpresa = empresa.nombre || '';
+        //this.nombreEmpresa = empresa.nombre || '';
         this.horariosAtencion = empresa.horario_meet || '';
         this.paginaWeb = empresa.web_url || '';
         this.descripcionProductos = empresa.descripcion || '';
