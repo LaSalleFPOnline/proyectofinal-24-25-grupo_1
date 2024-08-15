@@ -1,45 +1,75 @@
+/* -------------------- Region Video -------------------- */
 
-/* #region video */
 .video {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
-  height: 100vh;
-  padding: 10px;
+  width: 75%;
+  padding: 5%;
   box-sizing: border-box;
   margin: 0 auto;
 }
 
 iframe {
-  width: 80%;
+  width: 100%; /* Asegura que el iframe ocupe todo el ancho disponible */
   height: auto;
   max-width: 100%;
   aspect-ratio: 16 / 9;
+  display: block; /* Elimina cualquier espacio adicional en línea */
 }
+
+/* Video para TABLET */
 
 @media (max-width: 768px) {
   .video {
-    height: 50vh;
+    width: 95%;
+    height: auto; /* Ajusta la altura a auto para evitar problemas de centrado */
+    padding: 12%; /* Remueve el padding para evitar que afecte el centrado */
+    margin: 0 auto;
+  }
+
+  iframe {
+    width: 100%; /* Asegura que el iframe ocupe todo el ancho del contenedor en móviles */
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 }
 
-/* #endregion*/
+/* Video para MOVIL */
 
-/* #region Intro */
+@media (max-width: 480px) {
+  .video {
+    width: 90%;
+    height: auto; /* Ajusta la altura a auto en pantallas muy pequeñas */
+    padding: 8%; /* Remueve cualquier padding */
+    margin: 0 auto; /* Asegura el centrado horizontal */
+  }
+
+  iframe {
+    width: 100%; /* Asegura que el iframe ocupe todo el ancho del contenedor */
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+
+
+/* -------------------- region Intro -------------------- */
+
 .intro {
   display: flex;
-  flex-direction: row; /* Mantén la dirección de las filas */
-  justify-content: space-between; /* Espacia las columnas */
-  align-items: flex-start; /* Alinea el contenido al inicio */
-  width: 100%;
-  max-width: 1280px; !important
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 80%;
+  max-width: 1280px;
   height: auto;
   border-radius: 45px;
   border: 5px solid;
   border-color: #F6E953;
-  padding: 20px; /* Ajusta el padding según sea necesario */
+  padding: 20px;
   box-sizing: border-box;
+  margin: 0 auto; /* Centro el contenedor horizontalmente */
 }
 
 .flexcontainer {
@@ -47,7 +77,7 @@ iframe {
   flex-direction: column;
   align-items: flex-start;
   gap: 45px;
-  width: 50%; /* La columna de texto ocupa el 50% */
+  width: 50%;
 }
 
 .text-intro, .text-intro2, .desciption {
@@ -58,101 +88,54 @@ iframe {
 
 .text-intro {
   font-size: clamp(24px, 4vw, 50px);
-  line-height: 1.2em;
+  font-weight: 500;
+  line-height: 100%;
   margin: 0;
 }
 
 .text-intro2 {
   font-size: clamp(16px, 3vw, 30px);
-  line-height: 1.2em;
+  font-weight: 500;
+  line-height: 2%;
   margin: 0;
 }
 
 .desciption {
-  font-size: clamp(12px, 2vw, 16px);
-  line-height: 1.4em;
+  font-size: clamp(10px, 2vw, 16px);
+  line-height: 130%;
   width: 100%;
   box-sizing: border-box;
   margin: 0;
 }
 
 .image-container {
-  width: 50%; /* La columna de imagen ocupa el 50% */
+  width: 100%;
+  margin-top: 65px;
   display: flex;
-  justify-content: center; /* Centra la imagen horizontalmente */
-  align-items: center; /* Centra la imagen verticalmente */
+  justify-content: center;
+  align-items: center;
   gap: 50px;
 }
 
 .intro img {
-  width: 100%; /* Ajusta el ancho de la imagen para que se adapte al contenedor */
-  height: auto; /* Mantén la proporción de la imagen */
-  object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px; /* Ajuste opcional */
 }
 
+/* Intro para TABLET */
 
-@media (max-width: 480px) {
-  .intro {
-    flex-direction: column; /* Cambia la dirección a columna para pantallas pequeñas */
-    width: 100%;
-    height: auto;
-    padding: 20px;
-    border-radius: 20px;
-  }
-
-  .flexcontainer {
-    width: 100%;
-    height: auto;
-    gap: 20px;
-    position: static;
-  }
-
-  .text-intro {
-    font-size: clamp(20px, 8vw, 32px);
-    line-height: 1.2em;
-  }
-
-  .text-intro2 {
-    font-size: clamp(18px, 6vw, 28px);
-    line-height: 1.2em;
-  }
-
-  .desciption {
-    font-size: clamp(12px, 5vw, 16px);
-    line-height: 1.4em;
-    width: 100%;
-  }
-
-  .image-container {
-    width: 100%; /* La columna de imagen ocupa el 100% */
-    display: flex;
-    justify-content: center; /* Centra la imagen horizontalmente */
-    align-items: center; /* Centra la imagen verticalmente */
-  }
-
-  .intro img {
-    position: static;
-    width: 100%;
-    height: auto;
-    border-radius: 20px; /* Ajusta el borde redondeado para pantallas pequeñas */
-    top: 0;
-    left: 0;
-  }
-}
-
-
-/* #endregion */
-/* Intro para tabletas */
 @media (max-width: 768px) {
   .intro {
-    display: flex;
-    flex-direction: column; /* Cambia la dirección a columna para pantallas pequeñas */
-    width: 100%;
+    flex-direction: column;
+    width: 90%;
     height: auto;
     padding: 10px;
-    border-radius: 15px; /* Ajusta el borde redondeado para pantallas pequeñas */
-    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    border-radius: 45px;
+    box-sizing: border-box;
     overflow: visible;
+    margin: 0 auto; /* Centro el contenedor horizontalmente */
   }
 
   .flexcontainer {
@@ -161,12 +144,14 @@ iframe {
     gap: 15px;
     position: static;
   }
+
   .text-intro, .text-intro2, .desciption {
-    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    box-sizing: border-box;
     width: 100%;
   }
+
   .text-intro {
-    font-size: clamp(18px, 6vw, 30px);
+    font-size: clamp(18px, 10vw, 35px);
     line-height: 1.2em;
   }
 
@@ -175,48 +160,48 @@ iframe {
     line-height: 1.2em;
   }
 
-.desciption {
-    font-size: clamp(12px, 4vw, 16px); /* Ajusta el tamaño de fuente proporcionalmente */
+  .desciption {
+    font-size: clamp(12px, 4vw, 15px);
     line-height: 1.4em;
-    max-width: 100%; /* Asegura que el ancho ocupe todo el espacio disponible */
-    margin: 0; /* Elimina el margen para evitar desbordamientos */
-    overflow-wrap: break-word; /* Asegura que el texto largo se ajuste dentro del contenedor */
+    max-width: 100%;
+    margin: 0;
+    overflow-wrap: break-word;
   }
 
   .image-container {
-    width: 100%; /* La columna de imagen ocupa el 100% */
+    width: 100%;
     display: flex;
-    justify-content: center; /* Centra la imagen horizontalmente */
-    align-items: center; /* Centra la imagen verticalmente */
-    margin-top: 10px; /* Ajusta el margen superior para separar la imagen del texto */
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   .intro img {
-    width: 50%;
+    width: 70%;
     height: auto;
-    object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+    object-fit: cover;
   }
 }
-/* Intro para móviles */
+
+/* Intro para MÓVILES */
+
 @media (max-width: 480) {
   .intro {
-    width: 100%;
-    height: auto;
-    padding: 20px; /* Añade padding para evitar que el contenido toque los bordes */
-    border-radius: 20px; /* Ajusta el borde */
+    width: 70%;
+    padding: 10%; /* Añade padding para evitar que el contenido toque los bordes */
+    border-radius: 45px; /* Ajusta el borde */
+    margin: 0 auto;
   }
 
   .flexcontainer {
-    width: 100%;
-    height: auto;
-    gap: 20px; /* Ajusta el espacio entre los elementos */
+    width: 70%;
     top: 20px;
-    left: 0;
     position: static; /* Cambia a estático para evitar el posicionamiento absoluto */
   }
 
   .text-intro {
-    font-size: clamp(20px, 8vw, 32px); /* Mínimo 20px, preferido 8vw, máximo 32px */
+    font-size: clamp(20px, 8vw, 35px); /* Mínimo 20px, preferido 8vw, máximo 32px */
     line-height: 1.2em; /* Mantén una relación adecuada de la altura de línea */
   }
 
@@ -226,19 +211,20 @@ iframe {
   }
 
   .desciption {
-    font-size: clamp(14px, 4vw, 20px); /* Mínimo 14px, preferido 4vw, máximo 20px */
+    font-size: clamp(14px, 4vw, 15px); /* Mínimo 14px, preferido 4vw, máximo 20px */
     line-height: 1.5em; /* Mantén una relación adecuada de la altura de línea */
   }
 
   .intro img {
     position: static; /* Cambia a estático para evitar el posicionamiento absoluto */
     width: 100%; /* Ajusta el ancho al 100% del contenedor */
-    height: auto; /* Ajusta la altura automáticamente */
     margin-top: 20px; /* Añade margen superior para separar la imagen del texto */
   }
 }
 
-/* #region Agenda */
+
+
+/* -------------------- Region Agenda -------------------- */
 
 /* Estructura general de la agenda */
 .agenda {
@@ -257,19 +243,19 @@ iframe {
   flex-direction: column; /* Alinea los elementos verticalmente */
   width: 80%;
   padding: 1rem 2rem;
-  background-color: white;
+  background-color: #F3F3F3;
   border-radius: 3rem;
-  border: 1px solid var(--dark);
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Sombra */
+  border: 1px solid #2B2B2A;
+  box-shadow: 0 0.25rem 0 #2B2B2A; /* Sombra */
   font-family: 'Roboto Mono', monospace;
-  margin-bottom: 1vw; /* Espacio entre cada frame */
+  margin-bottom: 2vw; /* Espacio entre cada frame */
   transition: background-color 0.3s ease, height 0.3s ease; /* Transiciones suaves */
   position: relative; /* Necesario para posicionar el ícono */
 }
 
 /* Estilo para el primer frame en la agenda */
 .agenda .frame:first-child {
-  background-color: green; /* Fondo verde solo para el primer evento */
+  background-color: #60A96E; /* Fondo verde solo para el primer evento */
 }
 
 .frame.collapsed {
@@ -278,7 +264,7 @@ iframe {
 }
 
 .frame.expanded {
-  background-color: green;
+  background-color: #60A96E;
 }
 
 .frame-header {
@@ -291,14 +277,13 @@ iframe {
 .text-wrapper {
   font-size: 2.5vw; /* Tamaño de la hora */
   flex-grow: 1;
-  margin-right: 1rem;
+  margin-right: -20rem;
 }
 
 .event-description {
   font-size: 2vw; /* Tamaño del texto del evento */
   margin: 0; /* Elimina margen adicional en el párrafo */
   flex: 2;
-
 }
 
 .plus-icon {
@@ -309,8 +294,9 @@ iframe {
 
 .line {
   width: 100%;
-  height: 0.2vw;
-  background-color: var(--dark);
+  height: 1px;
+  margin-top: 20px;
+  background-color: #2B2B2A;
   display: none; /* Oculta la línea por defecto */
 }
 
@@ -326,7 +312,7 @@ iframe {
 
 .frame.expanded .frame-content {
   display: block; /* Muestra el contenido cuando está expandido */
-  background-color: green; /* Fondo verde para el contenido expandido */
+  background-color: #60A96E; /* Fondo verde para el contenido expandido */
 }
 
 .flexcontainer {
@@ -342,24 +328,24 @@ iframe {
   font-family: 'Roboto Mono', monospace;
   font-weight: 400;
   color: #F3F3F3; /* Color del texto */
-  font-size: 2vw; /* Tamaño del texto */
+  font-size: 3vw; /* Tamaño del texto */
   line-height: 28px; /* Altura de línea */
   margin: 0; /* Elimina márgenes por defecto */
 }
 
+/* Agenda para TABLETS */
 
-/* #endregion */
-/* Agenda para tabletas */
 @media (max-width: 768px) {
   .frame {
     flex-direction: column; /* Cambia a columna en tabletas */
     align-items: center;
-    width: 90%; /* Ajusta el ancho */
+    width: 80%; /* Ajusta el ancho */
     padding: 2vw; /* Ajusta el padding */
   }
 
   .text-wrapper {
     font-size: 5vw; /* Ajusta el tamaño de fuente proporcionalmente */
+    margin-right: -8rem;
   }
 
   .event-description {
@@ -367,34 +353,40 @@ iframe {
   }
 
   .plus-icon {
-    width: 8vw; /* Ajusta el tamaño del icono proporcionalmente */
-    height: 8vw; /* Ajusta el tamaño del icono proporcionalmente */
+    width: 6vw; /* Ajusta el tamaño del icono proporcionalmente */
+    height: 6vw; /* Ajusta el tamaño del icono proporcionalmente */
   }
 
   .line {
-    width: 15vw; /* Ajusta el tamaño de la línea proporcionalmente */
+    margin-top: 20px;
+    width: 70vw; /* Ajusta el tamaño de la línea proporcionalmente */
   }
 }
 
-/* #region Descargas */
+
+
+/* -------------------- Region Descargas -------------------- */
+
 .descargas {
   display: flex;
-  width: 100%;
+  width: 80%;
   height: 483px;
   align-items: center; /* Centra horizontalmente */
   position: relative;
   border-radius: 45px;
   border: 5px solid;
-  border-color: black;
+  border-color: #2B2B2A;
   font-family: 'Roboto Mono', monospace;
   font-size: 2vw;
+  margin: 0 auto;
 }
 
 .descargas .titulo-descargas {
   position: absolute;
-  top: 2rem;
+  top: 0.5rem;
   left: 2rem;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  color: #2B2B2A;
 }
 .descargas .descarga-programa,
 .descargas .descarga-concurso,
@@ -404,20 +396,20 @@ iframe {
   border-radius: 45px; /* Bordes redondeados */
   display: flex;
   justify-content: space-between; /* Espacio entre los elementos internos */
-  margin: 1rem; /* Espacio horizontal entre los elementos */
   position: relative; /* Necesario para los elementos internos con posición absoluta */
+  margin: 0 auto;
 }
 
 .descargas .descarga-programa {
-  background-color: green;
+  background-color: #60A96E;
 }
 
 .descargas .descarga-concurso {
-  background-color: red;
+  background-color: #AC3635;
 }
 
 .descargas .descarga-guia {
-  background-color: blue;
+  background-color: #384078;
 }
 
 .descargas .heading {
@@ -427,20 +419,19 @@ iframe {
   position: absolute;
   top: 44px;
   left: 26px;
-  color: white
+  color: #F3F3F3
 }
 
 .descargas .text-wrapper {
-  font-size: 2.5vw;
+  font-size: 1.8vw;
 }
 
 .descargas .link {
   display: inline-flex;
-  align-items: center;
-  position: static;
-  color: whitesmoke;
-  font-size: 2vw;
-  margin-top: 5rem;
+  color: #F3F3F3;
+  font-size: 1vw;
+  margin-top: 12rem;
+  margin-left: 2rem;
 }
 
 .descargas .icon {
@@ -452,61 +443,61 @@ iframe {
 
 .descargas .arrow {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 11px;
-  left: 10px;
+  width: 30px;
+  height: 30px;
 }
-/* #endregion */
-/* Descargas para tabletas */
+
+/* Descargas para TABLET */
+
 @media (max-width: 768px) {
   .descargas {
     flex-direction: column;
+    width: 85%;
     height: auto;
     padding: 1rem;
     font-size: 3vw;
+    margin: 0 auto;
   }
 
   .descargas .titulo-descargas {
     position: static;
-    text-align: center;
+    text-align: right;
     margin-bottom: 0.5rem;
     top: 10px;
+    margin-left: -20rem;
     font-size: 4vw;
   }
 
   .descargas .descarga-programa,
   .descargas .descarga-concurso,
   .descargas .descarga-guia {
-    width: 100%;
-    height: auto;
+    width: 70%;
+    height: 250px;
     margin: 1rem 0;
     padding: 1rem;
   }
 
   .descargas .link {
-    position: static;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+    justify-content: left;
+    margin-top: 12rem;
+    margin-left: -30rem;
     font-size: 3vw;
-    gap: 15px;
-
   }
 
   .descargas .icon {
     width: 30px;
     height: 30px;
-    gap: 15px;
   }
 
   .descargas .arrow {
-    width: 15px;
-    height: 15px;
+    width: 25px;
+    height: 25px;
   }
 
   .descargas .text-wrapper{
-    font-size: 3vw;
+    font-size: 5vw;
+    margin-left: 1rem;
+    text-align: left;
   }
 
   .descargas .heading {
@@ -514,12 +505,13 @@ iframe {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem; /* Añadir un margen inferior para separar el heading del contenido siguiente */
-    align-items: center; /* Centrar horizontalmente los elementos del heading */
-    text-align: center; /* Centrar el texto del heading */
+    align-items: left; /* Centrar horizontalmente los elementos del heading */
+    text-align: left; /* Centrar el texto del heading */
     width: 100%;
   }
 
-/* Descargas para móviles */
+/* Descargas para MÓVIL */
+
 @media (max-width: 480px) {
   .descargas {
     flex-direction: column;
@@ -600,7 +592,7 @@ iframe {
   position: absolute;
   width: 100%;
   height: 50%;
-  background-color: blue;
+  background-color: #384078;
   border-radius: 45px;
   z-index: 0; /* Envía el fondo detrás de los elementos */
 }
@@ -633,7 +625,7 @@ iframe {
 
 .overlap-group {        /*Cuadros amarillos*/
   border-radius: 45px;
-  border: 3px solid yellow;
+  border: 3px solid #F6E953;
   width: 80%;
   height: 150px; /* Altura fija para los elementos */
   display: flex;
@@ -650,7 +642,7 @@ iframe {
 
 .colegio {
   text-align: center;
-  color: #f8f9fa;
+  color: #F3F3F3;
 }
 
 @keyframes scroll {
@@ -695,7 +687,7 @@ iframe {
 
   .colegio {
     text-align: center;
-    color: #f8f9fa;
+    color: #F3F3F3;
     font-size: 1rem; /* Ajusta el tamaño del texto para pantallas más pequeñas */
     line-height: 1.2; /* Mejora la legibilidad del texto */
     margin: 0.5rem 0; /* Añade espacio entre las líneas de texto */
