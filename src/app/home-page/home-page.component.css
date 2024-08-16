@@ -546,6 +546,8 @@ iframe {
   background-color: #384078;
   border-radius: 45px;
   z-index: 0; /* Envía el fondo detrás de los elementos */
+  overflow: hidden ;
+  border: 10px solid blue;
 }
 
 .scroll-container {

@@ -212,7 +212,7 @@ p {
 /* Estilo para la imagen ilustrativa */
 .illustration {
     position: absolute;
-    width: 30vw; /* Ancho relativo a la vista del ancho de la ventana */
+    width: 30%; /* Ancho relativo a la vista del ancho de la ventana */
     height: auto; /* Mantiene la proporción de la imagen */
     right: 50px; /* Ajusta el valor para mover la ilustración a la derecha */
     bottom: -20vh; /* Ajusta el valor para mover la ilustración hacia abajo */

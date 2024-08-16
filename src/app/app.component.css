@@ -1,5 +1,7 @@
 html, body {
     width: 100%;
+    border: 3px solid red;
+    max-width: 1280px;
     height: 100%;
     margin: 0;
     padding: 0;
