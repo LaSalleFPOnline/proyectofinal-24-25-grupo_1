@@ -25,7 +25,7 @@ LIGHT - #F3F3F3
     margin: 2vh;
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     color: #F3F3F3;
 }
 
@@ -85,8 +85,9 @@ LIGHT - #F3F3F3
     max-height: 90%;
     padding: 1vw;
 }
+
 .frame-content .text {
-    font-size: 1vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     line-height: 1.5;
     margin-left: 2vw;
 }
@@ -95,14 +96,14 @@ LIGHT - #F3F3F3
     display: block; /* Muestra el contenido solo cuando está expandido */
 }
 .frame.collapsed .frame-content {
-    display: none; /* Hide content when collapsed */
+    display: none; /* Oculta el contenido cuando está colapsado */
 }
 .plus-icon {
     width: 2vw;
     height: 2vw;
     cursor: pointer;
 }
-.minus-icon{
+.minus-icon {
     display: none;
     width: 2vw;
     height: 2vw;
@@ -120,7 +121,7 @@ LIGHT - #F3F3F3
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     color: #f3f3f3;
-    font-size: 1vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     line-height: 28px;
     margin: 0;
 }
@@ -129,7 +130,7 @@ LIGHT - #F3F3F3
     color: #2B2B2A; /* Negro cuando colapsado */
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     margin-left: 20px;
     overflow: hidden;
 }
@@ -137,29 +138,38 @@ LIGHT - #F3F3F3
 
 
 /* #region NOTIFICACIONES */
-.notificaciones {
-    width: 30vw;
-    height: 50vh;
-    left: 2vh;
+.contenedor-notificaciones-realaciones{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-right: 2rem;
     margin-top: 6vh;
+    gap: 20px;
+}
+.notificaciones {
+    flex: 1;
     background-color: #AC3635;
-    border-radius: 3vw;
-    border: 1px solid #2B2B2A;
-    box-shadow: 0px 0.5vw 0px #2B2B2A;
+    border-radius: 3rem;
+    border: 2px solid black;
+    box-shadow: 1px 0.3vw 1px #2B2B2A;
+    box-sizing: border-box;
     position: relative;
 }
 
 .titulo-notificaciones {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 3vh;
-    left: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 2rem;
+    margin: 0 auto;
 }
 
 .fondo-notificaciones {
-    padding: 0.5vw 1vw;
+    padding: 1rem;
     background-color: #F3F3F3;
     border-radius: 0.7vw;
 }
@@ -167,23 +177,23 @@ LIGHT - #F3F3F3
 .texto-titulo-notificaciones {
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     color: #2B2B2A;
 }
 
 .text-line-container {
     position: relative;
-    margin-top: 14vh;
+    margin-top: 3rem;
     overflow-y: auto;
-    max-height: 50vh;
+    max-height: 80%;
 }
 
 .text-notificaciones {
     width: 90%;
-    margin-left: 2vw;
+    margin-left: 2rem;
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
-    font-size: 1vw;
+    font-size: 1rem; /* Cambiado de 1vw a 1rem */
     color: #F3F3F3;
 }
 
@@ -192,87 +202,97 @@ LIGHT - #F3F3F3
     width: 90%;
     height: 0.1vh;
     background-color: #F3F3F3;
+    margin-left: 2rem;
 }
 
-/* #endregion*/
-
-/* #region MIS RELACIONES COMERCIALES */
+/* MIS RELACIONES COMERCIALES */
 .mis-relaciones {
-    position: relative;
-    width: 50vw;
-    height: 50vh;
-    left: 33vw;
-    top: -50.5vh;
+    flex: 1;
     background-color: #384078;
-    border-radius: 45px;
-    border: 1px solid;
-    box-shadow: 0px 5px 0px #2B2B2A;
+    border-radius: 3rem;
+    box-shadow: 1px 0.3vw 1px #2B2B2A;
+    box-sizing: border-box;
+    position: relative;
 }
+.contenedor-realaciones{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    gap: 5px;
+    border: 10px solid #384078;
+    height: 60%;
 
+}
 .overlap-relaciones-1, .overlap-relaciones-2 {
-    position: absolute;
+    display: flex;
+    position: relative;
+    flex-direction: column;
     width: 45%;
-    height: 70%;
-    top: 20%;
-    left: 2vw;
+    height: 100%;
     background-color: #F3F3F3;
     border-radius: 45px;
     border: 0.5vw solid;
     border-color: #2B2B2A;
     overflow-y: auto;
-    padding: 1vw;
     box-sizing: border-box;
 }
 
-.overlap-relaciones-2 {
-    left: 26vw; 
-}
-
 .scroll-container {
-    margin-top: 50px;
+    margin-top: 3rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1vw;
+    gap: 10px;
+    height: auto;
+    overflow-y: auto;
 }
 
 .rectangle-relaciones {
-    width: 6vw;
-    height: 4vw;
+    width: 40%;
+    height: 5rem;
     background-color: #D9D9D9;
 }
-.text-relaciones-1, .text-relaciones-2 {
+.text-relaciones {
     position: absolute;
+    justify-content: center;
+    text-align: center;
     top: 1vw;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     color: #2B2B2A;
 }
 
-.text-suma {
+.text-suma-1{
     position: absolute;
-    left: 50%;
+    left: 25%;
     transform: translateX(-50%);
-    font-family: 'Roboto Mono', monospace;
     font-weight: 400;
-    font-size: 1vw;
-    color: #2B2B2A;
-    bottom: 1vw;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: white;
+    bottom: 1rem;
 }
-
+.text-suma-2{
+    position: absolute;
+    left: 78%;
+    transform: translateX(-50%);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: white;
+    bottom: 1rem;
+}
 /* #endregion*/
 
 /* --------------- IUSTRACION --------------- */
 .illustration {
     display: block;
-    width: 50vw;
+    width: 70%;
     height: auto;
     position: relative;
+    top: 40px;
     margin: 0 auto;
-    top: -25vw;
 }
 
 /* --------------- LISTADO EMPRESAS --------------- */
@@ -319,18 +339,6 @@ LIGHT - #F3F3F3
 
 .label-empresas {
     gap: 10px;
-    padding: 0px 7px;
-    position: relative;
-    flex: 0 0 auto;
-    background-color: #2B2B2A;
-    border-radius: 7px;
-    width: fit-content;
-    margin-top: -1px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: normal;
-    color: #F3F3F3;
 }
 
 /* --------------- DETALLES DE EMPRESA --------------- */
