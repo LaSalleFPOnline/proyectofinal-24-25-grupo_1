@@ -65,12 +65,13 @@ export class PerfilEmpresaComponent implements OnInit {
         entidad: this.nombreColegio
       };
 
-      this.authService.actualizarEmpresa(empresa).subscribe(
-        (response: any) => {
+      this.authService.actualizarEmpresa(empresa).subscribe({
+        next: (response: any) => {
           console.log('Datos actualizados:', response);
           this.successMessage = 'Datos de la empresa actualizados correctamente.';
           this.errorMessage = null;
-
+      
+          // Actualizamos los datos en el formulario con la respuesta
           this.nombreEmpresa = response.nombre;
           this.paginaWeb = response.web_url;
           this.spotPublicitario = response.spot_url;
@@ -79,14 +80,17 @@ export class PerfilEmpresaComponent implements OnInit {
           this.enlaceSalaEspera = response.url_meet;
           this.horariosAtencion = response.horario_meet;
           this.nombreColegio = response.entidad;
+      
+          // Redirigir a la página '/feria'
           this.router.navigate(['/feria']);
         },
-        (error: any) => {
+        error: (error: any) => {
           console.error('Error al actualizar la empresa:', error);
           this.errorMessage = 'Hubo un error al actualizar la empresa. Por favor, inténtelo de nuevo.';
           this.successMessage = null;
         }
-      );
+      });
+      
     }
   }
 }

@@ -8,3 +8,21 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .test {border: 1px solid red;}
+
+.titulo {
+    display: inline-flex;
+    border-radius: 8px;
+    /*Revisar*/ margin: 2vh;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: #F3F3F3;
+    background-color: #2B2B2A;
+    width: fit-content;
+    /*Revisar*/ text-align: left;
+
+}
+
+.text{
+    font-size: clamp(1rem, 2vw, 1.5rem);
+}
