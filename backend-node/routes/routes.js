@@ -27,6 +27,8 @@ router.post('/actualizar-empresa', (req, res) => {
 });
 router.get('/empresas',getEmpresas);
 module.exports = router;
+
+
 /*const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { registerUser, loginUser } = require('../controllers/userController');

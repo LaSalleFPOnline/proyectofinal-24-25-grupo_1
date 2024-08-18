@@ -59,6 +59,10 @@ export class RegistroComponent {
       });
   }
 }*/
+
+
+
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';  // Importar Router
 import { AuthService } from '../services/auth.service';
@@ -99,7 +103,7 @@ export class RegistroComponent {
       logo_url: this.logo_url,
       descripcion: this.descripcion,
       url_meet: this.url_meet,
-      horario_meet: this.horario_meet,
+      horario_meet: this.horario_meet || '00:00:00',
       entidad: this.entidad
     };
 
@@ -122,4 +126,3 @@ export class RegistroComponent {
       });
   }
 }
-

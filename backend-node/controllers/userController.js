@@ -41,6 +41,18 @@ function registerUser(req, res) {
         case 1: // Empresa
           insertRoleQuery = 'INSERT INTO empresas (usuario_id, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
           roleParams = [userId, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad];
+          /* SILVIA
+          roleParams = [
+            userId,
+            web_url || null,
+            spot_url || null,
+            logo_url || null,
+            descripcion || null,
+            url_meet || null,
+            horario_meet || null,
+            entidad || null
+          ];
+          */
           break;
         case 2: // Visitante
           insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';

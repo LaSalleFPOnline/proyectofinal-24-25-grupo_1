@@ -90,6 +90,9 @@ module.exports = {
   updateEmpresa,
   getEmpresaDataByUsuarioId
 };*/
+
+
+
 const { connection } = require('../database/database');
 
 // Función para obtener el usuario_id a partir del nombre

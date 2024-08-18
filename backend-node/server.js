@@ -20,7 +20,6 @@ initializeDatabase((err) => {
     process.exit(1); // Salir del proceso si hay un error al inicializar la base de datos
   } else {
     console.log('Base de datos inicializada correctamente');
-    
     // Iniciar el servidor después de que la base de datos se haya inicializado
     app.listen(port, () => {
       console.log(`Servidor Node.js corriendo en http://localhost:${port}`);
