@@ -103,6 +103,7 @@ export class RegistroComponent {
       logo_url: this.logo_url,
       descripcion: this.descripcion,
       url_meet: this.url_meet,
+      /* Añadimos un valor por defecto en el campo de HORARIO MEET en caso de estar vacío al registrar */
       horario_meet: this.horario_meet || '00:00:00',
       entidad: this.entidad
     };
