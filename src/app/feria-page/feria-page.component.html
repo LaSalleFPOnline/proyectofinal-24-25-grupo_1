@@ -105,29 +105,18 @@
 <!-- Listado empresas -->
 
 <div class="listado-empresas">
-    <div class="overlap-empresas">
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-    </div>
     <div class="titulo-empresas">
         <div class="label-empresas">Empresas participantes</div>
     </div>
+    <div class="scroll-container">
+        <div *ngFor="let empresa of empresas" class="rectangle-empresas">
+            <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa">
+            <p class="nombre-de-cada-empresa">{{ empresa.nombre }}</p>
+        </div>
+    </div>
 </div>
 
-<!-- Listado empresas -->
+<!-- Detalle empresas -->
 
 <div class="detalles">
     <div class="rectangle-detalles"></div>
