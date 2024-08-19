@@ -111,7 +111,7 @@
     <div class="scroll-container">
         <div *ngFor="let empresa of empresas" class="rectangle-empresas">
             <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa)">
-            <p class="nombre-de-cada-empresa">{{ empresa.nombre }}</p>
+            <p class="nombre-de-cada-empresa">{{ empresa.nombre_empresa }}</p>
         </div>
     </div>
 </div>
@@ -123,7 +123,7 @@
     <div class="rectangle-detalles"></div>
     <div class="rectangle-video-detalles"></div>
     <p class="nombre-empresa">
-        <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre }}</span>
+        <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
         <span class="text-detalles">
             <br/>Página web: {{ empresaSeleccionada.web_url }}<br/>
             Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}<br/>
@@ -142,6 +142,6 @@
         <button class="button">Vender</button>
     </div>
     <div class="titulo-detalles">
-        <div class="label-detalles">Detalles de {{ empresaSeleccionada.nombre }}</div>
+        <div class="label-detalles">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
     </div>
 </div>

@@ -80,6 +80,7 @@ export class RegistroComponent {
   rol: number = 1; // 1: Empresa, 2: Visitante, 3: Administrador
 
   // Campos específicos para empresas
+  nombre_empresa: string = '';
   web_url: string = '';
   spot_url: string = '';
   logo_url: string = '';
@@ -98,6 +99,7 @@ export class RegistroComponent {
       email: this.email,
       password: this.password,
       rol: this.rol,
+      nombre_empresa: this.nombre_empresa,
       web_url: this.web_url,
       spot_url: this.spot_url,
       logo_url: this.logo_url,

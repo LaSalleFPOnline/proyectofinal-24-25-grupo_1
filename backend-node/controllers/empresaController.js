@@ -113,7 +113,7 @@ const getUsuarioIdByNombre = (nombre, callback) => {
 
 const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
   const query = `
-    SELECT u.nombre AS nombreEmpresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
+    SELECT u.nombre AS nombreEmpresa, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
     FROM usuarios u
     JOIN empresas e ON u.id = e.usuario_id
     WHERE u.id = ?
@@ -156,11 +156,11 @@ const updateEmpresa = (empresa, callback) => {
 
     // Actualizar la empresa usando el usuario_id
     const updateQuery = `
-      UPDATE empresas 
-      SET web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet = ?, entidad = ?
+      UPDATE empresas
+      SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet = ?, entidad = ?
       WHERE usuario_id = ?
     `;
-    connection.query(updateQuery, [web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id], (err) => {
+    connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id], (err) => {
       if (err) {
         console.error('Error al actualizar la empresa: ', err);
         return callback(err); // Agrega return para evitar continuar la ejecución
