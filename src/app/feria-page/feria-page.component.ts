@@ -11,6 +11,7 @@ import { EmpresaService } from '../services/empresa.service';
 })
 export class FeriaPageComponent implements OnInit {
   empresas: any[] = [];  // Asegúrate de definir y llenar esta propiedad
+  empresaSeleccionada: any = null;
   private expandedFrame: HTMLElement | null = null;  // Define la propiedad
 
   constructor(private renderer: Renderer2, private elRef: ElementRef, private empresaService: EmpresaService) {}
@@ -18,9 +19,9 @@ export class FeriaPageComponent implements OnInit {
   ngOnInit(): void {
     this.empresaService.getEmpresas().subscribe((data: any[]) => {
       this.empresas = data;
-      console.log('Empresas:', this.empresas); // Añade un log para verificar los datos
+      console.log('Empresas: ', this.empresas); // Añade un log para verificar los datos
     }, error => {
-      console.error('Error al obtener empresas:', error); // Maneja errores
+      console.error('Error al obtener empresas: ', error); // Maneja errores
     });
   }
 
@@ -46,5 +47,14 @@ export class FeriaPageComponent implements OnInit {
       this.renderer.addClass(frame, 'expanded');
       this.expandedFrame = frame;
     }
+  }
+
+  // Método para mostrar los detalles de la empresa seleccionada
+  mostrarDetalles(empresa: any) {
+    this.empresaSeleccionada = empresa; // Almacena la empresa seleccionada para mostrar sus detalles
+  }
+
+  cerrarDetalles() {
+    this.empresaSeleccionada = null; // Al cerrar, se ocultan los detalles
   }
 }

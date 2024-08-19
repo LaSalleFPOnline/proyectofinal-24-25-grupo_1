@@ -1,7 +1,7 @@
 const { connection } = require('../database/database');
 //traer datos de empresa
 const getEmpresas = (req, res) => {
-    const query = 'SELECT usuarios.nombre, empresas.entidad, empresas.logo_url FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+    const query = 'SELECT usuarios.nombre, empresas.entidad, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
     connection.query(query, (err, results) => {
       if (err) {
         console.error('Error al obtener empresas:', err);

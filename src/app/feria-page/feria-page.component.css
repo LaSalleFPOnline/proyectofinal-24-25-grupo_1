@@ -486,7 +486,18 @@ LIGHT - #F3F3F3
     color: #2B2B2A;
 }
 
+/* Estilo para el icono de cerrar */
+.close-icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 35px;
+    height: 35px;
+    transform: rotate(45deg); /* Rotar el ícono para que parezca una cruz */
+    cursor: pointer;
+    opacity: 1;
+}
 
-
-
-
+.close-icon:hover {
+    opacity: 0.7; /* Efecto hover */
+}
