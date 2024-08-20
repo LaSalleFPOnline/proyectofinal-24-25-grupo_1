@@ -104,7 +104,7 @@ iframe {
 }
 
 .desciption {
-  font-size: clamp(10px, 2vw, 16px);
+  /* font-size: clamp(10px, 2vw, 16px); */
   line-height: 130%;
   width: 100%;
   box-sizing: border-box;
@@ -202,50 +202,56 @@ iframe {
 }
 
 
-
 /* -------------------- Region Agenda -------------------- */
 
 /* Estructura general de la agenda */
 .agenda {
   display: flex;
-  flex-direction: column; /* Coloca los elementos en una columna */
-  align-items: center; /* Centra horizontalmente */
-  width: 100%; /* Ocupa todo el ancho disponible */
-  margin: 50px auto; /* Centra el contenedor en la página */
-  padding: 1rem; /* Espacio alrededor del contenedor */
-  font-size: 2vw;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 50px auto;
+  padding: 1rem;
 }
-
+.text-intro, .text-intro2, .desciption, .frame {
+  font-family: 'Roboto Mono', monospace;
+  font-size: large;
+}
+.time-wrapper{
+  font-size: larger;
+  font-weight: 500;
+}
 /* Estilo para cada frame */
 .frame {
   display: flex;
-  flex-direction: column; /* Alinea los elementos verticalmente */
+  flex-direction: column;
   width: 80%;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   background-color: #F3F3F3;
   border-radius: 3rem;
   border: 1px solid #2B2B2A;
-  box-shadow: 0 0.25rem 0 #2B2B2A; /* Sombra */
-  font-family: 'Roboto Mono', monospace;
-  margin-bottom: 2vw; /* Espacio entre cada frame */
-  transition: background-color 0.3s ease, height 0.3s ease; /* Transiciones suaves */
-  position: relative; /* Necesario para posicionar el ícono */
+  box-shadow: 0 0.25rem 0 #2B2B2A;
+  margin-bottom: 2vw;
+  transition: background-color 0.3s ease, height 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Estilo para el primer frame en la agenda */
 .agenda .frame:first-child {
-  background-color: #60A96E; /* Fondo verde solo para el primer evento */
+  background-color: #60A96E;
+  color: white;
 }
 
-.frame.collapsed {
-  display: flex;
-  align-items: center;
+.agenda .frame:first-child.expanded {
+  background-color: #60A96E;
+  color: white;
 }
 
 .frame.expanded {
-  background-color: #60A96E;
+  background-color: #F3F3F3;
+  color: black;
 }
-
 .frame-header {
   display: flex;
   justify-content: space-between;
@@ -253,109 +259,61 @@ iframe {
   align-items: center;
 }
 
-.text-wrapper {
-  font-size: 2.5vw; /* Tamaño de la hora */
-  flex-grow: 1;
-  margin-right: -20rem;
+.frame.expanded .frame-content {
+  display: block;
+}
+
+.time-wrapper {
+  flex-grow: 0;
+  margin-right: 1rem;
+  overflow-wrap: break-word;
 }
 
 .event-description {
-  font-size: 2vw; /* Tamaño del texto del evento */
-  margin: 0; /* Elimina margen adicional en el párrafo */
+  margin: 0;
   flex: 2;
+  overflow-wrap: break-word;
 }
 
+
 .plus-icon {
-  width: 4vw;
-  height: 4vw;
+  width: clamp(2rem, 4vw, 4rem); /* Ajuste responsivo del tamaño */
+  height: clamp(2rem, 4vw, 4rem);
   cursor: pointer;
 }
 
 .line {
   width: 100%;
   height: 1px;
-  margin-top: 20px;
+  margin-top: 1rem;
   background-color: #2B2B2A;
   display: none; /* Oculta la línea por defecto */
 }
 
 .frame.expanded .line {
-  display: block; /* Muestra la línea cuando está expandido */
+  display: block;
 }
 
-.frame-content {
-  display: none; /* Oculta el contenido por defecto */
+.frame-content {  /* el expandido */
+  display: none;
   padding: 1rem;
   box-sizing: border-box;
 }
 
-.frame.expanded .frame-content {
-  display: block; /* Muestra el contenido cuando está expandido */
-  background-color: #60A96E; /* Fondo verde para el contenido expandido */
-}
-
 .flexcontainer {
   display: flex;
-  flex-direction: column; /* Coloca los elementos en una columna */
-  width: 100%; /* Ocupa todo el ancho del contenedor padre */
-  padding: 1rem; /* Espacio alrededor del contenido */
-  box-sizing: border-box; /* Incluye padding en el cálculo del ancho */
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .text {
-  width: 100%; /* Asegura que el texto ocupe todo el ancho disponible */
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  color: #F3F3F3; /* Color del texto */
-  font-size: 3vw; /* Tamaño del texto */
-  line-height: 28px; /* Altura de línea */
-  margin: 0; /* Elimina márgenes por defecto */
+  width: 100%;
+  color: black;
+  
+  margin: 0;
 }
-
-/* Agenda para TABLETS */
-
-@media (max-width: 768px) {
-  .frame {
-    flex-direction: column; /* Cambia a columna en tabletas */
-    align-items: center;
-    width: 80%; /* Ajusta el ancho */
-    padding: 2vw; /* Ajusta el padding */
-  }
-
-  .text-wrapper {
-    font-size: 5vw; /* Ajusta el tamaño de fuente proporcionalmente */
-    margin-right: -8rem;
-  }
-
-  .event-description {
-    font-size: 4vw; /* Ajusta el tamaño de fuente proporcionalmente */
-  }
-
-  .plus-icon {
-    width: 6vw; /* Ajusta el tamaño del icono proporcionalmente */
-    height: 6vw; /* Ajusta el tamaño del icono proporcionalmente */
-  }
-
-  .line {
-    margin-top: 20px;
-    width: 70vw; /* Ajusta el tamaño de la línea proporcionalmente */
-  }
-}
-
-/* Agenda para MOVIL */
-
-@media (max-width: 480px) {
-  .frame {
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
-    padding: 1rem; /* Ajusta padding para móviles */
-  }
-
-  .text-wrapper, .event-description {
-    font-size: 4vw;
-  }
-}
-
-
 
 /* -------------------- Region Descargas -------------------- */
 

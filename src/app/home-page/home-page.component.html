@@ -11,10 +11,7 @@
       <p class="text-intro">La Salle Bussiness Match</p>
       <p class="text-intro2">1 y 2 de Febrero 2025</p>
       <p class="desciption">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin ultricies placerat.
-        Pellentesque auctor turpis sed leo tempus ultricies. Integer dignissim justo quis nulla finibus, at
-        interdum metus mollis. Fusce ornare nisl id massa volutpat, quis dictum nisi blandit. Nam imperdiet
-        in urna vitae pulvinar.
+        Este es el texto de presentación de la feria que nos tienen que dar para que se presente la actividad.
       </p>
     </div>
     <div class="image-container">
@@ -22,13 +19,11 @@
     </div>
   </div>
 
-
-
   <!-- Agenda -->
   <div class="agenda" id="agenda">
     <div *ngFor="let event of events; let i = index" class="frame" [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded }">
       <div class="frame-header">
-        <div class="text-wrapper">00:00</div>
+        <div class="time-wrapper">00:00</div>
         <p class="event-description">{{ event.description }}</p>
         <img
           class="plus-icon"
@@ -40,7 +35,7 @@
       <div class="line" *ngIf="event.isExpanded"></div>
       <div class="frame-content" [ngClass]="{'expanded': event.isExpanded}">
         <div class="flexcontainer">
-          <p class="text">{{ event.details }}</p>
+          <p>"lo que venga" {{ event.details }} </p>
         </div>
       </div>
     </div>
@@ -133,44 +128,3 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- Agenda vieja -->
-  <!-- <div class="agenda" id="agenda">
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-    <img class="line" src="assets/Images/line.png" alt="Line">
-    <div class="frame-content">
-        <div class="flexcontainer">
-            <p class="text">Descripción de este evento de la agenda que tiene que venir del</p>
-        </div>
-    </div>
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-    <div class="frame">
-      <div class="text-wrapper">00:00</div>
-      <p class="event-description">Lorem ipsum dolor sit amet</p>
-      <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Add"/>
-    </div>
-  </div> -->
