@@ -1,19 +1,33 @@
-import { Component, Renderer2, ElementRef } from '@angular/core';
+import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';  // Importa CommonModule
+import { EmpresaService } from '../services/empresa.service';
 
 @Component({
   selector: 'app-feria-page',
   standalone: true,
   templateUrl: './feria-page.component.html',
-  styleUrls: ['./feria-page.component.css']
+  styleUrls: ['./feria-page.component.css'],
+  imports: [CommonModule]  // Incluye CommonModule en imports
 })
-export class FeriaPageComponent {
-  private expandedFrame: HTMLElement | null = null;
+export class FeriaPageComponent implements OnInit {
+  empresas: any[] = [];  // Asegúrate de definir y llenar esta propiedad
+  empresaSeleccionada: any = null;
+  private expandedFrame: HTMLElement | null = null;  // Define la propiedad
 
-  constructor(private renderer: Renderer2, private elRef: ElementRef) {}
+  constructor(private renderer: Renderer2, private elRef: ElementRef, private empresaService: EmpresaService) {}
+
+  ngOnInit(): void {
+    this.empresaService.getEmpresas().subscribe((data: any[]) => {
+      this.empresas = data;
+      console.log('Empresas: ', this.empresas); // Añade un log para verificar los datos
+    }, error => {
+      console.error('Error al obtener empresas: ', error); // Maneja errores
+    });
+  }
 
   toggleFrame(event: Event) {
     const icon = event.target as HTMLImageElement;
-    const frame = icon.closest('.frame') as HTMLElement;
+    const frame = icon.closest('.rectangle-empresas') as HTMLElement;  // Ajusta el selector a 'rectangle-empresas'
 
     if (!frame) return;
 
@@ -33,5 +47,14 @@ export class FeriaPageComponent {
       this.renderer.addClass(frame, 'expanded');
       this.expandedFrame = frame;
     }
+  }
+
+  // Método para mostrar los detalles de la empresa seleccionada
+  mostrarDetalles(empresa: any) {
+    this.empresaSeleccionada = empresa; // Almacena la empresa seleccionada para mostrar sus detalles
+  }
+
+  cerrarDetalles() {
+    this.empresaSeleccionada = null; // Al cerrar, se ocultan los detalles
   }
 }

@@ -1,0 +1,548 @@
+++++++++++++++++++++ server.js ++++++++++++++++++++
+
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { initializeDatabase, endDatabaseConnection } = require('./database/database');
+const routes = require('./routes/routes'); // Importa el archivo de rutas
+
+const app = express();
+const port = 3001;
+
+// Configuración de middlewares
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Iniciar la base de datos y luego el servidor
+initializeDatabase((err) => {
+  if (err) {
+    console.error('Error inicializando la base de datos Feria_virtual: ', err);
+    process.exit(1); // Salir del proceso si hay un error al inicializar la base de datos
+  } else {
+    console.log('Base de datos inicializada correctamente');
+    // Iniciar el servidor después de que la base de datos se haya inicializado
+    app.listen(port, () => {
+      console.log(`Servidor Node.js corriendo en http://localhost:${port}`);
+    });
+  }
+});
+
+// Usar las rutas desde routes.js
+app.use('/api', routes); // Usar un prefijo '/api' para las rutas
+
+// Manejar cierre de la conexión a MySQL al terminar el programa (opcional)
+process.on('SIGINT', () => {
+  endDatabaseConnection((err) => {
+    if (err) {
+      console.error('Error cerrando la conexión a MySQL: ', err);
+    } else {
+      console.log('Conexión a MySQL cerrada');
+      process.exit();
+    }
+  });
+});
+
+
+
+
+
+++++++++++++++++++++ routes.js ++++++++++++++++++++
+
+const express = require('express');
+const router = express.Router();
+const { registerUser, loginUser } = require('../controllers/userController');
+const { updateEmpresa } = require('../controllers/empresaController');
+const { parseRequestBody } = require('../middlewares/middlewares');
+const authenticateToken = require('../middlewares/authMiddleware');
+const {getEmpresas} = require('../controllers/adminController');
+// Rutas relacionadas con usuarios
+router.post('/register', parseRequestBody, registerUser);
+router.post('/login', parseRequestBody, loginUser);
+// Ruta protegida de ejemplo
+router.get('/protected', authenticateToken, (req, res) => {
+  res.status(200).json({ message: 'Acceso concedido', user: req.user });
+});
+
+// Rutas relacionadas con empresas
+router.post('/actualizar-empresa', (req, res) => {
+  const empresa = req.body;
+  updateEmpresa(empresa, (err, data) => {
+    if (err) {
+      console.error('Error al actualizar la empresa:', err);
+      return res.status(500).json({ message: 'Error al actualizar la empresa: ' + err.message });
+    }
+    console.log('Datos enviados al cliente:', data); // Verifica los datos enviados al cliente
+    res.status(200).json({ message: 'Empresa actualizada correctamente', data });
+  });
+});
+router.get('/empresas',getEmpresas);
+module.exports = router;
+
+
+
+
+
+++++++++++++++++++++ database.js ++++++++++++++++++++
+
+const mysql = require('mysql2');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: ''
+});
+
+const initializeDatabase = (callback) => {
+  connection.connect(err => {
+    if (err) {
+      console.error('Error conectando a la base de datos: ' + err.stack);
+      return callback(err);
+    }
+    console.log('Conectado a la base de datos con ID ' + connection.threadId);
+
+    // Crear la base de datos si no existe
+    connection.query('CREATE DATABASE IF NOT EXISTS Feria_virtual', (err) => {
+      if (err) {
+        console.error('Error al crear la base de datos: ', err);
+        return callback(err);
+      }
+      console.log('Base de datos creada o ya existe');
+
+      // Cambiar a la base de datos Feria_virtual
+      connection.changeUser({ database: 'Feria_virtual' }, (err) => {
+        if (err) {
+          console.error('Error al cambiar de base de datos: ', err);
+          return callback(err);
+        }
+        console.log('Conectado a la base de datos Feria_virtual');
+
+        // Crear las tablas si no existen
+        const queries = [
+          `CREATE TABLE IF NOT EXISTS usuarios (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            rol INT NOT NULL CHECK (rol IN (1, 2, 3))
+          )`,
+          `CREATE TABLE IF NOT EXISTS empresas (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT,
+            web_url VARCHAR(2083),
+            spot_url VARCHAR(2083),
+            logo_url VARCHAR(2083),
+            descripcion VARCHAR(1000),
+            url_meet VARCHAR(2083),
+            horario_meet TIME,
+            entidad VARCHAR(500),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          )`,
+          `CREATE TABLE IF NOT EXISTS visitantes (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT,
+            entidad VARCHAR(500),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          )`,
+          `CREATE TABLE IF NOT EXISTS administradores (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          )`
+        ];
+
+        let completedQueries = 0;
+
+        queries.forEach((query) => {
+          connection.query(query, (err) => {
+            if (err) {
+              console.error('Error al crear la tabla: ', err);
+              return callback(err);
+            }
+            completedQueries += 1;
+            if (completedQueries === queries.length) {
+              console.log('Tablas creadas o ya existen');
+              callback(null); // Indicar que todo se completó exitosamente
+            }
+          });
+        });
+      });
+    });
+  });
+};
+
+const endDatabaseConnection = (callback) => {
+  if (connection) {
+    connection.end((err) => {
+      if (err) {
+        console.error('Error al cerrar la conexión a MySQL: ', err);
+        return callback(err);
+      }
+      console.log('Conexión a MySQL cerrada');
+      callback(null);
+    });
+  } else {
+    callback(null);
+  }
+};
+
+module.exports = {
+  initializeDatabase,
+  endDatabaseConnection,
+  connection
+};
+
+
+
+
+
+++++++++++++++++++++ middlewares.js ++++++++++++++++++++
+
+const bodyParser = require('body-parser');
+
+// Middleware para analizar cuerpos JSON
+const parseRequestBody = bodyParser.json();
+
+const logRequestBody = (req, res, next) => {
+  if (req.body) {
+    console.log('Cuerpo de la solicitud:', req.body);
+  }
+  next(); // Pasar al siguiente middleware
+};
+
+module.exports = { parseRequestBody, logRequestBody };
+
+
+
+
+
+++++++++++++++++++++ authMiddleware.js ++++++++++++++++++++
+
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // formato: Bearer TOKEN
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+module.exports = authenticateToken;
+
+
+
+
+
+++++++++++++++++++++ userController.js ++++++++++++++++++++
+
+require('dotenv').config(); // Carga las variables de entorno
+const jwt = require('jsonwebtoken');
+const { connection } = require('../database/database');
+const bcrypt = require('bcrypt');
+
+// Obtén las variables de entorno
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
+
+function registerUser(req, res) {
+  console.log('Solicitud de registro recibida:', req.body);
+  const { nombre, email, password, rol, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
+
+  if (!nombre || !email || !password || !rol) {
+    return res.status(400).json({ message: 'Faltan campos obligatorios' });
+  }
+
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      console.error('Error al hashear la contraseña:', err);
+      return res.status(500).json({ message: 'Error al hashear la contraseña' });
+    }
+
+    const insertUserQuery = 'INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)';
+    connection.query(insertUserQuery, [nombre, email, hash, rol], (err, result) => {
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          console.error('Error: El correo electrónico ya está en uso');
+          return res.status(400).json({ message: 'El correo electrónico ya está en uso' });
+        }
+        console.error('Error al registrar usuario en MySQL: ', err);
+        return res.status(500).json({ message: 'Error al registrar usuario en el back' });
+      }
+      console.log('Usuario registrado en MySQL:', result);
+
+      const userId = result.insertId;
+      let insertRoleQuery;
+      let roleParams;
+
+      switch (parseInt(rol, 10)) {
+        case 1: // Empresa
+          insertRoleQuery = 'INSERT INTO empresas (usuario_id, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+          roleParams = [userId, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad];
+          break;
+        case 2: // Visitante
+          insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';
+          roleParams = [userId, entidad];
+          break;
+        case 3: // Administrador
+          insertRoleQuery = 'INSERT INTO administradores (usuario_id) VALUES (?)';
+          roleParams = [userId];
+          break;
+        default:
+          console.error('Rol no válido:', rol);
+          return res.status(400).json({ message: 'Rol no válido' });
+      }
+
+      connection.query(insertRoleQuery, roleParams, (err, result) => {
+        if (err) {
+          console.error('Error al registrar rol en MySQL: ', err);
+          return res.status(500).json({ message: 'Error al registrar rol' });
+        }
+        console.log('Rol registrado en MySQL:', result);
+        res.status(201).json({ message: 'Usuario registrado exitosamente con rol correspondiente' });
+      });
+    });
+  });
+}
+
+function loginUser(req, res) {
+  const { email, password } = req.body;
+  console.log('Datos recibidos:', { email, password });
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Faltan campos obligatorios' });
+  }
+
+  const query = 'SELECT * FROM usuarios WHERE email = ?';
+  connection.query(query, [email], (err, results) => {
+    if (err) {
+      console.error('Error al consultar usuario en MySQL: ', err);
+      return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
+    }
+
+    if (results.length > 0) {
+      const user = results[0];
+      console.log('Usuario encontrado:', user);
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) {
+          console.error('Error al comparar contraseñas:', err);
+          return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
+        }
+
+        if (isMatch) {
+          console.log('Contraseña válida para usuario:', user);
+
+          let empresaQuery = null;
+          let empresaParams = [];
+
+          if (user.rol === 1) { // Si es una empresa
+            empresaQuery = 'SELECT * FROM empresas WHERE usuario_id = ?';
+            empresaParams = [user.id];
+          }
+
+          if (empresaQuery) {
+            connection.query(empresaQuery, empresaParams, (err, empresaResults) => {
+              if (err) {
+                console.error('Error al consultar empresa en MySQL: ', err);
+                return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
+              }
+
+              const empresa = empresaResults[0] || null;
+              let redirigir = '';
+
+              if (empresa) {
+                // Verificar si todos los campos necesarios están completos
+                const camposCompletos = empresa.entidad && empresa.url_meet && empresa.logo_url &&
+                                         empresa.spot_url && empresa.descripcion && empresa.horario_meet &&
+                                         empresa.web_url;
+
+                // Determinar redirección basada en la completitud de los campos
+                if (camposCompletos) {
+                  redirigir = 'feria';
+                } else {
+                  redirigir = 'empresa';
+                }
+              } else {
+                redirigir = 'empresa'; // Redirigir a empresa si no hay datos de la empresa
+              }
+
+              // Generar el token JWT
+              const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, {
+                expiresIn: JWT_EXPIRES_IN
+              });
+
+              // Enviar respuesta con el token
+              res.status(200).json({
+                message: 'Inicio de sesión exitoso',
+                token: token, // Incluye el token en la respuesta
+                user: user,
+                empresa: empresa,
+                redirigir: redirigir
+              });
+            });
+          } else {
+            res.status(200).json({
+              message: 'Inicio de sesión exitoso',
+              token: jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, {
+                expiresIn: JWT_EXPIRES_IN
+              }), // Incluye el token en la respuesta
+              user: user,
+              empresa: null,
+              redirigir: 'feria'
+            });
+          }
+        } else {
+          console.log('Contraseña inválida para usuario:', user);
+          res.status(401).json({ message: 'Credenciales inválidas' });
+        }
+      });
+    } else {
+      console.log('Usuario no encontrado con email:', email);
+      res.status(401).json({ message: 'Credenciales inválidas' });
+    }
+  });
+}
+
+module.exports = {
+  registerUser,
+  loginUser,
+};
+
+
+
+
+
+++++++++++++++++++++ empresaController.js ++++++++++++++++++++
+
+const { connection } = require('../database/database');
+
+// Función para obtener el usuario_id a partir del nombre
+const getUsuarioIdByNombre = (nombre, callback) => {
+  const query = 'SELECT id FROM usuarios WHERE nombre = ?'; // Usa 'id' en lugar de 'usuario_id'
+  connection.query(query, [nombre], (err, results) => {
+    if (err) {
+      console.error('Error al buscar el usuario_id: ', err);
+      return callback(err); // Agrega return para evitar continuar la ejecución
+    }
+    if (results.length > 0) {
+      return callback(null, results[0].id); // Agrega return para evitar continuar la ejecución
+    } else {
+      return callback(new Error('Empresa no registrada, por favor regístrate o ponte en contacto con el administrador.'));
+    }
+  });
+};
+
+const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
+  const query = `
+    SELECT u.nombre AS nombreEmpresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
+    FROM usuarios u
+    JOIN empresas e ON u.id = e.usuario_id
+    WHERE u.id = ?
+  `;
+  console.log('Ejecutando consulta con usuario_id:', usuario_id); // Verifica el usuario_id
+
+  connection.query(query, [usuario_id], (err, results) => {
+    if (err) {
+      console.error('Error al obtener datos combinados: ', err);
+      return callback(err); // Agrega return para evitar continuar la ejecución
+    }
+    console.log('Resultados de la consulta:', results); // Verifica los resultados de la consulta
+
+    if (results.length > 0) {
+      const data = results[0];
+      console.log('Nombre de empresa:', data.nombreEmpresa); // Verifica el valor del nombre de la empresa
+      console.log('Datos combinados encontrados:', data); // Verifica todos los datos combinados
+      return callback(null, results[0]); // Agrega return para evitar continuar la ejecución
+    } else {
+      console.error('No se encontraron datos para el usuario_id:', usuario_id); // Mensaje en caso de no encontrar datos
+      return callback(new Error('Datos no encontrados'));
+    }
+  });
+};
+
+// Función para actualizar la empresa y el nombre del usuario
+const updateEmpresa = (empresa, callback) => {
+  const { nombre, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id } = empresa;
+  console.log('Datos recibidos para actualizar la empresa:', empresa);
+
+  // Actualizar el nombre del usuario
+  const updateUserQuery = 'UPDATE usuarios SET nombre = ? WHERE id = ?';
+  connection.query(updateUserQuery, [nombre, usuario_id], (err) => {
+    if (err) {
+      console.error('Error al actualizar el nombre del usuario: ', err);
+      return callback(err); // Agrega return para evitar continuar la ejecución
+    }
+
+    console.log('Nombre del usuario actualizado correctamente');
+
+    // Actualizar la empresa usando el usuario_id
+    const updateQuery = `
+      UPDATE empresas 
+      SET web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet = ?, entidad = ?
+      WHERE usuario_id = ?
+    `;
+    connection.query(updateQuery, [web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id], (err) => {
+      if (err) {
+        console.error('Error al actualizar la empresa: ', err);
+        return callback(err); // Agrega return para evitar continuar la ejecución
+      }
+
+      console.log('Empresa actualizada correctamente');
+
+      // Obtener los datos combinados de usuarios y empresas
+      getEmpresaDataByUsuarioId(usuario_id, (err, data) => {
+        if (err) {
+          console.error('Error al obtener datos combinados después de actualizar:', err);
+          return callback(err); // Agrega return para evitar continuar la ejecución
+        }
+        console.log('Datos combinados después de la actualización:', data); // Verifica los datos combinados
+        return callback(null, data); // Agrega return para evitar continuar la ejecución
+      });
+    });
+  });
+};
+
+module.exports = {
+  getUsuarioIdByNombre,
+  updateEmpresa,
+  getEmpresaDataByUsuarioId
+};
+
+
+
+
+
+++++++++++++++++++++ adminController.js ++++++++++++++++++++
+
+const { connection } = require('../database/database');
+//traer datos de empresa
+const getEmpresas = (req, res) => {
+    const query = 'SELECT usuarios.nombre, empresas.entidad, empresas.logo_url FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error('Error al obtener empresas:', err);
+        return res.status(500).json({ message: 'Error al obtener empresas' });
+      }
+      res.status(200).json(results);
+    });
+  };
+  module.exports = {
+    getEmpresas
+  };
+
+
+
+
+
+++++++++++++++++++++ feria-page.component.html ++++++++++++++++++++
+
+
+<

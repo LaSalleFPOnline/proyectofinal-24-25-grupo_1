@@ -9,7 +9,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
 function registerUser(req, res) {
   console.log('Solicitud de registro recibida:', req.body);
-  const { nombre, email, password, rol, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
+  const { nombre, email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
 
   if (!nombre || !email || !password || !rol) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
@@ -39,8 +39,8 @@ function registerUser(req, res) {
 
       switch (parseInt(rol, 10)) {
         case 1: // Empresa
-          insertRoleQuery = 'INSERT INTO empresas (usuario_id, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-          roleParams = [userId, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad];
+          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad];
           break;
         case 2: // Visitante
           insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';

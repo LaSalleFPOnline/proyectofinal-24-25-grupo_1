@@ -298,48 +298,65 @@ LIGHT - #F3F3F3
 /* --------------- LISTADO EMPRESAS --------------- */
 .listado-empresas {
     position: relative;
-    width: 1156px;
-    height: 942px;
-    margin: 0, auto;
-    margin-top: 10vw;
-    margin-bottom: 200px;
-}
-
-.overlap-empresas {
-    position: absolute;
-    width: 1156px;
-    height: 846px;
-    top: 96px;
-    background-color: #F3F3F3;
-    border-radius: 45px;
-    border: 5px solid;
-    border-color: #2B2B2A;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 47px 39px;
-    padding: 47px 39px;
-    overflow-y: auto; /* Habilita el scroll vertical */
-}
-
-.rectangle-empresas {
     width: 100%;
-    height: 200px;
-    background-color: #D9D9D9;
+    margin: 20px auto; /* Ajusta el margen superior e inferior */
+    padding: 20px; /* Ajusta el padding para espacio interno */
 }
 
 .titulo-empresas {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0 39px;
+    margin-top: 50px;
 }
 
 .label-empresas {
-    gap: 10px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 1.5rem; /* Ajusta el tamaño del texto */
+    color: #2B2B2A;
 }
+
+.scroll-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre logos */
+    overflow-y: auto; /* Habilita el scroll vertical */
+    height: 500px; /* Ajusta la altura del contenedor según sea necesario */
+    padding: 10px; /* Espacio interno para mejor visualización */
+    border: 2px solid #2B2B2A; /* Opcional: Borde para visualización */
+    border-radius: 10px; /* Opcional: Esquinas redondeadas */
+    background-color: #F3F3F3; /* Opcional: Color de fondo */
+}
+
+.rectangle-empresas {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección de la flexbox para alinear el texto debajo del logotipo */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    width: 280px; /* Ancho del contenedor de imagen */
+    height: 300px; /* Altura del contenedor (incluye espacio para el nombre) */
+    background-color: #D9D9D9; /* Color de fondo del rectángulo */
+    overflow: hidden; /* Oculta el contenido que se desborda */
+    border-radius: 10px; /* Esquinas redondeadas para el contenedor */
+    margin-bottom: 20px; /* Espacio entre los rectángulos */
+}
+
+.logo-empresa {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    height: auto; /* Ajusta la altura automáticamente para mantener la proporción */
+    object-fit: cover; /* Ajusta la imagen dentro del contenedor sin distorsión, con posible recorte */
+}
+
+.nombre-de-cada-empresa {
+    font-weight: bold; /* Opcional: para hacer el nombre más destacado */
+    margin-top: 10px; /* Espacio entre el logo y el nombre */
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem; /* Ajusta el tamaño del texto del nombre */
+    color: #2B2B2A; /* Color del texto */
+    text-align: center; /* Centra el texto debajo del logotipo */
+}
+
 
 /* --------------- DETALLES DE EMPRESA --------------- */
 
@@ -467,4 +484,20 @@ LIGHT - #F3F3F3
     font-size: 40px;
     line-height: normal;
     color: #2B2B2A;
+}
+
+/* Estilo para el icono de cerrar */
+.close-icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 35px;
+    height: 35px;
+    transform: rotate(45deg); /* Rotar el ícono para que parezca una cruz */
+    cursor: pointer;
+    opacity: 1;
+}
+
+.close-icon:hover {
+    opacity: 0.7; /* Efecto hover */
 }

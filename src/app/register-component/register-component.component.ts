@@ -59,6 +59,10 @@ export class RegistroComponent {
       });
   }
 }*/
+
+
+
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';  // Importar Router
 import { AuthService } from '../services/auth.service';
@@ -76,6 +80,7 @@ export class RegistroComponent {
   rol: number = 1; // 1: Empresa, 2: Visitante, 3: Administrador
 
   // Campos específicos para empresas
+  nombre_empresa: string = '';
   web_url: string = '';
   spot_url: string = '';
   logo_url: string = '';
@@ -94,12 +99,14 @@ export class RegistroComponent {
       email: this.email,
       password: this.password,
       rol: this.rol,
+      nombre_empresa: this.nombre_empresa,
       web_url: this.web_url,
       spot_url: this.spot_url,
       logo_url: this.logo_url,
       descripcion: this.descripcion,
       url_meet: this.url_meet,
-      horario_meet: this.horario_meet,
+      /* Añadimos un valor por defecto en el campo de HORARIO MEET en caso de estar vacío al registrar */
+      horario_meet: this.horario_meet || '00:00:00',
       entidad: this.entidad
     };
 
@@ -122,4 +129,3 @@ export class RegistroComponent {
       });
   }
 }
-

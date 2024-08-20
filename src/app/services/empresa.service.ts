@@ -14,10 +14,12 @@ export class EmpresaService {
   getEmpresas(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
- /* getEmpresaById(id: string): Observable<any> {
+
+  getEmpresaById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/empresas/${id}`);
   }
 
+  /*
   // Llama a esta función para actualizar la empresa usando los datos del servicio AuthService
   actualizarEmpresa(empresa: any): Observable<any> {
     return this.authService.actualizarEmpresa(empresa);

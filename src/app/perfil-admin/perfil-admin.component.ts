@@ -13,13 +13,14 @@ export class PerfilAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadEmpresas();
+  
   }
 
   loadEmpresas(): void {
     this.empresaService.getEmpresas().subscribe(
       data => {
         this.empresas = data; // Asigna los datos recibidos al array
-      },
+        },
       error => {
         console.error('Error al cargar empresas:', error);
       }

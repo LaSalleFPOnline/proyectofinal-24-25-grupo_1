@@ -17,6 +17,9 @@
 
   <!-- Campos específicos para empresas -->
   <div *ngIf="rol == 1">
+    <label for="nombre_empresa">Nombre de la Empresa:</label>
+    <input type="text" id="nombre_empresa" [(ngModel)]="nombre_empresa" name="nombre_empresa">
+
     <label for="web_url">Web URL:</label>
     <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url">
 

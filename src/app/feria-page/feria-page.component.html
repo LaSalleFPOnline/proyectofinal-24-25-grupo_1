@@ -105,54 +105,34 @@
 <!-- Listado empresas -->
 
 <div class="listado-empresas">
-    <div class="overlap-empresas">
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-        <div class="rectangle-empresas"></div>
-    </div>
     <div class="titulo-empresas">
         <div class="label-empresas">Empresas participantes</div>
     </div>
+    <div class="scroll-container">
+        <div *ngFor="let empresa of empresas" class="rectangle-empresas">
+            <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa)">
+            <p class="nombre-de-cada-empresa">{{ empresa.nombre_empresa }}</p>
+        </div>
+    </div>
 </div>
 
-<!-- Listado empresas -->
+<!-- Detalle empresas -->
 
-<div class="detalles">
+<div *ngIf="empresaSeleccionada" class="detalles">
+    <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
     <div class="rectangle-detalles"></div>
     <div class="rectangle-video-detalles"></div>
     <p class="nombre-empresa">
-        <span class="subtitulo-detalles">Nombre de empresa</span>
+        <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
         <span class="text-detalles">
-            <br/>Página web<br/>
-            Horarios de ATENCIÓN CLIENTE<br/>
-            Enlace de MEET<br/>
+            <br/>Página web: {{ empresaSeleccionada.web_url }}<br/>
+            Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}<br/>
+            Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank"> {{ empresaSeleccionada.url_meet }}</a><br/>
         </span>
     </p>
     <div class="scroll-detalles">
         <p class="p-detalles">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ullamcorper consequat diam, non laoreet velit
-            feugiat vitae. Maecenas pharetra eget leo vel venenatis. Suspendisse ornare tortor quis nibh dapibus, sed
-            luctus enim molestie. In lacus dolor, tempor et nisl et, aliquet tempus sem. In ultrices ligula id libero
-            gravida tincidunt. Donec condimentum ultricies orci, eu cursus ligula consectetur eu. Praesent malesuada
-            ligula non eros varius ultrices. Duis maximus sagittis tellus vel facilisis. Fusce erat sapien, fermentum quis
-            nulla eu, suscipit commodo nunc. Donec laoreet egestas risus, nec tempor velit volutpat nec. Praesent id enim
-            at ipsum lacinia egestas. Aliquam sagittis, arcu et sagittis venenatis, ante sapien elementum lacus, eget
-            tincidunt justo arcu non nulla. Duis maximus sagittis tellus vel facilisis. Fusce erat sapien, fermentum quis
-            nulla eu, suscipit commodo nunc. Donec laoreet egestas risus, nec tempor velit volutpat nec. Praesent id enim
-            at ipsum lacinia egestas. Aliquam sagittis, arcu et sagittis venenatis, ante sapien elementum lacus, eget
-            tincidunt justo arcu non nulla.
+            {{ empresaSeleccionada.descripcion }}
         </p>
     </div>
     <div class="button-container">
@@ -162,6 +142,6 @@
         <button class="button">Vender</button>
     </div>
     <div class="titulo-detalles">
-        <div class="label-detalles">Detalles de X empresa</div>
+        <div class="label-detalles">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
     </div>
 </div>

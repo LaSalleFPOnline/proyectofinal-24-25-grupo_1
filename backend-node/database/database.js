@@ -4,7 +4,6 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: ''
-  
 });
 
 const initializeDatabase = (callback) => {
@@ -43,10 +42,11 @@ const initializeDatabase = (callback) => {
           `CREATE TABLE IF NOT EXISTS empresas (
             id INT AUTO_INCREMENT PRIMARY KEY,
             usuario_id INT,
+            nombre_empresa VARCHAR(255),
             web_url VARCHAR(2083),
             spot_url VARCHAR(2083),
             logo_url VARCHAR(2083),
-            descripcion VARCHAR(1000),
+            descripcion VARCHAR(5000),
             url_meet VARCHAR(2083),
             horario_meet TIME,
             entidad VARCHAR(500),
