@@ -31,6 +31,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HeaderComponent,
     PerfilEmpresaComponent,
     PerfilAdminComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +41,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatIconModule,
     CommonModule,
     // Importar componentes standalone
-    HomePageComponent,
+    
     FooterComponent,
     FeriaPageComponent, // Declarar el componente FeriaPage
   ],

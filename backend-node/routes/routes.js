@@ -5,6 +5,10 @@ const { updateEmpresa } = require('../controllers/empresaController');
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
 const {getEmpresas} = require('../controllers/adminController');
+const {getAllEvents} = require('../controllers/agendaController');
+
+// Ruta para obtener la agenda
+router.get('/agenda',getAllEvents);
 // Rutas relacionadas con usuarios
 router.post('/register', parseRequestBody, registerUser);
 router.post('/login', parseRequestBody, loginUser);

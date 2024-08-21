@@ -23,8 +23,8 @@
   <div class="agenda" id="agenda">
     <div *ngFor="let event of events; let i = index" class="frame" [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded }">
       <div class="frame-header">
-        <div class="time-wrapper">00:00</div>
-        <p class="event-description">{{ event.description }}</p>
+        <div class="time-wrapper">{{event.hora}}</div>
+        <p class="event-description">{{ event.descripcion }}</p>
         <img
           class="plus-icon"
           [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
@@ -35,7 +35,7 @@
       <div class="line" *ngIf="event.isExpanded"></div>
       <div class="frame-content" [ngClass]="{'expanded': event.isExpanded}">
         <div class="flexcontainer">
-          <p>"lo que venga" {{ event.details }} </p>
+          <p> {{ event.detalles }} </p>
         </div>
       </div>
     </div>
