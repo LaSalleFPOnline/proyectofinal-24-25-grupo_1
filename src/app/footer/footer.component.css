@@ -1,48 +1,37 @@
 .footer {
-    font-family: 'Roboto', sans-serif;
     width: 100%;
     background-color: #F3F3F3;
     border-radius: 45px 45px 0 0;
-    padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: relative;
-    padding-left: 40px;
-    padding-right: 40px;
 }
 
 .logo {
-    width: 260px;
+    width: 10vw;
+    max-width: 9rem;
     height: auto;
-    margin-bottom: 20px; /* Espaciado abajo del logo */
+    margin-bottom: 1rem;
 }
 
-.line {
-    width: 100%;
-    height: 1px;
-    background-color: #ccc; /* Color de la línea */
-    margin: 20px 0; /* Espaciado arriba y abajo de la línea */
+.illustration {
+    position: absolute;
+    width: 15vw;
+    max-width: 13rem;
+    height: auto;
+    right: 1rem;
+    margin-bottom: 1rem;
 }
+
 
 .footer-content {
-    font-family: 'Roboto Mono', monospace;
-    color: #2B2B2A;
     display: grid;
     grid-template-columns: 1fr 1fr;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    max-width: 1280px; /* Ajustar el ancho máximo */
-    margin: 0 auto; /* Centrar el contenido */
-}
-
-.element-la-salle-FP,
-.illustrations-by,
-.email-lasalle-com {
-    font-size: 16px;
-    margin-bottom: 15px; /* Espaciado entre los párrafos */
 }
 
 .illustrations-by {
@@ -54,63 +43,22 @@
     text-decoration: underline;
 }
 
-.illustration {
-    position: absolute;
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    margin: 20px 0; /* Espaciado alrededor de la ilustración */
-    right: 20px;
-}
-
 .titulo-contacta {
-    font-family: 'Roboto Mono', monospace;
     color: #F3F3F3;
-    font-size: 20px;
     background-color: #AC3635;
-    padding: 10px;
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 10px;
+    padding: 0.1rem 0.5rem;
+    font-size: 1rem;
+    display: inline-block;
+    width: fit-content;
+    font-size: smaller;
 }
 
-@media (max-width: 767px) {
-    .footer {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
 
-    .logo {
-        width: 180px; /* Reducir el tamaño del logo */
-        margin-bottom: 15px; /* Ajustar el espaciado del logo */
-    }
-
-    .line {
-        margin: 15px 0; /* Ajustar el espaciado de la línea */
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr; /* Hacer que las columnas se apilen en una sola columna */
-        padding: 0; /* Eliminar el padding para pantallas más pequeñas */
-    }
-
-    .element-la-salle-FP,
-    .illustrations-by,
-    .email-lasalle-com {
-        font-size: 14px; /* Reducir el tamaño de fuente para móviles */
-        margin-bottom: 10px; /* Ajustar el espaciado entre los párrafos */
-    }
-
-    .illustration {
-        width: 100%; /* Ajustar el ancho de la ilustración a 100% */
-        max-width: 30%; /* Asegurarse de que la imagen no se desborde */
-        right: 0; /* Ajustar la posición de la ilustración */
-    }
-
-    .titulo-contacta {
-        font-size: 18px; /* Ajustar el tamaño de fuente del título */
-        padding: 8px; /* Ajustar el padding del título */
-    }
+.footer .text {
+    font-size: 0.7rem; /* Aproximadamente 14px */
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
+.line {
+    width: 100%;
+}
