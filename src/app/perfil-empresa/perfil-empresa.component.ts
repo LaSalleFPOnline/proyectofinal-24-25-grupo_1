@@ -26,7 +26,6 @@ export class PerfilEmpresaComponent implements OnInit {
     this.authService.getUser().subscribe(user => {
       if (user) {
         this.usuario_id = user.id;
-        this.nombreEmpresa = user.nombre;
       }
     });
 
@@ -36,7 +35,7 @@ export class PerfilEmpresaComponent implements OnInit {
         this.enlaceSalaEspera = empresa.url_meet || '';
         this.logotipo = empresa.logo_url || '';
         this.spotPublicitario = empresa.spot_url || '';
-        //this.nombreEmpresa = empresa.nombre || '';
+        this.nombreEmpresa = empresa.nombre_empresa || '';
         this.horariosAtencion = empresa.horario_meet || '';
         this.paginaWeb = empresa.web_url || '';
         this.descripcionProductos = empresa.descripcion || '';
@@ -55,7 +54,7 @@ export class PerfilEmpresaComponent implements OnInit {
 
       const empresa = {
         usuario_id: this.usuario_id,
-        nombre: this.nombreEmpresa,
+        nombre_empresa: this.nombreEmpresa,
         web_url: this.paginaWeb,
         spot_url: this.spotPublicitario,
         logo_url: this.logotipo,
@@ -72,7 +71,7 @@ export class PerfilEmpresaComponent implements OnInit {
           this.errorMessage = null;
       
           // Actualizamos los datos en el formulario con la respuesta
-          this.nombreEmpresa = response.nombre;
+          this.nombreEmpresa = response.nombre_empresa;
           this.paginaWeb = response.web_url;
           this.spotPublicitario = response.spot_url;
           this.logotipo = response.logo_url;
