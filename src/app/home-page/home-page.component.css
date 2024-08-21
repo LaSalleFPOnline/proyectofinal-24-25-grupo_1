@@ -87,20 +87,19 @@ iframe {
   font-family: 'Roboto Mono', monospace;
   font-weight: 400;
   color: #2B2B2A;
+  margin: 0;
 }
 
 .text-intro {
   font-size: clamp(24px, 4vw, 50px);
   font-weight: 500;
   line-height: 100%;
-  margin: 0;
 }
 
 .text-intro2 {
   font-size: clamp(16px, 3vw, 30px);
   font-weight: 500;
   line-height: 2%;
-  margin: 0;
 }
 
 .desciption {
@@ -108,7 +107,6 @@ iframe {
   line-height: 130%;
   width: 100%;
   box-sizing: border-box;
-  margin: 0;
 }
 
 .image-container {
@@ -275,7 +273,6 @@ iframe {
   overflow-wrap: break-word;
 }
 
-
 .plus-icon {
   width: clamp(2rem, 4vw, 4rem); /* Ajuste responsivo del tamaño */
   height: clamp(2rem, 4vw, 4rem);
@@ -315,20 +312,19 @@ iframe {
   margin: 0;
 }
 
-/* -------------------- Region Descargas -------------------- */
-
+/* #region Descargas */
 .descargas {
   display: flex;
+  flex-wrap: wrap;
   width: 80%;
-  height: 483px;
-  align-items: center; /* Centra horizontalmente */
+  max-width: 1200px;
+  height: auto;
+  align-items: center;
   position: relative;
   border-radius: 45px;
-  border: 5px solid;
-  border-color: #2B2B2A;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 2vw;
+  border: 5px solid #2B2B2A;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 .descargas .titulo-descargas {
@@ -341,13 +337,14 @@ iframe {
 .descargas .descarga-programa,
 .descargas .descarga-concurso,
 .descargas .descarga-guia {
-  width: 30%; /* Ajusta el ancho de cada elemento al 30% del contenedor principal */
-  height: 268px; /* Altura fija para los elementos */
-  border-radius: 45px; /* Bordes redondeados */
+  width: 30%;
+  height: auto;
+  border-radius: 45px;
   display: flex;
-  justify-content: space-between; /* Espacio entre los elementos internos */
-  position: relative; /* Necesario para los elementos internos con posición absoluta */
+  justify-content: space-between;
+  position: relative;
   margin: 0 auto;
+  margin-top: 2rem;
 }
 
 .descargas .descarga-programa {
@@ -367,8 +364,7 @@ iframe {
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  top: 44px;
-  left: 26px;
+  margin: 1.5rem;
   color: #F3F3F3
 }
 
@@ -379,107 +375,35 @@ iframe {
 .descargas .link {
   display: inline-flex;
   color: #F3F3F3;
-  font-size: 1vw;
-  margin-top: 12rem;
-  margin-left: 2rem;
+  font-size: 1rem;
+  margin-top: 8rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: color 0.3 ease, transform 0.3s ease;
 }
 
-.descargas .icon {
-  position: relative;
-  width: 41px;
-  height: 41px;
-  border-radius: 20.5px;
+.descargas .link:hover{
+  color: #FFD700;
+  transform: scale(1.1);
 }
 
-.descargas .arrow {
-  position: absolute;
-  width: 30px;
-  height: 30px;
+.descargas .icon img {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-/* Descargas para TABLET */
-
-@media (max-width: 768px) {
-  .descargas {
-    flex-direction: column;
-    width: 85%;
-    height: auto;
-    padding: 1rem;
-    font-size: 3vw;
-    margin: 0 auto;
-  }
-
-  .descargas .titulo-descargas {
-    position: static;
-    text-align: right;
-    margin-bottom: 0.5rem;
-    top: 10px;
-    margin-left: -20rem;
-    font-size: 4vw;
-  }
-
-  .descargas .descarga-programa,
-  .descargas .descarga-concurso,
-  .descargas .descarga-guia {
-    width: 70%;
-    height: 250px;
-    margin: 1rem 0;
-    padding: 1rem;
-  }
-
-  .descargas .link {
-    justify-content: left;
-    margin-top: 12rem;
-    margin-left: -30rem;
-    font-size: 3vw;
-  }
-
-  .descargas .icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .descargas .arrow {
-    width: 25px;
-    height: 25px;
-  }
-
-  .descargas .text-wrapper{
-    font-size: 5vw;
-    margin-left: 1rem;
-    text-align: left;
-  }
-
-  .descargas .heading {
-    position: static; /* Quitar la posición absoluta para que el heading se sitúe en el flujo del documento */
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem; /* Añadir un margen inferior para separar el heading del contenido siguiente */
-    align-items: left; /* Centrar horizontalmente los elementos del heading */
-    text-align: left; /* Centrar el texto del heading */
-    width: 100%;
-  }
+.descargas .link:hover .icon {
+  transform: scale(1.1);
 }
 
-/* Descargas para MÓVIL */
-
-@media (max-width: 480px) {
-  .descargas {
-    width: 80%; /* Ajusta el contenedor al 100% del ancho disponible */
-    padding: 0; /* Elimina padding que pueda causar scroll */
-  }
-
-  .descargas .descarga-programa,
-  .descargas .descarga-concurso,
-  .descargas .descarga-guia {
-    width: 80%; /* Ajusta los elementos internos */
-    margin: 1rem 0;
-  }
-
-  .link {
-    font-size: 3.5vw; /* Ajusta el tamaño para evitar overflow */
-  }
+.descargas p {
+  margin: 0;
+  line-height: 1.5;
+  margin-left: 1rem;
 }
+
+/* #endregion */
 
 /* #region Patrocinadores */
 .titulo-patrocinadores {
