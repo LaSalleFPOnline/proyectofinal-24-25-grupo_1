@@ -1,76 +1,46 @@
-.formulario-login {
+.login {
+  display: flex;
+  flex-direction: column;
   position: relative;
-  width: calc(100% - 2vw); /* Ajusta el ancho dentro del contenedor */
-  max-width: 100%; /* Asegura que no exceda el ancho del contenedor */
   width: 90%;
-  max-width: 1280px;
+  max-width: 1000px;
   height: 90vh;
   background-color: #F6E953;
-  border-radius: 2.5vw;
+  border-radius: 20px;
   border: 0.3vw solid #2B2B2A;
-  box-shadow: 0px 5px 0px #2B2B2A;
-  box-sizing: border-box; /* Incluye el borde y el relleno en el ancho total */
-  margin: 8vh auto; /* Centrando horizontalmente */
+  box-shadow: 0 5px 0 #2B2B2A;
+  margin: 6vh auto;
 }
-.titulo-bienvenido {
-  display: flex;
-  align-items: center;
+
+.bienvenido {
   position: absolute;
-  top: 5vh;
   left: 5vh;
-  padding: 0px 7px;
-  background-color: #2B2B2A;
-  border-radius: 8px;
-  margin-top: 2vh;
-}
-.titulo-bienvenido p{
-  position: relative;
-  width: fit-content;
-  margin: 2vh;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 500;
-  font-size: 40px;
-  line-height: normal;
-  color: #F3F3F3;
 }
 
 .password, .username{
   position: absolute;
   width: 80%;
-  max-width: calc(1280px - 4vw); /* Limita el ancho máximo según el contenedor */
   height: 13vh;
   background-color: #f3f3f3;
-  border-radius: 2.5vw;
+  border-radius: 20px;
   border: 1px solid;
   box-shadow: 0px 1vh 1vh #2B2B2A;
   box-sizing: border-box;
-  font-size: 4vw;
   padding: 1vw;
   margin-top: 3vw;
+  left: 7vw;
 }
 
 .username {
   top: 24vh;
-  width: 70vw;
-  left: 7vw;
+  width: 80%;
 }
 
 .password {
   top: 42vh;
-  width: 50vw;
-  left: 7vw;
+  width: 60%;
 }
 
-.username .text, .password .text {
-  position: absolute;
-  top: 2vh;
-  left: 1.5vw;
-  font-weight: 400;
-  font-size: 2.5vh;
-  color: #2B2B2A;
-}
-
-/* texto del input*/
 .username input, .password input {
   position: absolute;
   top: 6.5vh;
@@ -78,10 +48,6 @@
   width: 90%;
   border: none;
   border-bottom: 1px solid #2B2B2A;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  font-size: 2vh;
-  color: #2B2B2A;
   background-color: transparent;
   outline: none;
 }
@@ -89,22 +55,20 @@
 .enviar {
   display: inline-flex;
   align-items: center;
-  gap: 1vw;
+  gap: 1rem;
   padding: 1vh 2vw;
   position: absolute;
-  top: 64vh; /* Ajusta la posición vertical del botón */
-  left: 28vw; /* Ajusta la posición horizontal del botón */
+  top: 55vh;
+  left: 28vw;
   background-color: #F3F3F3;
-  border-radius: 1vw; /* Ajusta el radio del borde */
+  border-radius: 1vw;
   border: none;
   cursor: pointer;
-  margin-top: 5vh;
+  margin-top: 8vh;
 }
 
 .enviar button {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  font-size: 1.5vw; /* Ajusta el tamaño de la fuente del botón */
+  font-size: 1.5vw;
   color: #2B2B2A;
   background: none;
   border: none;
@@ -112,47 +76,66 @@
 }
 
 .enviar:hover, .enviar:active {
-  border: 1px solid #2B2B2A; /* Añade borde en hover y active */
+  border: 1px solid #2B2B2A;
 }
 
-
-/* texto tocho */
-.flexcontainer {
+.tocho {
   display: flex;
   position: absolute;
-  top: 70vh; /* Ajusta la posición vertical del contenedor de texto */
-  left: 5vw; /* Ajusta la posición horizontal del contenedor de texto */
-}
-
-.text-wrapper {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  font-size: 1vw; /* Ajusta el tamaño de la fuente del texto */
+  top: 70vh;
+  left: 5vw;
   color: #2B2B2A;
   line-height: 2;
+  margin-top: 2rem;
 }
-
 
 .illustration {
   position: absolute;
-  width: 30vw; /* Ajusta el ancho de la ilustración */
-  height: auto; /* Ajusta la altura de la ilustración */
-  max-width: 30vw;
-  top: 40vh; /* Ajusta la posición vertical de la ilustración */
-  left: 56vw; /* Ajusta la posición horizontal de la ilustración */
+  width: 30%;
+  height: auto;
+  max-width: 1000px;
+  top: 38vh;
+  left: 60vw;
+  overflow: hidden;
+}
+
+/* Añade estilos para el texto de registro */
+.registro-info {
+  margin: 70vh auto;
+  margin-left: 20vw;
+  padding: 1rem;
+  }
+
+.login .enlace {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+.registro-enlace {
+  color: #007bff; /* Color del enlace */
+  cursor: pointer; /* Cursor en forma de puntero */
+  text-decoration: none; /* Sin subrayado por defecto */
+  position: relative; /* Necesario para el posicionamiento del pseudo-elemento */
+  display: inline-block; /* Permite el ajuste del tamaño del texto y el subrayado */
+  transition: transform 0.3s ease; /* Transición suave para el aumento del tamaño del texto */
+}
+.registro-enlace:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  transform: scale(1.01); /* Aumenta el tamaño del texto en hover */
+
 
 }
 
 .error-message {
   color: red;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 16px;
+
   position: absolute;
-  top: 250px; /* Ajusta la posición vertical para estar justo debajo del botón */
+  top: 55vh;
   left: 46%;
   transform: translateX(-50%);
-  background-color: #F3F3F3; /* Opcional: Para hacer el texto más legible */
-  padding: 10px; /* Opcional: Para mejorar la apariencia */
-  border-radius: 7px; /* Opcional: Para un borde más suave */
-  border: 1px solid red; /* Opcional: Para resaltar el mensaje de error */
+  background-color: #F3F3F3;
+  padding: 10px;
+  border-radius: 7px;
+  border: 1px solid red;
 }

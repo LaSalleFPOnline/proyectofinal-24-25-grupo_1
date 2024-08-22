@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isLoggedIn = false;
   userRole: number | null = null;
+  dropdownOpen = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -40,34 +41,36 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+  }
+  
+
   handleLogin() {
     if (this.isLoggedIn) {
       this.authService.logout();
       this.isLoggedIn = false;
       this.userRole = null;
-      this.router.navigate(['/']); // Redirigir a inicio o donde se considere adecuado
+      this.router.navigate(['/feria']); // Redirigir a inicio o donde se considere adecuado
     } else {
       this.router.navigate(['/login']); // Redirige a la página de login
     }
   }
 
-  navigateBasedOnRole() {
-    if (this.userRole === 1) {
-      this.router.navigate(['/empresa']);
-    } else if (this.userRole === 3) {
-      this.router.navigate(['/admin']);
-    } else if (this.userRole === 2) {
-      this.router.navigate(['/feria']);
-    }
-  }
-
   navigateAndHideMenu(path: string, fragment?: string) {
     this.navigateTo(path, fragment);
-    this.isMenuOpen = false; // Oculta el menú hamburguesa
+    this.isMenuOpen = false;
   }
 
   handleLoginAndHideMenu() {
     this.handleLogin();
-    this.isMenuOpen = false; // Oculta el menú hamburguesa
+    this.isMenuOpen = false;
+  }
+
+  handleLogout() {
+    this.handleLogin(); // Usa handleLogin para manejar logout y redirección
+  }
+  closeDropdown() {
+    this.dropdownOpen = false; // Cierra el menú desplegable
   }
 }

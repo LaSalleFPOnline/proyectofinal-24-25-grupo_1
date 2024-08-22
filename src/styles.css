@@ -23,6 +23,8 @@ html, body {
     width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .content-wrap {
@@ -34,14 +36,11 @@ html, body {
     display: inline-flex;
     border-radius: 8px;
     font-weight: 500;
-    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     color: #F3F3F3;
+    top: 5vh;
+    padding: 0 2rem;
     background-color: #2B2B2A;
-}
-
-.text{
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 app-footer {
@@ -50,3 +49,25 @@ app-footer {
     width: 100%;
 }
 
+.formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8rem;
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding-top: 3rem;
+    background-color: #F6E953;
+    border-radius: 45px;
+    border: 1px solid #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+}
+.campo {
+    width: 80%;
+    background-color: #F3F3F3;
+    border-radius: 45px;
+    border: 0.1rem solid #2B2B2A;
+    box-shadow: 0px 0.3rem 0px #2B2B2A;
+    padding: 1rem 2rem;
+}

@@ -14,4 +14,9 @@ export const routes: Routes = [
   { path: 'empresa', component: PerfilEmpresaComponent },
   /*para registrar usuarios dummy*/
   { path: 'register', component: RegistroComponent },
+
+  /* En caso de no encontrar ruta, por defecto, al home*/
+  { path: '**', redirectTo: '', pathMatch: 'full' }
+
+
 ];

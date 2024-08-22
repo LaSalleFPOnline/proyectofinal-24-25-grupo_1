@@ -1,10 +1,10 @@
-<div class="formulario-empresa">
+<div class="formulario">
     <!-- Título -->
-    <div class="titulo empresa">Información de Mi Empresa</div>
+    <div class="titulo">Información de Mi Empresa</div>
 
     <!-- Nombre de COLEGIO -->
     <div class="campo">
-        <label class="text-wrapper">* Nombre de COLEGIO</label>
+        <label class="text">* TRAER EL NOMBRE DEL COLEGIO DE LA BBDD</label>
         <select [(ngModel)]="nombreColegio" class="input">
             <option value="" disabled>Seleccionar Colegio</option>
             <option value="Colegio 1">Colegio 1</option>
@@ -16,49 +16,49 @@
 
     <!-- Nombre de empresa -->
     <div class="campo">
-        <label class="text-wrapper">* Nombre de empresa</label>
+        <label class="text">* Nombre de empresa</label>
         <input type="text" [(ngModel)]="nombreEmpresa" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Logotipo -->
     <div class="campo">
-        <label class="text-wrapper">* Logotipo</label>
+        <label class="text">* Logotipo</label>
         <input type="text" [(ngModel)]="logotipo" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Página web (Producto o servicio) -->
     <div class="campo">
-        <label class="text-wrapper">* Página web (Producto o servicio)</label>
+        <label class="text">* Página web (Producto o servicio)</label>
         <input type="text" [(ngModel)]="paginaWeb" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Enlace a Sala de Espera -->
     <div class="campo">
-        <label class="text-wrapper">* Enlace a Sala de Espera</label>
+        <label class="text">* Enlace a Sala de Espera</label>
         <input type="text" [(ngModel)]="enlaceSalaEspera" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Horarios de atención al cliente -->
     <div class="campo">
-        <label class="text-wrapper">* Horarios de atención al cliente</label>
+        <label class="text">* Horarios de atención al cliente</label>
         <input type="time" [(ngModel)]="horariosAtencion" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Spot Publicitario -->
     <div class="campo">
-        <label class="text-wrapper">Spot Publicitario</label>
+        <label class="text">Spot Publicitario</label>
         <input type="text" [(ngModel)]="spotPublicitario" class="input">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Descripción de productos o servicios -->
     <div class="campo producto">
-        <label class="text-wrapper">Descripción de productos o servicios</label>
+        <label class="text">Descripción de productos o servicios</label>
         <textarea [(ngModel)]="descripcionProductos" class="textarea"></textarea>
         <img class="line" src="assets/Images/line.png">
     </div>
@@ -70,9 +70,6 @@
         </button>
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </div>
-
-    <!-- Ilustración -->
-    <!-- <img class="illustration" src="assets/Illustrations/Illustration5.png"> -->
 </div>
 
 <!-- Div independiente para la ilustración -->
