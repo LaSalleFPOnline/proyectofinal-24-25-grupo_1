@@ -41,7 +41,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatIconModule,
     CommonModule,
     // Importar componentes standalone
-    
     FooterComponent,
     FeriaPageComponent, // Declarar el componente FeriaPage
   ],

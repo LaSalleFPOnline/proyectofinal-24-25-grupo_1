@@ -5,6 +5,7 @@ import { FeriaPageComponent } from './feria-page/feria-page.component';
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component';
 import { RegistroComponent } from './register-component/register-component.component';
+
 export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponentComponent },
@@ -13,6 +14,4 @@ export const routes: Routes = [
   { path: 'empresa', component: PerfilEmpresaComponent },
   /*para registrar usuarios dummy*/
   { path: 'register', component: RegistroComponent },
- 
-
 ];

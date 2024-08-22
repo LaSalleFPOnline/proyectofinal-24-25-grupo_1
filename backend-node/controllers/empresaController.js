@@ -18,7 +18,7 @@ const getUsuarioIdByNombre = (nombre, callback) => {
 
 const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
   const query = `
-    SELECT u.nombre AS nombreEmpresa, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
+    SELECT e.id AS empresa_id, u.nombre AS nombreEmpresa, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
     FROM usuarios u
     JOIN empresas e ON u.id = e.usuario_id
     WHERE u.id = ?
@@ -44,9 +44,10 @@ const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
   });
 };
 
+
 // Función para actualizar la empresa y el nombre del usuario
 const updateEmpresa = (empresa, callback) => {
-  const { nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id } = empresa;
+  const { id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id } = empresa;
   console.log('Datos recibidos para actualizar la empresa:', empresa);
 
   // Solo actualizar el nombre del usuario si se proporciona un valor válido
@@ -63,13 +64,13 @@ const updateEmpresa = (empresa, callback) => {
     console.log('No se proporcionó un nuevo nombre, se omite la actualización del nombre del usuario.');
   }
 
-  // Actualizar la empresa usando el usuario_id
+  // Actualizar la empresa usando el id
   const updateQuery = `
     UPDATE empresas
     SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet = ?, entidad = ?
-    WHERE usuario_id = ?
+    WHERE id = ?
   `;
-  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id], (err) => {
+  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, id], (err) => {
     if (err) {
       console.error('Error al actualizar la empresa: ', err);
       return callback(err);
@@ -88,6 +89,7 @@ const updateEmpresa = (empresa, callback) => {
     });
   });
 };
+
 
 module.exports = {
   getUsuarioIdByNombre,

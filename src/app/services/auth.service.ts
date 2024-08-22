@@ -68,6 +68,16 @@ export class AuthService {
   setEmpresa(empresa: any): void {
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));
+
+    // Guarda el ID de la empresa logueada en sessionStorage
+    if (empresa && empresa.id) {
+      sessionStorage.setItem('empresaId', empresa.id.toString());
+    }
+  }
+
+  getLoggedInCompanyId(): number | null {
+    const id = sessionStorage.getItem('empresaId');
+    return id ? parseInt(id, 10) : null;
   }
 
   getUser(): Observable<any> {
@@ -89,7 +99,15 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     return this.userSubject.asObservable().pipe(map(user => !!user));
   }
+
+  // Guardar el ID de la empresa seleccionada para mostrar detalles
+  setEmpresaSeleccionada(empresa: any): void {
+      sessionStorage.setItem('empresaSeleccionadaId', empresa.id.toString());
+  }
+
+  // Obtener el ID de la empresa seleccionada para mostrar detalles
+  getEmpresaSeleccionadaId(): number | null {
+    const id = sessionStorage.getItem('empresaSeleccionadaId');
+    return id ? parseInt(id, 10) : null;
+  }
 }
-
-
-

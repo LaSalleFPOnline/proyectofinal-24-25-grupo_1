@@ -89,7 +89,6 @@ export class PerfilEmpresaComponent implements OnInit {
           this.successMessage = null;
         }
       });
-      
     }
   }
 }

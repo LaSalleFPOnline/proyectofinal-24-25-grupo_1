@@ -13,7 +13,6 @@ export class PerfilAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadEmpresas();
-  
   }
 
   loadEmpresas(): void {

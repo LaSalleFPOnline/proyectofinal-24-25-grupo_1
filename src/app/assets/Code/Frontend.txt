@@ -1,0 +1,1425 @@
+++++++++++++++++++++ app.component.html ++++++++++++++++++++
+
+<div class="page-container">
+    <app-header></app-header>
+    <div class="content-wrap test">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+</div>
+
+
+
+++++++++++++++++++++ app.module.ts ++++++++++++++++++++
+
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { AuthService } from './services/auth.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { routes } from './app.routes';
+
+// Importar componentes standalone
+import { AppComponent } from './app.component';
+import { LoginComponentComponent } from './login-component/login-component.component';
+import { RegistroComponent } from './register-component/register-component.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { FeriaPageComponent } from './feria-page/feria-page.component'; // Importar el componente FeriaPage
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component'; // Importar el componente PerfilAdmin
+import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component'; // Importar el componente PerfilEmpresa
+import { CommonModule } from '@angular/common';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponentComponent,
+    RegistroComponent,
+    HeaderComponent,
+    PerfilEmpresaComponent,
+    PerfilAdminComponent,
+    HomePageComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    // Importar componentes standalone
+    FooterComponent,
+    FeriaPageComponent, // Declarar el componente FeriaPage
+  ],
+  providers: [AuthService, provideHttpClient(withInterceptorsFromDi()), provideAnimations(), provideAnimationsAsync()],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+++++++++++++++++++++ app.routes.ts ++++++++++++++++++++
+
+import { Routes } from '@angular/router';
+import { LoginComponentComponent } from './login-component/login-component.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { FeriaPageComponent } from './feria-page/feria-page.component';
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
+import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component';
+import { RegistroComponent } from './register-component/register-component.component';
+
+export const routes: Routes = [
+  { path: '', component: HomePageComponent },
+  { path: 'login', component: LoginComponentComponent },
+  { path: 'feria', component: FeriaPageComponent },
+  { path: 'admin', component: PerfilAdminComponent },
+  { path: 'empresa', component: PerfilEmpresaComponent },
+  /*para registrar usuarios dummy*/
+  { path: 'register', component: RegistroComponent },
+];
+
+
+
+++++++++++++++++++++ auth.service.ts ++++++++++++++++++++
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+
+  private apiUrl = 'http://localhost:3001/api'; // URL del servidor Node.js
+  private tokenKey = 'authToken';
+  private userSubject = new BehaviorSubject<any>(null);
+  private empresaSubject = new BehaviorSubject<any>(null);
+  private roleSubject = new BehaviorSubject<number | null>(null);
+
+  constructor(private http: HttpClient) {
+    const token = sessionStorage.getItem(this.tokenKey);
+    if (token) {
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+      const role = parseInt(sessionStorage.getItem('role') || '0', 10);
+      this.userSubject.next(user);
+      this.roleSubject.next(role);
+    }
+  }
+
+  register(userData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, userData);
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
+      .pipe(map(response => {
+        if (response.token) {
+          // Guardar el token, usuario y rol usando el método setToken
+          this.setToken(response.token, response.user, response.user.rol);
+        }
+        return response;
+      }));
+  }
+
+  setToken(token: string, user: any, role: number): void {
+    sessionStorage.setItem(this.tokenKey, token);
+    this.setUser(user);  // Guarda el usuario y notifica el cambio
+    this.roleSubject.next(role);
+    sessionStorage.setItem('role', role.toString());
+  }
+
+  getToken(): string | null {
+    return sessionStorage.getItem(this.tokenKey);
+  }
+
+  logout(): void {
+    sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('empresa');
+    this.userSubject.next(null);
+    this.roleSubject.next(null);
+    this.empresaSubject.next(null);
+  }
+
+  setUser(user: any): void {
+    this.userSubject.next(user);
+    sessionStorage.setItem('user', JSON.stringify(user));
+  }
+
+  setEmpresa(empresa: any): void {
+    this.empresaSubject.next(empresa);
+    sessionStorage.setItem('empresa', JSON.stringify(empresa));
+  }
+
+  getUser(): Observable<any> {
+    return this.userSubject.asObservable();
+  }
+
+  getEmpresa(): Observable<any> {
+    return this.empresaSubject.asObservable();
+  }
+
+  actualizarEmpresa(empresa: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/actualizar-empresa`, empresa);
+  }
+
+  getUserRole(): Observable<number | null> {
+    return this.roleSubject.asObservable();
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.userSubject.asObservable().pipe(map(user => !!user));
+  }
+}
+
+
+
+++++++++++++++++++++ empresa.service.ts ++++++++++++++++++++
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EmpresaService {
+  private apiUrl = 'http://localhost:3001/api/empresas'; // URL del servidor Node.js
+
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  getEmpresas(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  getEmpresaById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/empresas/${id}`);
+  }
+
+  /*
+  // Llama a esta función para actualizar la empresa usando los datos del servicio AuthService
+  actualizarEmpresa(empresa: any): Observable<any> {
+    return this.authService.actualizarEmpresa(empresa);
+  }*/
+}
+
+
+
+++++++++++++++++++++ agenda.service.ts ++++++++++++++++++++
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AgendaService {
+  private apiUrl = 'http://localhost:3001/api/agenda'; // Cambia esto si es necesario
+
+  constructor(private http: HttpClient) {}
+
+  getAgenda(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+}
+
+
+
+++++++++++++++++++++ header.component.html ++++++++++++++++++++
+
+<div class="header">
+    <img class="logo" src="assets/Images/logo.png" (click)="navigateTo('/')">
+    <div class="button">
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/')">Inicio</button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'agenda')">Programa</button>
+      <button class="label" *ngIf="!isLoggedIn" (click)="navigateTo('/', 'descargas')">Descargas</button>
+      <button class="login" *ngIf="!isLoggedIn" (click)="handleLogin()">
+        <img class="img" src="assets/Images/button-login.png">
+      </button>
+  
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria')">Inicio</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
+      <button class="label" *ngIf="isLoggedIn" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
+      <button class="login" *ngIf="isLoggedIn" (click)="handleLogin()">
+        <img class="img" src="assets/Images/button-login.png">
+      </button>
+    </div>
+  
+    <!-- Botón de hamburguesa -->
+    <button class="hamburger" (click)="toggleMenu()" aria-label="Menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  
+    <!-- Menú de navegación móvil -->
+  <nav class="mobile-menu" [class.active]="isMenuOpen">
+    <button class="label" *ngIf="!isLoggedIn" (click)="navigateAndHideMenu('/')">Inicio</button>
+    <button class="label" *ngIf="!isLoggedIn" (click)="navigateAndHideMenu('/', 'agenda')">Programa</button>
+    <button class="label" *ngIf="!isLoggedIn" (click)="navigateAndHideMenu('/', 'descargas')">Descargas</button>
+    <button class="login" *ngIf="!isLoggedIn" (click)="handleLoginAndHideMenu()">
+      <img class="img" src="assets/Images/button-login.png">
+    </button>
+
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria')">Inicio</button>
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria', 'agenda')">Agenda</button>
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria', 'avisos')">Avisos</button>
+    <button class="label" *ngIf="isLoggedIn" (click)="navigateAndHideMenu('/feria', 'empresas')">Empresas</button>
+    <button class="login" *ngIf="isLoggedIn" (click)="handleLoginAndHideMenu()">
+      <img class="img" src="assets/Images/button-login.png">
+    </button>
+  </nav>
+</div>
+
+
+
+++++++++++++++++++++ header.component.ts ++++++++++++++++++++
+
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
+})
+export class HeaderComponent implements OnInit {
+  isMenuOpen = false;
+  isLoggedIn = false;
+  userRole: number | null = null;
+
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.isLoggedIn().subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        this.authService.getUserRole().subscribe(role => {
+          this.userRole = role;
+        });
+      }
+    });
+  }
+
+  navigateTo(path: string, fragment?: string) {
+    this.router.navigate([path], { fragment }).then(() => {
+      if (fragment) {
+        const element = document.getElementById(fragment);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  handleLogin() {
+    if (this.isLoggedIn) {
+      this.authService.logout();
+      this.isLoggedIn = false;
+      this.userRole = null;
+      this.router.navigate(['/']); // Redirigir a inicio o donde se considere adecuado
+    } else {
+      this.router.navigate(['/login']); // Redirige a la página de login
+    }
+  }
+
+  navigateBasedOnRole() {
+    if (this.userRole === 1) {
+      this.router.navigate(['/empresa']);
+    } else if (this.userRole === 3) {
+      this.router.navigate(['/admin']);
+    } else if (this.userRole === 2) {
+      this.router.navigate(['/feria']);
+    }
+  }
+
+  navigateAndHideMenu(path: string, fragment?: string) {
+    this.navigateTo(path, fragment);
+    this.isMenuOpen = false; // Oculta el menú hamburguesa
+  }
+
+  handleLoginAndHideMenu() {
+    this.handleLogin();
+    this.isMenuOpen = false; // Oculta el menú hamburguesa
+  }
+}
+
+
+
+++++++++++++++++++++ footer.component.html ++++++++++++++++++++
+
+<footer class="footer">
+    <img class="logo" src="assets/Images/logo.png" alt="Logo" />
+
+    <div class="titulo-contacta">
+        <p>Contacta con nosotros</p>
+    </div>
+
+    <p class="text">
+        email&#64;lasalle.com<br/>
+        Teléfono: (+34) 976 000 000<br/>
+        <br/>Dirección: Plaça del Nord, 14<br/>
+        Gràcia, 08024 (Barcelona)
+    </p>
+
+    <img class="illustration" src="assets/Illustrations/Illustration2.png" alt="Illustration"/>
+
+    <img class="line" src="assets/Images/line.png" alt="Decorative line"/>
+
+    <div class="footer-content">
+        <p class="text">
+            2025. La Salle FP Online<br/>
+            Silvia Duarte<br/>
+            Laura Pérez<br/>
+            Santiago de Frutos
+        </p>
+        <p class="text illustrations-by">
+            <span>Illustrations by dekob2 from </span>
+            <a href="https://icons8.com/illustrations/" target="_blank" rel="noopener noreferrer">
+                <span class="span">Ouch!<br/></span>
+            </a>
+            <span><br/><br/></span>
+            <span class="span">Privacy Policy</span>
+        </p>
+    </div>
+</footer>
+
+
+
+++++++++++++++++++++ footer.component.ts ++++++++++++++++++++
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  imports: [],
+  templateUrl: './footer.component.html',
+  styleUrl: './footer.component.css'
+})
+
+export class FooterComponent { }
+
+
+
+++++++++++++++++++++ home-page.component.html ++++++++++++++++++++
+
+  
+  <!-- Video de YouTube incrustado -->
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/IJkG-4cfnVg" frameborder="0" allowfullscreen title="YouTube video player"></iframe>
+  </div>
+  
+
+  <!-- Intro -->
+  <div class="intro">
+    <div class="flexcontainer">
+      <p class="text-intro">La Salle Bussiness Match</p>
+      <p class="text-intro2">1 y 2 de Febrero 2025</p>
+      <p class="desciption">
+        Este es el texto de presentación de la feria que nos tienen que dar para que se presente la actividad.
+      </p>
+    </div>
+    <div class="image-container">
+      <img src="assets/Illustrations/Illustration1.png" alt="Ilustración del evento"/>
+    </div>
+  </div>
+
+  <!-- Agenda -->
+  <div class="agenda" id="agenda">
+    <div *ngFor="let event of events; let i = index" class="frame" [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded }">
+      <div class="frame-header">
+        <div class="time-wrapper">{{event.hora}}</div>
+        <p class="event-description">{{ event.descripcion }}</p>
+        <img
+          class="plus-icon"
+          [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
+          alt="Toggle"
+          (click)="toggleContent(i)"
+        />
+      </div>
+      <div class="line" *ngIf="event.isExpanded"></div>
+      <div class="frame-content" [ngClass]="{'expanded': event.isExpanded}">
+        <div class="flexcontainer">
+          <p> {{ event.detalles }} </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Div de Descargas -->
+  <div class="descargas" id="descargas">
+    <div class="titulo-descargas">
+      <p>Descargas</p>
+    </div>
+    <div class="descarga-programa">
+      <div class="heading">
+        <div class="text-wrapper">Programa<br/>de la Feria</div>
+      </div>
+      <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
+          <div class="icon">
+            <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
+          </div>
+          <p>Descargar el PDF</p>
+      </div>
+    </div>
+    <div class="descarga-concurso">
+      <div class="heading">
+        <div class="text-wrapper">Bases<br/>del Concurso</div>
+      </div>
+      <div class="link" (click)="downloadFile('assets/PDFs/Bases_Dummy.pdf')">
+        <div class="icon"><img  src="assets/Images/icon-descarga.png" alt="Download"/></div>
+        <p>Descargar el PDF</p>
+      </div>
+    </div>
+    <div class="descarga-guia">
+      <div class="heading">
+        <div class="text-wrapper">Guía<br/>para participar</div>
+      </div>
+      <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
+        <div class="icon"><img src="assets/Images/icon-descarga.png" alt="Download"/></div>
+        <p>Descargar el PDF</p>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <!-- Div patrocinadores -->
+  <div class="titulo-patrocinadores">
+    <p>Patrocinadores y colaboradores</p>
+  </div>
+  <div class="patrocinadores">
+    <div class="fondo"></div>
+    <div class="scroll-container">
+      <div class="scroll">
+        <div class="logo-1">
+          <div class="overlap-group">
+            <img src="assets/Illustrations/BCS.png" alt="BSC"/>
+          </div>
+          <p class="colegio">
+            <span class="span">Brothers of the Christian Schools<br/></span>
+            <span class="ciudad">Rome</span>
+          </p>
+        </div>
+        <div class="logo-2">
+          <div class="overlap-group">
+            <img src="assets/Illustrations/logodistrito.png" alt="Distrito" />
+          </div>
+          <p class="colegio">
+            <span class="span">Distrito ARLEP<br/></span>
+            <span class="ciudad">España</span>
+          </p>
+        </div>
+        <div class="logo-3">
+          <div class="overlap-group">
+            <img src="assets/Illustrations/PROYDE.png" alt="PROYDE" />
+          </div>
+          <p class="colegio">
+            <span class="span">Proyde<br/></span>
+            <span class="ciudad">España</span>
+          </p>
+        </div>
+        <div class="logo-4">
+          <div class="overlap-group">
+            <img src="assets/Illustrations/ColeLou.png" alt="BSC"/>
+          </div>
+          <p class="colegio">
+            <span class="span">Colegio N.S. Lourdes<br/></span>
+            <span class="ciudad">Valladolid</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+++++++++++++++++++++ home-page.component.ts ++++++++++++++++++++
+
+import { Component, OnInit } from '@angular/core';
+import { AgendaService } from '../services/agenda.service';
+
+@Component({
+  selector: 'app-home-page',
+
+  templateUrl: './home-page.component.html',
+  styleUrls: ['./home-page.component.css']
+})
+export class HomePageComponent implements OnInit {
+  
+  events: any[] = []; // Inicializa la lista vacía
+
+  constructor(private agendaService: AgendaService) {}
+
+  ngOnInit() {
+    this.loadAgenda(); // Carga los eventos al iniciar el componente
+  }
+
+  loadAgenda() {
+    this.agendaService.getAgenda().subscribe(
+      data => {
+        this.events = data.map(event => ({
+          hora: event.hora, // Asegúrate de que las propiedades coincidan con lo que tienes en la BBDD
+          descripcion: event.descripcion,
+          detalles: event.detalles,
+          isExpanded: false
+        }));
+      },
+      error => {
+        console.error('Error al cargar la agenda:', error);
+      }
+    );
+  }
+
+  toggleContent(index: number) {
+    this.events[index].isExpanded = !this.events[index].isExpanded;
+  }
+
+  downloadFile(filePath: string) {
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = filePath.split('/').pop()!;
+    link.click();
+  }
+}
+
+
+
+++++++++++++++++++++ register-component.component.html ++++++++++++++++++++
+
+<form (ngSubmit)="onSubmit()">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" [(ngModel)]="email" name="email" required>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" [(ngModel)]="password" name="password" required>
+
+  <label for="rol">Rol:</label>
+  <select id="rol" [(ngModel)]="rol" name="rol">
+    <option value="1">Empresa</option>
+    <option value="2">Visitante</option>
+    <option value="3">Administrador</option>
+  </select>
+
+  <!-- Campos específicos para empresas -->
+  <div *ngIf="rol == 1">
+    <label for="nombre_empresa">Nombre de la Empresa:</label>
+    <input type="text" id="nombre_empresa" [(ngModel)]="nombre_empresa" name="nombre_empresa">
+
+    <label for="web_url">Web URL:</label>
+    <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url">
+
+    <label for="spot_url">Spot URL:</label>
+    <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url">
+
+    <label for="logo_url">Logo URL:</label>
+    <input type="text" id="logo_url" [(ngModel)]="logo_url" name="logo_url">
+
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" [(ngModel)]="descripcion" name="descripcion"></textarea>
+
+    <label for="url_meet">URL Meet:</label>
+    <input type="text" id="url_meet" [(ngModel)]="url_meet" name="url_meet">
+
+    <label for="horario_meet">Horario Meet:</label>
+    <input type="time" id="horario_meet" [(ngModel)]="horario_meet" name="horario_meet">
+    <label for="entidad">Entidad:</label>
+    <input type="text" id="entidad" [(ngModel)]="entidad" name="entidad">
+  </div>
+
+  <!-- Campo específico para visitantes -->
+  <div *ngIf="rol == 2">
+    <label for="entidad">Entidad:</label>
+    <input type="text" id="entidad" [(ngModel)]="entidad" name="entidad">
+  </div>
+
+  <button type="submit">Registrarse</button>
+</form>
+
+
+
+++++++++++++++++++++ register-component.component.ts ++++++++++++++++++++
+
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';  // Importar Router
+import { AuthService } from '../services/auth.service';
+
+@Component({
+  selector: 'app-registro',
+  templateUrl: './register-component.component.html',
+  styleUrls: ['./register-component.component.css']
+})
+export class RegistroComponent {
+
+  nombre: string = '';
+  email: string = '';
+  password: string = '';
+  rol: number = 1; // 1: Empresa, 2: Visitante, 3: Administrador
+
+  // Campos específicos para empresas
+  nombre_empresa: string = '';
+  web_url: string = '';
+  spot_url: string = '';
+  logo_url: string = '';
+  descripcion: string = '';
+  url_meet: string = '';
+  horario_meet: string = '';
+
+  // Campo específico para visitantes
+  entidad: string = '';
+
+  constructor(private authService: AuthService, private router: Router) {}  // Inyectar Router
+
+  onSubmit() {
+    const userData = {
+      nombre: this.nombre,
+      email: this.email,
+      password: this.password,
+      rol: this.rol,
+      nombre_empresa: this.nombre_empresa,
+      web_url: this.web_url,
+      spot_url: this.spot_url,
+      logo_url: this.logo_url,
+      descripcion: this.descripcion,
+      url_meet: this.url_meet,
+      /* Añadimos un valor por defecto en el campo de HORARIO MEET en caso de estar vacío al registrar */
+      horario_meet: this.horario_meet || '00:00:00',
+      entidad: this.entidad
+    };
+
+    console.log('Formulario enviado:', userData);
+
+    this.authService.register(userData)
+      .subscribe({
+        next: (response) => {
+          console.log('Usuario registrado exitosamente:', response);
+          // Redirigir al usuario a la página de login
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error('Error al registrar usuario en el front:', error);
+          // Aquí puedes manejar errores y mostrar mensajes al usuario
+        },
+        complete: () => {
+          console.log('Proceso de registro completado');
+        }
+      });
+  }
+}
+
+
+
+++++++++++++++++++++ login-component.component.html ++++++++++++++++++++
+
+<div class="formulario-login">
+  <div class="titulo-bienvenido">
+      <p>Bienvenido</p>
+  </div>
+  
+  <form (ngSubmit)="onSubmit()">
+    <div class="username">
+      <div class="text">Nombre de Usuario</div>
+      <input type="email" [(ngModel)]="email" name="email">
+    </div>
+  
+    <div class="password">
+      <div class="text">Contraseña</div>
+      <input type="password" [(ngModel)]="password" name="password">
+    </div>
+  
+    <div class="enviar">
+      <button type="submit">ENVIAR</button>
+    </div>
+  
+    <img class="illustration" src="assets/Illustrations/Illustration3.png">
+  
+    <!-- El mensaje de error debe estar justo después del botón de enviar -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div class="flexcontainer">
+      <p class="text">
+        <span class="text-wrapper">
+          Si tienes algún problema ponte en<br/>
+          contacto con tu escuela o profesor
+        </span>
+      </p>
+    </div>
+  </form>
+</div>
+
+
+
+++++++++++++++++++++ login-component.component.ts ++++++++++++++++++++
+
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login-component.component.html',
+  styleUrls: ['./login-component.component.css']
+})
+export class LoginComponentComponent {
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onSubmit() {
+    this.authService.login(this.email, this.password)
+      .subscribe({
+        next: (response) => {
+          console.log('Login exitoso:', response);
+          const user = response.user;
+          const empresa = response.empresa;
+          const redirigir = response.redirigir;
+          const token = response.token;
+
+          // Guardar el token, usuario y rol en el servicio
+          if (token) {
+            this.authService.setToken(token, user, user.rol);
+          }
+
+          // Guardar la empresa en el servicio (si lo necesitas para futuras consultas)
+          this.authService.setEmpresa(empresa);
+
+          // Verificar el rol del usuario y redirigir
+          if (user && user.rol === 3) { // Administrador
+            this.router.navigate(['/admin']);
+          } else if (redirigir === 'feria') {
+            this.router.navigate(['/feria']);
+          } else if (redirigir === 'empresa') {
+            this.router.navigate(['/empresa']);
+          } else {
+            this.errorMessage = 'No se pudo determinar la ruta de redirección';
+          }
+        },
+        error: (error) => {
+          console.error('Error al intentar iniciar sesión:', error);
+          this.errorMessage = 'Credenciales inválidas';
+        }
+      });
+  }
+}
+
+
+
+++++++++++++++++++++ feria-page.component.html ++++++++++++++++++++
+
+
+<!-- Agenda -->
+<div class="agenda">
+    <div class="titulo">
+        <p>Agenda</p>
+    </div>
+    
+    <div class="frame collapsed"> <!-- Colapsado por defecto -->
+        <div class="frame-header">
+            <div class="div-wrapper">HORARIO Mañana</div>
+            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand" (click)="toggleFrame($event)">
+            <img class="minus-icon hidden" src="assets/Images/icon-minus.png" alt="Collapse" (click)="toggleFrame($event)">
+        </div>
+        <img class="line" src="assets/Images/line.png" alt="Line">
+        <div class="frame-content">
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+        </div>
+    </div>
+    <div class="frame collapsed"> <!-- Colapsado por defecto -->
+        <div class="frame-header">
+            <div class="div-wrapper">HORARIO Tarde</div>
+            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand" (click)="toggleFrame($event)">
+            <img class="minus-icon hidden" src="assets/Images/icon-minus.png" alt="Collapse" (click)="toggleFrame($event)">
+        </div>
+        <img class="line" src="assets/Images/line.png" alt="Line">
+        <div class="frame-content">
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
+        </div>
+    </div>
+</div>
+
+<!-- Notificaciones -->
+<div class="contenedor-notificaciones-realaciones">
+
+    <div class="notificaciones">
+        <div class="titulo-notificaciones">
+            <div class="fondo-notificaciones">
+                <div class="texto-titulo-notificaciones">Notificaciones</div>
+            </div>
+        </div>
+        <div class="text-line-container">
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+            <div class="line-notificaciones"></div>
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+            <div class="line-notificaciones"></div>
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+            <div class="line-notificaciones"></div>
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+            <div class="line-notificaciones"></div>
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+            <div class="line-notificaciones"></div>
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+            <div class="line-notificaciones"></div>
+            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
+        </div>
+    </div>
+
+    <!-- Mis relaciones comerciales -->
+    <div class="mis-relaciones">
+        <div class="titulo-notificaciones">
+            <div class="fondo-notificaciones">
+                <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
+            </div>
+        </div>
+        <div class="contenedor-realaciones">
+            <div class="overlap-relaciones-1">
+                <div class="text-relaciones">Compra</div>
+                <div class="scroll-container">
+                    <div class="rectangle-relaciones"></div>
+                    <div class="rectangle-relaciones"></div>
+                    <div class="rectangle-relaciones"></div>
+                    <div class="rectangle-relaciones"></div>
+                </div>
+            </div>
+
+            <div class="text-suma-1">Total: 10 <br/>empresas</div>
+
+            <div class="overlap-relaciones-2">
+                <div class="text-relaciones">Venta</div>
+                <div class="scroll-container">
+                    <div class="rectangle-relaciones"></div>
+                    <div class="rectangle-relaciones"></div>
+                    <div class="rectangle-relaciones"></div>
+                    <div class="rectangle-relaciones"></div>
+                </div>
+            </div>
+
+            <div class="text-suma-2">Total: 15 <br/>empresas</div>
+        </div>
+    </div>
+</div>
+<!-- Ilustracion -->
+<img class="illustration" src="assets/Illustrations/Illustration4.png">
+
+<!-- Listado empresas -->
+
+<div class="listado-empresas">
+    <div class="titulo-empresas">
+        <div class="label-empresas">Empresas participantes</div>
+    </div>
+    <div class="scroll-container">
+        <div *ngFor="let empresa of empresas" class="rectangle-empresas">
+            <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa)">
+            <p class="nombre-de-cada-empresa">{{ empresa.nombre_empresa }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Detalle empresas -->
+
+<div *ngIf="empresaSeleccionada" class="detalles">
+    <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
+    <div class="rectangle-detalles"></div>
+    <div class="rectangle-video-detalles"></div>
+    <p class="nombre-empresa">
+        <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
+        <span class="text-detalles">
+            <br/>Página web: {{ empresaSeleccionada.web_url }}<br/>
+            Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}<br/>
+            Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank"> {{ empresaSeleccionada.url_meet }}</a><br/>
+        </span>
+    </p>
+    <div class="scroll-detalles">
+        <p class="p-detalles">
+            {{ empresaSeleccionada.descripcion }}
+        </p>
+    </div>
+    <div class="button-container">
+        <button class="button">Votar</button>
+        <button class="button">Mensaje</button>
+        <button class="button">Me interesa</button>
+    </div>
+    <div class="titulo-detalles">
+        <div class="label-detalles">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
+    </div>
+</div>
+
+
+
+++++++++++++++++++++ feria-page.component.ts ++++++++++++++++++++
+
+import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';  // Importa CommonModule
+import { EmpresaService } from '../services/empresa.service';
+
+@Component({
+  selector: 'app-feria-page',
+  standalone: true,
+  templateUrl: './feria-page.component.html',
+  styleUrls: ['./feria-page.component.css'],
+  imports: [CommonModule]  // Incluye CommonModule en imports
+})
+export class FeriaPageComponent implements OnInit {
+  empresas: any[] = [];  // Asegúrate de definir y llenar esta propiedad
+  empresaSeleccionada: any = null;
+  private expandedFrame: HTMLElement | null = null;  // Define la propiedad
+
+  constructor(private renderer: Renderer2, private elRef: ElementRef, private empresaService: EmpresaService) {}
+
+  ngOnInit(): void {
+    this.empresaService.getEmpresas().subscribe((data: any[]) => {
+      this.empresas = data;
+      console.log('Empresas: ', this.empresas); // Añade un log para verificar los datos
+    }, error => {
+      console.error('Error al obtener empresas: ', error); // Maneja errores
+    });
+  }
+
+  toggleFrame(event: Event) {
+    const icon = event.target as HTMLImageElement;
+    const frame = icon.closest('.rectangle-empresas') as HTMLElement;  // Ajusta el selector a 'rectangle-empresas'
+
+    if (!frame) return;
+
+    // Collapse currently expanded frame
+    if (this.expandedFrame && this.expandedFrame !== frame) {
+      this.renderer.removeClass(this.expandedFrame, 'expanded');
+      this.renderer.addClass(this.expandedFrame, 'collapsed');
+    }
+
+    // Toggle the clicked frame
+    if (frame.classList.contains('expanded')) {
+      this.renderer.removeClass(frame, 'expanded');
+      this.renderer.addClass(frame, 'collapsed');
+      this.expandedFrame = null;
+    } else {
+      this.renderer.removeClass(frame, 'collapsed');
+      this.renderer.addClass(frame, 'expanded');
+      this.expandedFrame = frame;
+    }
+  }
+
+  // Método para mostrar los detalles de la empresa seleccionada
+  mostrarDetalles(empresa: any) {
+    this.empresaSeleccionada = empresa; // Almacena la empresa seleccionada para mostrar sus detalles
+  }
+
+  cerrarDetalles() {
+    this.empresaSeleccionada = null; // Al cerrar, se ocultan los detalles
+  }
+}
+
+
+
+++++++++++++++++++++ perfil-admin.component.html ++++++++++++++++++++
+
+<div class="titulo">
+    <p>
+        Empresas participantes
+    </p>
+</div>
+
+<!-- Cuadro de empresas -->
+<div class="container">
+    <!-- Prueba con el back -->
+    <!-- <div class="container">
+        <div *ngFor="let empresa of empresas" class="item">
+          <div class="rectangulo">
+            <img [src]="empresa.logo_url" alt="Logo de la empresa">
+          </div>
+          <p>{{ empresa.nombreEmpresa }}</p>
+          <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+          </div>
+        </div>
+      </div>
+       -->
+
+    <div *ngFor="let empresa of empresas" class="item">
+        <div class="rectangulo">{{ empresa.logo_url }} - {{ empresa.nombre }}</div>
+        <p>{{empresa.entidad}}</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+   </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="rectangulo"></div>
+        <p>Colegio</p>
+        <div class="buttons">
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- subir archivos y top 3 -->
+<div class="container_2">
+    <div class="subir">
+        <p>Subir archivos</p>
+        <div class="Actualizar-Agenda">
+            <div class="heading agenda">
+                <div class="label">
+                    <div class="text-wrapper">Agenda SimulaFEST 2025</div>
+                </div>
+                <div class="link">
+                    <div class="icon">
+                        <img class="arrow" src="assets/Images/icon-descarga.png" alt="Icono de descarga" />
+                    </div>
+                    <div class="div">Actualizar</div>
+                </div>
+            </div>
+            <div class="heading bases">
+                <div class="label">
+                    <div class="text-wrapper">Bases del concurso</div>
+                </div>
+                <div class="link">
+                    <div class="icon">
+                        <img class="arrow" src="assets/Images/icon-descarga.png" alt="Icono de descarga" />
+                    </div>
+                    <div class="div">Actualizar</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="top3">
+            <p>Top 3 (Tiempo real)</p>
+            <div class="podium">
+                <div class="podium-item">
+                    <img src="assets/Illustrations/trofeo.png" alt="Tercer Puesto" class="third-place">
+                    <p>Tercer Puesto</p>
+                </div>
+                <div class="podium-item">
+                    <img src="assets/Illustrations/trofeo.png" alt="Primer Puesto" class="first-place">
+                    <p>Primer Puesto</p>
+                </div>
+                <div class="podium-item">
+                    <img src="assets/Illustrations/trofeo.png" alt="Segundo Puesto" class="second-place">
+                    <p>Segundo Puesto</p>
+                </div>
+                <div class="illustration">
+                    <img src="assets/Illustrations/Illustration6.png" alt="Ilustración" class="illustration">
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- Estadísticas y Enlaces meet -->
+
+<div class="container_3">
+    <div class="label">
+        <div class="text-wrapper" >Enlaces a meet</div>
+    </div>
+    <div *ngFor="let empresa of empresas">
+        <p>{{empresa.nombre}}:</p>
+        <a>{{empresa.url_meet}}</a>
+        <img src="assets/Images/line.png" alt="Línea" class="line">
+        <!--<p>Enlace de la empresa X</p>
+        <img src="assets/Images/line.png" alt="Línea" class="line">
+        <p>Enlace de la empresa X</p>
+        <img src="assets/Images/line.png" alt="Línea" class="line">
+        <p>Enlace de la empresa X</p>
+        <img src="assets/Images/line.png" alt="Línea" class="line">-->
+    </div>
+</div>
+
+
+
+++++++++++++++++++++ perfil-admin.component.ts ++++++++++++++++++++
+
+import { Component, OnInit } from '@angular/core';
+import { EmpresaService } from '../services/empresa.service';
+
+@Component({
+  selector: 'app-perfil-admin',
+  templateUrl: './perfil-admin.component.html',
+  styleUrls: ['./perfil-admin.component.css']
+})
+export class PerfilAdminComponent implements OnInit {
+  empresas: any[] = []; // Array para almacenar los datos de la empresa
+
+  constructor(private empresaService: EmpresaService) { }
+
+  ngOnInit(): void {
+    this.loadEmpresas();
+  }
+
+  loadEmpresas(): void {
+    this.empresaService.getEmpresas().subscribe(
+      data => {
+        this.empresas = data; // Asigna los datos recibidos al array
+        },
+      error => {
+        console.error('Error al cargar empresas:', error);
+      }
+    );
+  }
+}
+
+
+
+++++++++++++++++++++ perfil-empresa.component.html ++++++++++++++++++++
+
+<div class="formulario-empresa">
+    <!-- Título -->
+    <div class="titulo empresa">Información de Mi Empresa</div>
+
+    <!-- Nombre de COLEGIO -->
+    <div class="campo">
+        <label class="text-wrapper">* Nombre de COLEGIO</label>
+        <select [(ngModel)]="nombreColegio" class="input">
+            <option value="" disabled>Seleccionar Colegio</option>
+            <option value="Colegio 1">Colegio 1</option>
+            <option value="Colegio 2">Colegio 2</option>
+            <option value="Colegio 3">Colegio 3</option>
+        </select>
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Nombre de empresa -->
+    <div class="campo">
+        <label class="text-wrapper">* Nombre de empresa</label>
+        <input type="text" [(ngModel)]="nombreEmpresa" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Logotipo -->
+    <div class="campo">
+        <label class="text-wrapper">* Logotipo</label>
+        <input type="text" [(ngModel)]="logotipo" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Página web (Producto o servicio) -->
+    <div class="campo">
+        <label class="text-wrapper">* Página web (Producto o servicio)</label>
+        <input type="text" [(ngModel)]="paginaWeb" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Enlace a Sala de Espera -->
+    <div class="campo">
+        <label class="text-wrapper">* Enlace a Sala de Espera</label>
+        <input type="text" [(ngModel)]="enlaceSalaEspera" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Horarios de atención al cliente -->
+    <div class="campo">
+        <label class="text-wrapper">* Horarios de atención al cliente</label>
+        <input type="time" [(ngModel)]="horariosAtencion" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Spot Publicitario -->
+    <div class="campo">
+        <label class="text-wrapper">Spot Publicitario</label>
+        <input type="text" [(ngModel)]="spotPublicitario" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Descripción de productos o servicios -->
+    <div class="campo producto">
+        <label class="text-wrapper">Descripción de productos o servicios</label>
+        <textarea [(ngModel)]="descripcionProductos" class="textarea"></textarea>
+        <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Contenedor de Botón de Validar y Mensaje de Error -->
+    <div class="overlap-group">
+        <button (click)="validarFormulario()" type="button" class="button-validar">
+            <div class="label-2">VALIDAR</div>
+        </button>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </div>
+
+    <!-- Ilustración -->
+    <!-- <img class="illustration" src="assets/Illustrations/Illustration5.png"> -->
+</div>
+
+<!-- Div independiente para la ilustración -->
+<div class="illustration-container">
+    <img class="illustration" src="assets/Illustrations/Illustration5.png">
+</div>
+
+
+
+++++++++++++++++++++ perfil-empresa.component.ts ++++++++++++++++++++
+
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-perfil-empresa',
+  templateUrl: './perfil-empresa.component.html',
+  styleUrls: ['./perfil-empresa.component.css']
+})
+export class PerfilEmpresaComponent implements OnInit {
+  nombreColegio: string = '';
+  enlaceSalaEspera: string = '';
+  logotipo: string = '';
+  spotPublicitario: string = '';
+  nombreEmpresa: string = '';
+  horariosAtencion: string = '';
+  paginaWeb: string = '';
+  descripcionProductos: string = '';
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+  usuario_id: number | null = null;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.authService.getUser().subscribe(user => {
+      if (user) {
+        this.usuario_id = user.id;
+      }
+    });
+
+    this.authService.getEmpresa().subscribe((empresa: any) => {
+      if (empresa) {
+        this.nombreColegio = empresa.entidad || '';
+        this.enlaceSalaEspera = empresa.url_meet || '';
+        this.logotipo = empresa.logo_url || '';
+        this.spotPublicitario = empresa.spot_url || '';
+        this.nombreEmpresa = empresa.nombre_empresa || '';
+        this.horariosAtencion = empresa.horario_meet || '';
+        this.paginaWeb = empresa.web_url || '';
+        this.descripcionProductos = empresa.descripcion || '';
+      } else {
+        console.error('No se encontraron datos de la empresa.');
+      }
+    });
+  }
+
+  validarFormulario() {
+    if (!this.nombreColegio || !this.enlaceSalaEspera || !this.logotipo ||
+        !this.nombreEmpresa || !this.horariosAtencion || !this.paginaWeb) {
+      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+    } else {
+      this.errorMessage = null;
+
+      const empresa = {
+        usuario_id: this.usuario_id,
+        nombre_empresa: this.nombreEmpresa,
+        web_url: this.paginaWeb,
+        spot_url: this.spotPublicitario,
+        logo_url: this.logotipo,
+        descripcion: this.descripcionProductos,
+        url_meet: this.enlaceSalaEspera,
+        horario_meet: this.horariosAtencion,
+        entidad: this.nombreColegio
+      };
+
+      this.authService.actualizarEmpresa(empresa).subscribe({
+        next: (response: any) => {
+          console.log('Datos actualizados:', response);
+          this.successMessage = 'Datos de la empresa actualizados correctamente.';
+          this.errorMessage = null;
+      
+          // Actualizamos los datos en el formulario con la respuesta
+          this.nombreEmpresa = response.nombre_empresa;
+          this.paginaWeb = response.web_url;
+          this.spotPublicitario = response.spot_url;
+          this.logotipo = response.logo_url;
+          this.descripcionProductos = response.descripcion;
+          this.enlaceSalaEspera = response.url_meet;
+          this.horariosAtencion = response.horario_meet;
+          this.nombreColegio = response.entidad;
+      
+          // Redirigir a la página '/feria'
+          this.router.navigate(['/feria']);
+        },
+        error: (error: any) => {
+          console.error('Error al actualizar la empresa:', error);
+          this.errorMessage = 'Hubo un error al actualizar la empresa. Por favor, inténtelo de nuevo.';
+          this.successMessage = null;
+        }
+      });
+    }
+  }
+}

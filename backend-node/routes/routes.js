@@ -4,14 +4,17 @@ const { registerUser, loginUser } = require('../controllers/userController');
 const { updateEmpresa } = require('../controllers/empresaController');
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
-const {getEmpresas} = require('../controllers/adminController');
-const {getAllEvents} = require('../controllers/agendaController');
+const { getEmpresas } = require('../controllers/adminController');
+const { getAllEvents } = require('../controllers/agendaController');
+const { addInterest, getInterests } = require('../controllers/interesesController');
 
 // Ruta para obtener la agenda
-router.get('/agenda',getAllEvents);
+router.get('/agenda', getAllEvents);
+
 // Rutas relacionadas con usuarios
 router.post('/register', parseRequestBody, registerUser);
 router.post('/login', parseRequestBody, loginUser);
+
 // Ruta protegida de ejemplo
 router.get('/protected', authenticateToken, (req, res) => {
   res.status(200).json({ message: 'Acceso concedido', user: req.user });
@@ -25,12 +28,21 @@ router.post('/actualizar-empresa', (req, res) => {
       console.error('Error al actualizar la empresa:', err);
       return res.status(500).json({ message: 'Error al actualizar la empresa: ' + err.message });
     }
-    console.log('Datos enviados al cliente:', data); // Verifica los datos enviados al cliente
+    console.log('Datos enviados al cliente:', data);
     res.status(200).json({ message: 'Empresa actualizada correctamente', data });
   });
 });
-router.get('/empresas',getEmpresas);
+
+router.get('/empresas', getEmpresas);
+
+// Ruta para agregar interés
+router.post('/add-interest', authenticateToken, addInterest);
+
+// Ruta para obtener relaciones comerciales
+router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
+
 module.exports = router;
+
 
 
 /*const express = require('express');

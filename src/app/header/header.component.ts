@@ -70,5 +70,4 @@ export class HeaderComponent implements OnInit {
     this.handleLogin();
     this.isMenuOpen = false; // Oculta el menú hamburguesa
   }
-
 }
