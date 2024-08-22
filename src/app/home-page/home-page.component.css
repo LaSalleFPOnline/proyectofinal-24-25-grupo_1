@@ -308,7 +308,6 @@ iframe {
 .text {
   width: 100%;
   color: black;
-  
   margin: 0;
 }
 
@@ -384,7 +383,6 @@ iframe {
 }
 
 .descargas .link:hover{
-  color: #FFD700;
   transform: scale(1.1);
 }
 

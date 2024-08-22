@@ -66,13 +66,62 @@
 }
 .label:hover,
 .label:active {
-    border: 2px solid black;
+    border: 1px solid black;
     opacity: 0.5;
 }
 
 .hamburger,
 .mobile-menu {
     display: none;
+}
+
+.login-menu {
+    position: relative;
+}
+
+.login-menu .login {
+    max-width: 50%;
+    padding: 0.5rem;
+    margin-left: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+/*Desplegable*/
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: max-content;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
+    display: none;
+    z-index: 99;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.login-menu .login {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.dropdown-menu.active {
+    display: block;
+}
+
+.dropdown-item {
+    all: unset;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
 }
 
 /* Estilo para móviles */

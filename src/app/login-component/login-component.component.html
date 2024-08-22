@@ -1,4 +1,4 @@
-<div class="formulario-login">
+<div class="login">
   <div class="titulo-bienvenido">
       <p>Bienvenido</p>
   </div>
@@ -18,16 +18,18 @@
       <button type="submit">ENVIAR</button>
     </div>
   
+    <p class="text registro-info">
+      Si no tienes cuenta,
+      <a (click)="navigateToRegister()" class="enlace">regístrate</a>
+    </p>
+
     <img class="illustration" src="assets/Illustrations/Illustration3.png">
   
     <!-- El mensaje de error debe estar justo después del botón de enviar -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <div class="flexcontainer">
+    <div class="tocho">
       <p class="text">
-        <span class="text-wrapper">
-          Si tienes algún problema ponte en<br/>
-          contacto con tu escuela o profesor
-        </span>
+          Si tienes algún problema ponte en contacto con tu escuela o profesor
       </p>
     </div>
   </form>
