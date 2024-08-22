@@ -12,17 +12,9 @@
   margin: 6vh auto;
 }
 
-.titulo-bienvenido {
-  display: flex;
-  align-items: center;
+.bienvenido {
   position: absolute;
-  top: 5vh;
   left: 5vh;
-  padding: 0 1rem;
-  background-color: #2B2B2A;
-  border-radius: 8px;
-  color: #F3F3F3;
-  font-size: 2.5rem;
 }
 
 .password, .username{

@@ -1,17 +1,12 @@
-form {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+.registro{
+  background-color: lightblue;
 }
 
-form label {
+.line {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  width: 90%;
+  height: 1px;
 }
 
 form input[type="text"],
@@ -19,33 +14,58 @@ form input[type="email"],
 form input[type="password"],
 form input[type="time"],
 form input[type="url"],
-form textarea,
 form select {
-  width: calc(100% - 22px);
+  width: 90%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: none;
+  border-radius: 10px;
   box-sizing: border-box;
   display: block;
+  background-color: inherit;
 }
 
-form textarea {
+.textarea {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: block;
+  background-color: inherit;
+  min-height: 10rem;
+  height: auto;
   resize: vertical;
 }
 
-form button[type="submit"] {
-  width: 100%;
-  padding: 10px;
+.button-validar {
+  padding: 1.25rem 2rem;
+  background-color: #F3F3F3;
+  border-radius: 14px;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+  cursor: pointer;
+  z-index: 2;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;    pointer-events: auto;
 }
 
-form button[type="submit"]:hover {
-  background-color: #0056b3;
+.button-validar:hover,
+.button-validar:active {
+  border: 1px solid #2B2B2A;
+  background-color: #E0E0E0;
+}
+
+input.error {
+  border: 2px solid red !important;
+}
+
+input.error:focus {
+  border: 2px solid red !important;
+  outline: none; /* Elimina el contorno azul predeterminado del navegador */
+}
+
+textarea:focus, input:focus, select:focus {
+  outline: none;
 }
