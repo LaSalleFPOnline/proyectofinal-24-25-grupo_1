@@ -15,6 +15,7 @@
 .bienvenido {
   position: absolute;
   left: 5vh;
+  margin: 2vh;
 }
 
 .password, .username{

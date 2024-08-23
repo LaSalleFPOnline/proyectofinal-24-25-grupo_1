@@ -104,43 +104,50 @@
 
 <!-- Listado empresas -->
 
-<div class="listado-empresas">
-    <div class="titulo-empresas">
-        <div class="label-empresas">Empresas participantes</div>
-    </div>
-    <div class="scroll-container">
-        <div *ngFor="let empresa of empresas" class="rectangle-empresas">
-            <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa)">
-            <p class="nombre-de-cada-empresa">{{ empresa.nombre_empresa }}</p>
-        </div>
+<div class="titulo">
+    <p>Empresas participantes</p>
+</div>
+<div class="scroll-container">
+    <div *ngFor="let empresa of empresas" class="rectangle-empresas">
+        <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa)">
+        <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
     </div>
 </div>
+
 
 <!-- Detalle empresas -->
 
 <div *ngIf="empresaSeleccionada" class="detalles">
+    <div class="titulo-detalles">
+        <div class="titulo">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
+    </div>
+
     <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
-    <div class="rectangle-detalles"></div>
-    <div class="rectangle-video-detalles"></div>
-    <p class="nombre-empresa">
-        <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
-        <span class="text-detalles">
-            <br/>Página web: {{ empresaSeleccionada.web_url }}<br/>
-            Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}<br/>
-            Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank"> {{ empresaSeleccionada.url_meet }}</a><br/>
-        </span>
-    </p>
-    <div class="scroll-detalles">
-        <p class="p-detalles">
-            {{ empresaSeleccionada.descripcion }}
+
+    <!-- Que viene a este rectangulo?? -->
+    <div class="contenedor-arriba">
+        <div class="rectangle-detalles"></div>
+        <p class="empresa">
+            <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
+            <span class="text-detalles">
+                <br/>Página web: {{ empresaSeleccionada.web_url }}
+                <br/>Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}
+                <br/>Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank"> {{ empresaSeleccionada.url_meet }}</a><br/>
+            </span>
         </p>
     </div>
+    
+    <div class="contenedor-abajo">
+        <div class="rectangle-video-detalles"></div>
+        <div class="scroll-detalles">
+            <p>{{ empresaSeleccionada.descripcion }}</p>
+        </div>
+    </div>
+    
     <div class="button-container">
         <button class="button">Votar</button>
         <button class="button">Mensaje</button>
         <button (click)="agregarInteres()">Me interesa</button>
     </div>
-    <div class="titulo-detalles">
-        <div class="label-detalles">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
-    </div>
+
 </div>

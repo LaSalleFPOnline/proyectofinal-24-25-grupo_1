@@ -1,26 +1,9 @@
 <div class="titulo">
-    <p>
-        Empresas participantes
-    </p>
+    <p>Empresas participantes</p>
 </div>
 
 <!-- Cuadro de empresas -->
 <div class="container">
-    <!-- Prueba con el back -->
-    <!-- <div class="container">
-        <div *ngFor="let empresa of empresas" class="item">
-          <div class="rectangulo">
-            <img [src]="empresa.logo_url" alt="Logo de la empresa">
-          </div>
-          <p>{{ empresa.nombreEmpresa }}</p>
-          <div class="buttons">
-            <button class="edit-button">Editar</button>
-            <button class="delete-button">Eliminar</button>
-          </div>
-        </div>
-      </div>
-       -->
-
     <div *ngFor="let empresa of empresas" class="item">
         <div class="rectangulo">{{ empresa.logo_url }} - {{ empresa.nombre }}</div>
         <p>{{empresa.entidad}}</p>

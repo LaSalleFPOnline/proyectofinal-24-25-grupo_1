@@ -1,32 +1,8 @@
-/*
-GREEN - #60A96E
-BLUE - #384078
-RED - #AC3635
-YELLOW - #F6E953
-DARK - #2B2B2A
-LIGHT - #F3F3F3
-*/
-
 /* #region AGENDA */
 .agenda {
     position: relative;
     width: 80%;
     margin: 0 auto;
-}
-
-.titulo {
-    display: inline-flex;
-    align-items: center;
-    background-color: #2B2B2A;
-    border-radius: 8px;
-}
-
-.titulo p {
-    margin: 2vh;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    color: #F3F3F3;
 }
 
 .frame {
@@ -140,6 +116,7 @@ LIGHT - #F3F3F3
 /* #region NOTIFICACIONES */
 .contenedor-notificaciones-realaciones{
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     height: 100%;
     justify-content: space-between;
@@ -149,6 +126,7 @@ LIGHT - #F3F3F3
     margin-top: 6vh;
     gap: 20px;
 }
+
 .notificaciones {
     flex: 1;
     background-color: #AC3635;
@@ -216,23 +194,24 @@ LIGHT - #F3F3F3
 }
 .contenedor-realaciones{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 3rem;
-    gap: 5px;
+    gap: 2px;
     border: 10px solid #384078;
     height: 60%;
 
 }
 .overlap-relaciones-1, .overlap-relaciones-2 {
     display: flex;
+    flex-wrap: wrap;
     position: relative;
     flex-direction: column;
     width: 45%;
     height: 100%;
     background-color: #F3F3F3;
     border-radius: 45px;
-    border: 0.5vw solid;
-    border-color: #2B2B2A;
+    border: 0.1rem solid #2B2B2A;
     overflow-y: auto;
     box-sizing: border-box;
 }
@@ -285,7 +264,6 @@ LIGHT - #F3F3F3
 }
 /* #endregion*/
 
-/* --------------- IUSTRACION --------------- */
 .illustration {
     display: block;
     width: 70%;
@@ -293,40 +271,21 @@ LIGHT - #F3F3F3
     position: relative;
     top: 40px;
     margin: 0 auto;
+    margin-bottom: 50px;
 }
 
-/* --------------- LISTADO EMPRESAS --------------- */
-.listado-empresas {
-    position: relative;
-    width: 100%;
-    margin: 20px auto; /* Ajusta el margen superior e inferior */
-    padding: 20px; /* Ajusta el padding para espacio interno */
-}
-
-.titulo-empresas {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 50px;
-}
-
-.label-empresas {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
-    font-size: 1.5rem; /* Ajusta el tamaño del texto */
-    color: #2B2B2A;
-}
-
+/* #region Listado Empresas */
 .scroll-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px; /* Espacio entre logos */
     overflow-y: auto; /* Habilita el scroll vertical */
-    height: 500px; /* Ajusta la altura del contenedor según sea necesario */
+    max-height: 80vh; /* Ajusta la altura del contenedor según sea necesario */
     padding: 10px; /* Espacio interno para mejor visualización */
     border: 2px solid #2B2B2A; /* Opcional: Borde para visualización */
     border-radius: 10px; /* Opcional: Esquinas redondeadas */
     background-color: #F3F3F3; /* Opcional: Color de fondo */
+    justify-content: center;
 }
 
 .rectangle-empresas {
@@ -340,151 +299,29 @@ LIGHT - #F3F3F3
     overflow: hidden; /* Oculta el contenido que se desborda */
     border-radius: 10px; /* Esquinas redondeadas para el contenedor */
     margin-bottom: 20px; /* Espacio entre los rectángulos */
+    padding: 0;
 }
 
 .logo-empresa {
     width: 100%; /* Ocupa todo el ancho del contenedor */
-    height: auto; /* Ajusta la altura automáticamente para mantener la proporción */
+    height: 80%; /* Ajusta la altura automáticamente para mantener la proporción */
     object-fit: cover; /* Ajusta la imagen dentro del contenedor sin distorsión, con posible recorte */
+    flex-shrink: 0; /* Evita que la imagen se reduzca si hay espacio limitado */
 }
-
-.nombre-de-cada-empresa {
-    font-weight: bold; /* Opcional: para hacer el nombre más destacado */
-    margin-top: 10px; /* Espacio entre el logo y el nombre */
-    font-family: 'Roboto Mono', monospace;
-    font-size: 1rem; /* Ajusta el tamaño del texto del nombre */
-    color: #2B2B2A; /* Color del texto */
-    text-align: center; /* Centra el texto debajo del logotipo */
-}
-
-
-/* --------------- DETALLES DE EMPRESA --------------- */
-
-.detalles {
-    position: relative;
-    width: 1347px;
-    height: 922px;
-    background-color: #F6E953;
-    border-radius: 45px;
-    border: 1px solid;
-    border-color: #2B2B2A;
-    box-shadow: 0px 5px 0px #2B2B2A;
-    margin: 0 auto;
-}
-
-.rectangle-detalles {
-    width: 333px;
-    height: 204px;
-    top: 151px;
-    position: absolute;
-    left: 94px;
-    background-color: #D9D9D9;
-}
-
-.rectangle-video-detalles {
-    width: 568px;
-    height: 369px;
-    top: 405px;
-    position: absolute;
-    left: 94px;
-    background-color: #D9D9D9;
-}
-
-.nombre-empresa {
-    position: absolute;
-    top: 110px;
-    left: 447px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    font-size: 45px;
-    line-height: 40px;
-    color: #2B2B2A;
-}
-
-.subtitulo-detalles {
-    font-weight: 500;
-}
-
-.text-detalles {
-    font-size: 20px;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.scroll-detalles {
-    position: absolute;
-    top: 397px;
-    left: 682px;
-    width: 568px;
-    max-height: 369px; /* Ajusta según el tamaño del contenedor */
-    overflow-y: auto; /* Habilita el scroll vertical */
-}
-
-.p-detalles {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: normal;
-    color: #2B2B2A;
-    margin: 0; /* Elimina márgenes para ajustar el espaciado */
-}
-
-.button-container {
-    position: absolute;
-    top: 800px; /* Ajusta según el espacio disponible debajo del rectángulo de video */
-    left: 100px; /* Alinea con la parte izquierda del área de scroll-detalles */
+.txt-logo {
+    width: 100%;
+    height: 20%;
     display: flex;
-    gap: 10px; /* Espacio entre botones */
-}
-
-.button {
-    display: flex;
-    width: 150px;
-    height: 50px;
-    align-items: center;
     justify-content: center;
-    padding: 20px 35px;
-    background-color: #F3F3F3;
-    border-radius: 14px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: normal;
-    color: #2B2B2A;
-    border: none; /* Sin borde por defecto */
+    align-items: center;
+    text-align: center;
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
 }
 
-.button:hover,
-.button:active {
-    border: 2px solid #2B2B2A;
-    opacity: 1;
-}
+/* #endregion Listado Empresas */
 
-.titulo-detalles {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 63px;
-    left: 94px;
-}
 
-.label-detalles {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 0px 7px;
-    position: relative;
-    flex: 0 0 auto;
-    background-color: #F3F3F3;
-    border-radius: 7px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: normal;
-    color: #2B2B2A;
-}
+/* #region detalles de empresa */
 
 /* Estilo para el icono de cerrar */
 .close-icon {
@@ -499,5 +336,117 @@ LIGHT - #F3F3F3
 }
 
 .close-icon:hover {
-    opacity: 0.7; /* Efecto hover */
+    opacity: 0.7;
 }
+
+.detalles {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    background-color: #F6E953;
+    border-radius: 45px;
+    border: 1px solid #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+    margin: 0 auto;
+    top: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+    margin-bottom: 30px;
+}
+.titulo-detalles {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.contenedor-arriba, .contenedor-abajo {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.rectangle-detalles {
+    width: 100%; /* Ajuste para ocupar el ancho completo del contenedor */
+    max-width: 25vw;
+    min-height: 204px;
+    background-color: #D9D9D9;
+    margin-bottom: 20px;
+}
+
+.empresa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: calc(100% - 25vw - 20px); /* Ajuste para ocupar el ancho restante en la columna derecha */
+}
+
+.subtitulo-detalles {
+    font-weight: 500;
+}
+
+.text-detalles {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Contenedor para el contenido de la sección de abajo */
+
+.rectangle-video-detalles {
+    width: 40vw; /* Ajuste para ocupar el ancho completo del contenedor */
+    height: 50vw;
+    max-height: 250px;
+    background-color: #D9D9D9;
+}
+
+.scroll-detalles {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    max-width: calc(100% - 40vw - 20px); /* Ajuste para ocupar el ancho restante en la columna derecha */
+    overflow-y: auto; /* Habilita el scroll vertical */
+    margin: 0;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan en varias líneas si es necesario */
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 10px; /* Espacio entre botones */
+    padding: 20px; /* Espacio interno del contenedor */
+    box-sizing: border-box; /* Incluye padding en el ancho total del contenedor */
+}
+
+.button {
+    display: flex;
+    width: 96px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 35px;
+    background-color: #F3F3F3;
+    border-radius: 14px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    color: #2B2B2A;
+    border: none; /* Sin borde por defecto */
+    text-align: center; /* Centra el texto dentro del botón */
+    box-sizing: border-box; /* Incluye padding y border en el ancho y altura del botón */
+}
+
+.button:hover,
+.button:active {
+    border: 2px solid #2B2B2A;
+    opacity: 1;
+}
+
+/* #endregion Listado Empresas */
