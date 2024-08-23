@@ -236,12 +236,19 @@ iframe {
 }
 
 /* Estilo para el primer frame en la agenda */
-.agenda .frame:first-child {
+/*.agenda .frame:first-child {
+  background-color: #60A96E;
+  color: white;
+}*/
+
+
+.agenda .frame.current-event:first-child {
   background-color: #60A96E;
   color: white;
 }
 
-.agenda .frame:first-child.expanded {
+/* Estilo para cualquier frame que sea el evento actual */
+.current-event {
   background-color: #60A96E;
   color: white;
 }

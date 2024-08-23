@@ -65,8 +65,8 @@ const initializeDatabase = (callback) => {
           )`,
           `CREATE TABLE IF NOT EXISTS agenda (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            hora TIME NOT NULL,
-            dia DATE,
+            horaI TIME NOT NULL,
+            horaF TIME NOT NULL,
             descripcion VARCHAR(3000),
             detalles VARCHAR(3000)
           )`,
