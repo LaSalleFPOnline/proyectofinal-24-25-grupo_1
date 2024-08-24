@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';  // Importar Router
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Observable } from 'rxjs';
-
 
 @Component({
   selector: 'app-registro',
@@ -11,15 +9,13 @@ import { Observable } from 'rxjs';
 })
 export class RegistroComponent {
 
-  // nombre: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   passwordsDoNotMatch: boolean = false;
   alertShown: boolean = false;
-  rol: number = 1; // 1: Empresa, 2: Visitante, 3: Administrador
+  rol: number = 1; // 1: Empresa, 2: Visitante
   nombreColegio: string = '';
-  colegios: string[] = [];
 
   // Campos específicos para empresas
   nombre_empresa: string = '';
@@ -33,64 +29,115 @@ export class RegistroComponent {
   // Campo específico para visitantes
   entidad: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}  // Inyectar Router
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
-  onSubmit() {
-    const userData = {
-      // nombre: this.nombre,
-      email: this.email,
-      password: this.password,
-      rol: this.rol,
-      nombre_empresa: this.nombre_empresa,
-      web_url: this.web_url,
-      spot_url: this.spot_url,
-      logo_url: this.logo_url,
-      descripcion: this.descripcion,
-      url_meet: this.url_meet,
-      /* Añadimos un valor por defecto en el campo de HORARIO MEET en caso de estar vacío al registrar */
-      horario_meet: this.horario_meet || '00:00:00',
-      entidad: this.entidad
-    };
+  constructor(private authService: AuthService, private router: Router) {}
 
-    console.log('Formulario enviado:', userData);
+  validarFormulario() {
+    const missingFields: string[] = [];
 
-    this.authService.register(userData)
-      .subscribe({
-        next: (response) => {
-          console.log('Usuario registrado exitosamente:', response);
-          // Redirigir al usuario a la página de login
-          this.router.navigate(['/login']);
-        },
-        error: (error) => {
-          console.error('Error al registrar usuario en el front:', error);
-          // Aquí puedes manejar errores y mostrar mensajes al usuario
-        },
-        complete: () => {
-          console.log('Proceso de registro completado');
-        }
-      });
+    // Validaciones según el rol seleccionado
+    if (!this.email) missingFields.push('Email');
+    if (!this.password) missingFields.push('Contraseña');
 
-    this.authService.getEmpresa().subscribe((empresa: any) => {
-      if (empresa) {
-        this.nombreColegio = empresa.entidad || '';
-        // Otras asignaciones...
-      } else {
-        console.error('No se encontraron datos de la empresa.');
-      }
-    });
-  }
-  checkPasswords(confirmPasswordInput: HTMLInputElement) {
+    if (this.rol === 1) {  // Empresa
+      if (!this.email) missingFields.push('Email');
+      if (!this.password) missingFields.push('Contraseña');
+      if (!this.nombre_empresa) missingFields.push('Nombre de la Empresa');
+      if (!this.web_url) missingFields.push('Web URL');
+      if (!this.logo_url) missingFields.push('Logo URL');
+      if (!this.descripcion) missingFields.push('Descripción de productos o servicios');
+      if (!this.url_meet) missingFields.push('URL Meet');
+      if (!this.horario_meet) missingFields.push('Horario Meet');
+    } else if (this.rol === 2) {  // Visitante
+      if (!this.email) missingFields.push('Email');
+      if (!this.password) missingFields.push('Contraseña');
+      if (!this.entidad) missingFields.push('Entidad');
+    }
+
+    // Si hay campos faltantes
+    if (missingFields.length > 0) {
+      this.errorMessage = `Por favor, completa los siguientes campos obligatorios: ${missingFields.join(', ')}.`;
+      return;
+    } else {
+      this.errorMessage = null;
+    }
+
+    // Verificar si las contraseñas coinciden
     if (this.password !== this.confirmPassword) {
       if (!this.alertShown) {
-        this.alertShown = true; // Marcar que la alerta ha sido mostrada
+        this.alertShown = true;
         alert('Las contraseñas no coinciden. Por favor, verifica que ambas sean iguales.');
       }
       this.passwordsDoNotMatch = true;
-      this.confirmPassword = ''; // Vaciar el campo
-      confirmPasswordInput.focus(); // Enfocar de nuevo el campo
+      this.confirmPassword = '';  // Vaciar el campo
+      return;
     } else {
       this.passwordsDoNotMatch = false;
-      this.alertShown = false; // Restablecer el estado de alerta si las contraseñas coinciden
+      this.alertShown = false;  // Restablecer el estado de alerta si las contraseñas coinciden
+    }
+
+    // Configuración de userData según el rol seleccionado
+    const userData: any = {
+      email: this.email,
+      password: this.password,
+      rol: this.rol,
+    };
+
+    if (this.rol === 1) {  // Empresa
+      userData.nombre_empresa = this.nombre_empresa;
+      userData.web_url = this.web_url;
+      userData.spot_url = this.spot_url;
+      userData.logo_url = this.logo_url;
+      userData.descripcion = this.descripcion;
+      userData.url_meet = this.url_meet;
+      userData.horario_meet = this.horario_meet || '00:00';
+      userData.entidad = this.entidad;
+    } else if (this.rol === 2) {  // Visitante
+      userData.entidad = this.entidad;
+    }
+
+    console.log('Formulario enviado:', userData);
+
+    // Llamada al servicio de registro
+    this.authService.register(userData).subscribe({
+      next: (response) => {      
+        console.log('Respuesta del servidor:', response);
+
+        console.log('Usuario registrado exitosamente:', response);
+        this.successMessage = 'Registro exitoso. Redirigiendo al login...';
+        this.errorMessage = null;
+        this.router.navigate(['/login']);  // Redirigir al login
+      },
+      error: (error) => {
+        console.error('Error al registrar usuario:', error);
+        // Extraer más detalles del error
+        if (error.status === 0) {
+          this.errorMessage = 'No se puede conectar con el servidor. Verifica la URL y tu conexión a Internet.';
+        } else {
+          this.errorMessage = `Error: ${error.status} ${error.statusText}. ${error.error.message || 'Por favor, inténtelo de nuevo.'}`;
+        }
+        this.successMessage = null;
+      },
+      complete: () => {
+        console.log('Proceso de registro completado');
+      }
+    });
+    
+  }
+
+  checkPasswords() {
+    if (this.password !== this.confirmPassword) {
+      if (!this.alertShown) {
+        this.alertShown = true;
+        alert('Las contraseñas no coinciden. Por favor, verifica que ambas sean iguales.');
+      }
+      this.passwordsDoNotMatch = true;
+      this.confirmPassword = '';  // Vaciar el campo
+    } else {
+      this.passwordsDoNotMatch = false;
+      this.alertShown = false;  // Restablecer el estado de alerta si las contraseñas coinciden
     }
   }
 }

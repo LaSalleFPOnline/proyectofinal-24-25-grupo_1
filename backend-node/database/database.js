@@ -34,7 +34,6 @@ const initializeDatabase = (callback) => {
         const queries = [
           `CREATE TABLE IF NOT EXISTS usuarios (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
             rol INT NOT NULL CHECK (rol IN (1, 2, 3))

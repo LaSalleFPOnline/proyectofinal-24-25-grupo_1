@@ -9,9 +9,9 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
 function registerUser(req, res) {
   console.log('Solicitud de registro recibida:', req.body);
-  const { nombre, email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
+  const { email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
 
-  if (!nombre || !email || !password || !rol) {
+  if (!email || !password || !rol) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
 
@@ -21,8 +21,9 @@ function registerUser(req, res) {
       return res.status(500).json({ message: 'Error al hashear la contraseña' });
     }
 
-    const insertUserQuery = 'INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)';
-    connection.query(insertUserQuery, [nombre, email, hash, rol], (err, result) => {
+    // Consulta SQL corregida
+    const insertUserQuery = 'INSERT INTO usuarios (email, password, rol) VALUES (?, ?, ?)';
+    connection.query(insertUserQuery, [email, hash, rol], (err, result) => {
       if (err) {
         if (err.code === 'ER_DUP_ENTRY') {
           console.error('Error: El correo electrónico ya está en uso');
@@ -66,6 +67,8 @@ function registerUser(req, res) {
     });
   });
 }
+
+
 
 function loginUser(req, res) {
   const { email, password } = req.body;

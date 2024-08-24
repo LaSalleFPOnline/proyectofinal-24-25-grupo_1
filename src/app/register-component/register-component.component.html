@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" class="formulario registro">
+<form (ngSubmit)="validarFormulario()" class="formulario registro">
 
   <div class="titulo">Registro</div>
 
@@ -18,7 +18,7 @@
     <label class="text">* Repite la contraseña:</label>
     <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="input" required
           [ngClass]="{'error': passwordsDoNotMatch}" #confirmPasswordInput
-          (blur)="checkPasswords(confirmPasswordInput)">
+          (blur)="checkPasswords()">
     <img class="line" src="assets/Images/line.png">
   </div>
 
@@ -31,7 +31,6 @@
     </select>
     <img class="line" src="assets/Images/line.png">
   </div>
-
 
   <div *ngIf="rol == 1" class="campo">
     <label class="text">* Nombre de la Empresa:</label>
@@ -57,13 +56,11 @@
     <img class="line" src="assets/Images/line.png">
   </div>
 
-  <div class="campo">
+  <div *ngIf="rol == 1" class="campo">
     <label class="text">Descripción de productos o servicios</label>
     <img class="line" src="assets/Images/line.png">
-    <textarea class="textarea" placeholder="Escribe aquí..."></textarea>
+    <textarea class="textarea" placeholder="Escribe aquí..." [(ngModel)]="descripcion" name="descripcion"></textarea>
   </div>
-
-  
 
   <div *ngIf="rol == 1" class="campo">
     <label class="text">URL Meet:</label>
@@ -77,9 +74,9 @@
     <img class="line" src="assets/Images/line.png">
   </div>
 
-  <div *ngIf="rol == 1" class="campo">
+  <div *ngIf="rol === 1 || rol === 2" class="campo">
     <label class="text">Colegio:</label>
-    <select id="nombreColegio" [(ngModel)]="nombreColegio" name="nombreColegio" class="input">
+    <select id="nombreColegio" [(ngModel)]="entidad" name="entidad" class="input">
       <option value="" disabled>Seleccionar Colegio</option>
       <option value="Colegio 1">Colegio 1</option>
       <option value="Colegio 2">Colegio 2</option>
@@ -88,12 +85,12 @@
     <img class="line" src="assets/Images/line.png">
   </div>
   
-  <!-- Campo específico para visitantes -->
-  <div *ngIf="rol == 2">
+
+  <!-- <div *ngIf="rol == 2" class="campo">
     <label for="entidad">Entidad:</label>
     <input type="text" id="entidad" [(ngModel)]="entidad" name="entidad">
-  </div>
+  </div> -->
+
   <button type="submit" class="button-validar">Registrarse</button>
-  
-  <!-- <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div> -->
+
 </form>
