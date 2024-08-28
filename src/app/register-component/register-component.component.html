@@ -74,9 +74,9 @@
     <img class="line" src="assets/Images/line.png">
   </div>
 
-  <div *ngIf="rol === 1 || rol === 2" class="campo">
-    <label class="text">Colegio:</label>
-    <select id="nombreColegio" [(ngModel)]="entidad" name="entidad" class="input">
+  <div *ngIf="rol == 1 || rol == 2" class="campo">
+    <label class="text">* Colegio:</label>
+    <select id="entidad" [(ngModel)]="entidad" name="entidad" class="input">
       <option value="" disabled>Seleccionar Colegio</option>
       <option value="Colegio 1">Colegio 1</option>
       <option value="Colegio 2">Colegio 2</option>
@@ -85,12 +85,6 @@
     <img class="line" src="assets/Images/line.png">
   </div>
   
-
-  <!-- <div *ngIf="rol == 2" class="campo">
-    <label for="entidad">Entidad:</label>
-    <input type="text" id="entidad" [(ngModel)]="entidad" name="entidad">
-  </div> -->
-
   <button type="submit" class="button-validar">Registrarse</button>
 
 </form>
