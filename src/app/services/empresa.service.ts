@@ -7,16 +7,16 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class EmpresaService {
-  private apiUrl = 'http://localhost:3001/api/empresas'; // URL del servidor Node.js
+  private apiUrl = 'http://localhost:3001/api/'; // URL del servidor Node.js
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getEmpresas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(`${this.apiUrl}/empresas`);
   }
 
-  getEmpresaById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/empresas/${id}`);
+  getEmpresaById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/empresa/${id}`);
   }
 
   /*

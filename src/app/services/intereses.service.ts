@@ -1,4 +1,3 @@
-// intereses.service.ts
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -7,9 +6,8 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-
 export class InteresesService {
-  private apiUrl = 'http://localhost:3001/api'; // Cambia esto por la URL de tu API
+  private apiUrl = 'http://localhost:3001/api'; // Asegúrate de que esta URL sea la correcta para tu API
 
   constructor(private http: HttpClient) { }
 
@@ -32,7 +30,7 @@ export class InteresesService {
       console.error('IDs de las empresas no proporcionados.');
       return throwError('IDs de las empresas no proporcionados.');
     }
-  
+
     return this.http.post(`${this.apiUrl}/add-interest`, {
       empresa_id: empresaId,
       empresa_interesada_id: empresaInteresadaId
@@ -45,7 +43,6 @@ export class InteresesService {
     );
   }
 
-  // Implementa el método para obtener relaciones si es necesario
   obtenerRelaciones(empresaId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/relaciones/${empresaId}`, { headers: this.getAuthHeaders() })
       .pipe(

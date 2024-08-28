@@ -12,55 +12,34 @@ const addInterest = (req, res) => {
   connection.query(query, [empresa_id, empresa_interesada_id], (err) => {
     if (err) {
       console.error('Error al agregar interés: ', err);
-      return res.status(500).json({ error: 'Error al agregar el interés.' });
+      return res.status(500).json({ error: 'Error al agregar interés' });
     }
-    res.status(201).json({ message: 'Interés agregado exitosamente.' });
+    res.status(200).json({ message: 'Interés agregado exitosamente' });
   });
 };
 
-
-
-// Función para obtener las relaciones comerciales
+// Función para obtener intereses/relaciones
 const getInterests = (req, res) => {
-  const { empresa_id } = req.params;
+  const empresa_id = req.params.empresa_id;
 
-  if (!empresa_id) {
-    return res.status(400).json({ error: 'El ID de la empresa es requerido.' });
-  }
+  const queryCompras = 'SELECT * FROM intereses WHERE empresa_interesada_id = ?';
+  const queryVentas = 'SELECT * FROM intereses WHERE empresa_id = ?';
 
-  const queryInteresadasPorMi = `
-    SELECT e.* FROM empresas e
-    JOIN intereses i ON e.usuario_id = i.empresa_interesada_id
-    WHERE i.empresa_id = ?
-  `;
-
-  const queryInteresadasEnMi = `
-    SELECT e.* FROM empresas e
-    JOIN intereses i ON e.usuario_id = i.empresa_id
-    WHERE i.empresa_interesada_id = ?
-  `;
-
-  connection.query(queryInteresadasPorMi, [empresa_id], (err, empresasMarcadas) => {
+  connection.query(queryCompras, [empresa_id], (err, compras) => {
     if (err) {
-      console.error('Error al obtener las empresas que me interesan: ', err);
-      return res.status(500).json({ error: 'Error al obtener las empresas que te interesan.' });
+      console.error('Error al obtener relaciones de compra: ', err);
+      return res.status(500).json({ error: 'Error al obtener relaciones de compra' });
     }
 
-    connection.query(queryInteresadasEnMi, [empresa_id], (err, empresasInteresadasEnMi) => {
+    connection.query(queryVentas, [empresa_id], (err, ventas) => {
       if (err) {
-        console.error('Error al obtener las empresas interesadas en mí: ', err);
-        return res.status(500).json({ error: 'Error al obtener las empresas interesadas en ti.' });
+        console.error('Error al obtener relaciones de venta: ', err);
+        return res.status(500).json({ error: 'Error al obtener relaciones de venta' });
       }
 
-      res.status(200).json({
-        empresasMarcadas,
-        empresasInteresadasEnMi,
-      });
+      res.status(200).json({ compras, ventas });
     });
   });
 };
 
-module.exports = {
-  addInterest,
-  getInterests,
-};
+module.exports = { addInterest, getInterests };

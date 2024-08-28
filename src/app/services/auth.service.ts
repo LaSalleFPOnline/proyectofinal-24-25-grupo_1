@@ -101,9 +101,14 @@ export class AuthService {
   }
 
   // Guardar el ID de la empresa seleccionada para mostrar detalles
-  setEmpresaSeleccionada(empresa: any): void {
-      sessionStorage.setItem('empresaSeleccionadaId', empresa.id.toString());
+  setEmpresaSeleccionadaId(empresaId: number | null): void {
+    if (empresaId !== null && empresaId !== undefined) {
+      sessionStorage.setItem('empresaSeleccionadaId', empresaId.toString());
+    } else {
+      console.error('El ID de la empresa es inválido');
+    }
   }
+  
 
   // Obtener el ID de la empresa seleccionada para mostrar detalles
   getEmpresaSeleccionadaId(): number | null {

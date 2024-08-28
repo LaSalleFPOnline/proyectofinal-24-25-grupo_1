@@ -74,28 +74,26 @@
         </div>
         <div class="contenedor-realaciones">
             <div class="overlap-relaciones-1">
-                <div class="text-relaciones">Compra</div>
+                <div class="text-relaciones">Mis intereses</div>
                 <div class="scroll-container">
-                    <div class="rectangle-relaciones"></div>
-                    <div class="rectangle-relaciones"></div>
-                    <div class="rectangle-relaciones"></div>
-                    <div class="rectangle-relaciones"></div>
+                    <!-- Recorre la lista de misIntereses para mostrar los logotipos -->
+                    <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetallesInteres(venta, 'venta')">
+                        <img *ngIf="venta.logo_url" [src]="venta.logo_url" alt="{{ venta.nombre_empresa }}" class="logo-interes">
+                    </div>
                 </div>
             </div>
-
-            <div class="text-suma-1">Total: 10 <br/>empresas</div>
+            <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
 
             <div class="overlap-relaciones-2">
-                <div class="text-relaciones">Venta</div>
+                <div class="text-relaciones">Interesados en mí</div>
                 <div class="scroll-container">
-                    <div class="rectangle-relaciones"></div>
-                    <div class="rectangle-relaciones"></div>
-                    <div class="rectangle-relaciones"></div>
-                    <div class="rectangle-relaciones"></div>
+                    <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetallesInteres(compra, 'compra')">
+                        <img *ngIf="compra.logo_url" [src]="compra.logo_url" alt="{{ compra.nombre_empresa }}" class="logo-interes">
+                    </div>
                 </div>
             </div>
 
-            <div class="text-suma-2">Total: 15 <br/>empresas</div>
+            <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
         </div>
     </div>
 </div>
@@ -109,7 +107,7 @@
 </div>
 <div class="scroll-container">
     <div *ngFor="let empresa of empresas" class="rectangle-empresas">
-        <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa)">
+        <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa.id)">
         <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
     </div>
 </div>
@@ -124,7 +122,7 @@
 
     <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
 
-    <!-- Que viene a este rectangulo?? -->
+    <!-- Que viene a este rectangulo?? ----///////----- EL LOGOTIPO -->
     <div class="contenedor-arriba">
         <div class="rectangle-detalles"></div>
         <p class="empresa">
@@ -136,14 +134,14 @@
             </span>
         </p>
     </div>
-    
+
     <div class="contenedor-abajo">
         <div class="rectangle-video-detalles"></div>
         <div class="scroll-detalles">
             <p>{{ empresaSeleccionada.descripcion }}</p>
         </div>
     </div>
-    
+
     <div class="button-container">
         <button class="button">Votar</button>
         <button class="button">Mensaje</button>

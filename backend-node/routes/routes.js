@@ -1,10 +1,12 @@
+// routes/routes.js
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/userController');
-const { updateEmpresa } = require('../controllers/empresaController');
+const { updateEmpresa } = require('../controllers/empresaController'); // Asegúrate de que esto esté correcto
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
 const { getEmpresas } = require('../controllers/adminController');
+const { getEmpresaById } = require('../controllers/adminController');  // Asegúrate de importar correctamente la función
 const { getAllEvents } = require('../controllers/agendaController');
 const { addInterest, getInterests } = require('../controllers/interesesController');
 
@@ -33,7 +35,11 @@ router.post('/actualizar-empresa', (req, res) => {
   });
 });
 
+// Ruta para obtener todas las empresas
 router.get('/empresas', getEmpresas);
+
+// Ruta para obtener los detalles de una empresa por ID
+router.get('/empresa/:id', getEmpresaById);
 
 // Ruta para agregar interés
 router.post('/add-interest', authenticateToken, addInterest);
@@ -42,6 +48,7 @@ router.post('/add-interest', authenticateToken, addInterest);
 router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
 
 module.exports = router;
+
 
 
 

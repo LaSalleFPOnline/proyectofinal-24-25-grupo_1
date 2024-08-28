@@ -30,27 +30,33 @@ export class FeriaPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.empresaService.getEmpresas().subscribe((data: any[]) => {
-      this.empresas = data;
-      console.log('Empresas: ', this.empresas);
+        this.empresas = data;
+        console.log('Empresas: ', this.empresas);
+
+        const empresaId = this.authService.getLoggedInCompanyId(); 
+
+        if (empresaId !== null) {
+            this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
+                this.relacionesCompra = data.compras || [];
+                this.relacionesVenta = data.ventas || [];
+                
+                // Asignar logotipos correctamente para cada tipo de relación
+                this.assignLogosToRelations(this.relacionesCompra, 'empresa_id');
+                this.assignLogosToRelations(this.relacionesVenta, 'empresa_interesada_id');
+                
+                console.log('Relaciones de compra:', this.relacionesCompra);
+                console.log('Relaciones de venta:', this.relacionesVenta);
+            }, error => {
+                console.error('Error al obtener relaciones:', error);
+            });
+        } else {
+            console.error('No se pudo obtener el ID de la empresa logueada.');
+        }
     }, error => {
-      console.error('Error al obtener empresas: ', error);
+        console.error('Error al obtener empresas: ', error);
     });
+}
 
-    const empresaId = this.authService.getLoggedInCompanyId(); 
-
-    if (empresaId !== null) {
-      this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
-        this.relacionesCompra = data.compras || [];
-        this.relacionesVenta = data.ventas || [];
-        console.log('Relaciones de compra:', this.relacionesCompra);
-        console.log('Relaciones de venta:', this.relacionesVenta);
-      }, error => {
-        console.error('Error al obtener relaciones:', error);
-      });
-    } else {
-      console.error('No se pudo obtener el ID de la empresa logueada.');
-    }
-  }
 
   toggleFrame(event: Event) {
     const icon = event.target as HTMLImageElement;
@@ -76,10 +82,27 @@ export class FeriaPageComponent implements OnInit {
     }
   }
 
-  mostrarDetalles(empresa: any) {
-    this.empresaSeleccionada = empresa;
-    this.authService.setEmpresaSeleccionada(empresa); // Usa el servicio para guardar la empresa seleccionada
-    console.log('Empresa seleccionada:', empresa);
+  mostrarDetalles(empresaId: any) {
+    console.log('ID de la empresa antes de llamar al servicio:', empresaId);
+    // Verifica que empresaId es realmente un número
+    if (typeof empresaId === 'number') {
+      this.empresaService.getEmpresaById(empresaId).subscribe(
+        (empresa: any) => {
+          this.empresaSeleccionada = empresa;
+          if (empresa && empresa.id) {
+            this.authService.setEmpresaSeleccionadaId(empresa.id); // Guarda el ID de la empresa seleccionada
+          } else {
+            console.error('ID de la empresa no está disponible');
+          }
+          console.log('Empresa seleccionada:', empresa);
+        },
+        error => {
+          console.error('Error al obtener los detalles de la empresa:', error);
+        }
+      );
+    } else {
+      console.error('ID de la empresa no es un número:', empresaId);
+    }
   }
 
   cerrarDetalles() {
@@ -97,19 +120,62 @@ export class FeriaPageComponent implements OnInit {
       return;
     }
 
-    const body = {
-      empresa_id: empresaId,
-      empresa_interesada_id: empresaInteresadaId
-    };
-
-    this.http.post('/api/intereses', body)
-      .subscribe(
-        response => {
-          console.log('Interés agregado exitosamente', response);
-        },
-        error => {
-          console.error('Error al agregar interés:', error);
-        }
-      );
+    this.interesesService.crearInteres(empresaId, empresaInteresadaId).subscribe(
+      response => {
+        console.log('Interés agregado exitosamente', response);
+      },
+      error => {
+        console.error('Error al agregar interés:', error);
+      }
+    );
   }
+
+  mostrarDetallesInteres(empresaRel: any, tipo: 'compra' | 'venta'): void {
+    let empresaId: number;
+
+    if (tipo === 'compra') {
+        // Usar empresa_id para relaciones de compra
+        empresaId = empresaRel.empresa_id;
+    } else {
+        // Usar empresa_interesada_id para relaciones de venta
+        empresaId = empresaRel.empresa_interesada_id;
+    }
+
+    console.log('ID de la empresa antes de llamar al servicio:', empresaId);
+
+    if (typeof empresaId === 'number') {
+        this.empresaService.getEmpresaById(empresaId).subscribe(
+            (empresa: any) => {
+                this.empresaSeleccionada = empresa;
+                if (empresa && empresa.id) {
+                    this.authService.setEmpresaSeleccionadaId(empresa.id); // Guarda el ID de la empresa seleccionada
+                } else {
+                    console.error('ID de la empresa no está disponible');
+                }
+                console.log('Empresa seleccionada:', empresa);
+            },
+            error => {
+                console.error('Error al obtener los detalles de la empresa:', error);
+            }
+        );
+    } else {
+        console.error('ID de la empresa no es un número:', empresaId);
+    }
+    // Asegúrate de que la página se desplace hacia la sección de detalles, si es necesario
+    window.scrollTo(0, document.body.scrollHeight);
+}
+
+
+  private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
+    relations.forEach(rel => {
+        // Buscar la empresa correspondiente usando el campo ID especificado
+        const empresa = this.empresas.find(e => e.id === rel[idField]);
+        if (empresa) {
+            rel.logo_url = empresa.logo_url;
+            rel.nombre_empresa = empresa.nombre_empresa;
+        }
+    });
+}
+
+
 }
