@@ -38,19 +38,7 @@ export class FeriaPageComponent implements OnInit {
         const empresaId = this.authService.getLoggedInCompanyId(); 
 
         if (empresaId !== null) {
-            this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
-                this.relacionesCompra = data.compras || [];
-                this.relacionesVenta = data.ventas || [];
-                
-                // Asignar logotipos correctamente para cada tipo de relación
-                this.assignLogosToRelations(this.relacionesCompra, 'empresa_id');
-                this.assignLogosToRelations(this.relacionesVenta, 'empresa_interesada_id');
-                
-                console.log('Relaciones de compra:', this.relacionesCompra);
-                console.log('Relaciones de venta:', this.relacionesVenta);
-            }, error => {
-                console.error('Error al obtener relaciones:', error);
-            });
+            this.obtenerRelaciones(empresaId);
         } else {
             console.error('No se pudo obtener el ID de la empresa logueada.');
         }
@@ -59,6 +47,21 @@ export class FeriaPageComponent implements OnInit {
     });
   }
 
+  obtenerRelaciones(empresaId: number): void {
+    this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
+        this.relacionesCompra = data.compras || [];
+        this.relacionesVenta = data.ventas || [];
+        
+        // Asignar logotipos correctamente para cada tipo de relación
+        this.assignLogosToRelations(this.relacionesCompra, 'empresa_id');
+        this.assignLogosToRelations(this.relacionesVenta, 'empresa_interesada_id');
+        
+        console.log('Relaciones de compra:', this.relacionesCompra);
+        console.log('Relaciones de venta:', this.relacionesVenta);
+    }, error => {
+        console.error('Error al obtener relaciones:', error);
+    });
+  }
 
   toggleFrame(event: Event) {
     const icon = event.target as HTMLImageElement;
@@ -85,9 +88,6 @@ export class FeriaPageComponent implements OnInit {
   }
 
   mostrarDetalles(empresaId: any) {
-    // Lógica para mostrar detalles de la empresa
-    console.log('ID de la empresa antes de llamar al servicio:', empresaId);
-
     if (typeof empresaId === 'number') {
       this.empresaService.getEmpresaById(empresaId).subscribe(
         (empresa: any) => {
@@ -110,7 +110,7 @@ export class FeriaPageComponent implements OnInit {
 
   agregarOEliminarInteres() {
     const empresaId = this.authService.getLoggedInCompanyId();
-    const empresaInteresadaId = this.authService.getEmpresaSeleccionadaId();
+    const empresaInteresadaId = this.empresaSeleccionada?.id; 
   
     if (empresaId === null || empresaInteresadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
@@ -118,22 +118,22 @@ export class FeriaPageComponent implements OnInit {
     }
   
     if (this.interesadoEnEmpresa) {
-      // Llamar al servicio para eliminar interés
-      this.interesesService.eliminarInteres(empresaId, empresaInteresadaId).subscribe(
+      this.interesesService.eliminarInteres({ empresaId, empresaInteresadaId }).subscribe(
         response => {
           console.log('Interés eliminado exitosamente', response);
-          this.interesadoEnEmpresa = false; // Actualizar el estado del botón
+          this.interesadoEnEmpresa = false; 
+          this.obtenerRelaciones(empresaId);
         },
         error => {
           console.error('Error al eliminar interés:', error);
         }
       );
     } else {
-      // Llamar al servicio para agregar interés
       this.interesesService.crearInteres(empresaId, empresaInteresadaId).subscribe(
         response => {
           console.log('Interés agregado exitosamente', response);
-          this.interesadoEnEmpresa = true; // Actualizar el estado del botón
+          this.interesadoEnEmpresa = true;
+          this.obtenerRelaciones(empresaId);
         },
         error => {
           console.error('Error al agregar interés:', error);
@@ -152,8 +152,6 @@ export class FeriaPageComponent implements OnInit {
         // Usar empresa_interesada_id para relaciones de venta
         empresaId = empresaRel.empresa_interesada_id;
     }
-
-    console.log('ID de la empresa antes de llamar al servicio:', empresaId);
 
     if (typeof empresaId === 'number') {
         this.empresaService.getEmpresaById(empresaId).subscribe(
@@ -176,7 +174,6 @@ export class FeriaPageComponent implements OnInit {
     // Asegúrate de que la página se desplace hacia la sección de detalles, si es necesario
     window.scrollTo(0, document.body.scrollHeight);
   }
-
 
   private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
     relations.forEach(rel => {

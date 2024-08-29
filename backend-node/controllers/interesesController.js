@@ -42,21 +42,20 @@ const getInterests = (req, res) => {
   });
 };
 
-// Eliminar interés de una empresa
 const eliminarInteres = (req, res) => {
-  const { empresaId, empresaInteresadaId } = req.body;
+  const { empresa_id, empresa_interesada_id } = req.body;
 
-  if (!empresaId || !empresaInteresadaId) {
+  if (!empresa_id || !empresa_interesada_id) {
     return res.status(400).json({ message: 'Datos insuficientes' });
   }
 
-  // Ajusta el nombre de la tabla según tu esquema
+  // Eliminar la relación de interés en la base de datos
   const query = `
     DELETE FROM intereses
     WHERE empresa_id = ? AND empresa_interesada_id = ?;
   `;
   
-  connection.query(query, [empresaId, empresaInteresadaId], (err, result) => {
+  connection.query(query, [empresa_id, empresa_interesada_id], (err, result) => {
     if (err) {
       console.error('Error al eliminar interés:', err);
       return res.status(500).json({ message: 'Error al eliminar interés' });
@@ -71,8 +70,9 @@ const eliminarInteres = (req, res) => {
   });
 };
 
+
 module.exports = {
   addInterest,
   getInterests,
-  eliminarInteres
+  eliminarInteres,
 };
