@@ -12,12 +12,14 @@ import { AuthService } from '../services/auth.service'; // Asegúrate de importa
   styleUrls: ['./feria-page.component.css'],
   imports: [CommonModule]
 })
+
 export class FeriaPageComponent implements OnInit {
   empresas: any[] = [];
   empresaSeleccionada: any = null;
   relacionesCompra: any[] = [];
   relacionesVenta: any[] = [];
   private expandedFrame: HTMLElement | null = null;
+  interesadoEnEmpresa = false;
 
   constructor(
     private http: HttpClient,
@@ -55,7 +57,7 @@ export class FeriaPageComponent implements OnInit {
     }, error => {
         console.error('Error al obtener empresas: ', error);
     });
-}
+  }
 
 
   toggleFrame(event: Event) {
@@ -83,17 +85,14 @@ export class FeriaPageComponent implements OnInit {
   }
 
   mostrarDetalles(empresaId: any) {
+    // Lógica para mostrar detalles de la empresa
     console.log('ID de la empresa antes de llamar al servicio:', empresaId);
-    // Verifica que empresaId es realmente un número
+
     if (typeof empresaId === 'number') {
       this.empresaService.getEmpresaById(empresaId).subscribe(
         (empresa: any) => {
           this.empresaSeleccionada = empresa;
-          if (empresa && empresa.id) {
-            this.authService.setEmpresaSeleccionadaId(empresa.id); // Guarda el ID de la empresa seleccionada
-          } else {
-            console.error('ID de la empresa no está disponible');
-          }
+          this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
           console.log('Empresa seleccionada:', empresa);
         },
         error => {
@@ -109,25 +108,38 @@ export class FeriaPageComponent implements OnInit {
     this.empresaSeleccionada = null;
   }
 
-  agregarInteres() {
+  agregarOEliminarInteres() {
     const empresaId = this.authService.getLoggedInCompanyId();
     const empresaInteresadaId = this.authService.getEmpresaSeleccionadaId();
-
+  
     if (empresaId === null || empresaInteresadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
-      console.log('Empresa ID:', empresaId);
-      console.log('Empresa Seleccionada ID:', empresaInteresadaId);
       return;
     }
-
-    this.interesesService.crearInteres(empresaId, empresaInteresadaId).subscribe(
-      response => {
-        console.log('Interés agregado exitosamente', response);
-      },
-      error => {
-        console.error('Error al agregar interés:', error);
-      }
-    );
+  
+    if (this.interesadoEnEmpresa) {
+      // Llamar al servicio para eliminar interés
+      this.interesesService.eliminarInteres(empresaId, empresaInteresadaId).subscribe(
+        response => {
+          console.log('Interés eliminado exitosamente', response);
+          this.interesadoEnEmpresa = false; // Actualizar el estado del botón
+        },
+        error => {
+          console.error('Error al eliminar interés:', error);
+        }
+      );
+    } else {
+      // Llamar al servicio para agregar interés
+      this.interesesService.crearInteres(empresaId, empresaInteresadaId).subscribe(
+        response => {
+          console.log('Interés agregado exitosamente', response);
+          this.interesadoEnEmpresa = true; // Actualizar el estado del botón
+        },
+        error => {
+          console.error('Error al agregar interés:', error);
+        }
+      );
+    }
   }
 
   mostrarDetallesInteres(empresaRel: any, tipo: 'compra' | 'venta'): void {
@@ -163,7 +175,7 @@ export class FeriaPageComponent implements OnInit {
     }
     // Asegúrate de que la página se desplace hacia la sección de detalles, si es necesario
     window.scrollTo(0, document.body.scrollHeight);
-}
+  }
 
 
   private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
@@ -175,7 +187,5 @@ export class FeriaPageComponent implements OnInit {
             rel.nombre_empresa = empresa.nombre_empresa;
         }
     });
-}
-
-
+  }
 }

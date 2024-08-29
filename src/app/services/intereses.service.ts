@@ -52,4 +52,19 @@ export class InteresesService {
         })
       );
   }
+
+  eliminarInteres(empresaId: number, empresaInteresadaId: number): Observable<any> {
+    if (!empresaId || !empresaInteresadaId) {
+      console.error('IDs de las empresas no proporcionados.');
+      return throwError(() => new Error('IDs de las empresas no proporcionados.'));
+    }
+  
+    return this.http.post(`${this.apiUrl}/eliminar-interes`, { empresaId, empresaInteresadaId }, { headers: this.getAuthHeaders() })
+      .pipe(
+        catchError(error => {
+          console.error('Error en la solicitud de eliminación:', error);
+          return throwError(() => new Error('Error en la solicitud de eliminación'));
+        })
+      );
+  }
 }

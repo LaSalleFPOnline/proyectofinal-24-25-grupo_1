@@ -145,7 +145,9 @@
     <div class="button-container">
         <button class="button">Votar</button>
         <button class="button">Mensaje</button>
-        <button (click)="agregarInteres()">Me interesa</button>
+        <button (click)="agregarOEliminarInteres()">
+            {{ interesadoEnEmpresa ? 'Eliminar interés' : 'Me interesa' }}
+        </button>
     </div>
 
 </div>

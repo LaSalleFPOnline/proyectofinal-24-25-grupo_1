@@ -6,7 +6,7 @@ const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
 const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
 const { getAllEvents } = require('../controllers/agendaController');
-const { addInterest, getInterests } = require('../controllers/interesesController');
+const { addInterest, getInterests, eliminarInteres } = require('../controllers/interesesController');
 
 // Ruta para obtener la agenda
 router.get('/agenda', getAllEvents);
@@ -44,6 +44,9 @@ router.post('/add-interest', authenticateToken, addInterest);
 
 // Ruta para obtener relaciones comerciales
 router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
+
+// Ruta para eliminar interés
+router.post('/eliminar-interes', authenticateToken, eliminarInteres);
 
 module.exports = router;
 
