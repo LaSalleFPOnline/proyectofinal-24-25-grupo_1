@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
       this.authService.logout();
       this.isLoggedIn = false;
       this.userRole = null;
-      this.router.navigate(['/feria']); // Redirigir a inicio o donde se considere adecuado
+      this.router.navigate(['/']); // Redirigir a inicio o donde se considere adecuado
     } else {
       this.router.navigate(['/login']); // Redirige a la página de login
     }
@@ -69,6 +69,8 @@ export class HeaderComponent implements OnInit {
 
   handleLogout() {
     this.handleLogin(); // Usa handleLogin para manejar logout y redirección
+    this.isMenuOpen = false; // Cierra el menú en dispositivos móviles
+    this.closeDropdown(); // Cierra el dropdown
   }
   closeDropdown() {
     this.dropdownOpen = false; // Cierra el menú desplegable
