@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class EmpresaService {
-  private apiUrl = 'http://localhost:3001/api/'; // URL del servidor Node.js
+  private apiUrl = 'http://localhost:3001/api'; // URL del servidor Node.js
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

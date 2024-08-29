@@ -68,8 +68,6 @@ function registerUser(req, res) {
   });
 }
 
-
-
 function loginUser(req, res) {
   const { email, password } = req.body;
   console.log('Datos recibidos:', { email, password });
@@ -163,8 +161,8 @@ function loginUser(req, res) {
         }
       });
     } else {
-      console.log('Usuario no encontrado con email:', email);
-      res.status(401).json({ message: 'Credenciales inválidas' });
+      console.log('Usuario no encontrado con el email:', email);
+      res.status(404).json({ message: 'Usuario no encontrado' });
     }
   });
 }

@@ -1,12 +1,10 @@
-// routes/routes.js
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/userController');
 const { updateEmpresa } = require('../controllers/empresaController'); // Asegúrate de que esto esté correcto
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
-const { getEmpresas } = require('../controllers/adminController');
-const { getEmpresaById } = require('../controllers/adminController');  // Asegúrate de importar correctamente la función
+const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
 const { getAllEvents } = require('../controllers/agendaController');
 const { addInterest, getInterests } = require('../controllers/interesesController');
 
@@ -48,6 +46,7 @@ router.post('/add-interest', authenticateToken, addInterest);
 router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
 
 module.exports = router;
+
 
 
 

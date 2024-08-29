@@ -1,7 +1,7 @@
 const { connection } = require('../database/database');
 //traer datos de empresa
 const getEmpresas = (req, res) => {
-    const query = 'SELECT usuarios.nombre, empresas. id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+    const query = 'SELECT empresas. id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
     connection.query(query, (err, results) => {
       if (err) {
         console.error('Error al obtener empresas:', err);
@@ -13,7 +13,7 @@ const getEmpresas = (req, res) => {
 
   const getEmpresaById = (req, res) => {
     const empresaId = req.params.id; // Obtener el ID de la URL
-    const query = 'SELECT usuarios.nombre, empresas.id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id WHERE empresas.id = ?';
+    const query = 'SELECT empresas.id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id WHERE empresas.id = ?';
     connection.query(query, [empresaId], (err, results) => {
       if (err) {
         console.error('Error al obtener la empresa:', err);

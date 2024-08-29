@@ -71,11 +71,11 @@ const initializeDatabase = (callback) => {
           )`,
           `CREATE TABLE IF NOT EXISTS intereses (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            empresa_id INT NOT NULL, -- Empresa que está interesada
-            empresa_interesada_id INT NOT NULL, -- Empresa en la que están interesados
+            empresa_id INT NOT NULL,
+            empresa_interesada_id INT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (empresa_id) REFERENCES empresas(usuario_id),
-            FOREIGN KEY (empresa_interesada_id) REFERENCES empresas(usuario_id)
+            FOREIGN KEY (empresa_id) REFERENCES empresas(id),
+            FOREIGN KEY (empresa_interesada_id) REFERENCES empresas(id)
           )`
         ];
 
