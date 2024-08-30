@@ -1,26 +1,40 @@
+/*
+Se importa el módulo express y se crea un router utilizando express.Router. Esto permite definir rutas en un módulo
+separado, que luego se pueden integrar en la aplicación principal
+*/
 const express = require('express');
 const router = express.Router();
+/*
+Los controladores se importan desde archivos específicos dentro de la carpeta controllers. Cada controlador tiene
+funciones que manejan la lógica para una ruta específica
+*/
 const { registerUser, loginUser } = require('../controllers/userController');
 const { updateEmpresa } = require('../controllers/empresaController'); // Asegúrate de que esto esté correcto
-const { parseRequestBody } = require('../middlewares/middlewares');
-const authenticateToken = require('../middlewares/authMiddleware');
 const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
 const { getAllEvents } = require('../controllers/agendaController');
 const { addInterest, getInterests, eliminarInteres } = require('../controllers/interesesController');
+/*
+Importamos los middlewares que son funciones que se ejecutan antes de llegar al controlador. El primero procesa el
+cuerpo de la solicitud y el segundo verifica si el usuario está autenticado
+*/
+const { parseRequestBody } = require('../middlewares/middlewares');
+const authenticateToken = require('../middlewares/authMiddleware');
 
-// Ruta para obtener la agenda
+
+// Esta ruta permite obtener todos los eventos de la agenda.
 router.get('/agenda', getAllEvents);
 
-// Rutas relacionadas con usuarios
+// Estas rutas permiten registrar un nuevo usuario e iniciar sesión a un usuario
 router.post('/register', parseRequestBody, registerUser);
 router.post('/login', parseRequestBody, loginUser);
 
-// Ruta protegida de ejemplo
+
+// Ruta protegida de ejemplo. Solo se puede acceder si el usuario está autenticado
 router.get('/protected', authenticateToken, (req, res) => {
   res.status(200).json({ message: 'Acceso concedido', user: req.user });
 });
 
-// Rutas relacionadas con empresas
+// Esta ruta permite actualizar la información de una empresa
 router.post('/actualizar-empresa', (req, res) => {
   const empresa = req.body;
   updateEmpresa(empresa, (err, data) => {
@@ -33,112 +47,21 @@ router.post('/actualizar-empresa', (req, res) => {
   });
 });
 
-// Ruta para obtener todas las empresas
+// Estas rutas devuelven un listado de todas las empresas y los detalles de una empresa identificada por un ID
 router.get('/empresas', getEmpresas);
-
-// Ruta para obtener los detalles de una empresa por ID
 router.get('/empresa/:id', getEmpresaById);
 
-// Ruta para agregar interés
+// Rutas para agregar un interés, devolver los intereses relacionados con una empresa, y eliminar un interés existente
 router.post('/add-interest', authenticateToken, addInterest);
-
-// Ruta para obtener relaciones comerciales
 router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
+
 
 // Ruta para eliminar interés
 router.delete('/eliminar-interes' ,authenticateToken, eliminarInteres);
 
+
+/*
+Exportamo el router para ser utilizado en otras partes de la aplicación, típicamente el archivo principal de la
+configuración de rutas
+*/
 module.exports = router;
-
-
-
-
-
-/*const express = require('express');
-const { body, validationResult } = require('express-validator');
-const { registerUser, loginUser } = require('../controllers/userController');
-const { updateEmpresa } = require('../controllers/empresaController');
-const { parseRequestBody } = require('../middlewares/middlewares');
-const authenticateToken = require('../middlewares/authMiddleware');
-
-const router = express.Router();
-
-// Rutas relacionadas con usuarios
-router.post('/register', 
-  parseRequestBody,
-  [
-    body('nombre').notEmpty().withMessage('El nombre es obligatorio'),
-    body('email').isEmail().withMessage('Email no es válido'),
-    body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
-    body('rol').isIn([1, 2, 3]).withMessage('El rol es inválido'),
-    // Validaciones adicionales para empresas (rol 1)
-    body('web_url').if(body('rol').equals('1')).isURL().withMessage('Web URL no es válida'),
-    body('spot_url').if(body('rol').equals('1')).isURL().withMessage('Spot URL no es válida'),
-    body('logo_url').if(body('rol').equals('1')).isURL().withMessage('Logo URL no es válida'),
-    body('descripcion').if(body('rol').equals('1')).notEmpty().withMessage('La descripción es obligatoria'),
-    body('url_meet').if(body('rol').equals('1')).isURL().withMessage('URL Meet no es válida'),
-    body('horario_meet').if(body('rol').equals('1')).notEmpty().withMessage('El horario Meet es obligatorio'),
-    // Validaciones adicionales para visitantes (rol 2)
-    body('entidad').if(body('rol').equals('2')).notEmpty().withMessage('La entidad es obligatoria')
-  ],
-  (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    registerUser(req, res);
-  }
-);
-
-router.post('/login', 
-  parseRequestBody,
-  [
-    body('email').isEmail().withMessage('Email no es válido'),
-    body('password').notEmpty().withMessage('La contraseña es obligatoria')
-  ],
-  (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    loginUser(req, res);
-  }
-);
-
-// Ruta protegida de ejemplo
-router.get('/protected', authenticateToken, (req, res) => {
-  res.status(200).json({ message: 'Acceso concedido', user: req.user });
-});
-
-// Rutas relacionadas con empresas
-router.post('/actualizar-empresa', 
-  parseRequestBody,
-  [
-    body('nombre').notEmpty().withMessage('El nombre es obligatorio'),
-    body('web_url').isURL().withMessage('Web URL no es válida'),
-    body('spot_url').isURL().withMessage('Spot URL no es válida'),
-    body('logo_url').isURL().withMessage('Logo URL no es válida'),
-    body('descripcion').notEmpty().withMessage('La descripción es obligatoria'),
-    body('url_meet').isURL().withMessage('URL Meet no es válida'),
-    body('horario_meet').notEmpty().withMessage('El horario Meet es obligatorio'),
-    body('entidad').notEmpty().withMessage('La entidad es obligatoria')
-  ],
-  (req, res) => {
-    const empresa = req.body;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    updateEmpresa(empresa, (err, data) => {
-      if (err) {
-        console.error('Error al actualizar la empresa:', err);
-        return res.status(500).json({ message: 'Error al actualizar la empresa: ' + err.message });
-      }
-      console.log('Datos enviados al cliente:', data);
-      res.status(200).json({ message: 'Empresa actualizada correctamente', data });
-    });
-  }
-);
-
-module.exports = router;*/

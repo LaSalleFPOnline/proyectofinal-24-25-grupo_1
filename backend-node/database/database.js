@@ -1,11 +1,24 @@
+/*
+Importamos la biblioteca mysql2 que es una extensión del módulo original, con soporte mejorado para Promises y otras
+características. Este módulo se usa para interactuar con BBDD MySQL
+*/
 const mysql = require('mysql2');
 
+/*
+Se crea una conexión a la BBDD. Especificamos el servidor de la BBDD, el nombre de usuario que se utiliza para
+conectarse a la BBDD, y la contraseña del usuario
+*/
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: ''
 });
 
+/*
+Esta función maneja la inicialización de la BBDD. Se intenta conectar a la BBDD, si ocurre un error se imprime por
+la consola y se pasa al callback. Connection.threadId es el identificador del hilo que se conecta a MySQL y es de
+ayuda para la depuración
+*/
 const initializeDatabase = (callback) => {
   connection.connect(err => {
     if (err) {
@@ -13,24 +26,24 @@ const initializeDatabase = (callback) => {
       return callback(err);
     }
     console.log('Conectado a la base de datos con ID ' + connection.threadId);
-
-    // Crear la base de datos si no existe
+    // Se ejecuta la consulta SQL para crear la BBDD si aún no existe
     connection.query('CREATE DATABASE IF NOT EXISTS Feria_virtual', (err) => {
       if (err) {
         console.error('Error al crear la base de datos: ', err);
         return callback(err);
       }
       console.log('Base de datos creada o ya existe');
-
-      // Cambiar a la base de datos Feria_virtual
+      // Se cambia la conexión para que use la nueva BBDD después de haber sido creada o verificada su existencia
       connection.changeUser({ database: 'Feria_virtual' }, (err) => {
         if (err) {
           console.error('Error al cambiar de base de datos: ', err);
           return callback(err);
         }
         console.log('Conectado a la base de datos Feria_virtual');
-
-        // Crear las tablas si no existen
+        /*
+        Se define un array de consultas SQL que crean las tablas necesarias si no existen. Estas tablas incluyen:
+        usuarios, empresas, visitantes, administradores, agenda e intereses
+        */
         const queries = [
           `CREATE TABLE IF NOT EXISTS usuarios (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -78,9 +91,11 @@ const initializeDatabase = (callback) => {
             FOREIGN KEY (empresa_interesada_id) REFERENCES empresas(id)
           )`
         ];
-
+        /*
+        Iteramos sobre cada consulta para crear las tablas. CompletedQueries lleva un conteo de las consultas completas.
+        Cuando todas las tablas han sido creadas, se invoca el callback con null, indicando que todo fue exitoso
+        */
         let completedQueries = 0;
-
         queries.forEach((query) => {
           connection.query(query, (err) => {
             if (err) {
@@ -90,7 +105,7 @@ const initializeDatabase = (callback) => {
             completedQueries += 1;
             if (completedQueries === queries.length) {
               console.log('Tablas creadas o ya existen');
-              callback(null); // Indicar que todo se completó exitosamente
+              callback(null);
             }
           });
         });
@@ -99,6 +114,10 @@ const initializeDatabase = (callback) => {
   });
 };
 
+/*
+Cierra la conexión a la BBDD. Connection.end cierra la conexión activa. Si hay un error se maneja y se pasa al callback.
+Si no hay errores, se imprime un mensaje indicando que la conexión fue cerrada con éxito
+*/
 const endDatabaseConnection = (callback) => {
   if (connection) {
     connection.end((err) => {
@@ -114,6 +133,7 @@ const endDatabaseConnection = (callback) => {
   }
 };
 
+// Se exportan las funciones y el objeto para que puedan ser utilizadas en otros módulos de la aplicación
 module.exports = {
   initializeDatabase,
   endDatabaseConnection,
