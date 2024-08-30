@@ -62,7 +62,6 @@ const getInterests = (req, res) => {
   });
 };
 
-<<<<<<< HEAD
 
 
 const eliminarInteres = (req, res) => {
@@ -73,19 +72,6 @@ const eliminarInteres = (req, res) => {
     return res.status(400).json({ message: 'Datos insuficientes' });
   }
 
-=======
-/*
-Definimos una función que elimina una relación de interés específica entre 2 empresas. Extraemos los campos de las IDs
-de las empresas del cuerpo de la solicitud. verificamos si ambos IDs están presentes, y enviamos una respuesta con el
-código de estado 400 y un mensaje de error
-*/
-const eliminarInteres = (req, res) => {
-  const { empresa_id, empresa_interesada_id } = req.body;
-  if (!empresa_id || !empresa_interesada_id) {
-    return res.status(400).json({ message: 'Datos insuficientes' });
-  }
-  // Definimos una consulta SQL que elimina una fila de la tabla intereses donde coinciden ambos ID de empresa
->>>>>>> d530db1c24691d75bfe0bbc54b7d833490126c9b
   const query = `
     DELETE FROM intereses
     WHERE empresa_id = ? AND empresa_interesada_id = ?;
@@ -101,10 +87,7 @@ const eliminarInteres = (req, res) => {
       console.error('Error al eliminar interés:', err);
       return res.status(500).json({ message: 'Error al eliminar interés' });
     }
-<<<<<<< HEAD
     
-=======
->>>>>>> d530db1c24691d75bfe0bbc54b7d833490126c9b
     if (result.affectedRows > 0) {
       res.status(200).json({ message: 'Interés eliminado exitosamente' });
     } else {
@@ -113,12 +96,8 @@ const eliminarInteres = (req, res) => {
   });
 };
 
-<<<<<<< HEAD
 
 
-=======
-// Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
->>>>>>> d530db1c24691d75bfe0bbc54b7d833490126c9b
 module.exports = {
   addInterest,
   getInterests,
