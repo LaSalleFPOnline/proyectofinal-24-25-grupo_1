@@ -13,6 +13,7 @@ const { updateEmpresa } = require('../controllers/empresaController'); // Asegú
 const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
 const { getAllEvents } = require('../controllers/agendaController');
 const { addInterest, getInterests, eliminarInteres } = require('../controllers/interesesController');
+const { createVote, getAllVotes, getUserVote, verificarVoto, deleteVote } = require('../controllers/votacionController'); // Importa el controlador de votación
 /*
 Importamos los middlewares que son funciones que se ejecutan antes de llegar al controlador. El primero procesa el
 cuerpo de la solicitud y el segundo verifica si el usuario está autenticado
@@ -59,6 +60,12 @@ router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
 // Ruta para eliminar interés
 router.delete('/eliminar-interes' ,authenticateToken, eliminarInteres);
 
+// Rutas relacionadas con las interés
+router.post('/voto', authenticateToken, createVote);       // Ruta para crear un voto
+router.get('/votos', authenticateToken, getAllVotes);      // Ruta para obtener todos los votos
+router.get('/voto/:usuario_id', authenticateToken, getUserVote); // Ruta para obtener el voto de un usuario
+router.get('/verificar-voto', authenticateToken, verificarVoto);
+router.delete('/voto', authenticateToken, deleteVote);     // Ruta para eliminar un voto
 
 /*
 Exportamo el router para ser utilizado en otras partes de la aplicación, típicamente el archivo principal de la

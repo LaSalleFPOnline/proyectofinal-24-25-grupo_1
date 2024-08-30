@@ -1,6 +1,7 @@
 ++++++++++++++++++++ server.js ++++++++++++++++++++
 
 require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -10,29 +11,24 @@ const routes = require('./routes/routes'); // Importa el archivo de rutas
 const app = express();
 const port = 3001;
 
-// Configuración de middlewares
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Iniciar la base de datos y luego el servidor
 initializeDatabase((err) => {
   if (err) {
     console.error('Error inicializando la base de datos Feria_virtual: ', err);
-    process.exit(1); // Salir del proceso si hay un error al inicializar la base de datos
+    process.exit(1);
   } else {
     console.log('Base de datos inicializada correctamente');
-    // Iniciar el servidor después de que la base de datos se haya inicializado
     app.listen(port, () => {
       console.log(`Servidor Node.js corriendo en http://localhost:${port}`);
     });
   }
 });
 
-// Usar las rutas desde routes.js
-app.use('/api', routes); // Usar un prefijo '/api' para las rutas
+app.use('/api', routes);
 
-// Manejar cierre de la conexión a MySQL al terminar el programa (opcional)
 process.on('SIGINT', () => {
   endDatabaseConnection((err) => {
     if (err) {
@@ -51,25 +47,23 @@ process.on('SIGINT', () => {
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/userController');
-const { updateEmpresa } = require('../controllers/empresaController');
+const { updateEmpresa } = require('../controllers/empresaController'); // Asegúrate de que esto esté correcto
+const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
+const { getAllEvents } = require('../controllers/agendaController');
+const { addInterest, getInterests, eliminarInteres } = require('../controllers/interesesController');
+const { createVote, getAllVotes, getUserVote, verificarVoto, deleteVote } = require('../controllers/votacionController'); // Importa el controlador de votación
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
-const {getEmpresas} = require('../controllers/adminController');
-const {getAllEvents} = require('../controllers/agendaController');
-const { addInterest } = require('../controllers/interesController');
 
+router.get('/agenda', getAllEvents);
 
-// Ruta para obtener la agenda
-router.get('/agenda',getAllEvents);
-// Rutas relacionadas con usuarios
 router.post('/register', parseRequestBody, registerUser);
 router.post('/login', parseRequestBody, loginUser);
-// Ruta protegida de ejemplo
+
 router.get('/protected', authenticateToken, (req, res) => {
   res.status(200).json({ message: 'Acceso concedido', user: req.user });
 });
 
-// Rutas relacionadas con empresas
 router.post('/actualizar-empresa', (req, res) => {
   const empresa = req.body;
   updateEmpresa(empresa, (err, data) => {
@@ -77,15 +71,25 @@ router.post('/actualizar-empresa', (req, res) => {
       console.error('Error al actualizar la empresa:', err);
       return res.status(500).json({ message: 'Error al actualizar la empresa: ' + err.message });
     }
-    console.log('Datos enviados al cliente:', data); // Verifica los datos enviados al cliente
+    console.log('Datos enviados al cliente:', data);
     res.status(200).json({ message: 'Empresa actualizada correctamente', data });
   });
 });
 
-router.get('/empresas',getEmpresas);
+router.get('/empresas', getEmpresas);
+router.get('/empresa/:id', getEmpresaById);
 
-// Ruta para agregar interés
 router.post('/add-interest', authenticateToken, addInterest);
+router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
+
+
+router.delete('/eliminar-interes' ,authenticateToken, eliminarInteres);
+
+router.post('/voto', authenticateToken, createVote);       // Ruta para crear un voto
+router.get('/votos', authenticateToken, getAllVotes);      // Ruta para obtener todos los votos
+router.get('/voto/:usuario_id', authenticateToken, getUserVote); // Ruta para obtener el voto de un usuario
+router.get('/verificar-voto', authenticateToken, verificarVoto);
+router.delete('/voto', authenticateToken, deleteVote);     // Ruta para eliminar un voto
 
 module.exports = router;
 
@@ -108,28 +112,21 @@ const initializeDatabase = (callback) => {
       return callback(err);
     }
     console.log('Conectado a la base de datos con ID ' + connection.threadId);
-
-    // Crear la base de datos si no existe
     connection.query('CREATE DATABASE IF NOT EXISTS Feria_virtual', (err) => {
       if (err) {
         console.error('Error al crear la base de datos: ', err);
         return callback(err);
       }
       console.log('Base de datos creada o ya existe');
-
-      // Cambiar a la base de datos Feria_virtual
       connection.changeUser({ database: 'Feria_virtual' }, (err) => {
         if (err) {
           console.error('Error al cambiar de base de datos: ', err);
           return callback(err);
         }
         console.log('Conectado a la base de datos Feria_virtual');
-
-        // Crear las tablas si no existen
         const queries = [
           `CREATE TABLE IF NOT EXISTS usuarios (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
             rol INT NOT NULL CHECK (rol IN (1, 2, 3))
@@ -160,15 +157,30 @@ const initializeDatabase = (callback) => {
           )`,
           `CREATE TABLE IF NOT EXISTS agenda (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            hora TIME NOT NULL,
-            dia DATE,
+            horaI TIME NOT NULL,
+            horaF TIME NOT NULL,
             descripcion VARCHAR(3000),
             detalles VARCHAR(3000)
+          )`,
+          `CREATE TABLE IF NOT EXISTS intereses (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            empresa_id INT NOT NULL,
+            empresa_interesada_id INT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (empresa_id) REFERENCES empresas(id),
+            FOREIGN KEY (empresa_interesada_id) REFERENCES empresas(id)
+          )`,
+          `CREATE TABLE IF NOT EXISTS votaciones (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT NOT NULL,
+            empresa_id INT NOT NULL,
+            voto TINYINT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+            FOREIGN KEY (empresa_id) REFERENCES empresas(id)
           )`
         ];
-
         let completedQueries = 0;
-
         queries.forEach((query) => {
           connection.query(query, (err) => {
             if (err) {
@@ -178,7 +190,7 @@ const initializeDatabase = (callback) => {
             completedQueries += 1;
             if (completedQueries === queries.length) {
               console.log('Tablas creadas o ya existen');
-              callback(null); // Indicar que todo se completó exitosamente
+              callback(null);
             }
           });
         });
@@ -213,20 +225,37 @@ module.exports = {
 ++++++++++++++++++++ adminController.js ++++++++++++++++++++
 
 const { connection } = require('../database/database');
-//traer datos de empresa
+
 const getEmpresas = (req, res) => {
-    const query = 'SELECT usuarios.nombre, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
-    connection.query(query, (err, results) => {
-      if (err) {
-        console.error('Error al obtener empresas:', err);
-        return res.status(500).json({ message: 'Error al obtener empresas' });
-      }
-      res.status(200).json(results);
-    });
-  };
-  module.exports = {
-    getEmpresas
-  };
+  const query ='SELECT empresas. id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url,empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener empresas:', err);
+      return res.status(500).json({ message: 'Error al obtener empresas' });
+    }
+    res.status(200).json(results);
+  });
+};
+
+const getEmpresaById = (req, res) => {
+  const empresaId = req.params.id;
+  const query = 'SELECT empresas.id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id WHERE empresas.id = ?';
+  connection.query(query, [empresaId], (err, results) => {
+    if (err) {
+      console.error('Error al obtener la empresa:', err);
+      return res.status(500).json({ message: 'Error al obtener la empresa' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Empresa no encontrada' });
+    }
+    res.status(200).json(results[0]);
+  });
+};
+
+module.exports = {
+  getEmpresas,
+  getEmpresaById,
+};
 
 
 
@@ -234,10 +263,8 @@ const getEmpresas = (req, res) => {
 
 const { connection } = require('../database/database');
 
-// Obtener todos los eventos de la agenda
 const getAllEvents = (req, res) => {
   const sql = 'SELECT * FROM agenda';
-  
   connection.query(sql, (error, results) => {
     if (error) {
       console.error('Error al obtener la agenda:', error);
@@ -247,11 +274,9 @@ const getAllEvents = (req, res) => {
   });
 };
 
-// Obtener un evento específico por ID
 const getEventById = (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT * FROM agenda WHERE id = ?';
-  
   connection.query(sql, [id], (error, result) => {
     if (error) {
       console.error('Error al obtener el evento:', error);
@@ -275,43 +300,24 @@ module.exports = {
 
 const { connection } = require('../database/database');
 
-// Función para obtener el usuario_id a partir del nombre
-const getUsuarioIdByNombre = (nombre, callback) => {
-  const query = 'SELECT id FROM usuarios WHERE nombre = ?';
-  connection.query(query, [nombre], (err, results) => {
-    if (err) {
-      console.error('Error al buscar el usuario_id: ', err);
-      return callback(err);
-    }
-    if (results.length > 0) {
-      return callback(null, results[0].id);
-    } else {
-      return callback(new Error('Empresa no registrada, por favor regístrate o ponte en contacto con el administrador.'));
-    }
-  });
-};
-
 const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
   const query = `
-    SELECT u.nombre AS nombreEmpresa, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
+    SELECT e.id AS empresa_id, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
     FROM usuarios u
     JOIN empresas e ON u.id = e.usuario_id
     WHERE u.id = ?
   `;
   console.log('Ejecutando consulta con usuario_id:', usuario_id);
-
   connection.query(query, [usuario_id], (err, results) => {
     if (err) {
       console.error('Error al obtener datos combinados: ', err);
       return callback(err);
     }
     console.log('Resultados de la consulta:', results);
-
     if (results.length > 0) {
       const data = results[0];
-      console.log('Nombre de empresa:', data.nombreEmpresa);
       console.log('Datos combinados encontrados:', data);
-      return callback(null, results[0]);
+      return callback(null, data);
     } else {
       console.error('No se encontraron datos para el usuario_id:', usuario_id);
       return callback(new Error('Datos no encontrados'));
@@ -319,40 +325,20 @@ const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
   });
 };
 
-// Función para actualizar la empresa y el nombre del usuario
 const updateEmpresa = (empresa, callback) => {
-  const { nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id } = empresa;
+  const { id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id } = empresa;
   console.log('Datos recibidos para actualizar la empresa:', empresa);
-
-  // Solo actualizar el nombre del usuario si se proporciona un valor válido
-  if (nombre_empresa) {
-    const updateUserQuery = 'UPDATE usuarios SET nombre = ? WHERE id = ?';
-    connection.query(updateUserQuery, [nombre_empresa, usuario_id], (err) => {
-      if (err) {
-        console.error('Error al actualizar el nombre del usuario: ', err);
-        return callback(err);
-      }
-      console.log('Nombre del usuario actualizado correctamente');
-    });
-  } else {
-    console.log('No se proporcionó un nuevo nombre, se omite la actualización del nombre del usuario.');
-  }
-
-  // Actualizar la empresa usando el usuario_id
   const updateQuery = `
     UPDATE empresas
     SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet = ?, entidad = ?
-    WHERE usuario_id = ?
+    WHERE id = ?
   `;
-  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id], (err) => {
+  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, id], (err) => {
     if (err) {
       console.error('Error al actualizar la empresa: ', err);
       return callback(err);
     }
-
     console.log('Empresa actualizada correctamente');
-
-    // Obtener los datos combinados de usuarios y empresas
     getEmpresaDataByUsuarioId(usuario_id, (err, data) => {
       if (err) {
         console.error('Error al obtener datos combinados después de actualizar:', err);
@@ -365,7 +351,6 @@ const updateEmpresa = (empresa, callback) => {
 };
 
 module.exports = {
-  getUsuarioIdByNombre,
   updateEmpresa,
   getEmpresaDataByUsuarioId,
 };
@@ -374,31 +359,27 @@ module.exports = {
 
 ++++++++++++++++++++ userController.js ++++++++++++++++++++
 
-require('dotenv').config(); // Carga las variables de entorno
-const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const { connection } = require('../database/database');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-// Obtén las variables de entorno
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
 function registerUser(req, res) {
   console.log('Solicitud de registro recibida:', req.body);
-  const { nombre, email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
-
-  if (!nombre || !email || !password || !rol) {
+  const { email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
+  if (!email || !password || !rol) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
-
   bcrypt.hash(password, 10, (err, hash) => {
     if (err) {
       console.error('Error al hashear la contraseña:', err);
       return res.status(500).json({ message: 'Error al hashear la contraseña' });
     }
-
-    const insertUserQuery = 'INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)';
-    connection.query(insertUserQuery, [nombre, email, hash, rol], (err, result) => {
+    const insertUserQuery = 'INSERT INTO usuarios (email, password, rol) VALUES (?, ?, ?)';
+    connection.query(insertUserQuery, [email, hash, rol], (err, result) => {
       if (err) {
         if (err.code === 'ER_DUP_ENTRY') {
           console.error('Error: El correo electrónico ya está en uso');
@@ -408,11 +389,9 @@ function registerUser(req, res) {
         return res.status(500).json({ message: 'Error al registrar usuario en el back' });
       }
       console.log('Usuario registrado en MySQL:', result);
-
       const userId = result.insertId;
       let insertRoleQuery;
       let roleParams;
-
       switch (parseInt(rol, 10)) {
         case 1: // Empresa
           insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -430,7 +409,6 @@ function registerUser(req, res) {
           console.error('Rol no válido:', rol);
           return res.status(400).json({ message: 'Rol no válido' });
       }
-
       connection.query(insertRoleQuery, roleParams, (err, result) => {
         if (err) {
           console.error('Error al registrar rol en MySQL: ', err);
@@ -446,74 +424,57 @@ function registerUser(req, res) {
 function loginUser(req, res) {
   const { email, password } = req.body;
   console.log('Datos recibidos:', { email, password });
-
   if (!email || !password) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
-
   const query = 'SELECT * FROM usuarios WHERE email = ?';
   connection.query(query, [email], (err, results) => {
     if (err) {
       console.error('Error al consultar usuario en MySQL: ', err);
       return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
     }
-
     if (results.length > 0) {
       const user = results[0];
       console.log('Usuario encontrado:', user);
-
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) {
           console.error('Error al comparar contraseñas:', err);
           return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
         }
-
         if (isMatch) {
           console.log('Contraseña válida para usuario:', user);
-
           let empresaQuery = null;
           let empresaParams = [];
-
-          if (user.rol === 1) { // Si es una empresa
+          if (user.rol === 1) {
             empresaQuery = 'SELECT * FROM empresas WHERE usuario_id = ?';
             empresaParams = [user.id];
           }
-
           if (empresaQuery) {
             connection.query(empresaQuery, empresaParams, (err, empresaResults) => {
               if (err) {
                 console.error('Error al consultar empresa en MySQL: ', err);
                 return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
               }
-
               const empresa = empresaResults[0] || null;
               let redirigir = '';
-
               if (empresa) {
-                // Verificar si todos los campos necesarios están completos
                 const camposCompletos = empresa.entidad && empresa.url_meet && empresa.logo_url &&
                                          empresa.spot_url && empresa.descripcion && empresa.horario_meet &&
                                          empresa.web_url;
-
-                // Determinar redirección basada en la completitud de los campos
                 if (camposCompletos) {
                   redirigir = 'feria';
                 } else {
                   redirigir = 'empresa';
                 }
               } else {
-                redirigir = 'empresa'; // Redirigir a empresa si no hay datos de la empresa
+                redirigir = 'empresa';
               }
-
-              // Generar el token JWT
               const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, {
                 expiresIn: JWT_EXPIRES_IN
               });
-
-              // Enviar respuesta con el token
               res.status(200).json({
                 message: 'Inicio de sesión exitoso',
-                token: token, // Incluye el token en la respuesta
+                token: token,
                 user: user,
                 empresa: empresa,
                 redirigir: redirigir
@@ -524,7 +485,7 @@ function loginUser(req, res) {
               message: 'Inicio de sesión exitoso',
               token: jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, {
                 expiresIn: JWT_EXPIRES_IN
-              }), // Incluye el token en la respuesta
+              }),
               user: user,
               empresa: null,
               redirigir: 'feria'
@@ -536,8 +497,8 @@ function loginUser(req, res) {
         }
       });
     } else {
-      console.log('Usuario no encontrado con email:', email);
-      res.status(401).json({ message: 'Credenciales inválidas' });
+      console.log('Usuario no encontrado con el email:', email);
+      res.status(404).json({ message: 'Usuario no encontrado' });
     }
   });
 }
@@ -553,48 +514,193 @@ module.exports = {
 
 const { connection } = require('../database/database');
 
-// Agregar una empresa a la lista de intereses
 const addInterest = (req, res) => {
-  const { empresa_interesada_id, empresa_interesada_nombre, empresa_interesada_web_url, empresa_interesada_logo_url } = req.body;
-  const userId = req.user.id; // Obtener el ID del usuario desde el token
+  const { empresa_id, empresa_interesada_id } = req.body;
+  if (!empresa_id || !empresa_interesada_id) {
+    return res.status(400).json({ error: 'Se requieren los IDs de ambas empresas para agregar un interés.' });
+  }
+  const query = 'INSERT INTO intereses (empresa_id, empresa_interesada_id) VALUES (?, ?)';
+  connection.query(query, [empresa_id, empresa_interesada_id], (err) => {
+    if (err) {
+      console.error('Error al agregar interés: ', err);
+      return res.status(500).json({ error: 'Error al agregar interés' });
+    }
+    res.status(200).json({ message: 'Interés agregado exitosamente' });
+  });
+};
 
-  if (!empresa_interesada_id) {
-    return res.status(400).json({ message: 'ID de la empresa interesada es requerido' });
+const getInterests = (req, res) => {
+  const empresa_id = req.params.empresa_id;
+  const queryCompras = 'SELECT * FROM intereses WHERE empresa_interesada_id = ?';
+  const queryVentas = 'SELECT * FROM intereses WHERE empresa_id = ?';
+  connection.query(queryCompras, [empresa_id], (err, compras) => {
+    if (err) {
+      console.error('Error al obtener relaciones de compra: ', err);
+      return res.status(500).json({ error: 'Error al obtener relaciones de compra' });
+    }
+    connection.query(queryVentas, [empresa_id], (err, ventas) => {
+      if (err) {
+        console.error('Error al obtener relaciones de venta: ', err);
+        return res.status(500).json({ error: 'Error al obtener relaciones de venta' });
+      }
+      res.status(200).json({ compras, ventas });
+    });
+  });
+};
+
+const eliminarInteres = (req, res) => {
+  const empresa_id = req.query.empresaId;
+  const empresa_interesada_id = req.query.empresaInteresadaId;
+
+  if (!empresa_id || !empresa_interesada_id) {
+    return res.status(400).json({ message: 'Datos insuficientes' });
   }
 
   const query = `
-    INSERT INTO intereses (empresa_interesada_id, empresa_interesada_nombre, empresa_interesada_web_url, empresa_interesada_logo_url)
-    VALUES (?, ?, ?, ?)
+    DELETE FROM intereses
+    WHERE empresa_id = ? AND empresa_interesada_id = ?;
   `;
-
-  connection.query(query, [empresa_interesada_id, empresa_interesada_nombre, empresa_interesada_web_url, empresa_interesada_logo_url], (err) => {
+  connection.query(query, [empresa_id, empresa_interesada_id], (err, result) => {
     if (err) {
-      console.error('Error al agregar interés:', err);
-      return res.status(500).json({ message: 'Error al agregar interés' });
+      console.error('Error al eliminar interés:', err);
+      return res.status(500).json({ message: 'Error al eliminar interés' });
     }
-
-    res.status(200).json({ message: 'Interés registrado correctamente' });
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: 'Interés eliminado exitosamente' });
+    } else {
+      res.status(404).json({ message: 'Relación de interés no encontrada' });
+    }
   });
 };
 
 module.exports = {
-    addInterest,
+  addInterest,
+  getInterests,
+  eliminarInteres,
+};
+
+
+
+++++++++++++++++++++ votacionController.js ++++++++++++++++++++
+
+const { connection } = require('../database/database');
+
+const createVote = (req, res) => {
+    const { usuario_id, empresa_id, voto } = req.body;
+
+    if (!usuario_id || !empresa_id || voto === undefined) {
+        return res.status(400).json({ error: 'Datos insuficientes para registrar el voto.' });
+    }
+
+    const query = `
+        INSERT INTO votaciones (usuario_id, empresa_id, voto)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE voto = ?;
+    `;
+
+    connection.query(query, [usuario_id, empresa_id, voto, voto], (err) => {
+        if (err) {
+        console.error('Error al registrar el voto: ', err);
+        return res.status(500).json({ error: 'Error al registrar el voto' });
+        }
+        res.status(200).json({ message: 'Voto registrado exitosamente' });
+    });
+};
+
+const getAllVotes = (req, res) => {
+    const query = 'SELECT * FROM votaciones';
+    
+    connection.query(query, (err, results) => {
+        if (err) {
+        console.error('Error al obtener los votos: ', err);
+        return res.status(500).json({ error: 'Error al obtener los votos' });
+        }
+        res.status(200).json(results);
+    });
+};
+
+const getUserVote = (req, res) => {
+    const usuario_id = req.params.usuario_id;
+
+    const query = 'SELECT * FROM votaciones WHERE usuario_id = ?';
+    
+    connection.query(query, [usuario_id], (err, results) => {
+        if (err) {
+        console.error('Error al obtener el voto del usuario: ', err);
+        return res.status(500).json({ error: 'Error al obtener el voto del usuario' });
+        }
+        res.status(200).json(results);
+    });
+};
+
+const verificarVoto = (req, res) => {
+    const { usuario_id, empresa_id } = req.query;
+
+    if (!usuario_id || !empresa_id) {
+        return res.status(400).json({ error: 'Datos insuficientes para verificar el voto.' });
+    }
+
+    const query = 'SELECT * FROM votaciones WHERE usuario_id = ? AND empresa_id = ?';
+
+    connection.query(query, [usuario_id, empresa_id], (err, results) => {
+        if (err) {
+            console.error('Error al verificar el voto: ', err);
+            return res.status(500).json({ error: 'Error al verificar el voto' });
+        }
+        if (results.length > 0) {
+            res.status(200).json({ existe: true, voto: results[0] });
+        } else {
+            res.status(200).json({ existe: false });
+        }
+    });
+};
+
+
+const deleteVote = (req, res) => {
+    const { usuario_id, empresa_id } = req.body; // Usa req.body para obtener los datos del cuerpo
+
+    // Verifica que los campos necesarios estén presentes
+    if (!usuario_id || !empresa_id) {
+        return res.status(400).json({ message: 'Datos insuficientes para eliminar el voto' });
+    }
+
+    const query = 'DELETE FROM votaciones WHERE usuario_id = ? AND empresa_id = ?';
+
+    connection.query(query, [usuario_id, empresa_id], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar el voto: ', err);
+            return res.status(500).json({ message: 'Error al eliminar el voto' });
+        }
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Voto eliminado exitosamente' });
+        } else {
+            res.status(404).json({ message: 'Voto no encontrado' });
+        }
+    });
+};
+
+
+
+
+module.exports = {
+    createVote,
+    getAllVotes,
+    getUserVote,
+    verificarVoto,
+    deleteVote,
 };
 
 
 
 ++++++++++++++++++++ authMiddleware.js ++++++++++++++++++++
 
-// authMiddleware.js
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // formato: Bearer TOKEN
-
+  const token = authHeader && authHeader.split(' ')[1];
   if (token == null) return res.sendStatus(401);
-
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
@@ -609,15 +715,13 @@ module.exports = authenticateToken;
 ++++++++++++++++++++ middlewares.js ++++++++++++++++++++
 
 const bodyParser = require('body-parser');
-
-// Middleware para analizar cuerpos JSON
 const parseRequestBody = bodyParser.json();
 
 const logRequestBody = (req, res, next) => {
   if (req.body) {
     console.log('Cuerpo de la solicitud:', req.body);
   }
-  next(); // Pasar al siguiente middleware
+  next();
 };
 
 module.exports = { parseRequestBody, logRequestBody };

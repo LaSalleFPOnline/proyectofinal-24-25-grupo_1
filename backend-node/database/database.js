@@ -89,6 +89,15 @@ const initializeDatabase = (callback) => {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (empresa_id) REFERENCES empresas(id),
             FOREIGN KEY (empresa_interesada_id) REFERENCES empresas(id)
+          )`,
+          `CREATE TABLE IF NOT EXISTS votaciones (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            usuario_id INT NOT NULL,
+            empresa_id INT NOT NULL,
+            voto TINYINT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+            FOREIGN KEY (empresa_id) REFERENCES empresas(id)
           )`
         ];
         /*

@@ -4,6 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { EmpresaService } from '../services/empresa.service';
 import { InteresesService } from '../services/intereses.service';
 import { AuthService } from '../services/auth.service'; // Asegúrate de importar el AuthService
+import { VotacionService } from '../services/votacion.service'; // Importa el nuevo servicio
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 
 @Component({
   selector: 'app-feria-page',
@@ -20,6 +24,7 @@ export class FeriaPageComponent implements OnInit {
   relacionesVenta: any[] = [];
   private expandedFrame: HTMLElement | null = null;
   interesadoEnEmpresa = false;
+  yaVotado = false; // Variable para verificar si ya se ha votado
 
   constructor(
     private http: HttpClient,
@@ -27,7 +32,8 @@ export class FeriaPageComponent implements OnInit {
     private elRef: ElementRef,
     private empresaService: EmpresaService,
     private interesesService: InteresesService,
-    private authService: AuthService // Asegúrate de inyectar AuthService
+    private authService: AuthService, // Asegúrate de inyectar AuthService
+    private votacionService: VotacionService // Inyecta el servicio de votación
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +41,7 @@ export class FeriaPageComponent implements OnInit {
         this.empresas = data;
         console.log('Empresas: ', this.empresas);
 
-        const empresaId = this.authService.getLoggedInCompanyId(); 
+        const empresaId = this.authService.getLoggedInCompanyId();
 
         if (empresaId !== null) {
             this.obtenerRelaciones(empresaId);
@@ -93,7 +99,20 @@ export class FeriaPageComponent implements OnInit {
         (empresa: any) => {
           this.empresaSeleccionada = empresa;
           this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
-          console.log('Empresa seleccionada:', empresa);
+  
+          const loggedInCompanyId = this.authService.getLoggedInCompanyId();
+          if (loggedInCompanyId !== null) {
+            this.votacionService.verificarVoto(loggedInCompanyId, empresaId).subscribe(
+              (yaVotado: boolean) => {
+                this.yaVotado = yaVotado;
+                console.log('Estado del voto:', this.yaVotado); // Confirmar el estado del voto
+              },
+              error => {
+                console.error('Error al verificar el voto:', error);
+                this.yaVotado = false; // Asegúrate de manejar los errores
+              }
+            );
+          }
         },
         error => {
           console.error('Error al obtener los detalles de la empresa:', error);
@@ -103,6 +122,10 @@ export class FeriaPageComponent implements OnInit {
       console.error('ID de la empresa no es un número:', empresaId);
     }
   }
+  
+  
+  
+  
 
   cerrarDetalles() {
     this.empresaSeleccionada = null;
@@ -141,6 +164,7 @@ export class FeriaPageComponent implements OnInit {
       );
     }
   }*/
+
     agregarOEliminarInteres() {
       const empresaId = this.authService.getLoggedInCompanyId();
       const empresaInteresadaId = this.empresaSeleccionada?.id;
@@ -221,5 +245,50 @@ export class FeriaPageComponent implements OnInit {
         }
     });
   }
+
+  votar(): void {
+    const usuarioId = this.authService.getLoggedInCompanyId();
+    const empresaVotadaId = this.empresaSeleccionada?.id;
+    const voto = 1; // Aquí defines el valor del voto, puede ser un valor positivo o negativo según tu lógica
+  
+    if (usuarioId === null || empresaVotadaId === null) {
+      console.error('IDs de las empresas no proporcionados.');
+      return;
+    }
+  
+    this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
+      catchError(error => {
+        console.error('Error al votar:', error);
+        return of(null);
+      })
+    ).subscribe(response => {
+      console.log('Voto registrado exitosamente', response);
+      this.yaVotado = true;
+    });
+  }
+
+  eliminarVoto(): void {
+    const usuarioId = this.authService.getLoggedInCompanyId();
+    const empresaVotadaId = this.empresaSeleccionada?.id;
+  
+    if (usuarioId === null || empresaVotadaId === null) {
+      console.error('IDs de las empresas no proporcionados.');
+      return;
+    }
+  
+    this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
+      catchError(error => {
+        console.error('Error al eliminar voto:', error);
+        return of(null);
+      })
+    ).subscribe(response => {
+      if (response) {
+        console.log('Voto eliminado exitosamente', response);
+        this.yaVotado = false;
+      }
+    });
+  }
+  
+  
 }
 
