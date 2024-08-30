@@ -42,7 +42,7 @@ const getInterests = (req, res) => {
   });
 };
 
-const eliminarInteres = (req, res) => {
+/*const eliminarInteres = (req, res) => {
   const { empresa_id, empresa_interesada_id } = req.body;
 
   if (!empresa_id || !empresa_interesada_id) {
@@ -68,7 +68,34 @@ const eliminarInteres = (req, res) => {
       res.status(404).json({ message: 'Relación de interés no encontrada' });
     }
   });
+};*/
+const eliminarInteres = (req, res) => {
+  const empresa_id = req.query.empresaId;
+  const empresa_interesada_id = req.query.empresaInteresadaId;
+
+  if (!empresa_id || !empresa_interesada_id) {
+    return res.status(400).json({ message: 'Datos insuficientes' });
+  }
+
+  const query = `
+    DELETE FROM intereses
+    WHERE empresa_id = ? AND empresa_interesada_id = ?;
+  `;
+  
+  connection.query(query, [empresa_id, empresa_interesada_id], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar interés:', err);
+      return res.status(500).json({ message: 'Error al eliminar interés' });
+    }
+    
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: 'Interés eliminado exitosamente' });
+    } else {
+      res.status(404).json({ message: 'Relación de interés no encontrada' });
+    }
+  });
 };
+
 
 
 module.exports = {

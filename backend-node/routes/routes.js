@@ -46,7 +46,7 @@ router.post('/add-interest', authenticateToken, addInterest);
 router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
 
 // Ruta para eliminar interés
-router.delete('/eliminar-interes', authenticateToken, eliminarInteres);
+router.delete('/eliminar-interes' ,authenticateToken, eliminarInteres);
 
 module.exports = router;
 

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,28 @@ export class InteresesService {
   }
 
   // Obtener los encabezados de autenticación
-  private getAuthHeaders(): HttpHeaders {
+  /*private getAuthHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.getAuthToken()}`,
       'Content-Type': 'application/json'
     });
-  }
+    
+  }*/
+   private getAuthHeaders(): HttpHeaders {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.getAuthToken()}`,
+        'Content-Type': 'application/json'
+      });
+      
+      // Convertir headers a un objeto simple para loguear
+  const headersObject: { [key: string]: string | null } = {};
+  headers.keys().forEach(key => {
+    headersObject[key] = headers.get(key);
+  });
+  console.log('Headers de autenticación:', headersObject);
 
+  return headers;
+}
   crearInteres(empresaId: number, empresaInteresadaId: number): Observable<any> {
     // Verifica que empresaId y empresaInteresadaId no sean undefined o null
     if (!empresaId || !empresaInteresadaId) {
@@ -59,12 +75,21 @@ export class InteresesService {
       console.error('IDs de las empresas no proporcionados.');
       return throwError(() => new Error('IDs de las empresas no proporcionados.'));
     }
+    console.log('Parámetros antes de enviar la solicitud:', params);
   
-    return this.http.request('DELETE', `${this.apiUrl}/eliminar-interes`, {
-      body: params,
-      headers: this.getAuthHeaders()
+    // Usar HttpParams para la solicitud DELETE
+    const httpParams = new HttpParams()
+      .set('empresaId', params.empresaId.toString())
+      .set('empresaInteresadaId', params.empresaInteresadaId.toString());
+  
+    return this.http.delete(`${this.apiUrl}/eliminar-interes`, {
+      headers: this.getAuthHeaders(),
+      params: httpParams
     }).pipe(
       catchError(error => {
+        if (error.status) {
+          console.error('Código de error HTTP:', error.status);
+        }
         console.error('Error en la solicitud de eliminación:', error);
         return throwError(() => new Error('Error en la solicitud de eliminación'));
       })
