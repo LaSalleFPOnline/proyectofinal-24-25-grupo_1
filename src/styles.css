@@ -51,12 +51,6 @@ html, body {
     color: #F3F3F3;
 }
 
-app-footer {
-    background-color: #f1f1f1;
-    padding: 1rem;
-    width: 100%;
-}
-
 .formulario {
     display: flex;
     flex-direction: column;

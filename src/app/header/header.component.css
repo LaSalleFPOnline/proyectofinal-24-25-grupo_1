@@ -1,20 +1,19 @@
 /* Estilo base para dispositivos grandes (escritorio) */
 
 .header {
-    border: 2px solid yellowgreen;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     height: 6rem;
-    position: relative;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1280px;
+    width: 100vw;
+    padding: 10px;
+    box-sizing: border-box;
+    flex-direction: row;
 }
 
 .logo {
     max-width: 20%;
     height: auto;
+    max-height: 4rem;
 }
 
 .button {
@@ -22,7 +21,8 @@
     align-items: center;
     border-radius: 0.8rem;
     gap: 0.2rem;
-    margin: 0 auto;
+    align-items: flex-end;
+    margin-left: auto;
 }
 
 .header .label {
@@ -48,22 +48,21 @@
 }
 
 .login {
-    all: unset;
+    background-color: white;
     transition: opacity 0.3s;
-    height: auto;
     max-width: 15%;
-    padding: 0.5rem;
-    margin-left: 2rem;
+    border: none;
 }
 .login img{
     cursor: pointer;
-    width: 90%;
-    margin-left: auto;
+    width: 80%;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
-.login :hover{
-    filter: brightness(0.8);
+.login img:hover {
+    transform: scale(1.3);
 }
+
 .label:hover,
 .label:active {
     border: 1px solid black;
@@ -80,7 +79,7 @@
 }
 
 .login-menu .login {
-    max-width: 50%;
+    max-width: 90%;
     padding: 0.5rem;
     margin-left: 0;
     cursor: pointer;
@@ -127,18 +126,20 @@
 /* Estilo para móviles */
 @media (max-width: 480px) {
     .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
+        
         height: auto;
         position: relative;
         width: 100%;
-        max-width: 100vw;
+        display: flex;
+        align-items: flex-start;
+        height: 6rem;
+        width: 100vw;
+        padding: 10px;
+        flex-direction: row;
     }
 
     .logo {
-        width: 50%;
-        height: auto;
+        max-width: 80%;
         margin-bottom: 1rem;
     }
 
@@ -164,7 +165,7 @@
 
     .hamburger .bar {
         width: 2rem;
-        height: 0.25rem;
+        height: 0.2rem;
         background: black;
         margin: 0.2rem 0;
         transition: background 0.3s, transform 0.3s;
@@ -175,7 +176,7 @@
         position: absolute;
         top: 100%;
         left: 0;
-        width: 50%;
+        width: 70%;
         background: white;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         padding: 0.5rem;

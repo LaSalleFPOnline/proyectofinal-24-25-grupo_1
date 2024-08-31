@@ -1,4 +1,4 @@
-<div class="header">
+<nav class="header">
     <img class="logo" src="assets/Images/logo.png" (click)="navigateTo('/')">
 
     <!-- Contenedor para los botones y el menú -->
@@ -17,7 +17,7 @@
             <button class="label" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
             <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
             <button class="label" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
-           
+            
             <div class="login-menu">
                 <button class="login" (click)="toggleDropdown()">
                     <img src="assets/Images/button-login.png" alt="Login">
@@ -31,7 +31,6 @@
                     </button>
                 </div>
             </div>
-            
             
         </ng-template>
     </div>
@@ -64,4 +63,4 @@
             </button>
         </ng-template>
     </nav>
-    </div>
+</nav>

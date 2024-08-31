@@ -1,7 +1,6 @@
 .footer {
     width: 100%;
     background-color: #F3F3F3;
-    border-radius: 45px 45px 0 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -47,16 +46,16 @@
     color: #F3F3F3;
     background-color: #AC3635;
     border-radius: 10px;
-    padding: 0.1rem 0.5rem;
+    padding: 0rem 0.3rem;
     font-size: 1rem;
     display: inline-block;
     width: fit-content;
-    font-size: smaller;
+    font-size: 0.7rem;
 }
 
 
 .footer .text {
-    font-size: 0.7rem; /* Aproximadamente 14px */
+    font-size: 0.7rem;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .line {
