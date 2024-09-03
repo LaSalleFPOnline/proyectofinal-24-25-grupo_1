@@ -69,3 +69,30 @@ input.error:focus {
 textarea:focus, input:focus, select:focus {
   outline: none;
 }
+
+/* Horario del meet */
+.horario {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; /* Espaciado inferior para separar los horarios */
+}
+
+.horario .text {
+  margin-right: 10px;
+}
+
+.horario span {
+  margin: 0 5px;
+}
+
+.horario .time-input {
+  width: auto; /* Ajusta el ancho de los inputs de tiempo según su contenido */
+  padding: 10px;
+  margin-left: 5px; /* Espacio entre el label y el input */
+  margin-right: 5px; /* Espacio entre los inputs de tiempo y el texto "hasta" */
+  border: none;
+  border-radius: 10px;
+  background-color: inherit;
+  display: inline-block;
+}
+

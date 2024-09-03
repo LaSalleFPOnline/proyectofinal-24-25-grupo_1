@@ -90,13 +90,17 @@
   margin-top: 2rem;
 }
 
+p {
+  font-size: 1.5vw;
+}
+
 .illustration {
   position: absolute;
   width: 30%;
   height: auto;
-  max-width: 1000px;
+  max-width: 300px;
   top: 38vh;
-  left: 60vw;
+  left: calc(90% - 150px);
   overflow: hidden;
 }
 
@@ -105,32 +109,26 @@
   margin: 70vh auto;
   margin-left: 20vw;
   padding: 1rem;
-  }
+}
 
-.login .enlace {
+.enlace {
   color: #007bff;
   cursor: pointer;
   text-decoration: none;
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s ease;
 }
-.registro-enlace {
-  color: #007bff; /* Color del enlace */
-  cursor: pointer; /* Cursor en forma de puntero */
-  text-decoration: none; /* Sin subrayado por defecto */
-  position: relative; /* Necesario para el posicionamiento del pseudo-elemento */
-  display: inline-block; /* Permite el ajuste del tamaño del texto y el subrayado */
-  transition: transform 0.3s ease; /* Transición suave para el aumento del tamaño del texto */
-}
-.registro-enlace:hover {
+
+.enlace:hover {
   text-decoration: underline;
   text-decoration-thickness: 2px;
-  transform: scale(1.01); /* Aumenta el tamaño del texto en hover */
-
-
+  transform: scale(1.09);
 }
+
 
 .error-message {
   color: red;
-
   position: absolute;
   top: 55vh;
   left: 46%;

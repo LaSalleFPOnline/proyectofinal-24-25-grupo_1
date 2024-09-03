@@ -68,11 +68,38 @@
     <img class="line" src="assets/Images/line.png">
   </div>
 
+  <!-- Con horarios de inicio y fin -->
   <div *ngIf="rol == 1" class="campo">
+    <label class="text">* Horario Meet:</label>
+
+    <div class="horario">
+      <label class="text">Mañana:</label>
+      <span>desde</span>
+      <input type="time" id="horario_meet_morning_start" [(ngModel)]="horario_meet_morning_start" name="horario_meet_morning_start" class="input time-input">
+      <span>hasta</span>
+      <input type="time" id="horario_meet_morning_end" [(ngModel)]="horario_meet_morning_end" name="horario_meet_morning_end" class="input time-input">
+  </div>
+  <img class="line" src="assets/Images/line.png">
+  
+  <div class="horario">
+      <label class="text">Tarde:</label>
+      <span>desde</span>
+      <input type="time" id="horario_meet_afternoon_start" [(ngModel)]="horario_meet_afternoon_start" name="horario_meet_afternoon_start" class="input time-input">
+      <span>hasta</span>
+      <input type="time" id="horario_meet_afternoon_end" [(ngModel)]="horario_meet_afternoon_end" name="horario_meet_afternoon_end" class="input time-input">
+  </div>
+  
+  
+
+    <img class="line" src="assets/Images/line.png">
+</div>
+
+
+  <!-- <div *ngIf="rol == 1" class="campo">
     <label class="text">* Horario Meet:</label>
     <input type="time" id="horario_meet" [(ngModel)]="horario_meet" name="horario_meet" class="input">
     <img class="line" src="assets/Images/line.png">
-  </div>
+  </div> -->
 
   <div *ngIf="rol == 1 || rol == 2" class="campo">
     <label class="text">* Colegio:</label>
