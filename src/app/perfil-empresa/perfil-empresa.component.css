@@ -86,4 +86,35 @@
     z-index: 1;
 }
 
+/* TODO revisar si sale al menos 1 y si tiene varios, que los traiga */
+
+.campo {
+    margin: 15px; /* Espaciado alrededor del bloque completo */
+}
+
+.horario {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-left: 0; /* Ajusta el margen según sea necesario */
+}
+
+.horario .text {
+    margin-right: 10px;
+    line-height: 1;
+    align-items: center;
+}
+
+.horario .time-input {
+    width: auto;
+    margin-left: 5px; /* Espacio entre el texto y el input */
+    margin-right: 5px; /* Espacio entre los inputs de tiempo y el texto */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: inherit;
+    display: inline-flex; /* Alinea verticalmente el contenido dentro del input */
+    align-items: center;
+    vertical-align: middle; /* Alinea el input verticalmente al medio de la línea */
+}
 

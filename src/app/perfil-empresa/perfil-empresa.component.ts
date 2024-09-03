@@ -13,7 +13,9 @@ export class PerfilEmpresaComponent implements OnInit {
   logotipo: string = '';
   spotPublicitario: string = '';
   nombreEmpresa: string = '';
-  horariosAtencion: string = '';
+  // horariosAtencion: string = '';
+  horariosAtencionInicio: string = ''; // Nueva propiedad para la hora de inicio
+  horariosAtencionFin: string = ''; // Nueva propiedad para la hora de fin
   paginaWeb: string = '';
   descripcionProductos: string = '';
   errorMessage: string | null = null;
@@ -36,7 +38,9 @@ export class PerfilEmpresaComponent implements OnInit {
         this.logotipo = empresa.logo_url || '';
         this.spotPublicitario = empresa.spot_url || '';
         this.nombreEmpresa = empresa.nombre_empresa || '';
-        this.horariosAtencion = empresa.horario_meet || '';
+        // this.horariosAtencion = empresa.horario_meet || '';
+        this.horariosAtencionInicio = empresa.horarios_atencion_inicio || ''; // Adaptado
+        this.horariosAtencionFin = empresa.horarios_atencion_fin || '';
         this.paginaWeb = empresa.web_url || '';
         this.descripcionProductos = empresa.descripcion || '';
       } else {
@@ -47,11 +51,11 @@ export class PerfilEmpresaComponent implements OnInit {
 
   validarFormulario() {
     if (!this.nombreColegio || !this.enlaceSalaEspera || !this.logotipo ||
-        !this.nombreEmpresa || !this.horariosAtencion || !this.paginaWeb) {
+        !this.nombreEmpresa || !this.paginaWeb) {
       this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
     } else {
       this.errorMessage = null;
-
+// TODO !this.horariosAtencion  ACTUALIZAR O DE MAÑANA O DE TARDE, PERO UNO AL MENOS!! PENSAR SI EN EL FRONT SÓLO COMO checkPassword
       const empresa = {
         usuario_id: this.usuario_id,
         nombre_empresa: this.nombreEmpresa,
@@ -60,7 +64,9 @@ export class PerfilEmpresaComponent implements OnInit {
         logo_url: this.logotipo,
         descripcion: this.descripcionProductos,
         url_meet: this.enlaceSalaEspera,
-        horario_meet: this.horariosAtencion,
+        // horario_meet: this.horariosAtencion,
+        horarios_atencion_inicio: this.horariosAtencionInicio, // Adaptado
+        horarios_atencion_fin: this.horariosAtencionFin, // Adaptado
         entidad: this.nombreColegio
       };
 
@@ -77,7 +83,10 @@ export class PerfilEmpresaComponent implements OnInit {
           this.logotipo = response.logo_url;
           this.descripcionProductos = response.descripcion;
           this.enlaceSalaEspera = response.url_meet;
-          this.horariosAtencion = response.horario_meet;
+          // this.horariosAtencion = response.horario_meet;
+          this.horariosAtencionInicio = response.horarios_atencion_inicio; // Adaptado
+          this.horariosAtencionFin = response.horarios_atencion_fin; // Adaptado
+
           this.nombreColegio = response.entidad;
       
           // Redirigir a la página '/feria'

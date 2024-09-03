@@ -74,25 +74,19 @@ textarea:focus, input:focus, select:focus {
 .horario {
   display: flex;
   align-items: center;
-  margin-bottom: 15px; /* Espaciado inferior para separar los horarios */
+  margin-bottom: 15px;
+  margin-left: 15px;
 }
 
 .horario .text {
   margin-right: 10px;
-}
-
-.horario span {
-  margin: 0 5px;
+  line-height: 1;
+  align-items: center;
 }
 
 .horario .time-input {
-  width: auto; /* Ajusta el ancho de los inputs de tiempo según su contenido */
-  padding: 10px;
-  margin-left: 5px; /* Espacio entre el label y el input */
-  margin-right: 5px; /* Espacio entre los inputs de tiempo y el texto "hasta" */
-  border: none;
-  border-radius: 10px;
-  background-color: inherit;
-  display: inline-block;
+  width: auto;
+  margin-top: 12px;
 }
+
 

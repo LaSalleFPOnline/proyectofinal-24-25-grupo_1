@@ -45,9 +45,20 @@
     </div>
 
     <!-- Horarios de atención al cliente -->
-    <div class="campo">
+    <!-- <div class="campo">
         <label class="text">* Horarios de atención al cliente</label>
         <input type="time" [(ngModel)]="horariosAtencion" class="input">
+        <img class="line" src="assets/Images/line.png">
+    </div> -->
+
+    <div class="campo">
+        <label class="text">* Horarios de atención al cliente</label>
+        <div class="horario">
+            <p class="text">Desde:</p>
+            <input type="time" [(ngModel)]="horariosAtencionInicio" class="input time-input">
+            <p class="text">Hasta:</p>
+            <input type="time" [(ngModel)]="horariosAtencionFin" class="input time-input">
+        </div>
         <img class="line" src="assets/Images/line.png">
     </div>
 
