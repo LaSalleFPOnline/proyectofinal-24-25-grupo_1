@@ -128,9 +128,9 @@
         <p class="empresa">
             <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
             <span class="text-detalles">
-                <br/>Página web: {{ empresaSeleccionada.web_url }}
+                <br/>Página web: <a [href]="empresaSeleccionada.web_url" target="_blank">{{ empresaSeleccionada.web_url }}</a>
                 <br/>Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}
-                <br/>Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank"> {{ empresaSeleccionada.url_meet }}</a><br/>
+                <br/>Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
             </span>
         </p>
     </div>
