@@ -7,18 +7,38 @@ const createVote = (req, res) => {
         return res.status(400).json({ error: 'Datos insuficientes para registrar el voto.' });
     }
 
-    const query = `
-        INSERT INTO votaciones (usuario_id, empresa_id, voto)
-        VALUES (?, ?, ?)
-        ON DUPLICATE KEY UPDATE voto = ?;
-    `;
+    // Verificar que la empresa no se esté votando a sí misma
+    if (usuario_id === empresa_id) {
+        return res.status(400).json({ error: 'Una empresa no puede votarse a sí misma.' });
+    }
 
-    connection.query(query, [usuario_id, empresa_id, voto, voto], (err) => {
+    // Verificar si el usuario ya ha votado
+    const verificarUsuarioQuery = 'SELECT * FROM votaciones WHERE usuario_id = ?';
+    
+    connection.query(verificarUsuarioQuery, [usuario_id], (err, results) => {
         if (err) {
-        console.error('Error al registrar el voto: ', err);
-        return res.status(500).json({ error: 'Error al registrar el voto' });
+            console.error('Error al verificar el voto del usuario: ', err);
+            return res.status(500).json({ error: 'Error al verificar el voto del usuario' });
         }
-        res.status(200).json({ message: 'Voto registrado exitosamente' });
+
+        // Si el usuario ya tiene un voto registrado
+        if (results.length > 0) {
+            return res.status(400).json({ error: 'Ya has votado una vez. No puedes votar más.' });
+        }
+
+        // Si el usuario no tiene un voto, se procede a insertar el nuevo voto
+        const query = `
+            INSERT INTO votaciones (usuario_id, empresa_id, voto)
+            VALUES (?, ?, ?);
+        `;
+
+        connection.query(query, [usuario_id, empresa_id, voto], (err) => {
+            if (err) {
+                console.error('Error al registrar el voto: ', err);
+                return res.status(500).json({ error: 'Error al registrar el voto' });
+            }
+            res.status(200).json({ message: 'Voto registrado exitosamente' });
+        });
     });
 };
 

@@ -97,7 +97,8 @@ const initializeDatabase = (callback) => {
             voto TINYINT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-            FOREIGN KEY (empresa_id) REFERENCES empresas(id)
+            FOREIGN KEY (empresa_id) REFERENCES empresas(id),
+            UNIQUE (usuario_id, empresa_id)
           )`
         ];
         /*

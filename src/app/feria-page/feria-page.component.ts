@@ -262,8 +262,12 @@ export class FeriaPageComponent implements OnInit {
         return of(null);
       })
     ).subscribe(response => {
-      console.log('Voto registrado exitosamente', response);
-      this.yaVotado = true;
+      if (response && response.message) {
+        console.log('Voto registrado exitosamente', response);
+        this.yaVotado = true;
+      } else if (response && response.error) {
+        console.error('Error al votar:', response.error);
+      }
     });
   }
 
@@ -288,7 +292,5 @@ export class FeriaPageComponent implements OnInit {
       }
     });
   }
-  
-  
 }
 
