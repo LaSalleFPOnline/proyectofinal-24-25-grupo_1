@@ -24,8 +24,7 @@ export class RegistroComponent {
   logo_url: string = '';
   descripcion: string = '';
   url_meet: string = '';
-  horario_meet: string = '';
-
+  
   // Campo específico para visitantes
   entidad: string = '';
 
@@ -51,7 +50,10 @@ export class RegistroComponent {
           if (!this.web_url) missingFields.push('Web URL');
           if (!this.logo_url) missingFields.push('Logo URL');
           if (!this.url_meet) missingFields.push('URL Meet');
-          if (!this.horario_meet) missingFields.push('Horario Meet');
+          if (!this.horario_meet_morning_start) missingFields.push('Horario Meet');
+          if (!this.horario_meet_morning_end) missingFields.push('Horario Meet');
+          if (!this.horario_meet_afternoon_start) missingFields.push('Horario Meet1');
+          if (!this.horario_meet_afternoon_end) missingFields.push('Horario Meet1');
           if (!this.entidad) missingFields.push('Colegio');
       } else if (this.rol === 2) {  // Visitante
           if (!this.entidad) missingFields.push('Entidad');

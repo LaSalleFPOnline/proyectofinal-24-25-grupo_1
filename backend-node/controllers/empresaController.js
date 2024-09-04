@@ -9,7 +9,7 @@ ejecutará la consulta.
 */
 const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
   const query = `
-    SELECT e.id AS empresa_id, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet, e.entidad
+    SELECT e.id AS empresa_id, e.nombre_empresa, e.web_url, e.spot_url, e.logo_url, e.descripcion, e.url_meet, e.horario_meet_morning_start, e.horario_meet_morning_end, e.horario_meet_afternoon_start, e.horario_meet_afternoon_end, e.entidad
     FROM usuarios u
     JOIN empresas e ON u.id = e.usuario_id
     WHERE u.id = ?
@@ -49,7 +49,7 @@ función de callback para manejar el resultado de la actualización. Extraemos l
 utilizarlas en la consulta y registramos en la consola los datos de la empresa recibidos para la actualización.
 */
 const updateEmpresa = (empresa, callback) => {
-  const { id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, usuario_id } = empresa;
+  const { id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, usuario_id } = empresa;
   console.log('Datos recibidos para actualizar la empresa:', empresa);
   /*
   Realizamos la consulta SQL que actualiza los campos de la tabla empresas, donde el ID coincide con el ID de la empresa
@@ -59,10 +59,10 @@ const updateEmpresa = (empresa, callback) => {
   */
   const updateQuery = `
     UPDATE empresas
-    SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet = ?, entidad = ?
+    SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet_morning_start = ?, horario_meet_morning_end = ?, horario_meet_afternoon_start = ?, horario_meet_afternoon_end = ?, entidad = ?
     WHERE id = ?
   `;
-  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad, id], (err) => {
+  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, id], (err) => {
     if (err) {
       console.error('Error al actualizar la empresa: ', err);
       return callback(err);

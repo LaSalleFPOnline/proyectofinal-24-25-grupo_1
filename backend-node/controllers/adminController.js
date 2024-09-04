@@ -7,7 +7,7 @@ la tabla empresas y hace un JOIN con la tabla usuarios. Esto asegura que solo se
 asociadas a un usuario válido.
 */
 const getEmpresas = (req, res) => {
-  const query ='SELECT empresas. id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url,empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+  const query ='SELECT empresas. id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url,empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet_morning_start, empresas.horario_meet_morning_end, empresas.horario_meet_afternoon_start, empresas.horario_meet_afternoon_end FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
   /*
   Se ejecuta la consulta. Si hay un error durante la ejecución se regustra el error en la consola y se responde con
   un estado 500. Si la consulta es exitosa, los resultados se envían como una respuesta JSON con un estado 200
@@ -29,7 +29,7 @@ de empresaId
 */
 const getEmpresaById = (req, res) => {
   const empresaId = req.params.id;
-  const query = 'SELECT empresas.id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id WHERE empresas.id = ?';
+  const query = 'SELECT empresas.id, empresas.entidad, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet_morning_start, empresas.horario_meet_morning_end, empresas.horario_meet_afternoon_start, empresas.horario_meet_afternoon_end  FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id WHERE empresas.id = ?';
   /*
   Ejecutamos la consulta con empresaId como parámetro. Manejamos los errores igual que en getEmpresas. Si no se
   encuentra ninguna empresa con el ID dado, se responde con un estado HTTP 404. Si se encuentra la empresa, se devuelve

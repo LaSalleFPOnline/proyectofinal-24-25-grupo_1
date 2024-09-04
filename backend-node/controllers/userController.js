@@ -19,7 +19,7 @@ un estado 400 y un mensaje de error
 */
 function registerUser(req, res) {
   console.log('Solicitud de registro recibida:', req.body);
-  const { email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad } = req.body;
+  const { email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start,horario_meet_morning_end,horario_meet_afternoon_start,horario_meet_afternoon_end, entidad } = req.body;
   if (!email || !password || !rol) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
@@ -54,8 +54,8 @@ function registerUser(req, res) {
       let roleParams;
       switch (parseInt(rol, 10)) {
         case 1: // Empresa
-          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet, entidad];
+          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start,horario_meet_morning_end,horario_meet_afternoon_start,horario_meet_afternoon_end, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start,horario_meet_morning_end,horario_meet_afternoon_start,horario_meet_afternoon_end, entidad];
           break;
         case 2: // Visitante
           insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';
@@ -145,7 +145,7 @@ function loginUser(req, res) {
               let redirigir = '';
               if (empresa) {
                 const camposCompletos = empresa.entidad && empresa.url_meet && empresa.logo_url &&
-                                         empresa.spot_url && empresa.descripcion && empresa.horario_meet &&
+                                         empresa.spot_url && empresa.descripcion && empresa.horario_meet_morning_start && empresa.horario_meet_morning_end && empresa.horario_meet_afternoon_start && empresa.horario_meet_afternoon_end &&
                                          empresa.web_url;
                 if (camposCompletos) {
                   redirigir = 'feria';

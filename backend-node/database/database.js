@@ -60,7 +60,10 @@ const initializeDatabase = (callback) => {
             logo_url VARCHAR(2083),
             descripcion VARCHAR(5000),
             url_meet VARCHAR(2083),
-            horario_meet TIME,
+            horario_meet_morning_start TIME,
+            horario_meet_morning_end TIME,
+            horario_meet_afternoon_start TIME,
+            horario_meet_afternoon_end TIME,
             entidad VARCHAR(500),
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
           )`,

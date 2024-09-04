@@ -14,8 +14,12 @@ export class PerfilEmpresaComponent implements OnInit {
   spotPublicitario: string = '';
   nombreEmpresa: string = '';
   // horariosAtencion: string = '';
-  horariosAtencionInicio: string = ''; // Nueva propiedad para la hora de inicio
-  horariosAtencionFin: string = ''; // Nueva propiedad para la hora de fin
+  //horariosAtencionInicio: string = ''; // Nueva propiedad para la hora de inicio
+  //horariosAtencionFin: string = ''; // Nueva propiedad para la hora de fin
+  horario_meet_morning_start: string = '';
+  horario_meet_morning_end: string = '';
+  horario_meet_afternoon_start: string = '';
+  horario_meet_afternoon_end: string = '';
   paginaWeb: string = '';
   descripcionProductos: string = '';
   errorMessage: string | null = null;
@@ -39,8 +43,12 @@ export class PerfilEmpresaComponent implements OnInit {
         this.spotPublicitario = empresa.spot_url || '';
         this.nombreEmpresa = empresa.nombre_empresa || '';
         // this.horariosAtencion = empresa.horario_meet || '';
-        this.horariosAtencionInicio = empresa.horarios_atencion_inicio || ''; // Adaptado
-        this.horariosAtencionFin = empresa.horarios_atencion_fin || '';
+        //this.horariosAtencionInicio = empresa.horarios_atencion_inicio || ''; // Adaptado
+        //this.horariosAtencionFin = empresa.horarios_atencion_fin || '';
+        this.horario_meet_morning_start = empresa.horario_meet_morning_start || '';
+        this.horario_meet_morning_end = empresa.horario_meet_morning_end || '';
+        this.horario_meet_afternoon_start = empresa.horario_meet_afternoon_start || '';
+        this.horario_meet_afternoon_end = empresa.horario_meet_afternoon_end || '';
         this.paginaWeb = empresa.web_url || '';
         this.descripcionProductos = empresa.descripcion || '';
       } else {
@@ -65,8 +73,12 @@ export class PerfilEmpresaComponent implements OnInit {
         descripcion: this.descripcionProductos,
         url_meet: this.enlaceSalaEspera,
         // horario_meet: this.horariosAtencion,
-        horarios_atencion_inicio: this.horariosAtencionInicio, // Adaptado
-        horarios_atencion_fin: this.horariosAtencionFin, // Adaptado
+        horario_meet_morning_start: this.horario_meet_morning_start,
+        horario_meet_morning_end: this.horario_meet_morning_end,
+        horario_meet_afternoon_start: this.horario_meet_afternoon_start,
+        horario_meet_afternoon_end: this.horario_meet_afternoon_end,
+       // horarios_atencion_inicio: this.horariosAtencionInicio, // Adaptado
+        //horarios_atencion_fin: this.horariosAtencionFin, // Adaptado
         entidad: this.nombreColegio
       };
 
@@ -84,8 +96,12 @@ export class PerfilEmpresaComponent implements OnInit {
           this.descripcionProductos = response.descripcion;
           this.enlaceSalaEspera = response.url_meet;
           // this.horariosAtencion = response.horario_meet;
-          this.horariosAtencionInicio = response.horarios_atencion_inicio; // Adaptado
-          this.horariosAtencionFin = response.horarios_atencion_fin; // Adaptado
+          //this.horariosAtencionInicio = response.horarios_atencion_inicio; // Adaptado
+          //this.horariosAtencionFin = response.horarios_atencion_fin; // Adaptado
+         this.horario_meet_morning_start= response.horario_meet_morning_start;
+         this.horario_meet_morning_end= response.horario_meet_morning_end;
+         this.horario_meet_afternoon_start= response.horario_meet_afternoon_start;
+         this.horario_meet_afternoon_end= response.horario_meet_afternoon_end;
 
           this.nombreColegio = response.entidad;
       

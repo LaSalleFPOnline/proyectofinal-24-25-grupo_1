@@ -54,12 +54,21 @@
     <div class="campo">
         <label class="text">* Horarios de atención al cliente</label>
         <div class="horario">
-            <p class="text">Desde:</p>
-            <input type="time" [(ngModel)]="horariosAtencionInicio" class="input time-input">
-            <p class="text">Hasta:</p>
-            <input type="time" [(ngModel)]="horariosAtencionFin" class="input time-input">
-        </div>
-        <img class="line" src="assets/Images/line.png">
+            <p class="text">Mañana:</p>
+            <p class="text">desde</p>
+            <input type="time" id="horario_meet_morning_start" [(ngModel)]="horario_meet_morning_start" name="horario_meet_morning_start" class="input time-input">
+            <p class="text">hasta</p>
+            <input type="time" id="horario_meet_morning_end" [(ngModel)]="horario_meet_morning_end" name="horario_meet_morning_end" class="input time-input">
+          </div>
+          <img class="line" src="assets/Images/line.png">
+          <div class="horario">
+            <label class="text">Tarde:</label>
+            <p class="text">desde</p>
+            <input type="time" id="horario_meet_afternoon_start" [(ngModel)]="horario_meet_afternoon_start" name="horario_meet_afternoon_start" class="input time-input">
+            <p class="text">hasta</p>
+            <input type="time" id="horario_meet_afternoon_end" [(ngModel)]="horario_meet_afternoon_end" name="horario_meet_afternoon_end" class="input time-input">
+          </div>
+            <img class="line" src="assets/Images/line.png"> 
     </div>
 
     <!-- Spot Publicitario -->
