@@ -21,6 +21,8 @@ import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component'; //
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component'; // Importar el componente PerfilEmpresa
 import { CommonModule } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NosotrosComponent } from './nosotros/nosotros.component';
+
 
 
 @NgModule({

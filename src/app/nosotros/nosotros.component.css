@@ -1,0 +1,113 @@
+.sobre-nosotros {
+    width: 80%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f0f8ff; /* Fondo de página en azul claro */
+    border: 2px solid #00bfff; /* Borde azul claro */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.titulo-seccion {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #ffeb3b; /* Fondo amarillo */
+    /* padding: 10px; */
+    border-radius: 5px;
+    border: 2px solid blue; /* Borde amarillo más oscuro */
+    color: blue;
+}
+
+.fotos-individuales {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #e0f2f1; /* Fondo verde claro */
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #80cbc4; /* Borde verde más oscuro */
+}
+
+.foto-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff; /* Fondo blanco para cada foto */
+    border-radius: 50%;
+    padding: 20px;
+}
+
+.foto-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 4px solid #ff5722; /* Borde naranja para las fotos */
+}
+
+.foto-container p {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000; /* Color del texto en negro */
+}
+
+.foto-container p:nth-of-type(2) {
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    color: #555; /* Color del texto secundario en gris oscuro */
+}
+
+.experiencia {
+    text-align: justify;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    background-color: #fbe9e7; /* Fondo rojo claro */
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #d32f2f; /* Borde rojo más oscuro */
+}
+
+.experiencia h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #d32f2f; /* Color del título en rojo oscuro */
+}
+
+.experiencia p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.foto-grupo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.foto-grupo img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 5px solid #ffeb3b; /* Borde amarillo para la foto de grupo */
+}
+
+@media (max-width: 768px) {
+    .fotos-individuales {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .foto-container img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .foto-grupo img {
+        width: 100%;
+        height: auto;
+    }
+}
