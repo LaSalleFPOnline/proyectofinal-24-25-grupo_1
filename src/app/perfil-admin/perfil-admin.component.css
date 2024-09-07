@@ -3,260 +3,178 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    max-height: calc((60px + 30px) * 3 + 20px); /* Ajusta la altura máxima para incluir 3 filas de rectángulos y botones */
     overflow-y: auto;
     background-color: yellow;
     border: 1px solid #ccc;
     border-radius: 45px;
-    padding: 10px;
     box-sizing: border-box;
+    margin-top: 2rem;
 }
 
 .item {
-    width: calc((100% - 40px) / 3); /* Ancho de cada item (rectángulo + botones), considerando márgenes */
+    flex: 1 1 calc(33.333% - 20px);
     margin: 5px;
     box-sizing: border-box;
 }
 
 .rectangulo {
-    height: 60px; /* Altura del rectángulo */
-    background-color: lightgray;
+    height: 10rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 10px;
+}
+
+.rectangulo img {
+    height: 100%;
+    width: auto;
 }
 
 .buttons {
     display: flex;
-    justify-content: center; /* Centra los botones */
-    margin-top: 5px; /* Espacio entre el rectángulo y los botones */
+    justify-content: center;
+    margin-top: 5px;
 }
 
 button {
-    background-color: transparent; /* Fondo transparente */
-    border: none; /* Sin borde inicial */
+    background-color: transparent;
+    border: none;
     padding: 5px 10px;
-    border-radius: 30px; /* Borde redondeado */
+    border-radius: 30px;
     cursor: pointer;
-    transition: all 0.3s ease; /* Transición suave */
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    border: 1px solid currentColor; /* Borde visible al hacer hover */
+    border: 1px solid currentColor;
 }
 
-.edit-button {
-    color: grey; /* Color del texto del botón editar */
-}
-
+.edit-button,
 .delete-button {
-    color: grey; /* Color del texto del botón eliminar */
+    color: grey;
 }
 
 p {
-    text-align: center; /* Centra el texto del párrafo */
-    margin: 10px 0 0 0; /* Añade un margen superior para separar el texto del rectángulo */
-}
-
-/* Top3 y subir */
-.Actualizar-Agenda {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten a nuevas líneas si no hay suficiente espacio */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    flex-direction: column; /* Organiza los heading verticalmente */
-    align-items: center; /* Centra los elementos horizontalmente dentro de su contenedor */
-}
-
-.heading {
-    width: 50%; /* Ajusta el ancho de cada elemento al 30% del contenedor principal */
-    height: 150px; /* Altura fija para los elementos */
-    border-radius: 45px;
-    display: flex;
-    flex-direction: column; /* Organiza los elementos internos verticalmente */
-    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
-    margin: 1rem; /* Espacio entre los elementos */
-    position: relative; /* Necesario para los elementos internos con posición absoluta */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle un efecto de profundidad */
-    padding: 1rem; /* Espacio interno para evitar que el contenido toque los bordes */
-    color: white;
     text-align: center;
+    margin: 10px 0 0 0;
 }
 
-/* Estilos adicionales para los elementos internos */
-.heading .label {
-    display: flex;
-    align-items: center;
-    flex: 1; /* Ocupa el espacio restante disponible */
-}
-
-/* Fondo rojo para la agenda */
-.heading.agenda {
-    background-color: #ff0000; /* Rojo */
-}
-
-/* Fondo azul para las bases del concurso */
-.heading.bases {
-    background-color: #0000ff; /* Azul */
-}
-
-/* Estilos para el contenedor del ícono y el texto "Actualizar" */
-.heading .link {
-    display: flex;
-    align-items: center; /* Centra el contenido horizontalmente */
-    gap: 0.5rem; /* Espacio entre icono y actualizar*/
-}
-
-.heading .icon img.arrow {
-    width: 24px; /* Ajusta el tamaño del ícono */
-    height: auto; /* Mantiene la proporción del ícono */
-}
-
-/* Estilos para el nuevo contenedor a la derecha */
+/* Top3 y enlaces */
 .container_2 {
+    position: relative;
     display: flex;
     width: 80%;
-    margin: 0 auto; /* Centrado en la página*/
-    padding: 3rem;  /* Separado de los otros contenedores
-}
-
-/* Contenedor de subir archivos */
-.subir {
-    width: 50%;
-    background-color: #f0f0f0;
-    padding: 1rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 75vh;
     box-sizing: border-box;
-    border: 2px solid black; /* Borde negro */
-    border-radius: 45px;
-    display: flex;
-    flex-direction: column;
-    margin-right: 1rem; /* Espacio entre .subir y .top3 */
-
+    gap: 2rem;
+    margin: 0 auto;
 }
 
-/* Contenedor de Top 3 */
-.top3 {
+.top3, .enlaces {
     width: 50%;
-    height: 30vh;
-    background-color: green;
-    color: white;
-    box-sizing: border-box;
     border-radius: 45px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    margin-left: 1rem; /* Espacio entre .subir y .top3 */
-
-}
-
-/* Estilos para los heading */
-.heading {
-    background-color: #ff0000;
-    border-radius: 20px;
-    padding: 1rem;
-    margin-bottom: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
     color: white;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: auto; /* Añade barras de desplazamiento si el contenido excede el área visible */
+}
+
+.top3 {
+    background-color: green;
+}
+
+.enlaces {
+    background-color: red;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: flex-start;
 }
 
-/* Fondo específico para las bases del concurso */
-.heading.bases {
-    background-color: #0000ff;
-}
-
-/* Estilos para los íconos y texto */
-.heading .link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.heading .arrow {
-    width: 24px;
+.enlaces {
+    overflow-y: auto; /* Asegura que se pueda hacer scroll vertical en caso de más contenido */
 }
 
 .podium {
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
 .podium-item {
     text-align: center;
-    margin-top: 2rem;
+    margin: 10px 0;
 }
 
-.podium-item img {
-    display: block;
-    margin: 0 auto;
+.podium-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
-.first-place {
-    width: 50px;
+.trophy-img {
+    max-width: 50px;
+    height: auto;
+    margin-right: 3rem; /* Espacio entre el trofeo y el logo */
 }
 
-.second-place {
-    width: 40px;
+.company-logo {
+    max-width: 100px;
+    height: auto;
 }
 
-.third-place {
-    width: 30px;
+.puesto-text {
+    margin: 10px 0;
 }
+
+.company-name {
+    font-weight: bold;
+}
+
 
 .podium-item p {
     margin-top: 5px;
     font-size: 0.8em;
 }
-/* Estilo para la imagen ilustrativa */
+
 .illustration {
     position: absolute;
-    width: 30%; /* Ancho relativo a la vista del ancho de la ventana */
-    height: auto; /* Mantiene la proporción de la imagen */
-    right: 50px; /* Ajusta el valor para mover la ilustración a la derecha */
-    bottom: -20vh; /* Ajusta el valor para mover la ilustración hacia abajo */
-    z-index: 0; /* Asegura que la ilustración esté detrás de los elementos */
-    object-fit: cover; /* Ajusta la imagen para que cubra el contenedor sin distorsión */
-}
+    width: 30%;
+    height: auto;
+    right: 50px;
+    bottom: -20vh;
+    z-index: 0;
+    object-fit: cover;
 }
 
-/* Estilos para el título dentro de container_3 */
-.container_3{
+.enlaces a {
+    color: yellow;
+    text-decoration: none;
+    display: block;
+    margin: 0.3rem 0;
+    font-size: smaller;
+}
+
+.enlaces a:hover {
+    text-decoration: underline; /* Subrayado en hover */
+}
+
+.illustration_2 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
     width: 50%;
-    background-color: red; 
-    border-radius: 45px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
-    margin: 2rem; /* Espacio encima del nuevo contenedor */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle un efecto de profundidad */
-    padding: 1rem; /* Espacio interno */
-    color: white;
-    text-align: center;
-    box-sizing: border-box; /* Incluye padding y border en el ancho y altura total */
-}
-.container_3 .label {
-    margin-bottom: 1rem; /* Espacio entre el título y las líneas */
-}
-
-/* Estilos para los elementos <p> */
-.container_3 p {
-    font-size: 0.8em; /* Tamaño de fuente más pequeño que el título */
-    margin: 0.5rem 0; /* Espacio entre los párrafos y la línea */
-    text-align: left;
-}
-
-/* Estilos para las líneas */
-.container_3 .line {
-    width: 100%; /* Asegura que la línea ocupe el ancho completo del contenedor */
-    margin: 0.5rem 0; /* Espacio entre la línea y los párrafos */
-}
-
-
-
-
-
-.listado-empresas {
-    
+    height: auto;
+    margin-bottom: -30vh;
+    max-width: 40vw;
 }
