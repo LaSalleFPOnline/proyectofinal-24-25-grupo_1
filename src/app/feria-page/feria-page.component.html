@@ -2,71 +2,14 @@
 <!-- Agenda -->
 <div class="agenda">
     <div class="titulo">
-        <p>Agenda</p>
+        <p>Feria virtual</p>
     </div>
-    
-    <div class="frame collapsed"> <!-- Colapsado por defecto -->
-        <div class="frame-header">
-            <div class="div-wrapper">HORARIO Mañana</div>
-            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand" (click)="toggleFrame($event)">
-            <img class="minus-icon hidden" src="assets/Images/icon-minus.png" alt="Collapse" (click)="toggleFrame($event)">
-        </div>
-        <img class="line" src="assets/Images/line.png" alt="Line">
-        <div class="frame-content">
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-        </div>
-    </div>
-    <div class="frame collapsed"> <!-- Colapsado por defecto -->
-        <div class="frame-header">
-            <div class="div-wrapper">HORARIO Tarde</div>
-            <img class="plus-icon" src="assets/Images/icon-plus.png" alt="Expand" (click)="toggleFrame($event)">
-            <img class="minus-icon hidden" src="assets/Images/icon-minus.png" alt="Collapse" (click)="toggleFrame($event)">
-        </div>
-        <img class="line" src="assets/Images/line.png" alt="Line">
-        <div class="frame-content">
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-                <p class="text">Lorem ipsum dolor sit amet.......................................00:00</p>
-        </div>
-    </div>
-</div>
 
 <!-- Notificaciones -->
+
 <div class="contenedor-notificaciones-realaciones">
-
-    <div class="notificaciones">
-        <div class="titulo-notificaciones">
-            <div class="fondo-notificaciones">
-                <div class="texto-titulo-notificaciones">Notificaciones</div>
-            </div>
-        </div>
-        <div class="text-line-container">
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-            <div class="line-notificaciones"></div>
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-            <div class="line-notificaciones"></div>
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-            <div class="line-notificaciones"></div>
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-            <div class="line-notificaciones"></div>
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-            <div class="line-notificaciones"></div>
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-            <div class="line-notificaciones"></div>
-            <p class="text-notificaciones">Lorem ipsum dolor sit amet................</p>
-        </div>
-    </div>
-
-    <!-- Mis relaciones comerciales -->
-    <div class="mis-relaciones">
+     <!-- Mis relaciones comerciales -->
+     <div class="mis-relaciones">
         <div class="titulo-notificaciones">
             <div class="fondo-notificaciones">
                 <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
@@ -76,32 +19,57 @@
             <div class="overlap-relaciones-1">
                 <div class="text-relaciones">Mis intereses</div>
                 <div class="scroll-container">
-                    <!-- Recorre la lista de misIntereses para mostrar los logotipos -->
+                    <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
+                        <p>Aquí aparecerán las empresas que me interesan</p>
+                    </div>
                     <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetallesInteres(venta, 'venta')">
                         <img *ngIf="venta.logo_url" [src]="venta.logo_url" alt="{{ venta.nombre_empresa }}" class="logo-interes">
                     </div>
                 </div>
             </div>
-            <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
+            <!-- <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div> -->
 
             <div class="overlap-relaciones-2">
                 <div class="text-relaciones">Interesados en mí</div>
                 <div class="scroll-container">
+                    <div *ngIf="relacionesCompra.length === 0" class="mensaje-sin-relaciones">
+                        <p>Aquí aparecerán los interesados en mi</p>
+                    </div>
                     <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetallesInteres(compra, 'compra')">
                         <img *ngIf="compra.logo_url" [src]="compra.logo_url" alt="{{ compra.nombre_empresa }}" class="logo-interes">
                     </div>
                 </div>
             </div>
 
-            <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
+            <!-- <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div> -->
+        </div>
+
+        <!-- Mover text-suma aquí -->
+    <div class="contenedor-texto-suma">
+        <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
+        <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
+    </div>
+
+    </div>
+
+    <!-- Notificaciones -->
+    <div class="notificaciones">
+        <div class="titulo-notificaciones">
+            <div class="fondo-notificaciones">
+                <div class="texto-titulo-notificaciones">Notificaciones</div>
+            </div>
+        </div>
+        <div class="text-line-container">
+            <p class="text-notificaciones">¿Qué queremos que se notifique?</p>
+            <div class="line-notificaciones"></div>
         </div>
     </div>
 </div>
+
 <!-- Ilustracion -->
 <img class="illustration" src="assets/Illustrations/Illustration4.png">
 
 <!-- Listado empresas -->
-
 <div class="titulo">
     <p>Empresas participantes</p>
 </div>
@@ -112,9 +80,7 @@
     </div>
 </div>
 
-
 <!-- Detalle empresas -->
-
 <div *ngIf="empresaSeleccionada" class="detalles">
     <div class="titulo-detalles">
         <div class="titulo">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
