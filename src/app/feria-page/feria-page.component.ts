@@ -25,6 +25,7 @@ export class FeriaPageComponent implements OnInit {
   private expandedFrame: HTMLElement | null = null;
   interesadoEnEmpresa = false;
   yaVotado = false; // Variable para verificar si ya se ha votado
+  userType: number | null = null; // Variable para guardar el tipo de usuario SANTI
 
   constructor(
     private http: HttpClient,
@@ -36,21 +37,49 @@ export class FeriaPageComponent implements OnInit {
     private votacionService: VotacionService // Inyecta el servicio de votación
   ) {}
 
-  ngOnInit(): void {
-    this.empresaService.getEmpresas().subscribe((data: any[]) => {
-        this.empresas = data;
-        console.log('Empresas: ', this.empresas);
-
-        const empresaId = this.authService.getLoggedInCompanyId();
-
-        if (empresaId !== null) {
-            this.obtenerRelaciones(empresaId);
-        } else {
-            console.error('No se pudo obtener el ID de la empresa logueada.');
+  ngOnInit(): void { //SANTI
+    this.authService.getUserRole().subscribe({
+      next: (role: number | null) => {
+        this.userType = role;
+        // Obtener empresas y relaciones solo si el usuario está logueado y tiene un rol válido
+        if (this.userType === 1 || this.userType === 2) {
+          this.empresaService.getEmpresas().subscribe({
+            next: (data: any[]) => {
+              this.empresas = data;
+              console.log('Empresas: ', this.empresas);
+  
+              const empresaId = this.authService.getLoggedInCompanyId();
+  
+              if (empresaId !== null) {
+                this.obtenerRelaciones(empresaId);
+              } else {
+                console.error('No se pudo obtener el ID de la empresa logueada.');
+              }
+            },
+            error: (error) => {
+              console.error('Error al obtener empresas: ', error);
+            }
+          });
         }
-    }, error => {
-        console.error('Error al obtener empresas: ', error);
+      },
+      error: (error) => {
+        console.error('Error al obtener rol del usuario: ', error);
+      }
     });
+    // this.empresaService.getEmpresas().subscribe((data: any[]) => {
+    //     this.empresas = data;
+    //     console.log('Empresas: ', this.empresas);
+
+    //     const empresaId = this.authService.getLoggedInCompanyId();
+
+    //     if (empresaId !== null) {
+    //         this.obtenerRelaciones(empresaId);
+    //     } else {
+    //         console.error('No se pudo obtener el ID de la empresa logueada.');
+    //     }
+    // }, error => {
+    //     console.error('Error al obtener empresas: ', error);
+    // });
   }
 
   obtenerRelaciones(empresaId: number): void {
