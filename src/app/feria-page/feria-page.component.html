@@ -73,7 +73,7 @@
 <div class="titulo">
     <p>Empresas participantes</p>
 </div>
-<div class="scroll-container">
+<div class="scroll-container-2">
     <div *ngFor="let empresa of empresas" class="rectangle-empresas">
         <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa" (click)="mostrarDetalles(empresa.id)">
         <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
@@ -88,9 +88,11 @@
 
     <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
 
-    <!-- Que viene a este rectangulo?? ----///////----- EL LOGOTIPO -->
+    <!-- EL LOGOTIPO -->
     <div class="contenedor-arriba">
-        <div class="rectangle-detalles"></div>
+        <div class="rectangle-detalles">
+            <img *ngIf="empresaSeleccionada.logo_url" [src]="empresaSeleccionada.logo_url" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
+        </div>
         <p class="empresa">
             <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
             <span class="text-detalles">
@@ -102,19 +104,24 @@
     </div>
 
     <div class="contenedor-abajo">
-        <div class="rectangle-video-detalles"></div>
-        <div class="scroll-detalles">
+        <!-- Mostrar el spot si está disponible -->
+        <ng-container *ngIf="empresaSeleccionada.spot">
+            <div class="columna-video">
+                <video [src]="empresaSeleccionada.spot" controls class="video-spot"></video>
+            </div>
+        </ng-container>
+        <div class="columna-scroll">
             <p>{{ empresaSeleccionada.descripcion }}</p>
         </div>
     </div>
+    
 
     <div class="button-container">
-        <button *ngIf="!yaVotado" (click)="votar()">Votar</button>
-        <button *ngIf="yaVotado" (click)="eliminarVoto()">Eliminar Voto</button>
+        <button class="button" *ngIf="!yaVotado" (click)="votar()">Votar</button>
+        <button class="button" *ngIf="yaVotado" (click)="eliminarVoto()">Eliminar Voto</button>
         <button class="button">Mensaje</button>
-        <button (click)="agregarOEliminarInteres()">
+        <button class="button" (click)="agregarOEliminarInteres()">
             {{ interesadoEnEmpresa ? 'Eliminar interés' : 'Me interesa' }}
         </button>
     </div>
-
 </div>

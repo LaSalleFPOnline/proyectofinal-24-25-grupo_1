@@ -126,6 +126,8 @@ export class FeriaPageComponent implements OnInit {
     if (typeof empresaId === 'number') {
       this.empresaService.getEmpresaById(empresaId).subscribe(
         (empresa: any) => {
+          console.log('Datos de la empresa:', empresa); // Verifica aquí el spot_url
+          
           this.empresaSeleccionada = empresa;
           this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
   
