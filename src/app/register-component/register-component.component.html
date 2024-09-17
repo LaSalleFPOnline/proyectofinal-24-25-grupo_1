@@ -1,114 +1,122 @@
 <form (ngSubmit)="validarFormulario()" class="formulario registro">
-
   <div class="titulo">Registro</div>
 
-  <div class="campo">
+  <!-- Campo de Email y Validación -->
+  <div *ngIf="!emailValidado" class="campo">
     <label class="text">* Email:</label>
-    <input type="email" id="email" [(ngModel)]="email" name="email" class="input" required>
+    <input type="email" id="email" #emailInput [(ngModel)]="email" name="email" class="input" required>
     <img class="line" src="assets/Images/line.png">
   </div>
+  <button *ngIf="!emailValidado" type="button" (click)="validarEmail()" class="button-validar">Validar Email</button>
 
-  <div class="campo">
-    <label class="text">* Contraseña:</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" class="input" required>
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div class="campo">
-    <label class="text">* Repite la contraseña:</label>
-    <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="input" required
-          [ngClass]="{'error': passwordsDoNotMatch}" #confirmPasswordInput
-          (blur)="checkPasswords()">
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div class="campo">
-    <label class="text">* Rol: selecciona</label>
-    <select id="rol" [(ngModel)]="rol" name="rol" class="input">
-        <option value="1">Empresa</option>
-        <option value="2">Visitante</option>
-        <option value="3">Administrador</option>
-    </select>
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">* Nombre de la Empresa:</label>
-    <input type="text" id="nombre_empresa" [(ngModel)]="nombre_empresa" name="nombre_empresa" class="input">
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">* Web URL:</label>
-    <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url" class="input">
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">Spot URL:</label>
-    <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url" class="input">
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">* Logo URL:</label>
-    <input type="text" id="logo_url" [(ngModel)]="logo_url" name="logo_url" class="input">
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">Descripción de productos o servicios</label>
-    <img class="line" src="assets/Images/line.png">
-    <textarea class="textarea" placeholder="Escribe aquí..." [(ngModel)]="descripcion" name="descripcion"></textarea>
-  </div>
-
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">* URL Meet:</label>
-    <input type="text" id="url_meet" [(ngModel)]="url_meet" name="url_meet" class="input">
-    <img class="line" src="assets/Images/line.png">
-  </div>
-
-  <!-- Con horarios de inicio y fin -->
-  <div *ngIf="rol == 1" class="campo">
-    <label class="text">* Horario Meet:</label>
-  
-    <div class="horario">
-      <p class="text">Mañana:</p>
-      <p class="text">desde</p>
-      <input type="time" id="horario_meet_morning_start" [(ngModel)]="horario_meet_morning_start" name="horario_meet_morning_start" class="input time-input">
-      <p class="text">hasta</p>
-      <input type="time" id="horario_meet_morning_end" [(ngModel)]="horario_meet_morning_end" name="horario_meet_morning_end" class="input time-input">
-    </div>
-    <img class="line" src="assets/Images/line.png">
-    
-    <div class="horario">
-      <label class="text">Tarde:</label>
-      <p class="text">desde</p>
-      <input type="time" id="horario_meet_afternoon_start" [(ngModel)]="horario_meet_afternoon_start" name="horario_meet_afternoon_start" class="input time-input">
-      <p class="text">hasta</p>
-      <input type="time" id="horario_meet_afternoon_end" [(ngModel)]="horario_meet_afternoon_end" name="horario_meet_afternoon_end" class="input time-input">
-    </div>
+  <!-- Campos adicionales después de validar el email -->
+  <div *ngIf="emailValidado">
+    <!-- Campo de Email (solo lectura) -->
+    <div class="campo">
+      <label class="text">* Email:</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" class="input" readonly>
       <img class="line" src="assets/Images/line.png">
-</div>
+    </div>
 
+    <!-- Contraseña y Confirmar Contraseña -->
+    <div class="campo">
+      <label class="text">* Contraseña:</label>
+      <input type="password" id="password" [(ngModel)]="password" name="password" class="input" required>
+      <img class="line" src="assets/Images/line.png">
+    </div>
 
-  <!-- <div *ngIf="rol == 1" class="campo">
-    <label class="text">* Horario Meet:</label>
-    <input type="time" id="horario_meet" [(ngModel)]="horario_meet" name="horario_meet" class="input">
-    <img class="line" src="assets/Images/line.png">
-  </div> -->
+    <div class="campo">
+      <label class="text">* Repite la contraseña:</label>
+      <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="input"
+            [ngClass]="{'error': passwordsDoNotMatch}" #confirmPasswordInput
+            (blur)="checkPasswords()">
+      <img class="line" src="assets/Images/line.png">
+    </div>
 
-  <div *ngIf="rol == 1 || rol == 2" class="campo">
-    <label class="text">* Colegio:</label>
-    <select id="entidad" [(ngModel)]="entidad" name="entidad" class="input">
-      <option value="" disabled>Seleccionar Colegio</option>
-      <option value="Colegio 1">Colegio 1</option>
-      <option value="Colegio 2">Colegio 2</option>
-      <option value="Colegio 3">Colegio 3</option>
-    </select>
-    <img class="line" src="assets/Images/line.png">
+    <!-- Campo de Rol (No editable) -->
+    <div class="campo">
+      <label class="text">* Rol:</label>
+      <input type="text" #rolInput [value]="rol" class="input" disabled>
+      <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Campos específicos para cada rol -->
+    <!-- Rol Empresa -->
+    <div *ngIf="rol === 1">
+      <div class="campo">
+        <label class="text">* Nombre de la Empresa:</label>
+        <input type="text" id="nombre_empresa" [(ngModel)]="nombre_empresa" name="nombre_empresa" class="input">
+        <img class="line" src="assets/Images/line.png">
+      </div>
+
+      <div class="campo">
+        <label class="text">* Web URL:</label>
+        <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url" class="input">
+        <img class="line" src="assets/Images/line.png">
+      </div>
+
+      <div class="campo">
+        <label class="text">Spot URL:</label>
+        <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url" class="input">
+        <img class="line" src="assets/Images/line.png">
+      </div>
+
+      <div class="campo">
+        <label class="text">* Logo URL:</label>
+        <input type="text" id="logo_url" [(ngModel)]="logo_url" name="logo_url" class="input">
+        <img class="line" src="assets/Images/line.png">
+      </div>
+
+      <div class="campo">
+        <label class="text">Descripción de productos o servicios</label>
+        <img class="line" src="assets/Images/line.png">
+        <textarea class="textarea" placeholder="Escribe aquí..." [(ngModel)]="descripcion" name="descripcion"></textarea>
+      </div>
+
+      <div class="campo">
+        <label class="text">* URL Meet:</label>
+        <input type="text" id="url_meet" [(ngModel)]="url_meet" name="url_meet" class="input">
+        <img class="line" src="assets/Images/line.png">
+      </div>
+
+      <div class="campo">
+        <label class="text">* Horario Meet:</label>
+        <div class="horario">
+          <p class="text">Mañana:</p>
+          <p class="text">desde</p>
+          <input type="time" id="horario_meet_morning_start" [(ngModel)]="horario_meet_morning_start" name="horario_meet_morning_start" class="input time-input">
+          <p class="text">hasta</p>
+          <input type="time" id="horario_meet_morning_end" [(ngModel)]="horario_meet_morning_end" name="horario_meet_morning_end" class="input time-input">
+        </div>
+        <img class="line" src="assets/Images/line.png">
+        
+        <div class="horario">
+          <label class="text">Tarde:</label>
+          <p class="text">desde</p>
+          <input type="time" id="horario_meet_afternoon_start" [(ngModel)]="horario_meet_afternoon_start" name="horario_meet_afternoon_start" class="input time-input">
+          <p class="text">hasta</p>
+          <input type="time" id="horario_meet_afternoon_end" [(ngModel)]="horario_meet_afternoon_end" name="horario_meet_afternoon_end" class="input time-input">
+        </div>
+        <img class="line" src="assets/Images/line.png">
+      </div>
+    </div>
+
+    <!-- Rol Visitante -->
+    <div *ngIf="rol === 2" class="campo">
+      <label class="text">* Colegio:</label>
+      <select id="entidad" [(ngModel)]="entidad" name="entidad" class="input">
+        <option value="" disabled>Seleccionar Colegio</option>
+        <option value="Colegio 1">Colegio 1</option>
+        <option value="Colegio 2">Colegio 2</option>
+        <option value="Colegio 3">Colegio 3</option>
+      </select>
+      <img class="line" src="assets/Images/line.png">
+    </div>
+
+    <!-- Botón de Registro -->
+    <button type="submit" class="button-validar">Registrarse</button>
   </div>
-  
-  <button type="submit" class="button-validar">Registrarse</button>
 
+    <!-- Mensaje de Error -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </form>

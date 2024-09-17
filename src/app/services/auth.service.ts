@@ -120,4 +120,18 @@ export class AuthService {
     const id = sessionStorage.getItem('empresaSeleccionadaId');
     return id ? parseInt(id, 10) : null;
   }
+
+  // Método para verificar el email
+  checkEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/check-email`, {
+      params: { email }
+    });
+  }
+
+  // Método para obtener los detalles del usuario
+  getUserDetails(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/user-details`, {
+      params: { email }
+    });
+  }
 }

@@ -8,7 +8,7 @@ const router = express.Router();
 Los controladores se importan desde archivos específicos dentro de la carpeta controllers. Cada controlador tiene
 funciones que manejan la lógica para una ruta específica
 */
-const { registerUser, loginUser } = require('../controllers/userController');
+const { registerUser, loginUser, checkEmail, getUserDetails } = require('../controllers/userController');
 const { updateEmpresa } = require('../controllers/empresaController'); // Asegúrate de que esto esté correcto
 const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
 const { getAllEvents } = require('../controllers/agendaController');
@@ -56,6 +56,9 @@ router.get('/empresa/:id', getEmpresaById);
 router.post('/add-interest', authenticateToken, addInterest);
 router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
 
+// Rutas para necesarias para realizar un registro de un usuario en cualquier rol
+router.get('/check-email', checkEmail);
+router.get('/user-details', getUserDetails);
 
 // Ruta para eliminar interés
 router.delete('/eliminar-interes' ,authenticateToken, eliminarInteres);

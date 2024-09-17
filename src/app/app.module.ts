@@ -12,28 +12,27 @@ import { routes } from './app.routes';
 // Importar componentes standalone
 import { AppComponent } from './app.component';
 import { LoginComponentComponent } from './login-component/login-component.component';
-import { RegistroComponent } from './register-component/register-component.component';
+import { RegisterComponent } from './register-component/register-component.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './footer/footer.component'; // Importar el componente Footer
 import { FeriaPageComponent } from './feria-page/feria-page.component'; // Importar el componente FeriaPage
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component'; // Importar el componente PerfilAdmin
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component'; // Importar el componente PerfilEmpresa
+import { NosotrosComponent } from './nosotros/nosotros.component'; // Importar el componente Nosotros
 import { CommonModule } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { NosotrosComponent } from './nosotros/nosotros.component';
-
-
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponentComponent,
-    RegistroComponent,
+    RegisterComponent,
     HeaderComponent,
     PerfilEmpresaComponent,
     PerfilAdminComponent,
     HomePageComponent,
+    // Otros componentes no standalone
   ],
   imports: [
     BrowserModule,
@@ -42,9 +41,9 @@ import { NosotrosComponent } from './nosotros/nosotros.component';
     MatButtonModule,
     MatIconModule,
     CommonModule,
-    // Importar componentes standalone
-    FooterComponent,
-    FeriaPageComponent, // Declarar el componente FeriaPage
+    FooterComponent, // No declararlo, solo importarlo
+    FeriaPageComponent, // No declararlo, solo importarlo
+    NosotrosComponent // No declararlo, solo importarlo
   ],
   providers: [AuthService, provideHttpClient(withInterceptorsFromDi()), provideAnimations(), provideAnimationsAsync()],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

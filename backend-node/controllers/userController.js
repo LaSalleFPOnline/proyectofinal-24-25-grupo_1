@@ -19,71 +19,98 @@ un estado 400 y un mensaje de error
 */
 function registerUser(req, res) {
   console.log('Solicitud de registro recibida:', req.body);
-  const { email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start,horario_meet_morning_end,horario_meet_afternoon_start,horario_meet_afternoon_end, entidad } = req.body;
-  if (!email || !password || !rol) {
-    return res.status(400).json({ message: 'Faltan campos obligatorios' });
+  const { email, password, rol, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'El email es obligatorio' });
   }
-  // Encripta la contraseña, si hay un error en el proceso se responde con un estado 500
-  bcrypt.hash(password, 10, (err, hash) => {
+
+  // Validar si el email ya existe en la base de datos
+  const checkUserQuery = 'SELECT * FROM usuarios WHERE email = ?';
+  connection.query(checkUserQuery, [email], (err, results) => {
     if (err) {
-      console.error('Error al hashear la contraseña:', err);
-      return res.status(500).json({ message: 'Error al hashear la contraseña' });
+      console.error('Error al consultar usuario en MySQL:', err);
+      return res.status(500).json({ message: 'Error al consultar el email' });
     }
-    /*
-    Definimos la consulta SQL para insertar un nuevo usuario en la tabla. Si el correo electrónico ya está en uso, se
-    responde con un estado 400 otros con estado 500. Si la inserción es exitosa se obtiene el userId que se usará para
-    insertar datos adicionales dependiendo del rol
-    */
-    const insertUserQuery = 'INSERT INTO usuarios (email, password, rol) VALUES (?, ?, ?)';
-    connection.query(insertUserQuery, [email, hash, rol], (err, result) => {
-      if (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
-          console.error('Error: El correo electrónico ya está en uso');
-          return res.status(400).json({ message: 'El correo electrónico ya está en uso' });
+
+    if (results.length > 0) {
+      const user = results[0];
+      if (user.password) {
+        // El correo está registrado y tiene un password
+        return res.status(400).json({ message: 'Este correo ya está registrado' });
+      } else {
+        // El correo está registrado pero no tiene un password
+        if (!password) {
+          return res.status(400).json({ message: 'Debes proporcionar una contraseña' });
         }
-        console.error('Error al registrar usuario en MySQL: ', err);
-        return res.status(500).json({ message: 'Error al registrar usuario en el back' });
+        bcrypt.hash(password, 10, (err, hash) => {
+          if (err) {
+            console.error('Error al hashear la contraseña:', err);
+            return res.status(500).json({ message: 'Error al hashear la contraseña' });
+          }
+          const updatePasswordQuery = 'UPDATE usuarios SET password = ? WHERE email = ?';
+          connection.query(updatePasswordQuery, [hash, email], (err, result) => {
+            if (err) {
+              console.error('Error al actualizar la contraseña:', err);
+              return res.status(500).json({ message: 'Error al actualizar la contraseña' });
+            }
+            console.log('Contraseña actualizada para el usuario:', result);
+            res.status(200).json({ message: 'Contraseña actualizada. Redirigiendo al login...' });
+          });
+        });
+        return;
       }
-      console.log('Usuario registrado en MySQL:', result);
-      const userId = result.insertId;
-      /*
-      Inserta datos adicionales en las tablas empresas, visitantes y administradores utilizando userId y otros campos
-      relacionados. Si se recibe un rol no válido se responde con un estado de error 400
-      */
-      let insertRoleQuery;
-      let roleParams;
-      switch (parseInt(rol, 10)) {
-        case 1: // Empresa
-          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start,horario_meet_morning_end,horario_meet_afternoon_start,horario_meet_afternoon_end, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start,horario_meet_morning_end,horario_meet_afternoon_start,horario_meet_afternoon_end, entidad];
-          break;
-        case 2: // Visitante
-          insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';
-          roleParams = [userId, entidad];
-          break;
-        case 3: // Administrador
-          insertRoleQuery = 'INSERT INTO administradores (usuario_id) VALUES (?)';
-          roleParams = [userId];
-          break;
-        default:
-          console.error('Rol no válido:', rol);
-          return res.status(400).json({ message: 'Rol no válido' });
+    } else {
+      // El correo no está registrado
+      if (!password) {
+        return res.status(400).json({ message: 'Debes proporcionar una contraseña' });
       }
-      /*
-      Ejecutamos la consulta SQL especificando el rol y maneja cualquier error que pueda ocurrir. Si la inserción es
-      exitosa se responde con un estado 201 y un mensaje de éxito
-      */
-      connection.query(insertRoleQuery, roleParams, (err, result) => {
+      bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
-          console.error('Error al registrar rol en MySQL: ', err);
-          return res.status(500).json({ message: 'Error al registrar rol' });
+          console.error('Error al hashear la contraseña:', err);
+          return res.status(500).json({ message: 'Error al hashear la contraseña' });
         }
-        console.log('Rol registrado en MySQL:', result);
-        res.status(201).json({ message: 'Usuario registrado exitosamente con rol correspondiente' });
+        const insertUserQuery = 'INSERT INTO usuarios (email, password, rol) VALUES (?, ?, ?)';
+        connection.query(insertUserQuery, [email, hash, rol], (err, result) => {
+          if (err) {
+            console.error('Error al registrar usuario en MySQL:', err);
+            return res.status(500).json({ message: 'Error al registrar usuario en el back' });
+          }
+          console.log('Usuario registrado en MySQL:', result);
+          const userId = result.insertId;
+          let insertRoleQuery;
+          let roleParams;
+          switch (parseInt(rol, 10)) {
+            case 1: // Empresa
+              insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+              roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad];
+              break;
+            case 2: // Visitante
+              insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';
+              roleParams = [userId, entidad];
+              break;
+            case 3: // Administrador
+              insertRoleQuery = 'INSERT INTO administradores (usuario_id) VALUES (?)';
+              roleParams = [userId];
+              break;
+            default:
+              console.error('Rol no válido:', rol);
+              return res.status(400).json({ message: 'Rol no válido' });
+          }
+          connection.query(insertRoleQuery, roleParams, (err, result) => {
+            if (err) {
+              console.error('Error al registrar rol en MySQL: ', err);
+              return res.status(500).json({ message: 'Error al registrar rol' });
+            }
+            console.log('Rol registrado en MySQL:', result);
+            res.status(201).json({ message: 'Usuario registrado exitosamente con rol correspondiente' });
+          });
+        });
       });
-    });
+    }
   });
 }
+
 
 /*
 La función recibe el email y password del cuerpo de la solicitud. Si faltan el email o pasword la función responde con
@@ -193,8 +220,81 @@ function loginUser(req, res) {
   });
 }
 
+// Función para verificar el correo electrónico
+function checkEmail(req, res) {
+  const { email } = req.query;
+
+  if (!email) {
+    return res.status(400).json({ message: 'El email es obligatorio' });
+  }
+
+  // Verifica si el email está registrado
+  const checkEmailQuery = 'SELECT * FROM usuarios WHERE email = ?';
+  connection.query(checkEmailQuery, [email], (err, results) => {
+    if (err) {
+      console.error('Error al consultar el email en MySQL:', err);
+      return res.status(500).json({ message: 'Error al consultar el email' });
+    }
+
+    if (results.length > 0) {
+      const user = results[0];
+      if (user.password) {
+        // El correo está registrado y tiene un password
+        return res.status(200).json({
+          message: 'Este correo ya está registrado',
+          rol: user.rol // Añade el rol a la respuesta
+        });
+      } else {
+        // El correo está registrado pero no tiene un password
+        return res.status(200).json({
+          message: 'El correo está registrado sin contraseña',
+          email: user.email, // Añade el email
+          rol: user.rol // Añade el rol a la respuesta
+        });
+      }
+    } else {
+      // El correo no está registrado
+      return res.status(200).json({ message: 'Credenciales inválidas', rol: null });
+    }
+  });
+}
+
+
+// Función para obtener los detalles del usuario
+function getUserDetails(req, res) {
+  const { email } = req.query;
+
+  if (!email) {
+    return res.status(400).json({ message: 'El email es obligatorio' });
+  }
+
+  // Consulta para obtener los detalles del usuario por email
+  const getUserQuery = 'SELECT * FROM usuarios WHERE email = ?';
+  connection.query(getUserQuery, [email], (err, results) => {
+    if (err) {
+      console.error('Error al obtener los detalles del usuario en MySQL:', err);
+      return res.status(500).json({ message: 'Error al obtener los detalles del usuario' });
+    }
+
+    if (results.length > 0) {
+      const user = results[0];
+      return res.status(200).json({
+        user: user,
+        email: user.email,
+        rol: user.rol // Asegúrate de incluir el rol en la respuesta
+      });
+    } else {
+      // Si el usuario no existe, devolvemos un 404
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  });
+}
+
+
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {
   registerUser,
   loginUser,
+  checkEmail,
+  getUserDetails,
 };
