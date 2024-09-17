@@ -17,12 +17,17 @@ export class AuthService {
   constructor(private http: HttpClient) {
     const token = sessionStorage.getItem(this.tokenKey);
     if (token) {
-      const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-      const role = parseInt(sessionStorage.getItem('role') || '0', 10);
-      this.userSubject.next(user);
-      this.roleSubject.next(role);
+        const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+        const role = parseInt(sessionStorage.getItem('role') || '0', 10);
+        this.userSubject.next(user);
+        this.roleSubject.next(role);
     }
-  }
+
+    const empresa = JSON.parse(sessionStorage.getItem('empresa') || '{}');
+    if (empresa && empresa.id) {
+        this.empresaSubject.next(empresa);
+    }
+}
 
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, userData);
