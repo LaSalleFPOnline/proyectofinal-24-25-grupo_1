@@ -19,14 +19,18 @@ export class AuthService {
   }
 
   private initializeAuthData(): void {
-    const token = sessionStorage.getItem(this.tokenKey);
-    const role = parseInt(sessionStorage.getItem('role') || '0', 10);
-    const empresa = JSON.parse(sessionStorage.getItem('empresa') || '{}');
-    const userId = sessionStorage.getItem(this.userIdKey); // Obtener userId del sessionStorage
+    const token = localStorage.getItem(this.tokenKey) || sessionStorage.getItem(this.tokenKey);
+    const role = parseInt(localStorage.getItem('role') || sessionStorage.getItem('role') || '0', 10);
+    const empresa = JSON.parse(localStorage.getItem('empresa') || sessionStorage.getItem('empresa') || '{}');
+    const userId = localStorage.getItem(this.userIdKey) || sessionStorage.getItem(this.userIdKey);
   
     if (token) {
       this.roleSubject.next(role);
-    }
+      sessionStorage.setItem(this.tokenKey, token); // Sincronizar con sessionStorage
+      sessionStorage.setItem('role', role.toString());
+      sessionStorage.setItem('empresa', JSON.stringify(empresa));
+      sessionStorage.setItem(this.userIdKey, userId || '');
+  }
   
     if (empresa && empresa.id) {
       this.empresaSubject.next(empresa);
@@ -48,8 +52,10 @@ export class AuthService {
       map(response => {
         console.log('Datos recibidos:', response); // Verifica la respuesta en la consola
         if (response && response.token && response.rol !== undefined) {
+          // Guardar en sessionStorage
           sessionStorage.setItem(this.tokenKey, response.token);
-  
+          sessionStorage.setItem('role', response.rol.toString());
+          sessionStorage.setItem('empresa', JSON.stringify(response.empresa));
           if (response.empresa) {
             this.setEmpresa(response.empresa);
           }
@@ -57,8 +63,19 @@ export class AuthService {
           if (response.user_id) {
             this.setUserId(response.user_id); // Asegúrate de que esto se llama con el ID correcto
           }
-  
+          // Guardar en localStorage
+          localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem('role', response.rol.toString());
           this.roleSubject.next(response.rol);
+          if (response.empresa) {
+            localStorage.setItem('empresa', JSON.stringify(response.empresa));
+        }
+        if (response.user_id) {
+            localStorage.setItem(this.userIdKey, response.user_id.toString());
+        }
+
+        this.roleSubject.next(response.rol);
+        this.empresaSubject.next(response.empresa);
           return response;
         } else {
           console.error('Respuesta inválida del servidor:', response);
@@ -74,9 +91,15 @@ export class AuthService {
   
   
   setToken(token: string, role: number): void {
+    // Guardar en sessionStorage
     sessionStorage.setItem(this.tokenKey, token);
-    this.roleSubject.next(role);
     sessionStorage.setItem('role', role.toString());
+    
+    // Guardar en localStorage
+    localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem('role', role.toString());
+    
+    this.roleSubject.next(role);
   }
 
   getToken(): string | null {
@@ -84,19 +107,26 @@ export class AuthService {
   }
 
   logout(): void {
-    sessionStorage.removeItem(this.tokenKey);
-    sessionStorage.removeItem('role');
-    sessionStorage.removeItem('empresa');
-    sessionStorage.removeItem(this.userIdKey); // Eliminar userId
+    sessionStorage.clear();
+    localStorage.clear(); // Limpia también el localStorage
     this.roleSubject.next(null);
     this.empresaSubject.next(null);
   }
 
   setEmpresa(empresa: any): void {
+    // Verificar si la respuesta tiene la estructura que incluye 'data'
+    if (empresa && empresa.data) {
+        // Extraer los datos reales de la empresa
+        empresa = empresa.data;
+    }
+    
+    // Guardar los datos de la empresa en sessionStorage y localStorage
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));
+    localStorage.setItem('empresa', JSON.stringify(empresa));
     if (empresa && empresa.id) {
-      sessionStorage.setItem('empresaId', empresa.id.toString());
+        sessionStorage.setItem('empresaId', empresa.id.toString());
+        localStorage.setItem('empresaId', empresa.id.toString());
     }
   }
 
@@ -104,13 +134,14 @@ export class AuthService {
     console.log('Intentando guardar el userId:', userId);
     if (userId !== null && userId !== undefined) {
       sessionStorage.setItem(this.userIdKey, userId.toString());
+      localStorage.setItem(this.userIdKey, userId.toString()); // Guardar también en localStorage
     } else {
       console.error('El ID de usuario es inválido');
     }
   }
 
   getUserId(): number | null {
-    const id = sessionStorage.getItem(this.userIdKey);
+    const id = sessionStorage.getItem(this.userIdKey) || localStorage.getItem(this.userIdKey);
     return id ? parseInt(id, 10) : null;
   }
 
@@ -124,8 +155,20 @@ export class AuthService {
   }
 
   actualizarEmpresa(empresa: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/actualizar-empresa`, empresa);
+    return this.http.post<any>(`${this.apiUrl}/actualizar-empresa`, empresa).pipe(
+      map(response => {
+        if (response && response.success && response.empresa) {
+          this.setEmpresa(response.empresa);
+        }
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error('Error al actualizar la empresa:', error);
+        throw error;
+      })
+    );
   }
+  
 
   getUserRole(): Observable<number | null> {
     return this.roleSubject.asObservable();

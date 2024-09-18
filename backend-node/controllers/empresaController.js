@@ -24,7 +24,7 @@ const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
     if (results.length > 0) {
       const data = results[0];
       console.log('Datos combinados encontrados:', data);
-      return callback(null, data);
+      return callback(null, data); // Se devuelve 'data' directamente
     } else {
       console.error('No se encontraron datos para el usuario_id:', usuario_id);
       return callback(new Error('Datos no encontrados'));
@@ -53,7 +53,7 @@ const updateEmpresa = (empresa, callback) => {
         return callback(err);
       }
 
-      id = data.id;
+      id = data.empresa_id;
       proceedWithUpdate();
     });
   } else {
@@ -62,26 +62,32 @@ const updateEmpresa = (empresa, callback) => {
 
   function proceedWithUpdate() {
     console.log('Datos recibidos para actualizar la empresa:', empresa);
-
+  
     const updateQuery = `
       UPDATE empresas
       SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet_morning_start = ?, horario_meet_morning_end = ?, horario_meet_afternoon_start = ?, horario_meet_afternoon_end = ?, entidad = ?
       WHERE id = ?
     `;
-
+  
     connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, id], (err) => {
       if (err) {
         console.error('Error al actualizar la empresa: ', err);
         return callback(err);
       }
+  
       console.log('Empresa actualizada correctamente');
-      return callback(null, { success: true });
+      
+      // Ahora hacemos una consulta para obtener los datos actualizados de la empresa
+      getEmpresaDataByUsuarioId(usuario_id, (err, data) => {
+        if (err) {
+          return callback(err);
+        }
+        
+        return callback(null, data); // Devolver los datos actualizados directamente
+      });
     });
   }
 };
-
-
-
 
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {

@@ -151,9 +151,15 @@ export class RegisterComponent implements AfterViewInit {
       if (!this.web_url) missingFields.push('Web URL');
       if (!this.logo_url) missingFields.push('Logo URL');
       if (!this.url_meet) missingFields.push('URL Meet');
-      if (!this.horario_meet_morning_start || !this.horario_meet_morning_end) missingFields.push('Horario Meet');
-      if (!this.horario_meet_afternoon_start || !this.horario_meet_afternoon_end) missingFields.push('Horario Meet1');
       if (!this.entidad) missingFields.push('Entidad');
+
+      // Validar al menos uno de los horarios (mañana o tarde) debe estar presente
+      const isMorningSchedulePresent = this.horario_meet_morning_start && this.horario_meet_morning_end;
+      const isAfternoonSchedulePresent = this.horario_meet_afternoon_start && this.horario_meet_afternoon_end;
+      
+      if (!isMorningSchedulePresent && !isAfternoonSchedulePresent) {
+        missingFields.push('Horario de Meet (mañana o tarde)');
+      }
     } else if (this.rol === 2) {  // Visitante
       if (!this.entidad) missingFields.push('Entidad');
     }
@@ -192,22 +198,7 @@ export class RegisterComponent implements AfterViewInit {
       horario_meet_afternoon_end: this.horario_meet_afternoon_end
     };
 
-    this.authService.register({
-      email: this.email,
-      password: this.password,
-      rol: this.rol,
-      nombre_empresa: this.nombre_empresa,
-      web_url: this.web_url,
-      spot_url: this.spot_url,
-      logo_url: this.logo_url,
-      descripcion: this.descripcion,
-      url_meet: this.url_meet,
-      horario_meet_morning_start: this.horario_meet_morning_start,
-      horario_meet_morning_end: this.horario_meet_morning_end,
-      horario_meet_afternoon_start: this.horario_meet_afternoon_start,
-      horario_meet_afternoon_end: this.horario_meet_afternoon_end,
-      entidad: this.entidad
-    }).subscribe({
+    this.authService.register(formData).subscribe({
       next: (response: any) => {
         this.successMessage = response.message;
         setTimeout(() => {
@@ -218,7 +209,6 @@ export class RegisterComponent implements AfterViewInit {
         this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
       }
     });
-    
   }
 
   checkPasswords() {

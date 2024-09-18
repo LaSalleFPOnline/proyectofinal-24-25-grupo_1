@@ -79,7 +79,19 @@ function registerUser(req, res) {
                       // Insertar los datos de la empresa
                       if (parseInt(rol, 10) === 1) { // Empresa
                           const insertEmpresaQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-                          const empresaParams = [user.id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad];
+                          const empresaParams = [
+                            user.id, 
+                            nombre_empresa, 
+                            web_url, spot_url, 
+                            logo_url, 
+                            descripcion, 
+                            url_meet, 
+                            horario_meet_morning_start || null,
+                            horario_meet_morning_end || null,
+                            horario_meet_afternoon_start || null,
+                            horario_meet_afternoon_end || null, 
+                            entidad
+                          ];
 
                           connection.query(insertEmpresaQuery, empresaParams, (err, result) => {
                               if (err) {

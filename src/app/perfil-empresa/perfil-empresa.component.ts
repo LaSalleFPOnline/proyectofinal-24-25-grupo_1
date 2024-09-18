@@ -64,6 +64,8 @@ export class PerfilEmpresaComponent implements OnInit {
       this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
     } else if (!this.usuario_id || !this.empresa_id) {
       this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
+    } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
+      this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';  
     } else {
       this.errorMessage = null;
   
@@ -76,10 +78,10 @@ export class PerfilEmpresaComponent implements OnInit {
         logo_url: this.logotipo,
         descripcion: this.descripcionProductos,
         url_meet: this.enlaceSalaEspera,
-        horario_meet_morning_start: this.horario_meet_morning_start,
-        horario_meet_morning_end: this.horario_meet_morning_end,
-        horario_meet_afternoon_start: this.horario_meet_afternoon_start,
-        horario_meet_afternoon_end: this.horario_meet_afternoon_end,
+        horario_meet_morning_start: this.horario_meet_morning_start || null,
+        horario_meet_morning_end: this.horario_meet_morning_end || null,
+        horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
+        horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
         entidad: this.nombreColegio
       };
   
