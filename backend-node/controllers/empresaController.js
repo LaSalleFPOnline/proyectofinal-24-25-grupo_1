@@ -15,22 +15,11 @@ const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
     WHERE u.id = ?
   `;
   console.log('Ejecutando consulta con usuario_id:', usuario_id);
-  /*
-  Ejecutamos la consulta SQL utilizando usuario_id como parámetro. Verificamos si ha ocurrido algún error durante la
-  ejecución de la consulta y registramos el error en la consola. Llamamos al callback y terminamos la ejecución de la
-  función.
-  */
   connection.query(query, [usuario_id], (err, results) => {
     if (err) {
       console.error('Error al obtener datos combinados: ', err);
       return callback(err);
     }
-    /*
-    Si todo ha ido bien mostramos en la consola los resultados obtenidos. Verificamos si hay resultados y extraemos el
-    resultado. Mostramos los datos en la consola y llamamos al callback con null como error y data como resultado. Si
-    no se encuentran datos se muestra el error y llamamos al callback con un error indicando que no se han encontrado
-    los datos
-    */
     console.log('Resultados de la consulta:', results);
     if (results.length > 0) {
       const data = results[0];
@@ -49,41 +38,50 @@ función de callback para manejar el resultado de la actualización. Extraemos l
 utilizarlas en la consulta y registramos en la consola los datos de la empresa recibidos para la actualización.
 */
 const updateEmpresa = (empresa, callback) => {
-  const { id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, usuario_id } = empresa;
-  console.log('Datos recibidos para actualizar la empresa:', empresa);
-  /*
-  Realizamos la consulta SQL que actualiza los campos de la tabla empresas, donde el ID coincide con el ID de la empresa
-  proporcionada, y ejecutamos la consulta SQL con los parámetros de la empresa. Verificamos si ocurrió algún error
-  durante la actualización, lo registramos en la consola, y llamamos al callback terminando la ejecución de la función.
-  Si todo ha ido bien, registramos un mensaje de éxito en la consola
-  */
-  const updateQuery = `
-    UPDATE empresas
-    SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet_morning_start = ?, horario_meet_morning_end = ?, horario_meet_afternoon_start = ?, horario_meet_afternoon_end = ?, entidad = ?
-    WHERE id = ?
-  `;
-  connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, id], (err) => {
-    if (err) {
-      console.error('Error al actualizar la empresa: ', err);
-      return callback(err);
+  let { id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, usuario_id } = empresa;
+
+  if (!id) {
+    if (!usuario_id) {
+      console.error('ID de la empresa no proporcionado y usuario_id no disponible');
+      return callback(new Error('ID de la empresa es necesario para la actualización'));
     }
-    console.log('Empresa actualizada correctamente');
-    /*
-    Llamamos a esta función para obtener los datos actualizados de la empresa después de la actualización. Verificamos
-    si ocurrió un error al recuperar los datos actualizados y registramos el error en la consola. Si todo va bien
-    mostramos los datos actualizados en la consola y llamamos al callback con null como error y data como los datos
-    actualizados
-    */
+
+    console.error('ID de la empresa no proporcionado, obteniendo ID utilizando usuario_id');
     getEmpresaDataByUsuarioId(usuario_id, (err, data) => {
       if (err) {
-        console.error('Error al obtener datos combinados después de actualizar:', err);
+        console.error('Error al obtener datos de la empresa para obtener ID:', err);
         return callback(err);
       }
-      console.log('Datos combinados después de la actualización:', data);
-      return callback(null, data);
+
+      id = data.id;
+      proceedWithUpdate();
     });
-  });
+  } else {
+    proceedWithUpdate();
+  }
+
+  function proceedWithUpdate() {
+    console.log('Datos recibidos para actualizar la empresa:', empresa);
+
+    const updateQuery = `
+      UPDATE empresas
+      SET nombre_empresa = ?, web_url = ?, spot_url = ?, logo_url = ?, descripcion = ?, url_meet = ?, horario_meet_morning_start = ?, horario_meet_morning_end = ?, horario_meet_afternoon_start = ?, horario_meet_afternoon_end = ?, entidad = ?
+      WHERE id = ?
+    `;
+
+    connection.query(updateQuery, [nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad, id], (err) => {
+      if (err) {
+        console.error('Error al actualizar la empresa: ', err);
+        return callback(err);
+      }
+      console.log('Empresa actualizada correctamente');
+      return callback(null, { success: true });
+    });
+  }
 };
+
+
+
 
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {

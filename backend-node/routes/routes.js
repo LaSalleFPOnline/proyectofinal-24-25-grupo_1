@@ -25,9 +25,11 @@ const authenticateToken = require('../middlewares/authMiddleware');
 // Esta ruta permite obtener todos los eventos de la agenda.
 router.get('/agenda', getAllEvents);
 
-// Estas rutas permiten registrar un nuevo usuario e iniciar sesión a un usuario
-router.post('/register', parseRequestBody, registerUser);
-router.post('/login', parseRequestBody, loginUser);
+// Ruta para registrar un nuevo usuario
+router.post('/register', registerUser);
+
+// Ruta para iniciar sesión de un usuario
+router.post('/login', loginUser);
 
 
 // Ruta protegida de ejemplo. Solo se puede acceder si el usuario está autenticado

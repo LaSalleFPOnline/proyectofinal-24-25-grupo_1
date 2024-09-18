@@ -19,28 +19,30 @@ export class LoginComponentComponent {
       .subscribe({
         next: (response) => {
           console.log('Login exitoso:', response);
-          const user = response.user;
-          const empresa = response.empresa;
-          const redirigir = response.redirigir;
-          const token = response.token;
-
-          // Guardar el token, usuario y rol en el servicio
-          if (token) {
-            this.authService.setToken(token, user, user.rol);
-          }
-
-          // Guardar la empresa en el servicio (si lo necesitas para futuras consultas)
-          this.authService.setEmpresa(empresa);
-
-          // Verificar el rol del usuario y redirigir
-          if (user && user.rol === 3) { // Administrador
-            this.router.navigate(['/admin']);
-          } else if (redirigir === 'feria') {
-            this.router.navigate(['/feria']);
-          } else if (redirigir === 'empresa') {
-            this.router.navigate(['/empresa']);
+  
+          if (response && response.token && response.rol !== undefined) {
+            this.authService.setToken(response.token, response.rol);
+  
+            if (response.empresa) {
+              this.authService.setEmpresa(response.empresa);
+            }
+            
+            // Asegúrate de que el user_id está disponible
+            if (response.empresa && response.empresa.usuario_id) {
+              this.authService.setUserId(response.empresa.usuario_id); // Verifica que esto se llama con el ID correcto
+            }
+  
+            if (response.rol === 3) { // Administrador
+              this.router.navigate(['/admin']);
+            } else if (response.rol === 2) { // Visitante
+              this.router.navigate(['/feria']);
+            } else if (response.rol === 1) { // Empresa
+              this.router.navigate(['/empresa']);
+            } else {
+              this.errorMessage = 'No se pudo determinar la ruta de redirección';
+            }
           } else {
-            this.errorMessage = 'No se pudo determinar la ruta de redirección';
+            this.errorMessage = 'Respuesta del servidor inválida';
           }
         },
         error: (error) => {
@@ -49,6 +51,7 @@ export class LoginComponentComponent {
         }
       });
   }
+  
 
   navigateToRegister() {
     this.router.navigate(['/register']);

@@ -24,7 +24,7 @@
       class="frame"
       [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded, 'current-event': event.isCurrent }">
     <div class="frame-header">
-      <div class="time-wrapper">de {{ event.hora }} a {{event.horaFinal}}</div>
+      <div class="time-wrapper">{{ event.hora }} a {{ event.horaFinal }}</div>
       <p class="event-description">{{ event.descripcion }}</p>
       <img class="plus-icon"
           [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 

@@ -22,43 +22,53 @@ export class PerfilEmpresaComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   usuario_id: number | null = null;
+  empresa_id: number | null = null;  // Añadido para almacenar el ID de la empresa
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authService.getUser().subscribe(user => {
-      if (user) {
-        this.usuario_id = user.id;
-      }
-    });
-
-    this.authService.getEmpresa().subscribe((empresa: any) => {
-      if (empresa) {
-        this.nombreColegio = empresa.entidad || '';
-        this.enlaceSalaEspera = empresa.url_meet || '';
-        this.logotipo = empresa.logo_url || '';
-        this.spotPublicitario = empresa.spot_url || '';
-        this.nombreEmpresa = empresa.nombre_empresa || '';
-        this.horario_meet_morning_start = empresa.horario_meet_morning_start || '';
-        this.horario_meet_morning_end = empresa.horario_meet_morning_end || '';
-        this.horario_meet_afternoon_start = empresa.horario_meet_afternoon_start || '';
-        this.horario_meet_afternoon_end = empresa.horario_meet_afternoon_end || '';
-        this.paginaWeb = empresa.web_url || '';
-        this.descripcionProductos = empresa.descripcion || '';
-      } else {
-        console.error('No se encontraron datos de la empresa.');
-      }
-    });
+    // Obtener la información de la empresa
+    const storedEmpresa = sessionStorage.getItem('empresa');
+    const storedEmpresaId = sessionStorage.getItem('empresaId');
+    const storedUserId = sessionStorage.getItem('userId'); // Debe ser 'userId'
+  
+    console.log('Stored Empresa:', storedEmpresa);
+    console.log('Stored Empresa ID:', storedEmpresaId);
+    console.log('Stored User ID:', storedUserId);
+  
+    this.usuario_id = storedUserId ? parseInt(storedUserId, 10) : null;
+    this.empresa_id = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
+  
+    if (storedEmpresa) {
+      const empresa = JSON.parse(storedEmpresa);
+      this.nombreColegio = empresa.entidad || '';
+      this.enlaceSalaEspera = empresa.url_meet || '';
+      this.logotipo = empresa.logo_url || '';
+      this.spotPublicitario = empresa.spot_url || '';
+      this.nombreEmpresa = empresa.nombre_empresa || '';
+      this.horario_meet_morning_start = empresa.horario_meet_morning_start || '';
+      this.horario_meet_morning_end = empresa.horario_meet_morning_end || '';
+      this.horario_meet_afternoon_start = empresa.horario_meet_afternoon_start || '';
+      this.horario_meet_afternoon_end = empresa.horario_meet_afternoon_end || '';
+      this.paginaWeb = empresa.web_url || '';
+      this.descripcionProductos = empresa.descripcion || '';
+    } else {
+      console.error('No se encontraron datos de la empresa.');
+    }
   }
-
+  
+  
   validarFormulario() {
     if (!this.nombreColegio || !this.enlaceSalaEspera || !this.logotipo ||
         !this.nombreEmpresa || !this.paginaWeb) {
       this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+    } else if (!this.usuario_id || !this.empresa_id) {
+      this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
     } else {
       this.errorMessage = null;
-
+  
       const empresa = {
+        id: this.empresa_id,
         usuario_id: this.usuario_id,
         nombre_empresa: this.nombreEmpresa,
         web_url: this.paginaWeb,
@@ -72,13 +82,13 @@ export class PerfilEmpresaComponent implements OnInit {
         horario_meet_afternoon_end: this.horario_meet_afternoon_end,
         entidad: this.nombreColegio
       };
-
+  
       this.authService.actualizarEmpresa(empresa).subscribe({
         next: (response: any) => {
           console.log('Datos actualizados:', response);
           this.successMessage = 'Datos de la empresa actualizados correctamente.';
           this.errorMessage = null;
-      
+          
           // Actualizamos los datos en el formulario con la respuesta
           this.nombreEmpresa = response.nombre_empresa;
           this.paginaWeb = response.web_url;
@@ -92,6 +102,9 @@ export class PerfilEmpresaComponent implements OnInit {
           this.horario_meet_afternoon_end = response.horario_meet_afternoon_end;
           this.nombreColegio = response.entidad;
       
+          // Actualiza también el sessionStorage
+          this.authService.setEmpresa(response);
+          
           // Redirigir a la página '/feria'
           this.router.navigate(['/feria']);
         },
@@ -103,4 +116,5 @@ export class PerfilEmpresaComponent implements OnInit {
       });
     }
   }
+  
 }

@@ -1,3 +1,4 @@
+// register-component.component.ts
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -48,7 +49,7 @@ export class RegisterComponent implements AfterViewInit {
     }
 
     this.authService.checkEmail(this.email).subscribe({
-        next: (response: { message: string; exists: boolean; hasPassword: boolean; rol?: number }) => {
+        next: (response: { message: string; rol?: number }) => {
             console.log('Respuesta del servidor:', response);
 
             if (response.rol !== undefined) {
@@ -158,59 +159,82 @@ export class RegisterComponent implements AfterViewInit {
     }
 
     if (missingFields.length > 0) {
-      this.errorMessage = `Por favor, completa los siguientes campos obligatorios: ${missingFields.join(', ')}.`;
+      this.errorMessage = `Faltan los siguientes campos: ${missingFields.join(', ')}`;
       return;
-    } else {
-      this.errorMessage = null;
+    }
+    this.errorMessage = null;
+
+    // Si llega aquí, el formulario es válido
+    this.submitForm();
+  }
+
+  submitForm() {
+    // Lógica para enviar el formulario
+    if (!this.email || !this.password || this.password !== this.confirmPassword) {
+      this.errorMessage = 'Por favor, completa el formulario correctamente.';
+      return;
     }
 
-    const userData: any = {
+    const formData = {
       email: this.email,
       password: this.password,
       rol: this.rol,
       nombre_empresa: this.nombre_empresa,
       web_url: this.web_url,
-      spot_url: this.spot_url || null,
+      spot_url: this.spot_url,
       logo_url: this.logo_url,
-      descripcion: this.descripcion || null,
+      descripcion: this.descripcion,
+      url_meet: this.url_meet,
+      entidad: this.entidad,
+      horario_meet_morning_start: this.horario_meet_morning_start,
+      horario_meet_morning_end: this.horario_meet_morning_end,
+      horario_meet_afternoon_start: this.horario_meet_afternoon_start,
+      horario_meet_afternoon_end: this.horario_meet_afternoon_end
+    };
+
+    this.authService.register({
+      email: this.email,
+      password: this.password,
+      rol: this.rol,
+      nombre_empresa: this.nombre_empresa,
+      web_url: this.web_url,
+      spot_url: this.spot_url,
+      logo_url: this.logo_url,
+      descripcion: this.descripcion,
       url_meet: this.url_meet,
       horario_meet_morning_start: this.horario_meet_morning_start,
       horario_meet_morning_end: this.horario_meet_morning_end,
       horario_meet_afternoon_start: this.horario_meet_afternoon_start,
       horario_meet_afternoon_end: this.horario_meet_afternoon_end,
       entidad: this.entidad
-    };
-
-    this.authService.register(userData).subscribe({
-      next: () => {
-        this.successMessage = 'Registro exitoso. Redirigiendo al login...';
+    }).subscribe({
+      next: (response: any) => {
+        this.successMessage = response.message;
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 2000);
       },
       error: (error: any) => {
-        console.error('Error al registrar:', error);
         this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
       }
     });
+    
   }
 
   checkPasswords() {
     if (this.password !== this.confirmPassword) {
       this.passwordsDoNotMatch = true;
-      this.errorMessage = 'Las contraseñas no coinciden.';
     } else {
       this.passwordsDoNotMatch = false;
-      this.errorMessage = null;
     }
   }
 
   getRolText(rol: number): string {
     switch (rol) {
-      case 1: return 'EMPRESA';
-      case 2: return 'VISITANTE';
-      case 3: return 'ADMINISTRADOR';
-      default: return '';
+      case 1: return 'Empresa';
+      case 2: return 'Visitante';
+      case 3: return 'Administrador';
+      default: return 'Desconocido';
     }
   }
 }

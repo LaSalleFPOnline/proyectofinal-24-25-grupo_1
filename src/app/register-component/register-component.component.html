@@ -98,6 +98,17 @@
           <input type="time" id="horario_meet_afternoon_end" [(ngModel)]="horario_meet_afternoon_end" name="horario_meet_afternoon_end" class="input time-input">
         </div>
         <img class="line" src="assets/Images/line.png">
+
+        <div class="campo">
+          <label class="text">* Entidad:</label>
+          <select id="entidad" [(ngModel)]="entidad" name="entidad" class="input">
+            <option value="" disabled>Seleccionar Entidad</option>
+            <option value="Entidad 1">Entidad 1</option>
+            <option value="Entidad 2">Entidad 2</option>
+            <option value="Entidad 3">Entidad 3</option>
+          </select>
+          <img class="line" src="assets/Images/line.png">
+        </div>
       </div>
     </div>
 
