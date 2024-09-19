@@ -67,20 +67,6 @@ export class FeriaPageComponent implements OnInit {
         console.error('Error al obtener rol del usuario: ', error);
       }
     });
-    // this.empresaService.getEmpresas().subscribe((data: any[]) => {
-    //     this.empresas = data;
-    //     console.log('Empresas: ', this.empresas);
-
-    //     const empresaId = this.authService.getLoggedInCompanyId();
-
-    //     if (empresaId !== null) {
-    //         this.obtenerRelaciones(empresaId);
-    //     } else {
-    //         console.error('No se pudo obtener el ID de la empresa logueada.');
-    //     }
-    // }, error => {
-    //     console.error('Error al obtener empresas: ', error);
-    // });
   }
 
   obtenerRelaciones(empresaId: number): void {
@@ -125,82 +111,53 @@ export class FeriaPageComponent implements OnInit {
 
   mostrarDetalles(empresaId: any) {
     if (typeof empresaId === 'number') {
-      this.empresaService.getEmpresaById(empresaId).subscribe(
-        (empresa: any) => {
-          console.log('Datos de la empresa:', empresa); // Verifica aquí el spot_url
-          
-          this.empresaSeleccionada = empresa;
-          this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
-  
-          const loggedInCompanyId = this.authService.getLoggedInCompanyId();
-          if (loggedInCompanyId !== null) {
-            this.votacionService.verificarVoto(loggedInCompanyId, empresaId).subscribe(
-              (yaVotado: boolean) => {
-                this.yaVotado = yaVotado;
-                console.log('Estado del voto:', this.yaVotado); // Confirmar el estado del voto
-              },
-              error => {
-                console.error('Error al verificar el voto:', error);
-                this.yaVotado = false; // Asegúrate de manejar los errores
-              }
-            );
-          }
-  
-          // Ocultar los botones si la empresa seleccionada es la misma que la empresa logueada
-          if (empresaId === loggedInCompanyId) {
-            console.log('Es la empresa del usuario logueado, ocultando botones');
-            this.ocultarBotonesDeInteraccion = true;
-          } else {
-            this.ocultarBotonesDeInteraccion = false;
-          }
-        },
-        error => {
-          console.error('Error al obtener los detalles de la empresa:', error);
-        }
-      );
+        this.empresaService.getEmpresaById(empresaId).subscribe(
+            (empresa: any) => {
+                console.log('Datos de la empresa:', empresa);
+                this.empresaSeleccionada = empresa;
+                this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
+                
+                const loggedInCompanyId = this.authService.getLoggedInCompanyId();
+                if (loggedInCompanyId !== null) {
+                    this.votacionService.verificarVoto(loggedInCompanyId, empresaId).subscribe(
+                        (yaVotado: boolean) => {
+                            this.yaVotado = yaVotado;
+                            console.log('Estado del voto:', this.yaVotado);
+                        },
+                        error => {
+                            console.error('Error al verificar el voto:', error);
+                            this.yaVotado = false;
+                        }
+                    );
+                }
+
+                if (empresaId === loggedInCompanyId) {
+                    console.log('Es la empresa del usuario logueado, ocultando botones');
+                    this.ocultarBotonesDeInteraccion = true;
+                } else {
+                    this.ocultarBotonesDeInteraccion = false;
+                }
+
+                // Hacer scroll hacia los detalles de la empresa
+                const detallesElement = document.getElementById('detalles');
+                if (detallesElement) {
+                    detallesElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            },
+            error => {
+                console.error('Error al obtener los detalles de la empresa:', error);
+            }
+        );
     } else {
-      console.error('ID de la empresa no es un número:', empresaId);
+        console.error('ID de la empresa no es un número:', empresaId);
     }
   }
+
 
 
   cerrarDetalles() {
     this.empresaSeleccionada = null;
   }
-
- /*agregarOEliminarInteres() {
-    const empresaId = this.authService.getLoggedInCompanyId();
-    const empresaInteresadaId = this.empresaSeleccionada?.id; 
-  
-    if (empresaId === null || empresaInteresadaId === null) {
-      console.error('IDs de las empresas no proporcionados.');
-      return;
-    }
-  
-    if (this.interesadoEnEmpresa) {
-      this.interesesService.eliminarInteres({ empresaId, empresaInteresadaId }).subscribe(
-        response => {
-          console.log('Interés eliminado exitosamente', response);
-          this.interesadoEnEmpresa = false; 
-          this.obtenerRelaciones(empresaId);
-        },
-        error => {
-          console.error('Error al eliminar interés:', error);
-        }
-      );
-    } else {
-      this.interesesService.crearInteres(empresaId, empresaInteresadaId).subscribe(
-        response => {
-          console.log('Interés agregado exitosamente', response);
-          this.interesadoEnEmpresa = true;
-          this.obtenerRelaciones(empresaId);
-        },
-        error => {
-          console.error('Error al agregar interés:', error);
-        }
-      );
-    }
-  }*/
 
     agregarOEliminarInteres() {
       const empresaId = this.authService.getLoggedInCompanyId();
@@ -236,40 +193,6 @@ export class FeriaPageComponent implements OnInit {
               }
           );
       }
-  }
-  
-
-  mostrarDetallesInteres(empresaRel: any, tipo: 'compra' | 'venta'): void {
-    let empresaId: number;
-
-    if (tipo === 'compra') {
-        // Usar empresa_id para relaciones de compra
-        empresaId = empresaRel.empresa_id;
-    } else {
-        // Usar empresa_interesada_id para relaciones de venta
-        empresaId = empresaRel.empresa_interesada_id;
-    }
-
-    if (typeof empresaId === 'number') {
-        this.empresaService.getEmpresaById(empresaId).subscribe(
-            (empresa: any) => {
-                this.empresaSeleccionada = empresa;
-                if (empresa && empresa.id) {
-                    this.authService.setEmpresaSeleccionadaId(empresa.id); // Guarda el ID de la empresa seleccionada
-                } else {
-                    console.error('ID de la empresa no está disponible');
-                }
-                console.log('Empresa seleccionada:', empresa);
-            },
-            error => {
-                console.error('Error al obtener los detalles de la empresa:', error);
-            }
-        );
-    } else {
-        console.error('ID de la empresa no es un número:', empresaId);
-    }
-    // Asegúrate de que la página se desplace hacia la sección de detalles, si es necesario
-    window.scrollTo(0, document.body.scrollHeight);
   }
 
   private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
