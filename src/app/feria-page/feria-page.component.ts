@@ -26,6 +26,7 @@ export class FeriaPageComponent implements OnInit {
   interesadoEnEmpresa = false;
   yaVotado = false; // Variable para verificar si ya se ha votado
   userType: number | null = null; // Variable para guardar el tipo de usuario SANTI
+  ocultarBotonesDeInteraccion = false; // Variable para controlar la visibilidad de los botones
 
   constructor(
     private http: HttpClient,
@@ -144,6 +145,14 @@ export class FeriaPageComponent implements OnInit {
               }
             );
           }
+  
+          // Ocultar los botones si la empresa seleccionada es la misma que la empresa logueada
+          if (empresaId === loggedInCompanyId) {
+            console.log('Es la empresa del usuario logueado, ocultando botones');
+            this.ocultarBotonesDeInteraccion = true;
+          } else {
+            this.ocultarBotonesDeInteraccion = false;
+          }
         },
         error => {
           console.error('Error al obtener los detalles de la empresa:', error);
@@ -153,10 +162,7 @@ export class FeriaPageComponent implements OnInit {
       console.error('ID de la empresa no es un número:', empresaId);
     }
   }
-  
-  
-  
-  
+
 
   cerrarDetalles() {
     this.empresaSeleccionada = null;

@@ -1,13 +1,13 @@
 
 <!-- Agenda -->
-<div class="agenda">
+<div class="agenda" id="agenda">
     <div class="titulo">
         <p>Feria virtual</p>
     </div>
 
 <!-- Notificaciones -->
 
-<div class="contenedor-notificaciones-realaciones">
+<div class="contenedor-notificaciones-realaciones" id="avisos">
     <!-- Mis relaciones comerciales -->
     <div class="mis-relaciones">
         <div class="titulo-notificaciones">
@@ -70,7 +70,7 @@
 <img class="illustration" src="assets/Illustrations/Illustration4.png">
 
 <!-- Listado empresas -->
-<div class="titulo">
+<div class="titulo" id="empresas">
     <p>Empresas participantes</p>
 </div>
 <div class="scroll-container-2">
@@ -116,7 +116,7 @@
     </div>
     
 
-    <div class="button-container">
+    <div class="button-container" *ngIf="!ocultarBotonesDeInteraccion">
         <button class="button" *ngIf="!yaVotado" (click)="votar()">Votar</button>
         <button class="button" *ngIf="yaVotado" (click)="eliminarVoto()">Eliminar Voto</button>
         <button class="button">Mensaje</button>

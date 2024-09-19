@@ -16,9 +16,11 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
+    // Suscripción al estado de autenticación
     this.authService.isLoggedIn().subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (isLoggedIn) {
+        // Obtener el rol del usuario
         this.authService.getUserRole().subscribe(role => {
           this.userRole = role;
         });
@@ -26,15 +28,29 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  // Método para navegar con manejo de fragmentos
   navigateTo(path: string, fragment?: string) {
-    this.router.navigate([path], { fragment }).then(() => {
-      if (fragment) {
-        const element = document.getElementById(fragment);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (this.router.url.startsWith(path)) {
+      // Si ya estamos en la ruta, desplazarse directamente
+      this.scrollToFragment(fragment);
+    } else {
+      // Si no estamos en la ruta, navega a la nueva ruta y usa el fragmento
+      this.router.navigate([path], { fragment }).then(() => {
+        if (fragment) {
+          this.scrollToFragment(fragment);
         }
+      });
+    }
+  }
+
+  // Método para manejar el desplazamiento a una sección dentro de la página
+  scrollToFragment(fragment?: string) {
+    if (fragment) {
+      const element = document.getElementById(fragment);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    });
+    }
   }
 
   toggleMenu() {
@@ -42,9 +58,8 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleDropdown() {
-      this.dropdownOpen = !this.dropdownOpen;
+    this.dropdownOpen = !this.dropdownOpen;
   }
-  
 
   handleLogin() {
     if (this.isLoggedIn) {
@@ -72,6 +87,7 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = false; // Cierra el menú en dispositivos móviles
     this.closeDropdown(); // Cierra el dropdown
   }
+
   closeDropdown() {
     this.dropdownOpen = false; // Cierra el menú desplegable
   }
