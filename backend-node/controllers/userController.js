@@ -22,7 +22,8 @@ function registerUser(req, res) {
 
   const { 
       email, 
-      password, 
+      password,
+      entidad,
       rol, 
       nombre_empresa, 
       web_url, 
@@ -33,9 +34,8 @@ function registerUser(req, res) {
       horario_meet_morning_start, 
       horario_meet_morning_end, 
       horario_meet_afternoon_start, 
-      horario_meet_afternoon_end, 
-      entidad 
-  } = req.body;
+      horario_meet_afternoon_end
+      } = req.body;
 
   if (!email) {
       console.log('Error: El email es obligatorio');
@@ -78,7 +78,7 @@ function registerUser(req, res) {
                       
                       // Insertar los datos de la empresa
                       if (parseInt(rol, 10) === 1) { // Empresa
-                          const insertEmpresaQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                          const insertEmpresaQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                           const empresaParams = [
                             user.id, 
                             nombre_empresa, 
@@ -90,7 +90,6 @@ function registerUser(req, res) {
                             horario_meet_morning_end || null,
                             horario_meet_afternoon_start || null,
                             horario_meet_afternoon_end || null, 
-                            entidad
                           ];
 
                           connection.query(insertEmpresaQuery, empresaParams, (err, result) => {
@@ -99,10 +98,10 @@ function registerUser(req, res) {
                                   return res.status(500).json({ message: 'Error al registrar empresa' });
                               }
                               console.log('Empresa registrada en MySQL:', result);
-                              res.status(201).json({ message: 'Empresa registrada exitosamente' });
+                              res.status(201).json({ message: 'Empresa registrada exitosamente', entidad });
                           });
                       } else {
-                          res.status(200).json({ message: 'Contraseña actualizada. Redirigiendo al login...' });
+                          res.status(200).json({ message: 'Contraseña actualizada. Redirigiendo al login...', entidad });
                       }
                   });
               });
@@ -122,8 +121,8 @@ function registerUser(req, res) {
 
               console.log('Contraseña hasheada:', hash);
 
-              const insertUserQuery = 'INSERT INTO usuarios (email, password, rol) VALUES (?, ?, ?)';
-              connection.query(insertUserQuery, [email, hash, rol], (err, result) => {
+              const insertUserQuery = 'INSERT INTO usuarios (email, password, entidad, rol) VALUES (?, ?, ?)';
+              connection.query(insertUserQuery, [email, hash, entidad, rol], (err, result) => {
                   if (err) {
                       console.error('Error al registrar usuario en MySQL:', err);
                       return res.status(500).json({ message: 'Error al registrar usuario en el back' });
@@ -136,12 +135,12 @@ function registerUser(req, res) {
 
                   switch (parseInt(rol, 10)) {
                       case 1: // Empresa
-                          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-                          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, entidad];
+                          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end];
                           break;
                       case 2: // Visitante
-                          insertRoleQuery = 'INSERT INTO visitantes (usuario_id, entidad) VALUES (?, ?)';
-                          roleParams = [userId, entidad];
+                          insertRoleQuery = 'INSERT INTO visitantes (usuario_id) VALUES (?, ?)';
+                          roleParams = [userId];
                           break;
                       case 3: // Administrador
                           insertRoleQuery = 'INSERT INTO administradores (usuario_id) VALUES (?)';
@@ -213,7 +212,7 @@ function loginUser(req, res) {
               const empresa = empresaResults[0] || null;
               const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
               console.log('Token generado:', token);
-              return res.status(200).json({ token, empresa, rol: user.rol }); // Asegúrate de incluir el rol aquí
+              return res.status(200).json({ token, empresa, entidad: user.entidad, rol: user.rol }); // Asegúrate de incluir el rol aquí
             });
           } else {
             const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
@@ -254,14 +253,16 @@ function checkEmail(req, res) {
         // El correo está registrado y tiene un password
         return res.status(200).json({
           message: 'Este correo ya está registrado',
-          rol: user.rol // Añade el rol a la respuesta
+          rol: user.rol, // Añade el rol a la respuesta
+          entidad: user.entidad
         });
       } else {
         // El correo está registrado pero no tiene un password
         return res.status(200).json({
           message: 'El correo está registrado sin contraseña',
           email: user.email, // Añade el email
-          rol: user.rol // Añade el rol a la respuesta
+          rol: user.rol, // Añade el rol a la respuesta
+          entidad: user.entidad
         });
       }
     } else {
@@ -293,7 +294,8 @@ function getUserDetails(req, res) {
       return res.status(200).json({
         user: user,
         email: user.email,
-        rol: user.rol // Asegúrate de incluir el rol en la respuesta
+        rol: user.rol, // Asegúrate de incluir el rol en la respuesta
+        entidad: user.entidad
       });
     } else {
       // Si el usuario no existe, devolvemos un 404

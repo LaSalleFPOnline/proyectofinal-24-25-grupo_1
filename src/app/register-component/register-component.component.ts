@@ -38,9 +38,7 @@ export class RegisterComponent implements AfterViewInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngAfterViewInit() {
-    // `ViewChild` elements are now available here
-  }
+  ngAfterViewInit() {  }
 
   validarEmail() {
     if (!this.email) {
@@ -85,54 +83,51 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   loadForm() {
-    this.authService.getUserDetails(this.email).subscribe({
-      next: (response: any) => {
-        if (response) {
-          // Rellenar los campos comunes
-          this.email = response.email;
-          this.rol = response.rol;
+  this.authService.getUserDetails(this.email).subscribe({
+    next: (response: any) => {
+      if (response) {
+        this.email = response.email;
+        this.rol = response.rol;
 
-          // Establecer campos como readonly
-          if (this.emailInput) {
-            this.emailInput.nativeElement.value = this.email; // Asegúrate de que el valor se establece aquí
-            this.emailInput.nativeElement.setAttribute('readonly', 'true');
-          }
-          if (this.rolInput) {
-            this.rolInput.nativeElement.value = this.getRolText(this.rol); // Asegúrate de que el valor se establece aquí
-            this.rolInput.nativeElement.setAttribute('readonly', 'true');
-          }
-
-          // Mostrar campos adicionales según el rol
-          if (this.rol === 1) {
-            // Empresa
-            this.nombre_empresa = response.nombre_empresa || '';
-            this.web_url = response.web_url || '';
-            this.spot_url = response.spot_url || '';
-            this.logo_url = response.logo_url || '';
-            this.descripcion = response.descripcion || '';
-            this.url_meet = response.url_meet || '';
-            this.horario_meet_morning_start = response.horario_meet_morning_start || '';
-            this.horario_meet_morning_end = response.horario_meet_morning_end || '';
-            this.horario_meet_afternoon_start = response.horario_meet_afternoon_start || '';
-            this.horario_meet_afternoon_end = response.horario_meet_afternoon_end || '';
-            this.entidad = response.entidad || '';
-          } else if (this.rol === 2) {
-            // Visitante
-            this.entidad = response.entidad || '';
-          }
-
-          // Ocultar mensaje de error
-          this.errorMessage = null;
-        } else {
-          this.errorMessage = 'No se pudo cargar la información del usuario. Inténtalo de nuevo.';
+        // Rellenar los campos específicos según el rol
+        if (this.rol === 1) { // Empresa
+          this.nombre_empresa = response.nombre_empresa || '';
+          this.web_url = response.web_url || '';
+          this.spot_url = response.spot_url || '';
+          this.logo_url = response.logo_url || '';
+          this.descripcion = response.descripcion || '';
+          this.url_meet = response.url_meet || '';
+          this.horario_meet_morning_start = response.horario_meet_morning_start || '';
+          this.horario_meet_morning_end = response.horario_meet_morning_end || '';
+          this.horario_meet_afternoon_start = response.horario_meet_afternoon_start || '';
+          this.horario_meet_afternoon_end = response.horario_meet_afternoon_end || '';
+          this.entidad = response.entidad || ''; // Cargar entidad para Empresa
+        } else if (this.rol === 2) { // Visitante
+          this.entidad = response.entidad || ''; // Cargar entidad para Visitante
         }
-      },
-      error: (error: any) => {
-        console.error('Error al cargar los datos del usuario:', error);
-        this.errorMessage = 'Error al cargar los datos del usuario. Inténtalo de nuevo.';
+
+        // Establecer campos como readonly
+        if (this.emailInput) {
+          this.emailInput.nativeElement.value = this.email; 
+          this.emailInput.nativeElement.setAttribute('readonly', 'true');
+        }
+        if (this.rolInput) {
+          this.rolInput.nativeElement.value = this.getRolText(this.rol); 
+          this.rolInput.nativeElement.setAttribute('readonly', 'true');
+        }
+
+        this.errorMessage = null;
+      } else {
+        this.errorMessage = 'No se pudo cargar la información del usuario. Inténtalo de nuevo.';
       }
-    });
-  }
+    },
+    error: (error: any) => {
+      console.error('Error al cargar los datos del usuario:', error);
+      this.errorMessage = 'Error al cargar los datos del usuario. Inténtalo de nuevo.';
+    }
+  });
+}
+
 
   validarFormulario() {
     const missingFields: string[] = [];

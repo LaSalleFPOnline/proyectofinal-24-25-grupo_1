@@ -19,19 +19,22 @@ export class LoginComponentComponent {
       .subscribe({
         next: (response) => {
           console.log('Login exitoso:', response);
-  
           if (response && response.token && response.rol !== undefined) {
-            this.authService.setToken(response.token, response.rol);
-  
+            // Aquí añadimos 'response.entidad' para pasarla a setToken
+            this.authService.setToken(response.token, response.rol, response.entidad || '');
+
             if (response.empresa) {
               this.authService.setEmpresa(response.empresa);
             }
             
-            // Asegúrate de que el user_id está disponible
-            if (response.empresa && response.empresa.usuario_id) {
-              this.authService.setUserId(response.empresa.usuario_id); // Verifica que esto se llama con el ID correcto
+            if (response.user) {
+              this.authService.setUser(response.user);
             }
   
+            if (response.user_id) {
+              this.authService.setUserId(response.user_id);
+            }
+            
             if (response.rol === 3) { // Administrador
               this.router.navigate(['/admin']);
             } else if (response.rol === 2) { // Visitante
@@ -51,6 +54,7 @@ export class LoginComponentComponent {
         }
       });
   }
+
   
 
   navigateToRegister() {

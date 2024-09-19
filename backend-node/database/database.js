@@ -49,6 +49,7 @@ const initializeDatabase = (callback) => {
             id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
+            entidad VARCHAR(500) NOT NULL,
             rol INT NOT NULL CHECK (rol IN (1, 2, 3))
           )`,
           `CREATE TABLE IF NOT EXISTS empresas (
@@ -64,13 +65,11 @@ const initializeDatabase = (callback) => {
             horario_meet_morning_end TIME NULL,
             horario_meet_afternoon_start TIME NULL,
             horario_meet_afternoon_end TIME NULL,
-            entidad VARCHAR(500),
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
           )`,
           `CREATE TABLE IF NOT EXISTS visitantes (
             id INT AUTO_INCREMENT PRIMARY KEY,
             usuario_id INT,
-            entidad VARCHAR(500),
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
           )`,
           `CREATE TABLE IF NOT EXISTS administradores (
