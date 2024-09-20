@@ -73,16 +73,15 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
       map(response => {
         console.log('Datos recibidos:', response); // Verifica la respuesta en la consola
-
+  
         // Verifica que la respuesta tenga los datos esperados
-        if (response && response.token && response.rol !== undefined) {
-          // Guardar en sessionStorage
+        if (response && response.token) {
           this.setToken(response.token, response.rol, response.entidad || '');
-
+  
           if (response.empresa) {
             this.setEmpresa(response.empresa);
           }
-
+  
           // Decodificar el token JWT para extraer el userId
           try {
             const decodedToken = this.decodeJwtToken(response.token);
@@ -94,15 +93,14 @@ export class AuthService {
           } catch (error) {
             console.error('Error al decodificar el token JWT:', error);
           }
-
+  
           // Verificar la presencia de datos del usuario en la respuesta
           if (response.user) {
             this.setUser(response.user); // Llamar a setUser con los datos del usuario
           } else {
-            console.error('No se encontraron datos del usuario en la respuesta.');
-            // Puedes decidir si lanzar un error o continuar sin datos de usuario
+            console.warn('No se encontraron datos del usuario en la respuesta.');
           }
-
+  
           return response;
         } else {
           console.error('Respuesta inválida del servidor:', response);
@@ -115,6 +113,9 @@ export class AuthService {
       })
     );
   }
+  
+
+
 
   setToken(token: string, role: number, entidad: string): void {
     // Guardar en sessionStorage
@@ -173,13 +174,16 @@ export class AuthService {
     return id ? parseInt(id, 10) : null;
   }
 
-  setUser(data: any) {
-    sessionStorage.setItem('user', JSON.stringify(data));
+  setUser(user: { id: number; email: string; rol: number; entidad?: string }): void {
+    sessionStorage.setItem(this.userKey, JSON.stringify(user));
   }
+  
 
-  getUser() {
-    return JSON.parse(sessionStorage.getItem('user') || '{}');
+  getUser(): { id: number; email: string; rol: number; entidad?: string } | null {
+    const user = JSON.parse(sessionStorage.getItem(this.userKey) || 'null');
+    return user ? user : null;
   }
+  
 
   getLoggedInCompanyId(): number | null {
     const id = sessionStorage.getItem('empresaId');

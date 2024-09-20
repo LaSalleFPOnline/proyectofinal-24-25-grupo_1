@@ -212,7 +212,7 @@ function loginUser(req, res) {
               const empresa = empresaResults[0] || null;
               const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
               console.log('Token generado:', token);
-              return res.status(200).json({ token, empresa, entidad: user.entidad, rol: user.rol }); // Asegúrate de incluir el rol aquí
+              return res.status(200).json({ token, empresa, entidad: user.entidad, rol: user.rol, user }); // Asegúrate de incluir el rol aquí
             });
           } else {
             const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });

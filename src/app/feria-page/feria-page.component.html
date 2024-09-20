@@ -1,8 +1,26 @@
-<!-- Agenda -->
-<div class="agenda" id="agenda">
+
+<div class="feriaPage" id="feriaPage">
     <div class="titulo">
         <p>Feria virtual</p>
     </div>
+
+    <!-- Agenda -->
+
+    <!-- Agenda -->
+<div class="agenda">
+    <h2>Agenda</h2>
+    <div *ngFor="let evento of eventosAgenda" class="evento">
+        <div class="horario">
+            {{ evento.horario_start | date: 'shortTime' }} - {{ evento.horario_end | date: 'shortTime' }} | {{ evento.nombre }}
+        </div>
+        <a *ngIf="evento.meet_url" (click)="openMeetLink(evento.meet_url)" class="btn-meet">
+            Unirse
+        </a>
+    </div>
+</div>
+
+      
+
 
     <!-- Notificaciones -->
     <div class="contenedor-notificaciones-realaciones" id="avisos">
