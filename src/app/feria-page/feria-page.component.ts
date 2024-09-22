@@ -1,4 +1,5 @@
 import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { EmpresaService } from '../services/empresa.service';
@@ -7,6 +8,8 @@ import { AuthService } from '../services/auth.service'; // Asegúrate de importa
 import { VotacionService } from '../services/votacion.service'; // Importa el nuevo servicio
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-feria-page',
@@ -26,12 +29,18 @@ export class FeriaPageComponent implements OnInit {
   yaVotado = false; // Variable para verificar si ya se ha votado
   userType: number | null = null; // Variable para guardar el tipo de usuario SANTI
   ocultarBotonesDeInteraccion = false; // Variable para controlar la visibilidad de los botones
+  horariosDeAtencionManana: string = ''; // Inicializar con un valor vacío
+  horariosDeAtencionTarde: string = ''; // Inicializar con un valor vacío
+  spotUrl: string | null = null;  // Declara la propiedad spotUrl
   eventosAgenda: any[] = [];
   now: Date = new Date();
 
   constructor(
     private http: HttpClient,
     private renderer: Renderer2,
+    private cdr: ChangeDetectorRef, // Inyecta ChangeDetectorRef
+    private sanitizer: DomSanitizer, // Inyecta DomSanitizer aquí
+
     private elRef: ElementRef,
     private empresaService: EmpresaService,
     private interesesService: InteresesService,
@@ -73,6 +82,37 @@ export class FeriaPageComponent implements OnInit {
     });
   }
 
+  getEmbedUrl(spotUrl: string): SafeResourceUrl {
+    if (spotUrl) {
+      const videoId = this.extractVideoId(spotUrl);
+      if (videoId) {
+        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+      } else {
+        console.error('No se pudo extraer el ID de video de la URL:', spotUrl);
+      }
+    }
+    return '';
+  }
+  
+  
+
+  extractVideoId(url: string): string | null {
+    // Para URLs largas
+    const longUrlMatch = url.match(/[?&]v=([^&#]*)/);
+    if (longUrlMatch) {
+      return longUrlMatch[1];
+    }
+    
+    // Para URLs cortas
+    const shortUrlMatch = url.match(/youtu\.be\/([^&#]*)/);
+    if (shortUrlMatch) {
+      return shortUrlMatch[1];
+    }
+  
+    return null;
+  }
+
   obtenerRelaciones(empresaId: number): void {
     this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
       console.log('Datos obtenidos de relaciones:', data);
@@ -89,6 +129,8 @@ export class FeriaPageComponent implements OnInit {
       // Guardar relaciones en sessionStorage
       this.saveRelationsToSessionStorage(this.relacionesCompra, 'relacionesCompra');
       this.saveRelationsToSessionStorage(this.relacionesVenta, 'relacionesVenta');
+      this.filtrarEventosAgenda(); // Filtrar eventos de la agenda
+      this.cdr.detectChanges(); // Forzar la detección de cambios
     }, error => {
       console.error('Error al obtener relaciones:', error);
     });
@@ -158,6 +200,21 @@ export class FeriaPageComponent implements OnInit {
             (empresa: any) => {
                 console.log('Datos de la empresa:', empresa);
                 this.empresaSeleccionada = empresa;
+
+                // Construye los horarios de atención a partir de las propiedades individuales
+                const horariosManana = `
+                    Mañana: ${empresa.horario_meet_morning_start} - ${empresa.horario_meet_morning_end}
+                `;
+                this.horariosDeAtencionManana = horariosManana; // Asignar a una propiedad si es necesario
+                
+                const horariosTarde = `
+                    Tarde: ${empresa.horario_meet_afternoon_start} - ${empresa.horario_meet_afternoon_end}
+                `;
+                this.horariosDeAtencionTarde = horariosTarde;
+
+                // Asigna el spot si está disponible
+                this.spotUrl = empresa.spot_url || null;  // Añade esta línea
+
                 this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
                 
                 const loggedInCompanyId = this.authService.getLoggedInCompanyId();
@@ -181,6 +238,8 @@ export class FeriaPageComponent implements OnInit {
                     this.ocultarBotonesDeInteraccion = false;
                 }
 
+                this.cdr.detectChanges();
+
                 // Hacer scroll hacia los detalles de la empresa
                 const detallesElement = document.getElementById('detalles');
                 if (detallesElement) {
@@ -194,7 +253,9 @@ export class FeriaPageComponent implements OnInit {
     } else {
         console.error('ID de la empresa no es un número:', empresaId);
     }
-  }
+}
+
+
 
   cerrarDetalles() {
     this.empresaSeleccionada = null;
@@ -216,6 +277,8 @@ export class FeriaPageComponent implements OnInit {
                 this.interesadoEnEmpresa = false;
                 // Actualiza la lista de relaciones
                 this.obtenerRelaciones(empresaId);
+                this.filtrarEventosAgenda(); // Actualiza la agenda
+                this.cdr.detectChanges(); // Forzar detección de cambios
             },
             error => {
                 console.error('Error al eliminar interés:', error);
@@ -228,6 +291,8 @@ export class FeriaPageComponent implements OnInit {
                 this.interesadoEnEmpresa = true;
                 // Actualiza la lista de relaciones
                 this.obtenerRelaciones(empresaId);
+                this.filtrarEventosAgenda(); // Actualiza la agenda
+                this.cdr.detectChanges(); // Forzar detección de cambios
             },
             error => {
                 console.error('Error al agregar interés:', error);

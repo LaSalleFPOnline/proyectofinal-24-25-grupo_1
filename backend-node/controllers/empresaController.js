@@ -20,17 +20,20 @@ const getEmpresaDataByUsuarioId = (usuario_id, callback) => {
       console.error('Error al obtener datos combinados: ', err);
       return callback(err);
     }
-    console.log('Resultados de la consulta:', results);
+    console.log('Resultados de la consulta:', JSON.stringify(results, null, 2)); // Imprime los resultados completos
     if (results.length > 0) {
-      const data = results[0];
+      const data = results[0];  // Selecciona el primer resultado
       console.log('Datos combinados encontrados:', data);
-      return callback(null, data); // Se devuelve 'data' directamente
+      return callback(null, data); // Devuelve 'data' directamente
     } else {
       console.error('No se encontraron datos para el usuario_id:', usuario_id);
       return callback(new Error('Datos no encontrados'));
     }
   });
 };
+
+
+
 
 /*
 Definimos una función que acepta dos parámetros: un objeto que contiene los datos de la empresa a actualizar y una

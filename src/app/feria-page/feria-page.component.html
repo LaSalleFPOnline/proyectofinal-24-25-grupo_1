@@ -5,8 +5,6 @@
     </div>
 
     <!-- Agenda -->
-
-    <!-- Agenda -->
 <div class="agenda">
     <h2>Agenda</h2>
     <div *ngFor="let evento of eventosAgenda" class="evento">
@@ -18,9 +16,6 @@
         </a>
     </div>
 </div>
-
-      
-
 
     <!-- Notificaciones -->
     <div class="contenedor-notificaciones-realaciones" id="avisos">
@@ -105,22 +100,48 @@
             </div>
             <p class="empresa">
                 <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
-                <span class="text-detalles">
+                <br class="text-detalles">
                     <br/>Página web: <a [href]="empresaSeleccionada.web_url" target="_blank">{{ empresaSeleccionada.web_url }}</a>
-                    <br/>Horarios de ATENCIÓN CLIENTE: {{ empresaSeleccionada.horario_meet }}
+                    <br/>Horarios de ATENCIÓN CLIENTE:
+                    <br/> - {{ horariosDeAtencionManana }}
+                    <br/> - {{ horariosDeAtencionTarde }}
                     <br/>Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
-                </span>
             </p>
         </div>
 
-        <div class="contenedor-abajo">
-            <ng-container *ngIf="empresaSeleccionada.spot">
-                <div class="columna-video">
-                    <video [src]="empresaSeleccionada.spot" controls class="video-spot"></video>
-                </div>
-            </ng-container>
-            <div class="columna-scroll">
-                <p>{{ empresaSeleccionada.descripcion }}</p>
+        <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
+            <div style="display: flex; width: 100%;">
+                <!-- Si hay video -->
+                <ng-container *ngIf="empresaSeleccionada.spot_url && !empresaSeleccionada.descripcion">
+                    <iframe
+                        [src]="getEmbedUrl(empresaSeleccionada.spot_url)"
+                        width="100%"
+                        height="315"
+                        frameborder="0"
+                        allowfullscreen
+                        style="flex-shrink: 0;">
+                    </iframe>
+                </ng-container>
+                <!-- Si hay descripción -->
+                <ng-container *ngIf="!empresaSeleccionada.spot_url && empresaSeleccionada.descripcion">
+                    <div style="width: 100%; margin-left: 20px;">
+                        <p>{{ empresaSeleccionada.descripcion }}</p>
+                    </div>
+                </ng-container>
+                <!-- Si hay video y descripción -->
+                <ng-container *ngIf="empresaSeleccionada.spot_url && empresaSeleccionada.descripcion">
+                    <iframe
+                        [src]="getEmbedUrl(empresaSeleccionada.spot_url)"
+                        width="50%"
+                        height="315"
+                        frameborder="0"
+                        allowfullscreen
+                        style="flex-shrink: 0;">
+                    </iframe>
+                    <div style="width: 50%; margin-left: 20px; max-height: 315px; overflow-y: auto;">
+                        <p>{{ empresaSeleccionada.descripcion }}</p>
+                    </div>
+                </ng-container>
             </div>
         </div>
 
