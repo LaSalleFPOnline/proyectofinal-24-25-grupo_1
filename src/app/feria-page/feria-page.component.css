@@ -1,7 +1,131 @@
-/* #region AGENDA */
-/* Eliminado el CSS relacionado con la agenda, ya que no se utiliza */
+/* -------------------- Region Agenda -------------------- */
+
+.agenda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 50px auto;
+    padding: 1rem;
+}
+
+.text-intro, .text-intro2, .desciption, .frame {
+    font-family: 'Roboto Mono', monospace;
+    font-size: large;
+}
+
+.time-wrapper {
+    font-size: larger;
+    font-weight: 500;
+}
+
+/* Estilo para cada frame */
+.frame {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding: 1rem 1rem;
+    background-color: #F3F3F3;
+    border-radius: 3rem;
+    border: 1px solid #2B2B2A;
+    box-shadow: 0 0.25rem 0 #2B2B2A;
+    margin-bottom: 2vw;
+    transition: background-color 0.3s ease, height 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.current-event {
+    background-color: #60A96E; /* Verde para el evento actual */
+    color: white;
+}
+
+.future-event {
+    background-color: #D3D3D3; /* Gris para eventos futuros */
+    color: black;
+}
+
+.frame.expanded {
+    background-color: #F3F3F3;
+    color: black;
+}
+
+.frame-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.frame.expanded .frame-content {
+    display: block;
+}
+
+.time-wrapper {
+    flex-grow: 0;
+    margin-right: 1rem;
+    overflow-wrap: break-word;
+}
+
+.event-description {
+    margin: 0;
+    flex: 2;
+    overflow-wrap: break-word;
+}
+
+.plus-icon {
+    width: clamp(2rem, 4vw, 4rem);
+    height: clamp(2rem, 4vw, 4rem);
+    cursor: pointer;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    margin-top: 1rem;
+    background-color: #2B2B2A;
+    display: none;
+}
+
+.frame.expanded .line {
+    display: block;
+}
+
+.frame-content {
+    display: none;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.flexcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.text {
+    width: 100%;
+    color: black;
+    margin: 0;
+}
+
+.btn-meet {
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.btn-meet:hover {
+    color: red;
+}
+
+.btn-meet:active {
+    color: red;
+}
 
 /* #endregion */
+
 
 /* #region Relaciones */
 .contenedor-notificaciones-realaciones {

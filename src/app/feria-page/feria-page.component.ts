@@ -437,4 +437,5 @@ agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: D
   toggleEvento(evento: any) {
     evento.expandido = !evento.expandido;
   }
+  
 }

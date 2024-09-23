@@ -1,4 +1,3 @@
-
 <div class="feriaPage" id="feriaPage">
     <div class="titulo">
         <p>Feria virtual</p>
@@ -16,6 +15,42 @@
         </a>
     </div>
 </div>
+
+<!-- Agenda -->
+<div class="agenda" id="agenda">
+    <div *ngFor="let evento of eventosAgenda; let i = index"
+        class="frame"
+        [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'current-event': evento.isCurrent }">
+      
+      <!-- Encabezado del evento -->
+      <div class="frame-header">
+        <div class="time-wrapper">
+          <!-- Cambiar hora de inicio y final usando pipes de fecha -->
+          {{ evento.horario_start | date: 'shortTime' }} a {{ evento.horario_end | date: 'shortTime' }}
+        </div>
+        <!-- Cambiar la descripción a nombre del evento -->
+        <p class="event-description">{{ evento.nombre }}</p>
+        <img class="plus-icon"
+            [src]="evento.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
+            alt="Toggle"
+            (click)="toggleFrame($event)" />
+      </div>
+      
+      <!-- Línea separadora que aparece cuando el evento está expandido -->
+      <div class="line" *ngIf="evento.isExpanded"></div>
+      
+      <!-- Contenido del evento expandido -->
+      <div class="frame-content" [ngClass]="{'expanded': evento.isExpanded}">
+        <div class="flexcontainer">
+          <!-- Botón para unirse a la reunión -->
+            <a *ngIf="evento.meet_url" (click)="openMeetLink(evento.meet_url)" class="btn-meet">
+                Unirse a la reunión
+            </a>
+        </div>
+      </div>
+    </div>
+</div>
+
 
     <!-- Notificaciones -->
     <div class="contenedor-notificaciones-realaciones" id="avisos">
