@@ -115,7 +115,10 @@ export class AuthService {
   }
   
 
-
+  cambiarContrasena(data: { usuarioId: number; nuevaContrasena: string }) {
+    return this.http.put(`${this.apiUrl}/cambiar-contrasena`, data);
+  }
+  
 
   setToken(token: string, role: number, entidad: string): void {
     // Guardar en sessionStorage

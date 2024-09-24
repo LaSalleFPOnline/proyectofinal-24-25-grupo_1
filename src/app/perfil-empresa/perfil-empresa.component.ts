@@ -19,6 +19,12 @@ export class PerfilEmpresaComponent implements OnInit {
   horario_meet_afternoon_end: string = '';
   paginaWeb: string = '';
   descripcionProductos: string = '';
+
+  contrasena: string = '';
+  repiteContrasena: string = '';
+  nuevaContrasena: string = ''; // Declarar nuevaContrasena aquí
+  contrasenaErrorMessage: string | null = null;
+
   errorMessage: string | null = null;
   successMessage: string | null = null;
   usuario_id: number | null = null;
@@ -29,7 +35,6 @@ export class PerfilEmpresaComponent implements OnInit {
   ngOnInit() {
     const storedUser = sessionStorage.getItem('user');
     const storedEmpresa = sessionStorage.getItem('empresa');
-    const storedEmpresaId = sessionStorage.getItem('empresaId');
     const storedUserId = sessionStorage.getItem('userId');
     const storedEntidad = sessionStorage.getItem('entidad');
   
@@ -48,6 +53,7 @@ export class PerfilEmpresaComponent implements OnInit {
     // Obtener ID de usuario
     if (storedUserId) {
       this.usuario_id = parseInt(storedUserId, 10); // Asignar ID de usuario
+      console.log('Usuario ID:', this.usuario_id); // Agregar este log
     } else {
       console.error('No se encontró ID de usuario en sessionStorage.');
     }
@@ -84,16 +90,21 @@ export class PerfilEmpresaComponent implements OnInit {
   
     this.usuario_id = storedUserId ? parseInt(storedUserId, 10) : null;
     this.empresa_id = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
+
   
+    // Validar el formulario
     if (!this.enlaceSalaEspera || !this.logotipo ||
-        !this.nombreEmpresa || !this.paginaWeb) {
-      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+      !this.nombreEmpresa || !this.paginaWeb) {
+    this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
     } else if (!this.usuario_id || !this.empresa_id) {
       this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
     } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
       this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';  
+    } else if (this.contrasena && this.repiteContrasena !== this.contrasena) {
+      this.contrasenaErrorMessage = 'Las contraseñas no coinciden.';
     } else {
       this.errorMessage = null;
+      this.contrasenaErrorMessage = null;
   
       const empresa = {
         id: this.empresa_id,
@@ -108,9 +119,14 @@ export class PerfilEmpresaComponent implements OnInit {
         horario_meet_morning_end: this.horario_meet_morning_end || null,
         horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
         horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
-        entidad: this.entidad
+        entidad: this.entidad,
+        contrasena: this.contrasena // Agregar contrasena al objeto si existe
       };
-  
+
+      // Si las contraseñas son válidas, cambia la contraseña
+      this.cambiarContrasena();
+
+    
       this.authService.actualizarEmpresa(empresa).subscribe({
         next: (response: any) => {
           console.log('Datos actualizados:', response);
@@ -143,5 +159,28 @@ export class PerfilEmpresaComponent implements OnInit {
       });
     }
   }
+
+  cambiarContrasena() {
+    if (!this.nuevaContrasena || !this.usuario_id) {
+      console.error('Usuario ID y nueva contraseña son obligatorios');
+      return;
+    }
   
+    const requestBody = {
+      usuarioId: this.usuario_id,
+      nuevaContrasena: this.nuevaContrasena
+    };
+
+    this.authService.cambiarContrasena(requestBody).subscribe(
+      response => {
+        console.log('Contraseña cambiada con éxito:', response);
+        this.errorMessage = null;
+        // Aquí puedes agregar lógica adicional, como un mensaje de éxito en la UI
+      },
+      error => {
+        console.error('Error al cambiar la contraseña:', error);
+        this.errorMessage = 'Error al cambiar la contraseña'; // Manejo de error
+      }
+    );
+  }
 }

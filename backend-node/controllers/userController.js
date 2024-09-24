@@ -304,6 +304,33 @@ function getUserDetails(req, res) {
   });
 }
 
+function cambiarContrasena(req, res) {
+  const { usuarioId, nuevaContrasena } = req.body;
+
+  if (!usuarioId || !nuevaContrasena) {
+    return res.status(400).json({ message: 'Usuario ID y nueva contraseña son obligatorios' });
+  }
+
+  // Hasheamos la nueva contraseña
+  bcrypt.hash(nuevaContrasena, 10, (err, hash) => {
+    if (err) {
+      console.error('Error al hashear la nueva contraseña:', err);
+      return res.status(500).json({ message: 'Error al cambiar la contraseña' });
+    }
+
+    // Actualizamos la contraseña en la base de datos
+    const updatePasswordQuery = 'UPDATE usuarios SET password = ? WHERE id = ?';
+    connection.query(updatePasswordQuery, [hash, usuarioId], (err, result) => {
+      if (err) {
+        console.error('Error al actualizar la contraseña:', err);
+        return res.status(500).json({ message: 'Error al actualizar la contraseña' });
+      }
+      res.status(200).json({ message: 'Contraseña cambiada exitosamente' });
+    });
+  });
+}
+
+
 
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {
@@ -311,4 +338,5 @@ module.exports = {
   loginUser,
   checkEmail,
   getUserDetails,
+  cambiarContrasena // Asegúrate de incluir esta línea
 };
