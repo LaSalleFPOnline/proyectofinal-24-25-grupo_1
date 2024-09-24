@@ -380,7 +380,8 @@ filtrarEventosAgenda() {
           const horarioStart = new Date(`${currentDate}T${rel.horario_meet_morning_start}`);
           const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
 
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
       }
 
       // Crear evento de la tarde
@@ -388,7 +389,8 @@ filtrarEventosAgenda() {
           const horarioStart = new Date(`${currentDate}T${rel.horario_meet_afternoon_start}`);
           const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
 
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
       }
   });
 
@@ -400,11 +402,12 @@ filtrarEventosAgenda() {
 }
 
 // Método para agregar evento sin duplicados
-agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: Date) {
+agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: Date, enCurso: boolean) {
   const eventoExistente = this.eventosAgenda.some(evento => 
       evento.nombre === nombre && 
       evento.horario_start.getTime() === horarioStart.getTime() && 
-      evento.horario_end.getTime() === horarioEnd.getTime()
+      evento.horario_end.getTime() === horarioEnd.getTime() &&
+      enCurso // Añadir si el evento está en curso o no
   );
 
   if (!eventoExistente) {
@@ -413,19 +416,22 @@ agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: D
           meet_url: meetUrl,
           horario_start: horarioStart,
           horario_end: horarioEnd,
-          estado: 'pendiente'
+          estado: 'pendiente',
+          enCurso
       });
   }
 }
 
-
-
-
-
-
+// Verifica si un evento está ocurriendo actualmente
+esEventoEnCurso(inicio: Date, fin: Date): boolean {
+  const ahora = new Date();
+  return ahora >= inicio && ahora <= fin;
+}
 
   actualizarEstadoEventos(): void {
     this.now = new Date();
+    this.filtrarEventosAgenda();
+    this.cdr.detectChanges();
   }
 
   // Método para abrir el enlace de Meet

@@ -20,7 +20,7 @@
 <div class="agenda" id="agenda">
     <div *ngFor="let evento of eventosAgenda; let i = index"
         class="frame"
-        [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'current-event': evento.isCurrent }">
+        [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'evento-en-curso': evento.enCurso }">
       
       <!-- Encabezado del evento -->
       <div class="frame-header">
