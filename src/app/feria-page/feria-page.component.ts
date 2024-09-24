@@ -51,7 +51,7 @@ export class FeriaPageComponent implements OnInit {
   ngOnInit(): void { //SANTI
     this.cargarRelacionesDesdeStorage();
     setInterval(() => this.actualizarEstadoEventos(), 60000);
-    
+
     this.authService.getUserRole().subscribe({
       next: (role: number | null) => {
         this.userType = role;
@@ -61,9 +61,9 @@ export class FeriaPageComponent implements OnInit {
             next: (data: any[]) => {
               this.empresas = data;
               console.log('Empresas: ', this.empresas);
-  
+
               const empresaId = this.authService.getLoggedInCompanyId();
-  
+
               if (empresaId !== null) {
                 this.obtenerRelaciones(empresaId);
               } else {
@@ -94,8 +94,8 @@ export class FeriaPageComponent implements OnInit {
     }
     return '';
   }
-  
-  
+
+
 
   extractVideoId(url: string): string | null {
     // Para URLs largas
@@ -103,13 +103,13 @@ export class FeriaPageComponent implements OnInit {
     if (longUrlMatch) {
       return longUrlMatch[1];
     }
-    
+
     // Para URLs cortas
     const shortUrlMatch = url.match(/youtu\.be\/([^&#]*)/);
     if (shortUrlMatch) {
       return shortUrlMatch[1];
     }
-  
+
     return null;
   }
 
@@ -118,14 +118,14 @@ export class FeriaPageComponent implements OnInit {
       console.log('Datos obtenidos de relaciones:', data);
       this.relacionesCompra = data.compras || [];
       this.relacionesVenta = data.ventas || [];
-      
+
       // Asignar logotipos y detalles de agenda para cada tipo de relación
       this.assignLogosToRelations(this.relacionesCompra, 'empresa_id');
       this.assignLogosToRelations(this.relacionesVenta, 'empresa_interesada_id');
-      
+
       console.log('Relaciones de compra:', this.relacionesCompra);
       console.log('Relaciones de venta:', this.relacionesVenta);
-  
+
       // Guardar relaciones en sessionStorage
       this.saveRelationsToSessionStorage(this.relacionesCompra, 'relacionesCompra');
       this.saveRelationsToSessionStorage(this.relacionesVenta, 'relacionesVenta');
@@ -135,7 +135,7 @@ export class FeriaPageComponent implements OnInit {
       console.error('Error al obtener relaciones:', error);
     });
   }
-  
+
 
   private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
     relations.forEach(rel => {
@@ -144,7 +144,7 @@ export class FeriaPageComponent implements OnInit {
       if (empresa) {
         rel.logo_url = empresa.logo_url;
         rel.nombre_empresa = empresa.nombre_empresa;
-  
+
         // Añadir detalles de la agenda
         rel.horario_meet_morning_start = empresa.horario_meet_morning_start || '';
         rel.horario_meet_morning_end = empresa.horario_meet_morning_end || '';
@@ -154,7 +154,7 @@ export class FeriaPageComponent implements OnInit {
       }
     });
   }
-  
+
 
   private saveRelationsToSessionStorage(relations: any[], key: string): void {
     // Añadir URL del meet y horarios a cada relación
@@ -206,7 +206,7 @@ export class FeriaPageComponent implements OnInit {
                     Mañana: ${empresa.horario_meet_morning_start} - ${empresa.horario_meet_morning_end}
                 `;
                 this.horariosDeAtencionManana = horariosManana; // Asignar a una propiedad si es necesario
-                
+
                 const horariosTarde = `
                     Tarde: ${empresa.horario_meet_afternoon_start} - ${empresa.horario_meet_afternoon_end}
                 `;
@@ -216,7 +216,7 @@ export class FeriaPageComponent implements OnInit {
                 this.spotUrl = empresa.spot_url || null;  // Añade esta línea
 
                 this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
-                
+
                 const loggedInCompanyId = this.authService.getLoggedInCompanyId();
                 if (loggedInCompanyId !== null) {
                     this.votacionService.verificarVoto(loggedInCompanyId, empresaId).subscribe(
@@ -300,7 +300,7 @@ export class FeriaPageComponent implements OnInit {
         );
     }
   }
-  
+
   votar(): void {
     const usuarioId = this.authService.getLoggedInCompanyId();
     const empresaVotadaId = this.empresaSeleccionada?.id;
@@ -327,12 +327,12 @@ export class FeriaPageComponent implements OnInit {
   eliminarVoto(): void {
     const usuarioId = this.authService.getLoggedInCompanyId();
     const empresaVotadaId = this.empresaSeleccionada?.id;
-  
+
     if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
     }
-  
+
     this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
       catchError(error => {
         console.error('Error al eliminar voto:', error);
@@ -364,15 +364,14 @@ export class FeriaPageComponent implements OnInit {
     this.filtrarEventosAgenda();
 }
 
-
-
 filtrarEventosAgenda() {
   const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
   console.log('Todas las relaciones combinadas:', allEventos);
 
   const currentDate = this.now.toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+  const eventosUnicos = new Set(); // Usar un Set para almacenar eventos únicos
 
-  this.eventosAgenda = [];
+  this.eventosAgenda = []; // Reiniciar eventosAgenda
 
   allEventos.forEach(rel => {
       // Crear evento de la mañana
@@ -381,7 +380,15 @@ filtrarEventosAgenda() {
           const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
 
           const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+          
+          // Usar un identificador único para el evento
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          
+          // Agregar evento solo si no existe ya en el conjunto
+          if (!eventosUnicos.has(eventoId)) {
+              this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+              eventosUnicos.add(eventoId); // Agregar el evento al conjunto
+          }
       }
 
       // Crear evento de la tarde
@@ -390,15 +397,23 @@ filtrarEventosAgenda() {
           const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
 
           const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+          
+          // Usar un identificador único para el evento
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          
+          // Agregar evento solo si no existe ya en el conjunto
+          if (!eventosUnicos.has(eventoId)) {
+              this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+              eventosUnicos.add(eventoId); // Agregar el evento al conjunto
+          }
       }
   });
 
   // Filtrar eventos que no han pasado y ordenar por horario de inicio
   this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-
-  console.log('Eventos de la agenda filtrados:', this.eventosAgenda);
+    .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
+  
+  console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
 }
 
 // Método para agregar evento sin duplicados
@@ -443,5 +458,5 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
   toggleEvento(evento: any) {
     evento.expandido = !evento.expandido;
   }
-  
+
 }

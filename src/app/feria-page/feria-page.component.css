@@ -38,7 +38,6 @@
 .evento-en-curso {
     background-color: #60A96E; /* Verde para el evento actual */
 }
-
 .frame.evento-en-curso.expanded {
     background-color: #60A96E; /* Mantiene el verde para el evento actual expandido */
     color: white; /* Asegura que el texto siga siendo blanco */

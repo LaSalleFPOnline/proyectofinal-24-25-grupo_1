@@ -21,12 +21,12 @@
     <div *ngFor="let evento of eventosAgenda; let i = index"
         class="frame"
         [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'evento-en-curso': evento.enCurso }">
-      
+
       <!-- Encabezado del evento -->
       <div class="frame-header">
         <div class="time-wrapper">
           <!-- Cambiar hora de inicio y final usando pipes de fecha -->
-          {{ evento.horario_start | date: 'shortTime' }} a {{ evento.horario_end | date: 'shortTime' }}
+          {{ evento.horario_start | date: 'HH:mm' }} a {{ evento.horario_end | date: 'HH:mm' }}
         </div>
         <!-- Cambiar la descripción a nombre del evento -->
         <p class="event-description">{{ evento.nombre }}</p>
@@ -35,10 +35,10 @@
             alt="Toggle"
             (click)="toggleFrame($event)" />
       </div>
-      
+
       <!-- Línea separadora que aparece cuando el evento está expandido -->
       <div class="line" *ngIf="evento.isExpanded"></div>
-      
+
       <!-- Contenido del evento expandido -->
       <div class="frame-content" [ngClass]="{'expanded': evento.isExpanded}">
         <div class="flexcontainer">
@@ -177,7 +177,7 @@
                 </ng-container>
             </div>
         </div>
-        
+
 
         <div class="button-container" *ngIf="!ocultarBotonesDeInteraccion">
             <button class="button" *ngIf="!yaVotado" (click)="votar()">Votar</button>
@@ -188,4 +188,3 @@
             </button>
         </div>
     </div>
-</div>
