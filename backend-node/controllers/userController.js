@@ -317,7 +317,6 @@ function cambiarContrasena(req, res) {
       console.error('Error al hashear la nueva contraseña:', err);
       return res.status(500).json({ message: 'Error al cambiar la contraseña' });
     }
-
     // Actualizamos la contraseña en la base de datos
     const updatePasswordQuery = 'UPDATE usuarios SET password = ? WHERE id = ?';
     connection.query(updatePasswordQuery, [hash, usuarioId], (err, result) => {

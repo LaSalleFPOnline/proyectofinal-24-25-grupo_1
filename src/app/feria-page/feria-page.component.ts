@@ -350,14 +350,6 @@ export class FeriaPageComponent implements OnInit {
     const relacionesCompra = JSON.parse(sessionStorage.getItem('relacionesCompra') || '[]');
     const relacionesVenta = JSON.parse(sessionStorage.getItem('relacionesVenta') || '[]');
 
-    if (!relacionesCompra.length) {
-        console.warn('No se encontraron relaciones de compra en sessionStorage.');
-    }
-
-    if (!relacionesVenta.length) {
-        console.warn('No se encontraron relaciones de venta en sessionStorage.');
-    }
-
     this.relacionesCompra = relacionesCompra;
     this.relacionesVenta = relacionesVenta;
 

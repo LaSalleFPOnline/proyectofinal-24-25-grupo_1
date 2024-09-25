@@ -47,17 +47,17 @@ export class AuthService {
       sessionStorage.setItem(this.userKey, JSON.stringify(user)); // Guardar el usuario en sessionStorage
       sessionStorage.setItem('entidad', entidad); // Guardar entidad en sessionStorage
     }
-    
+
     if (empresa && empresa.id) {
       this.empresaSubject.next(empresa);
     }
-    
+
     if (userId) {
       console.log('User ID:', userId);
     } else {
       console.error('No se encontró User ID en sessionStorage.');
     }
-    
+
     if (user) {
       console.log('Usuario:', user);
     } else {
@@ -73,15 +73,15 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
       map(response => {
         console.log('Datos recibidos:', response); // Verifica la respuesta en la consola
-  
+
         // Verifica que la respuesta tenga los datos esperados
         if (response && response.token) {
           this.setToken(response.token, response.rol, response.entidad || '');
-  
+
           if (response.empresa) {
             this.setEmpresa(response.empresa);
           }
-  
+
           // Decodificar el token JWT para extraer el userId
           try {
             const decodedToken = this.decodeJwtToken(response.token);
@@ -93,14 +93,14 @@ export class AuthService {
           } catch (error) {
             console.error('Error al decodificar el token JWT:', error);
           }
-  
+
           // Verificar la presencia de datos del usuario en la respuesta
           if (response.user) {
             this.setUser(response.user); // Llamar a setUser con los datos del usuario
           } else {
             console.warn('No se encontraron datos del usuario en la respuesta.');
           }
-  
+
           return response;
         } else {
           console.error('Respuesta inválida del servidor:', response);
@@ -125,7 +125,7 @@ export class AuthService {
     sessionStorage.setItem(this.tokenKey, token);
     sessionStorage.setItem('role', role.toString());
     sessionStorage.setItem('entidad', entidad); // Guardar entidad
-    
+
     // Guardar en localStorage
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem('role', role.toString());
@@ -151,7 +151,7 @@ export class AuthService {
         // Extraer los datos reales de la empresa
         empresa = empresa.data;
     }
-    
+
     // Guardar los datos de la empresa en sessionStorage y localStorage
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));
@@ -180,13 +180,13 @@ export class AuthService {
   setUser(user: { id: number; email: string; rol: number; entidad?: string }): void {
     sessionStorage.setItem(this.userKey, JSON.stringify(user));
   }
-  
+
 
   getUser(): { id: number; email: string; rol: number; entidad?: string } | null {
     const user = JSON.parse(sessionStorage.getItem(this.userKey) || 'null');
     return user ? user : null;
   }
-  
+
 
   getLoggedInCompanyId(): number | null {
     const id = sessionStorage.getItem('empresaId');
@@ -211,7 +211,7 @@ export class AuthService {
       })
     );
   }
-  
+
   getUserRole(): Observable<number | null> {
     return this.roleSubject.asObservable();
   }
