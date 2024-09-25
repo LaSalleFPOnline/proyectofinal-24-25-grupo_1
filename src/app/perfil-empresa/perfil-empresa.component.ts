@@ -19,6 +19,10 @@ export class PerfilEmpresaComponent implements OnInit {
   horario_meet_afternoon_end: string = '';
   paginaWeb: string = '';
   descripcionProductos: string = '';
+  contrasena: string = '';
+  repiteContrasena: string = '';
+  nuevaContrasena: string = ''; // Declarar nuevaContrasena aquí
+  contrasenaErrorMessage: string | null = null;
   errorMessage: string | null = null;
   successMessage: string | null = null;
   usuario_id: number | null = null;
@@ -84,7 +88,8 @@ export class PerfilEmpresaComponent implements OnInit {
 
     this.usuario_id = storedUserId ? parseInt(storedUserId, 10) : null;
     this.empresa_id = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
-  
+
+    // Validar el formulario
     if (!this.enlaceSalaEspera || !this.logotipo ||
       !this.nombreEmpresa || !this.paginaWeb) {
     this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
@@ -96,7 +101,8 @@ export class PerfilEmpresaComponent implements OnInit {
       this.contrasenaErrorMessage = 'Las contraseñas no coinciden.';
     } else {
       this.errorMessage = null;
-  
+      this.contrasenaErrorMessage = null;
+
       const empresa = {
         id: this.empresa_id,
         usuario_id: this.usuario_id,
@@ -113,7 +119,9 @@ export class PerfilEmpresaComponent implements OnInit {
         entidad: this.entidad,
         contrasena: this.contrasena // Agregar contrasena al objeto si existe
       };
-  
+      // Si las contraseñas son válidas, cambia la contraseña
+      this.cambiarContrasena();
+    
       this.authService.actualizarEmpresa(empresa).subscribe({
         next: (response: any) => {
           console.log('Datos actualizados:', response);
@@ -146,5 +154,26 @@ export class PerfilEmpresaComponent implements OnInit {
       });
     }
   }
-  
+  cambiarContrasena() {
+    if (!this.nuevaContrasena || !this.usuario_id) {
+      console.error('Usuario ID y nueva contraseña son obligatorios');
+      return;
+    }
+
+    const requestBody = {
+      usuarioId: this.usuario_id,
+      nuevaContrasena: this.nuevaContrasena
+    };
+    this.authService.cambiarContrasena(requestBody).subscribe(
+      response => {
+        console.log('Contraseña cambiada con éxito:', response);
+        this.errorMessage = null;
+        // Aquí puedes agregar lógica adicional, como un mensaje de éxito en la UI
+      },
+      error => {
+        console.error('Error al cambiar la contraseña:', error);
+        this.errorMessage = 'Error al cambiar la contraseña'; // Manejo de error
+      }
+    );
+  }
 }

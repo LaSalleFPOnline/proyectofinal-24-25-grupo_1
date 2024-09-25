@@ -113,7 +113,7 @@ export class AuthService {
       })
     );
   }
-  
+
 
   cambiarContrasena(data: { usuarioId: number; nuevaContrasena: string }) {
     return this.http.put(`${this.apiUrl}/cambiar-contrasena`, data);

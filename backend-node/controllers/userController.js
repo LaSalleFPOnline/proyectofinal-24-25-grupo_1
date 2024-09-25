@@ -75,7 +75,7 @@ function registerUser(req, res) {
                           return res.status(500).json({ message: 'Error al actualizar la contraseña' });
                       }
                       console.log('Contraseña actualizada para el usuario:', result);
-                      
+
                       // Insertar los datos de la empresa
                       if (parseInt(rol, 10) === 1) { // Empresa
                           const insertEmpresaQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -306,11 +306,9 @@ function getUserDetails(req, res) {
 
 function cambiarContrasena(req, res) {
   const { usuarioId, nuevaContrasena } = req.body;
-
   if (!usuarioId || !nuevaContrasena) {
     return res.status(400).json({ message: 'Usuario ID y nueva contraseña son obligatorios' });
   }
-
   // Hasheamos la nueva contraseña
   bcrypt.hash(nuevaContrasena, 10, (err, hash) => {
     if (err) {
@@ -328,8 +326,6 @@ function cambiarContrasena(req, res) {
     });
   });
 }
-
-
 
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {

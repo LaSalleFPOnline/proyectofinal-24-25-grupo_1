@@ -36,10 +36,8 @@
                 (click)="toggleFrame($event)"
             />
         </div>
-
         <!-- Línea separadora que aparece cuando el evento está expandido -->
         <div class="line" *ngIf="evento.isExpanded"></div>
-
         <!-- Contenido del evento expandido -->
         <div class="frame-content" [ngClass]="{'expanded': evento.isExpanded}">
             <div class="flexcontainer">

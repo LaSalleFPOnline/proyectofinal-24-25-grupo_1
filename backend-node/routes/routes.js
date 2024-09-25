@@ -74,8 +74,6 @@ router.delete('/voto', authenticateToken, deleteVote);     // Ruta para eliminar
 
 // Rutas para cambiar la contraseña
 router.put('/cambiar-contrasena', cambiarContrasena);
-
-
 /*
 Exportamo el router para ser utilizado en otras partes de la aplicación, típicamente el archivo principal de la
 configuración de rutas
