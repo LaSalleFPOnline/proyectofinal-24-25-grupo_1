@@ -7,7 +7,10 @@ INSERT INTO `agenda` (`id`, `horaI`, `horaF`, `descripcion`, `detalles`) VALUES
 (4, '13:00:00', '15:29:59', 'Descanso', 'Hacemos un descanso para comer y volver con fuerzas'),
 (5, '15:30:00', '18:29:59', 'Feria Virtual', 'Sesión de tarde. Recordar votar a la mejor empresa para el concurso. ¡Mucha suerte a todos!'),
 (6, '18:30:00', '19:00:00', 'Clausura de la Feria', 'Anunciamos a las empresas ganadoras del concurso y terminamos la I Feria de empresas simuladas La Salle Bussiness Match. ¡¡Hasta la próxima!!');
-
+(7, '19:00:00', '19:59:59', 'Networking', '¡Hora de hacer contactos!'),
+(8, '20:00:00', '21:30:00', 'Charla Motivacional', 'Con un experto en emprendimiento. ¡No te lo pierdas!'),
+(9, '21:35:00', '22:29:59', 'Premios Extra', 'Sorteos y sorpresas. ¡Atentos a los anuncios!'),
+(10, '22:30:00', '23:55:00', 'Música en Vivo', 'Disfruta de un momento de relax con buena música.');
 -- DATOS TABLA USUARIOS
 
 INSERT INTO `usuarios` (`id`, `email`, `password`, `entidad`, `rol`) VALUES
