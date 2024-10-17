@@ -1,3 +1,10 @@
+-- INSTRUCCIONES:
+-- Abrir en proyecto en el IDE, ejecutar en un terminal la instrucción <cd backend-node> y después <nodemon server.js>
+-- Copiar todo este este archivo en MyAdmin y presionar "Continuar"
+-- Posteriormente en otro terminar ejecutar la instrucción <ng serve> y acceder a la URL local para ver el proyecto
+
+
+
 -- DATOS TABLA DE AGENDA
 
 INSERT INTO `agenda` (`id`, `horaI`, `horaF`, `descripcion`, `detalles`) VALUES
@@ -8,7 +15,14 @@ INSERT INTO `agenda` (`id`, `horaI`, `horaF`, `descripcion`, `detalles`) VALUES
 (5, '15:30:00', '18:29:59', 'Feria Virtual', 'Sesión de tarde. Recordar votar a la mejor empresa para el concurso. ¡Mucha suerte a todos!'),
 (6, '18:30:00', '19:00:00', 'Clausura de la Feria', 'Anunciamos a las empresas ganadoras del concurso y terminamos la I Feria de empresas simuladas La Salle Bussiness Match. ¡¡Hasta la próxima!!');
 
+
+
 -- DATOS TABLA USUARIOS
+
+-- Los roles de los usuarios son los siguientes:
+-- 1: Empresa
+-- 2: Admin
+-- 3: Visitante
 
 INSERT INTO `usuarios` (`id`, `email`, `password`, `entidad`, `rol`) VALUES
 (1, 'silvia@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'La Salle Montemolín', 1),
@@ -22,6 +36,8 @@ INSERT INTO `usuarios` (`id`, `email`, `password`, `entidad`, `rol`) VALUES
 (9, 'ale@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'La Salle Bonanova', 2),
 (10, 'pili@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'Otros. Consejera Educación', 3);
 
+
+
 -- DATOS TABLA EMPRESAS
 
 INSERT INTO `empresas` (`id`, `usuario_id`, `nombre_empresa`, `web_url`, `spot_url`, `logo_url`, `descripcion`, `url_meet`, `horario_meet_morning_start`, `horario_meet_morning_end`,`horario_meet_afternoon_start`,`horario_meet_afternoon_end`) VALUES
@@ -32,15 +48,21 @@ INSERT INTO `empresas` (`id`, `usuario_id`, `nombre_empresa`, `web_url`, `spot_u
 (5, 5, 'Bosch', 'https://www.bosch-home.es/', '', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_XVTY3LX2hcVX0gC4S1M35WNRwkkRSjiA7A&s', 'Bosch Home es una marca líder en electrodomésticos que combina tecnología avanzada con un diseño elegante y funcional. Parte del Grupo Bosch, la empresa ofrece una amplia gama de productos innovadores para el hogar, desde lavadoras y frigoríficos hasta soluciones de cocina y limpieza. Con un fuerte enfoque en la eficiencia energética y la sostenibilidad, Bosch Home se compromete a mejorar la calidad de vida de sus clientes mediante productos duraderos y de alto rendimiento.', 'https://meet.google.com/xut-dzgh-duc', '10:30:00', '11:00:00','16:30:00','18:00:00'),
 (6, 6, 'Converzar', 'https://converzar.com/', 'https://youtu.be/IJkG-4cfnVg', 'https://redaccion.camarazaragoza.com/wp-content/uploads/2022/11/convezar-con-marco.png', 'Converzar es una innovadora plataforma que utiliza inteligencia artificial para mejorar la comunicación empresarial a través de chatbots y asistentes virtuales. Especializada en automatizar la atención al cliente, Converzar ofrece soluciones personalizadas que permiten a las empresas optimizar sus interacciones con los usuarios, mejorar la experiencia del cliente y aumentar la eficiencia operativa. Su tecnología avanzada facilita la integración y gestión de conversaciones en múltiples canales digitales.', 'https://meet.google.com/uia-spcs-cvq', '10:00:00', '12:00:00', '15:00:00', '16:00:00');
 
+
+
 -- DATOS TABLA ADMIN
 
 INSERT INTO `administradores` (`id`, `usuario_id`) VALUES
 (1, 10);
 
+
+
 -- DATOS TABLA VISITANTES
 
 INSERT INTO `visitantes` (`id`, `usuario_id`) VALUES
 (1, 9);
+
+
 
 -- DATOS TABLA RELACIONES COMERCIALES
 
@@ -51,6 +73,8 @@ INSERT INTO `intereses` (`id`, `empresa_id`, `empresa_interesada_id`, `created_a
 (4, 4, 1, '2024-09-03 16:20:54'),
 (5, 6, 1, '2024-09-03 16:21:24'),
 (6, 5, 1, '2024-09-03 16:21:50');
+
+
 
 -- DATOS TABLA VOTACIONES
 
