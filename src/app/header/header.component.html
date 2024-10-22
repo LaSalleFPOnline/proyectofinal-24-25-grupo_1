@@ -1,5 +1,5 @@
 <nav class="header">
-    <img class="logo" src="assets/Images/logo.png" (click)="navigateTo('/')">
+    <img class="logo" src="assets/Images/logo.png" (click)="goToHomePage()">
 
     <!-- Contenedor para los botones y el menú -->
     <div class="button">
@@ -23,7 +23,7 @@
                     <img src="assets/Images/button-login.png" alt="Login">
                 </button>
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
-                    <button class="dropdown-item" (click)="navigateTo('/empresa')">
+                    <button class="dropdown-item" (click)="navigateToProfile()">
                         <mat-icon>person</mat-icon> Mi Perfil
                     </button>
                     <button class="dropdown-item" (click)="handleLogout()">

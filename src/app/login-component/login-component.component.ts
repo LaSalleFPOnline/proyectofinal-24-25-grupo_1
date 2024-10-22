@@ -35,12 +35,12 @@ export class LoginComponentComponent {
               this.authService.setUserId(response.user_id);
             }
             
-            if (response.rol === 3) { // Administrador
+            if (response.rol === 2) { // Administrador
               this.router.navigate(['/admin']);
-            } else if (response.rol === 2) { // Visitante
+            } else if (response.rol === 3) { // Visitante
               this.router.navigate(['/feria']);
             } else if (response.rol === 1) { // Empresa
-              this.router.navigate(['/empresa']);
+              this.router.navigate(['/feria']);
             } else {
               this.errorMessage = 'No se pudo determinar la ruta de redirección';
             }

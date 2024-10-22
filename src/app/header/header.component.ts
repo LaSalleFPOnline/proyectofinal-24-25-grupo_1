@@ -28,6 +28,11 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  // Nueva función para redirigir siempre a la página de inicio
+  goToHomePage() {
+    this.router.navigate(['/']); // Redirige a la página de inicio general
+  }
+
   // Método para navegar con manejo de fragmentos
   navigateTo(path: string, fragment?: string) {
     if (this.router.url.startsWith(path)) {
@@ -40,6 +45,20 @@ export class HeaderComponent implements OnInit {
           this.scrollToFragment(fragment);
         }
       });
+    }
+  }
+
+  // Redirigir a la ruta correcta según el rol
+  navigateToProfile() {
+    if (this.userRole === 1) {
+      // Redirigir a la página de empresa
+      this.router.navigate(['/empresa']);
+    } else if (this.userRole === 2) {
+      // Redirigir a la página de admin
+      this.router.navigate(['/admin']);
+    } else {
+      // Redirigir a una página por defecto (opcional)
+      this.router.navigate(['/perfil']);
     }
   }
 
