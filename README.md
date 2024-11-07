@@ -1,27 +1,67 @@
-# PruebaServer
+## Prerrequisitos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+- Docker Desktop https://docs.docker.com/compose/install/#scenario-one-install-docker-desktop
 
-## Development server
+## Funcionamiento
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Clona el repositorio
+- Accede a la carpeta api y ejecuta `npm install`
+- Accede a la carpeta client y ejecuta `npm install`
+- Inicia el contenedor de la aplicación con `docker-compose up -d`
 
-## Code scaffolding
+## Configuración de Docker Compose
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+El archivo `docker-compose.yml` incluye la configuración para todos los servicios:
 
-## Build
+- **client**: Servidor Nginx para la aplicación Angular.
+- **api**: API Node.js con conexión a MySQL.
+- **phpmyadmin**: Interfaz de administración de MySQL.
+- **db**: Contenedor de MySQL para la base de datos.
+- **nginx**: Proxy inverso para enrutar las solicitudes al frontend y la API.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Servicios en el Proyecto
 
-## Running unit tests
+### 1. Client (Angular)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+La aplicación Angular se compila y se sirve desde Nginx. 
 
-## Running end-to-end tests
+### 2. API (Node.js)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+La API está construida con Node.js y utiliza Express. Se conecta a la base de datos MySQL.
 
-## Further help
+### 3. MySQL
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+MySQL es la base de datos principal. Está configurada para recibir las variables de entorno para el nombre de la base de datos, el usuario y la contraseña.
+
+### 4. phpMyAdmin
+
+phpMyAdmin permite la administración de la base de datos MySQL a través de una interfaz gráfica.
+
+### 5. Nginx
+
+Nginx sirve la aplicación Angular y realiza el proxy inverso hacia la API de Node.js. La configuración del archivo `nginx.conf` define el enrutamiento.
+
+## Uso
+
+### 1. Clona el repositorio y navega al directorio del proyecto.
+
+### 2. Asegúrate de que todos los servicios están configurados correctamente y que las variables de entorno (credenciales de la base de datos) estén configuradas en docker-compose.yml y en los archivos de conexión de la API.
+
+### 3. Ejecuta el proyecto con: `docker compose up --build -d`
+
+### 4. La aplicación estará disponible en los siguientes puertos:
+
+- **Puerto 3050:** Servidor de Angular.
+- **Puerto 5000:** API de Node.js.
+- **Puerto 8080:** PhpMyAdmin.
+
+## Notas
+
+- Si encuentras errores de conexión con MySQL (ECONNREFUSED o ETIMEDOUT), verifica que DB_HOST en la configuración de la API esté configurado como db o la IP que aparece en Docker Desktop, el nombre del servicio en `docker-compose.yml`.
+- Para reconstruir el proyecto sin caché, usa: `docker compose down y docker compose up --build -d`.
+
+## Comandos útiles
+
+- `docker system prune --all --volumes --force`: Limpia todos los contenedores y imágenes de Docker.
+- `docker compose down`: Detiene todos los servicios de Docker Compose.
+- `docker compose up --build -d`: Inicia todos los servicios de Docker Compose y construye los contenedores si no existen.

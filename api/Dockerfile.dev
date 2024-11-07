@@ -1,0 +1,17 @@
+FROM node:20.9.0-alpine
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the package.json and file
+COPY ./package.json ./
+
+# Install dependencies
+RUN npm i
+
+# Install nodemon globally
+RUN npm i nodemon -g
+
+COPY . .
+
+CMD ["npm","run","dev"]

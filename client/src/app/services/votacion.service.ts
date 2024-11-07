@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators'; // Asegúrate de importar map
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VotacionService {
 
-  private apiUrl = 'http://localhost:3001/api'; // URL del backend
+  private apiUrl = environment.apiUrl; // URL del servidor Node.js
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

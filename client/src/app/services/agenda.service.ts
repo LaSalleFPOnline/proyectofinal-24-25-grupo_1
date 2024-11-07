@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AgendaService {
-  private apiUrl = 'http://localhost:3001/api/agenda'; // Cambia esto si es necesario
+export class AgendaService {  
+  private apiUrl = environment.apiUrl + "/agenda"; // URL del servidor Node.js
 
   constructor(private http: HttpClient) {}
 

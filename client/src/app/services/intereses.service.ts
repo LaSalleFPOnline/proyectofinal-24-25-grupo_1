@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InteresesService {
-  private apiUrl = 'http://localhost:3001/api'; // Asegúrate de que esta URL sea la correcta para tu API
+  private apiUrl = environment.apiUrl; // URL del servidor Node.js
 
   constructor(private http: HttpClient) { }
 
@@ -25,21 +26,21 @@ export class InteresesService {
     });
     
   }*/
-   private getAuthHeaders(): HttpHeaders {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.getAuthToken()}`,
-        'Content-Type': 'application/json'
-      });
-      
-      // Convertir headers a un objeto simple para loguear
-  const headersObject: { [key: string]: string | null } = {};
-  headers.keys().forEach(key => {
-    headersObject[key] = headers.get(key);
-  });
-  console.log('Headers de autenticación:', headersObject);
+  private getAuthHeaders(): HttpHeaders {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getAuthToken()}`,
+      'Content-Type': 'application/json'
+    });
 
-  return headers;
-}
+    // Convertir headers a un objeto simple para loguear
+    const headersObject: { [key: string]: string | null } = {};
+    headers.keys().forEach(key => {
+      headersObject[key] = headers.get(key);
+    });
+    console.log('Headers de autenticación:', headersObject);
+
+    return headers;
+  }
   crearInteres(empresaId: number, empresaInteresadaId: number): Observable<any> {
     // Verifica que empresaId y empresaInteresadaId no sean undefined o null
     if (!empresaId || !empresaInteresadaId) {
@@ -51,12 +52,12 @@ export class InteresesService {
       empresa_id: empresaId,
       empresa_interesada_id: empresaInteresadaId
     }, { headers: this.getAuthHeaders() })
-    .pipe(
-      catchError(error => {
-        console.error('Error en la solicitud:', error);
-        return throwError(error);
-      })
-    );
+      .pipe(
+        catchError(error => {
+          console.error('Error en la solicitud:', error);
+          return throwError(error);
+        })
+      );
   }
 
   obtenerRelaciones(empresaId: number): Observable<any> {
@@ -76,12 +77,12 @@ export class InteresesService {
       return throwError(() => new Error('IDs de las empresas no proporcionados.'));
     }
     console.log('Parámetros antes de enviar la solicitud:', params);
-  
+
     // Usar HttpParams para la solicitud DELETE
     const httpParams = new HttpParams()
       .set('empresaId', params.empresaId.toString())
       .set('empresaInteresadaId', params.empresaInteresadaId.toString());
-  
+
     return this.http.delete(`${this.apiUrl}/eliminar-interes`, {
       headers: this.getAuthHeaders(),
       params: httpParams

@@ -19,10 +19,10 @@ const routes = require('./routes/routes'); // Importa el archivo de rutas
 
 /*
 Se crea una instancia de la aplicación Express
-El puerto en el que el servidor escucha las solicitudes entrantes es el 3001
+El puerto en el que el servidor escucha las solicitudes entrantes es el 5000
 */
 const app = express();
-const port = 3001;
+const port = 5000;
 
 /*
 Activamos CORS para todas las rutas, permitiendo solicitudes desde otros dominios

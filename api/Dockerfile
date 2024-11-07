@@ -1,0 +1,15 @@
+FROM node:20.9.0-alpine
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the package.json and file
+COPY ./package.json ./
+
+# Install dependencies
+RUN npm i
+
+COPY . .
+
+# Start the server
+CMD ["npm","run","start"]

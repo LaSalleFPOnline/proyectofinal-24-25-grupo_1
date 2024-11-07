@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3001/api'; // URL del servidor Node.js
+  private apiUrl = environment.apiUrl; // URL del servidor Node.js
   private tokenKey = 'authToken';
   private userIdKey = 'userId'; // Clave para almacenar userId
   private userKey = 'user'; // Clave para almacenar la información del usuario
