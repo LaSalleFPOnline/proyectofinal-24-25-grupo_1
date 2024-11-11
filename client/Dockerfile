@@ -26,3 +26,5 @@ FROM nginx:alpine
 # prueba-server comes from angular.json
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist/prueba-server /usr/share/nginx/html
+
+EXPOSE 80

@@ -8,6 +8,7 @@
 - Accede a la carpeta api y ejecuta `npm install`
 - Accede a la carpeta client y ejecuta `npm install`
 - Inicia el contenedor de la aplicación con `docker-compose up -d`
+- Accede a la aplicación a través de http://localhost:3050
 
 ## Configuración de Docker Compose
 

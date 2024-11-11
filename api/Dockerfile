@@ -7,9 +7,13 @@ WORKDIR /app
 COPY ./package.json ./
 
 # Install dependencies
-RUN npm i
+RUN npm i --production
 
 COPY . .
+
+ENV NODE_ENV production
+
+EXPOSE 5000
 
 # Start the server
 CMD ["npm","run","start"]
