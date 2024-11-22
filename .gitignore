@@ -1,3 +1,5 @@
 mysql_data
-.DS_Storenode_modules/
+.DS_Store
+.node_modules/
 .angular/
+backend-node/
