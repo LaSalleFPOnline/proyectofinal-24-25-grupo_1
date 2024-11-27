@@ -10,8 +10,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 // Variables de entorno para recuperar la clave secreta para firmar tokens y el tiempo de expiración de los tokens
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
+const JWT_SECRET = "admin";
+const JWT_EXPIRES_IN = "1h";
 
 /*
 La función recibe los datos del cuerpo de la solicitud y si faltan el email, password, o rol, la función responde con

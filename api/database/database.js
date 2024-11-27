@@ -11,8 +11,10 @@ conectarse a la BBDD, y la contraseña del usuario
 */
 const connection = mysql.createConnection({
   host: keys.dbHost,
-  user: keys.dbUser,
-  password: keys.dbPassword,
+  // user: keys.dbUser,
+  // password: keys.dbPassword,
+  user: "root",
+  password: "root",
   port: keys.dbPort
 });
 
@@ -153,3 +155,9 @@ module.exports = {
   endDatabaseConnection,
   connection
 };
+
+// TODO: Aquí haremos los inserts process.env.NODE_ENV !== "production"
+// IF(process.env.NODE_ENV !== "production"){
+
+// Hacemos los inserts de los datos dummy
+// }

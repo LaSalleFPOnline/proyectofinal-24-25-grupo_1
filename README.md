@@ -65,4 +65,5 @@ Nginx sirve la aplicación Angular y realiza el proxy inverso hacia la API de No
 
 - `docker system prune --all --volumes --force`: Limpia todos los contenedores y imágenes de Docker.
 - `docker compose down`: Detiene todos los servicios de Docker Compose.
-- `docker compose up --build -d`: Inicia todos los servicios de Docker Compose y construye los contenedores si no existen.
+- `docker compose up -d --remove-orphans`: Permite limpiar los servicios que quedan colgados.
+- `docker compose up --build -d`: Inicia todos los servicios de Docker Compose y construye los contenedores si no existen.º

@@ -1,9 +1,12 @@
+require('dotenv').config();
+
 /*
 Importamos la biblioteca que permite crear y verificar tokens JWT. Se obtiene la clave secreta utilizada para firmar y
 verificar los tokens JWT. Esta clave se extrae de las variables de entorno
 */
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = "admin";
+
 
 /*
 El middleware toma el token JWT de la cabecera de autorización (Authorization), lo verifica usando una clave secreta,

@@ -4,7 +4,7 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_USER: ${DB_USER}
+      # MYSQL_USER: ${DB_USER}
       MYSQL_PASS: ${DB_PASSWORD}
     volumes:
       - ./mysql_data:/var/lib/mysql
