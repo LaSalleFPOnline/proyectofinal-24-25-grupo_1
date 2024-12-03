@@ -222,4 +222,20 @@ export class RegisterComponent implements AfterViewInit {
       default: return 'Desconocido';
     }
   }
+  logoPreview: string | null = null; // Para la vista previa
+
+  onLogoFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.logoPreview = e.target.result; // Asigna la vista previa
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
 }
