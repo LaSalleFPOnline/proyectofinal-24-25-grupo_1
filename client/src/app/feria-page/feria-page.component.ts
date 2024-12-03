@@ -56,7 +56,7 @@ export class FeriaPageComponent implements OnInit {
       next: (role: number | null) => {
         this.userType = role;
         // Obtener empresas y relaciones solo si el usuario está logueado y tiene un rol válido
-        if (this.userType === 1 || this.userType === 2) {
+        if (this.userType === 1 || this.userType === 2 || this.userType === 3) {
           this.empresaService.getEmpresas().subscribe({
             next: (data: any[]) => {
               this.empresas = data;
@@ -302,7 +302,7 @@ export class FeriaPageComponent implements OnInit {
   }
 
   votar(): void {
-    const usuarioId = this.authService.getLoggedInCompanyId();
+    const usuarioId = this.authService.getUserId();
     const empresaVotadaId = this.empresaSeleccionada?.id;
     const voto = 1; // Aquí defines el valor del voto, puede ser un valor positivo o negativo según tu lógica
 
@@ -325,7 +325,7 @@ export class FeriaPageComponent implements OnInit {
   }
 
   eliminarVoto(): void {
-    const usuarioId = this.authService.getLoggedInCompanyId();
+    const usuarioId = this.authService.getUserId();
     const empresaVotadaId = this.empresaSeleccionada?.id;
 
     if (usuarioId === null || empresaVotadaId === null) {
