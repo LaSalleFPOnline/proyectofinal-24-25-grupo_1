@@ -52,10 +52,10 @@ export class FeriaPageComponent implements OnInit {
     this.cargarRelacionesDesdeStorage();
     setInterval(() => this.actualizarEstadoEventos(), 60000);
 
+    
     this.authService.getUserRole().subscribe({
       next: (role: number | null) => {
         this.userType = role;
-        // Obtener empresas y relaciones solo si el usuario está logueado y tiene un rol válido
         if (this.userType === 1 || this.userType === 2 || this.userType === 3) {
           this.empresaService.getEmpresas().subscribe({
             next: (data: any[]) => {
@@ -216,13 +216,14 @@ export class FeriaPageComponent implements OnInit {
                 this.spotUrl = empresa.spot_url || null;  // Añade esta línea
 
                 this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
-
                 const loggedInCompanyId = this.authService.getLoggedInCompanyId();
-                if (loggedInCompanyId !== null) {
-                    this.votacionService.verificarVoto(loggedInCompanyId, empresaId).subscribe(
+                const loggedInUserId = this.authService.getUserId(); // Obtén el ID del usuario logueado
+                if (loggedInUserId !== null) {
+                    this.votacionService.verificarVoto(loggedInUserId, empresaId).subscribe(
                         (yaVotado: boolean) => {
                             this.yaVotado = yaVotado;
-                            console.log('Estado del voto:', this.yaVotado);
+                            console.log(`Estado del voto para la empresa ${empresaId}:`, this.yaVotado);
+                            localStorage.setItem(`voto_${empresaId}`, JSON.stringify(this.yaVotado));
                         },
                         error => {
                             console.error('Error al verificar el voto:', error);
@@ -230,6 +231,7 @@ export class FeriaPageComponent implements OnInit {
                         }
                     );
                 }
+              
 
                 if (empresaId === loggedInCompanyId) {
                     console.log('Es la empresa del usuario logueado, ocultando botones');
@@ -253,7 +255,7 @@ export class FeriaPageComponent implements OnInit {
     } else {
         console.error('ID de la empresa no es un número:', empresaId);
     }
-}
+  }
 
 
 
@@ -320,6 +322,7 @@ export class FeriaPageComponent implements OnInit {
       if (response) {
         console.log('Voto registrado exitosamente:', response);
         this.yaVotado = true;
+        localStorage.setItem(`voto_${empresaVotadaId}`, JSON.stringify(this.yaVotado));
       }
     });
   }
@@ -342,6 +345,7 @@ export class FeriaPageComponent implements OnInit {
       if (response) {
         console.log('Voto eliminado exitosamente', response);
         this.yaVotado = false;
+        localStorage.removeItem(`voto_${empresaVotadaId}`);
       }
     });
   }

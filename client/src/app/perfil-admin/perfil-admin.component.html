@@ -9,11 +9,18 @@
             <img [src]="empresa.logo_url" alt="{{ empresa.nombre_empresa }} logo">
         </div>
         <p>{{ empresa.nombre_empresa }}</p>
-        <div class="buttons">
-            <button class="edit-button">Editar</button>
-            <button class="delete-button">Eliminar</button>
+        <div class="iconos-container">
+            <!-- Mostrar icono OK si tiene nombre -->
+            <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/icon_OK.svg" alt="Icono OK" class="icono">
+            
+            <!-- Mostrar icono SPOT si tiene spot -->
+            <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/icon_SPOT.svg" alt="Icono Spot" class="icono">
+            
+            <!-- Mostrar icono FALTAINFO si no tiene logo -->
+            <img *ngIf="empresa.mostrarIconoFALTAINFO" src="assets/Images/icon_FALTAINFO.svg" alt="Icono Sin Logo" class="icono">
         </div>
-        </div>
+          
+    </div>
 </div>
 
 <!-- subir archivos y top 3 -->

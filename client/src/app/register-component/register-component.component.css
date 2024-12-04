@@ -89,4 +89,12 @@ textarea:focus, input:focus, select:focus {
   margin-top: 12px;
 }
 
-
+.error-message {
+  color: red;
+  margin-top: 6px;
+  background-color: #F3F3F3;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid red;
+  text-align: center;
+}

@@ -36,6 +36,9 @@ export class RegisterComponent implements AfterViewInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
+  horarioMananaError: string | null = null;
+  horarioTardeError: string | null = null;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngAfterViewInit() {  }
@@ -220,6 +223,42 @@ export class RegisterComponent implements AfterViewInit {
       case 2: return 'Visitante';
       case 3: return 'Administrador';
       default: return 'Desconocido';
+    }
+  }
+
+  validarHorarioManana() {
+    if (this.horario_meet_morning_start && this.horario_meet_morning_end) {
+      const startHour = parseInt(this.horario_meet_morning_start.split(":")[0]);
+      const startMin = parseInt(this.horario_meet_morning_start.split(":")[1]);
+      const endHour = parseInt(this.horario_meet_morning_end.split(":")[0]);
+      const endMin = parseInt(this.horario_meet_morning_end.split(":")[1]);
+  
+      // Validar que la hora de inicio esté entre las 10:00 y las 13:00
+      if (startHour < 10 || (startHour === 13 && startMin > 0) || startHour > 13) {
+        this.horarioMananaError = 'La hora de inicio debe estar entre las 10:00 y las 13:00';
+      } else if (endHour < 10 || (endHour === 13 && endMin > 0) || endHour > 13) {
+        this.horarioMananaError = 'La hora de fin debe estar entre las 10:00 y las 13:00';
+      } else {
+        this.horarioMananaError = null; // Reseteamos el error si la validación es correcta
+      }
+    }
+  }
+  
+  validarHorarioTarde() {
+    if (this.horario_meet_afternoon_start && this.horario_meet_afternoon_end) {
+      const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
+      const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
+      const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
+      const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
+  
+      // Validar que la hora de inicio esté entre las 15:30 y las 18:30
+      if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
+        this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
+      } else if (endHour < 15 || (endHour === 15 && endMin < 30) || endHour > 18 || (endHour === 18 && endMin > 30)) {
+        this.horarioTardeError = 'La hora de fin debe estar entre las 15:30 y las 18:30';
+      } else {
+        this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
+      }
     }
   }
 }
