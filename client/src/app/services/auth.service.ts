@@ -51,6 +51,9 @@ export class AuthService {
 
     if (empresa && empresa.id) {
       this.empresaSubject.next(empresa);
+      sessionStorage.setItem('empresaId', empresa.id.toString()); // Asegurar que el ID de la empresa se guarde
+    } else {
+      console.error('No se encontró empresa en sessionStorage.');
     }
 
     if (userId) {
@@ -231,8 +234,14 @@ export class AuthService {
   }
 
   getEmpresaSeleccionadaId(): number | null {
-    const id = sessionStorage.getItem('empresaSeleccionadaId');
-    return id ? parseInt(id, 10) : null;
+    // Asegúrate de que el ID de la empresa esté en sessionStorage
+    const empresaId = sessionStorage.getItem('empresaId');
+    if (empresaId) {
+      return parseInt(empresaId, 10);
+    } else {
+      console.error('No se encontró el ID de la empresa en sessionStorage.');
+      return null;
+    }
   }
 
   checkEmail(email: string): Observable<any> {

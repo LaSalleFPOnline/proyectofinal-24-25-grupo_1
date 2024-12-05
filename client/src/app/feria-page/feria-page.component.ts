@@ -52,7 +52,6 @@ export class FeriaPageComponent implements OnInit {
     this.cargarRelacionesDesdeStorage();
     setInterval(() => this.actualizarEstadoEventos(), 60000);
 
-    
     this.authService.getUserRole().subscribe({
       next: (role: number | null) => {
         this.userType = role;
@@ -61,6 +60,11 @@ export class FeriaPageComponent implements OnInit {
             next: (data: any[]) => {
               this.empresas = data;
               console.log('Empresas: ', this.empresas);
+
+              this.actualizarVotaciones();
+
+              // Forzamos la actualización de la vista
+              this.cdr.detectChanges();  // Aquí forzamos la detección de cambios
 
               const empresaId = this.authService.getLoggedInCompanyId();
 
@@ -115,7 +119,6 @@ export class FeriaPageComponent implements OnInit {
 
   obtenerRelaciones(empresaId: number): void {
     this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
-      console.log('Datos obtenidos de relaciones:', data);
       this.relacionesCompra = data.compras || [];
       this.relacionesVenta = data.ventas || [];
 
@@ -348,6 +351,28 @@ export class FeriaPageComponent implements OnInit {
         localStorage.removeItem(`voto_${empresaVotadaId}`);
       }
     });
+  }
+
+  // Método para verificar si el usuario ha votado por la empresa
+  haVotadoPorEmpresa(empresaId: number): boolean {
+    return localStorage.getItem(`voto_${empresaId}`) === 'true';  // Devuelve true si ha votado
+  }
+
+  actualizarVotaciones(): void {
+    const loggedInUserId = this.authService.getUserId(); // Obtener el ID del usuario logueado
+  
+    if (loggedInUserId !== null) {
+      this.empresas.forEach((empresa) => {
+        this.votacionService.verificarVoto(loggedInUserId, empresa.id).subscribe(
+          (yaVotado: boolean) => {
+            empresa.votado = yaVotado; // Guardamos el estado del voto directamente en la empresa
+          },
+          (error) => {
+            console.error('Error al verificar el voto:', error);
+          }
+        );
+      });
+    }
   }
 
   cargarRelacionesDesdeStorage() {
