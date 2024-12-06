@@ -61,10 +61,23 @@
         <img class="line" src="assets/Images/line.png">
       </div>
 
+<<<<<<<<< Temporary merge branch 1
+      <!-- <div class="campo">
+        <label class="text">* Logo URL:</label>
+        <input type="text" id="logo_url" [(ngModel)]="logo_url" name="logo_url" class="input">
+        <img class="line" src="assets/Images/line.png">
+      </div> -->
+
+      <div class="campo">
+        <label class="text">* Logo:</label>
+        <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input">
+        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview">
+=========
       <div class="campo">
         <label for="logo_file" class="text">* Logo:</label>
         <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input"/>
         <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview"/>
+>>>>>>>>> Temporary merge branch 2
       </div>
       
       <div class="campo">
