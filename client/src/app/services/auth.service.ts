@@ -174,9 +174,10 @@ export class AuthService {
   }
 
   getUserId(): number | null {
-    const id = sessionStorage.getItem(this.userIdKey) || localStorage.getItem(this.userIdKey);
-    return id ? parseInt(id, 10) : null;
+    const userId = sessionStorage.getItem(this.userIdKey) || localStorage.getItem(this.userIdKey);
+    return userId ? parseInt(userId, 10) : null;
   }
+
 
   setUser(user: { id: number; email: string; rol: number; entidad?: string }): void {
     sessionStorage.setItem(this.userKey, JSON.stringify(user));
@@ -245,4 +246,5 @@ export class AuthService {
       params: { email }
     });
   }
+  
 }

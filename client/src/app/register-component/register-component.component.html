@@ -66,7 +66,7 @@
         <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input"/>
         <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview"/>
       </div>
-
+      
       <div class="campo">
         <label class="text">Descripción de productos o servicios</label>
         <img class="line" src="assets/Images/line.png">
@@ -80,25 +80,50 @@
       </div>
 
       <div class="campo">
-        <label class="text">* Horario Meet:</label>
+        <label class="text">* Horarios de atención al cliente</label>
         <div class="horario">
-          <p class="text">Mañana:</p>
-          <p class="text">desde</p>
-          <input type="time" id="horario_meet_morning_start" [(ngModel)]="horario_meet_morning_start" name="horario_meet_morning_start" class="input time-input">
-          <p class="text">hasta</p>
-          <input type="time" id="horario_meet_morning_end" [(ngModel)]="horario_meet_morning_end" name="horario_meet_morning_end" class="input time-input">
+            <p class="text">Mañana:</p>
+            <p class="text">desde</p>
+            <input type="time" 
+            [(ngModel)]="horario_meet_morning_start" 
+            (change)="validarHorarioManana()" 
+            name="horario_meet_morning_start" 
+            class="input time-input" 
+            [min]="'10:00'" 
+            [max]="'13:00'">
+            <p class="text">hasta</p>
+            <input type="time" 
+            [(ngModel)]="horario_meet_morning_end" 
+            (change)="validarHorarioManana()" 
+            name="horario_meet_morning_end" 
+            class="input time-input" 
+            [min]="'10:00'" 
+            [max]="'13:00'">
         </div>
+        <div *ngIf="horarioMananaError" class="error-message">{{horarioMananaError}}</div>
         <img class="line" src="assets/Images/line.png">
-        
         <div class="horario">
-          <label class="text">Tarde:</label>
-          <p class="text">desde</p>
-          <input type="time" id="horario_meet_afternoon_start" [(ngModel)]="horario_meet_afternoon_start" name="horario_meet_afternoon_start" class="input time-input">
-          <p class="text">hasta</p>
-          <input type="time" id="horario_meet_afternoon_end" [(ngModel)]="horario_meet_afternoon_end" name="horario_meet_afternoon_end" class="input time-input">
+            <p class="text">Tarde:</p>
+            <p class="text">desde</p>
+            <input type="time" 
+            [(ngModel)]="horario_meet_afternoon_start" 
+            (change)="validarHorarioTarde()" 
+            name="horario_meet_afternoon_start" 
+            class="input time-input" 
+            [min]="'15:30'" 
+            [max]="'18:30'">
+            <p class="text">hasta</p>
+            <input type="time" 
+            [(ngModel)]="horario_meet_afternoon_end" 
+            (change)="validarHorarioTarde()" 
+            name="horario_meet_afternoon_end" 
+            class="input time-input" 
+            [min]="'15:30'" 
+            [max]="'18:30'">
         </div>
+        <div *ngIf="horarioTardeError" class="error-message">{{horarioTardeError}}</div>
         <img class="line" src="assets/Images/line.png">
-      </div>
+    </div>
       <div class="campo">
         <label class="text">* Entidad:</label>
         <input type="text" [(ngModel)]="entidad" name="entidad" class="input" readonly>

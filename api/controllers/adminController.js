@@ -7,7 +7,7 @@ la tabla empresas y hace un JOIN con la tabla usuarios. Esto asegura que solo se
 asociadas a un usuario válido.
 */
 const getEmpresas = (req, res) => {
-  const query ='SELECT empresas. id, empresas.nombre_empresa, empresas.logo_url,empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet_morning_start, empresas.horario_meet_morning_end, empresas.horario_meet_afternoon_start, empresas.horario_meet_afternoon_end FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+  const query ='SELECT empresas. id, empresas.nombre_empresa, empresas.logo_url, empresas.spot_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet_morning_start, empresas.horario_meet_morning_end, empresas.horario_meet_afternoon_start, empresas.horario_meet_afternoon_end FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
   /*
   Se ejecuta la consulta. Si hay un error durante la ejecución se regustra el error en la consola y se responde con
   un estado 500. Si la consulta es exitosa, los resultados se envían como una respuesta JSON con un estado 200
