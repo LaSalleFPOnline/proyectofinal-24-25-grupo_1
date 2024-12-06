@@ -15,20 +15,26 @@ export class PerfilAdminComponent implements OnInit {
   ngOnInit(): void {
     this.loadEmpresas();
   }
-
   loadEmpresas(): void {
     this.empresaService.getEmpresas().subscribe({
       next: (data: any[]) => {
-        this.empresas = data;
-        console.log('Empresas:', this.empresas);
-        // Verifica que cada empresa tenga un logo_url
-        this.empresas.forEach(empresa => console.log('Logo URL:', empresa.logo_url));
+        this.empresas = data.map(empresa => ({
+          ...empresa,
+          // Propiedades calculadas para los iconos
+          mostrarIconoOK: empresa.nombre_empresa ? true : false, // Mostrar icono OK si tiene nombre de empresa
+          mostrarIconoSPOT: empresa.spot_url ? true : false,  // Mostrar icono SPOT si tiene spot_url
+          mostrarIconoFALTAINFO: !empresa.logo_url // Mostrar icono FALTAINFO si no tiene logo
+        }));
+  
+        console.log('Empresas con propiedades para iconos:', this.empresas);
       },
       error: (error) => {
         console.error('Error al cargar empresas:', error);
       }
     });
   }
+  
+  
   
   loadEmpresasMasVotadas(): void {
     this.votacionService.obtenerEmpresasMasVotadas().subscribe({

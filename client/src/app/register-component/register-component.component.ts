@@ -277,5 +277,4 @@ export class RegisterComponent implements AfterViewInit {
       reader.readAsDataURL(file); // Lee el archivo como una URL base64
     }
   }
-
 }

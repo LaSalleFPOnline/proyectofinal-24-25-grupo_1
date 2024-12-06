@@ -24,7 +24,7 @@ export class VotacionService {
   // Registrar un voto
   votar(usuarioId: number, empresaId: number, voto: number): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.apiUrl}/voto`, 
+    return this.http.post<any>(`${this.apiUrl}/voto`,
       { usuario_id: usuarioId, empresa_id: empresaId, voto },
       { headers }
     ).pipe(
@@ -55,22 +55,23 @@ export class VotacionService {
   }
 
   // Verificar si el usuario ha votado por una empresa
+  // VotacionService: verificar si un usuario ha votado por una empresa
   verificarVoto(usuarioId: number, empresaId: number): Observable<boolean> {
     const headers = this.getHeaders();
     const params = new HttpParams()
-      .set('usuario_id', usuarioId.toString())
-      .set('empresa_id', empresaId.toString());
-  
-    return this.http.get<{ existe: boolean }>(`${this.apiUrl}/verificar-voto`, 
-      { headers, params }
-    ).pipe(
-      map(response => response.existe), // Mapear a un booleano
-      catchError(error => {
-        console.error('Error al verificar voto:', error);
-        return throwError(error);
-      })
-    );
+        .set('usuario_id', usuarioId.toString()) // Asegúrate de que esto coincida con el backend
+        .set('empresa_id', empresaId.toString());
+    
+    return this.http.get<{ existe: boolean }>(`${this.apiUrl}/verificar-voto`, { headers, params })
+        .pipe(
+            map(response => response.existe), // Mapear el resultado a un booleano
+            catchError(error => {
+                console.error('Error al verificar voto:', error);
+                return throwError(error);
+            })
+        );
   }
+
 
   
   // Método para obtener las empresas más votadas SANTI

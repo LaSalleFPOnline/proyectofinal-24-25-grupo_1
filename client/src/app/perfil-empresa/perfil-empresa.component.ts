@@ -28,6 +28,9 @@ export class PerfilEmpresaComponent implements OnInit {
   usuario_id: number | null = null;
   empresa_id: number | null = null; // Añadido para almacenar el ID de la empresa
 
+  horarioMananaError: string | null = null;
+  horarioTardeError: string | null = null;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -85,24 +88,31 @@ export class PerfilEmpresaComponent implements OnInit {
     // Obtener los IDs desde sessionStorage cada vez que se valida el formulario
     const storedUserId = sessionStorage.getItem('userId');
     const storedEmpresaId = sessionStorage.getItem('empresaId');
-
+  
     this.usuario_id = storedUserId ? parseInt(storedUserId, 10) : null;
     this.empresa_id = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
-
+  
     // Validar el formulario
     if (!this.enlaceSalaEspera || !this.logotipo ||
       !this.nombreEmpresa || !this.paginaWeb) {
-    this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+      return;  // Detener la ejecución si falta algún campo
     } else if (!this.usuario_id || !this.empresa_id) {
       this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
+      return;  // Detener la ejecución si los IDs no están disponibles
     } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
-      this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';  
+      this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';
+      return;  // Detener la ejecución si no hay horarios
+    } else if (this.horarioMananaError || this.horarioTardeError) {  // Agregar validación de errores de horario
+      this.errorMessage = 'Por favor, corrija los errores en los horarios.';
+      return;  // Detener la ejecución si hay errores en los horarios
     } else if (this.contrasena && this.repiteContrasena !== this.contrasena) {
       this.contrasenaErrorMessage = 'Las contraseñas no coinciden.';
+      return;  // Detener la ejecución si las contraseñas no coinciden
     } else {
       this.errorMessage = null;
       this.contrasenaErrorMessage = null;
-
+  
       const empresa = {
         id: this.empresa_id,
         usuario_id: this.usuario_id,
@@ -127,7 +137,7 @@ export class PerfilEmpresaComponent implements OnInit {
           console.log('Datos actualizados:', response);
           this.successMessage = 'Datos de la empresa actualizados correctamente.';
           this.errorMessage = null;
-
+  
           // Actualizamos los datos en el formulario con la respuesta
           this.nombreEmpresa = response.nombre_empresa;
           this.paginaWeb = response.web_url;
@@ -139,10 +149,10 @@ export class PerfilEmpresaComponent implements OnInit {
           this.horario_meet_morning_end = response.horario_meet_morning_end;
           this.horario_meet_afternoon_start = response.horario_meet_afternoon_start;
           this.horario_meet_afternoon_end = response.horario_meet_afternoon_end;
-
+  
           // Actualiza también el sessionStorage
           this.authService.setEmpresa(response);
-
+  
           // Redirigir a la página '/feria'
           this.router.navigate(['/feria']);
         },
@@ -154,6 +164,7 @@ export class PerfilEmpresaComponent implements OnInit {
       });
     }
   }
+  
   cambiarContrasena() {
     if (!this.nuevaContrasena || !this.usuario_id) {
       console.error('Usuario ID y nueva contraseña son obligatorios');
@@ -176,4 +187,40 @@ export class PerfilEmpresaComponent implements OnInit {
       }
     );
   }
+  validarHorarioManana() {
+    if (this.horario_meet_morning_start && this.horario_meet_morning_end) {
+      const startHour = parseInt(this.horario_meet_morning_start.split(":")[0]);
+      const startMin = parseInt(this.horario_meet_morning_start.split(":")[1]);
+      const endHour = parseInt(this.horario_meet_morning_end.split(":")[0]);
+      const endMin = parseInt(this.horario_meet_morning_end.split(":")[1]);
+  
+      // Validar que la hora de inicio esté entre las 10:00 y las 13:00
+      if (startHour < 10 || (startHour === 13 && startMin > 0) || startHour > 13) {
+        this.horarioMananaError = 'La hora de inicio debe estar entre las 10:00 y las 13:00';
+      } else if (endHour < 10 || (endHour === 13 && endMin > 0) || endHour > 13) {
+        this.horarioMananaError = 'La hora de fin debe estar entre las 10:00 y las 13:00';
+      } else {
+        this.horarioMananaError = null; // Reseteamos el error si la validación es correcta
+      }
+    }
+  }
+  
+  validarHorarioTarde() {
+    if (this.horario_meet_afternoon_start && this.horario_meet_afternoon_end) {
+      const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
+      const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
+      const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
+      const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
+  
+      // Validar que la hora de inicio esté entre las 15:30 y las 18:30
+      if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
+        this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
+      } else if (endHour < 15 || (endHour === 15 && endMin < 30) || endHour > 18 || (endHour === 18 && endMin > 30)) {
+        this.horarioTardeError = 'La hora de fin debe estar entre las 15:30 y las 18:30';
+      } else {
+        this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
+      }
+    }
+  }
+  
 }

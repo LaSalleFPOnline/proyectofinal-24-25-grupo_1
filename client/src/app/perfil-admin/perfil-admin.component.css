@@ -32,33 +32,22 @@
     width: auto;
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
-}
-
-button {
-    background-color: transparent;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    border: 1px solid currentColor;
-}
-
-.edit-button,
-.delete-button {
-    color: grey;
-}
-
 p {
     text-align: center;
     margin: 10px 0 0 0;
+}
+
+.iconos-container {
+    display: flex;
+    gap: 10px; /* Espaciado entre iconos */
+    justify-content: center; /* Centra los iconos horizontalmente */
+    margin-top: 10px;
+}
+
+.icono {
+    width: 24px; /* Tamaño del icono */
+    height: 24px;
+    fill: currentColor; /* Permite usar el color del texto del contenedor */
 }
 
 /* Top3 y enlaces */
