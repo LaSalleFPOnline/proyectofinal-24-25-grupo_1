@@ -1,17 +1,32 @@
 <footer class="footer">
     <img class="logo" src="assets/Images/logo.png" alt="Logo" />
 
-    <div class="titulo-contacta">
-        <p>Contacta con nosotros</p>
-    </div>
-    <!-- <div class="titulo-nosotros">
-        <p>Sobre con nosotros</p>
-    </div> -->
-    <div class="titulo-nosotros">
+     <div class="titulo-nosotros">
         <a [routerLink]="['/nosotros']">Sobre con nosotros</a>
     </div>
+
+    <div class="titulo-contacta" (click)="sendMail()">
+        Contacta con nosotros
+      </div>    
+      
+      <script>
+        function sendMail() {
+          const email = "LSBM@lasalle.es";
+          const mailtoLink = `mailto:${email}`;
+          console.log("Intentando abrir el cliente de correo con el enlace:", mailtoLink);
+      
+          try {
+            window.location.href = mailtoLink;
+            console.log("Mailto ejecutado correctamente.");
+          } catch (error) {
+            console.error("Error al intentar abrir el cliente de correo:", error);
+          }
+        }
+      </script>
+      
+      
     <p class="text">
-        LSBM@lasalle.es
+        LSBM&#64;lasalle.es<br>
         Dirección: Plaça del Nord, 14<br/>
         Gràcia, 08024 (Barcelona)
     </p>
