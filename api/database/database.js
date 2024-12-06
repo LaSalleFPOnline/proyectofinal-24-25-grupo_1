@@ -49,63 +49,81 @@ const initializeDatabase = (callback) => {
         usuarios, empresas, visitantes, administradores, agenda e intereses
         */
         const queries = [
-          `CREATE TABLE IF NOT EXISTS usuarios (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+          `CREATE TABLE IF NOT EXISTS usuario (
+            id_usuario INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
             entidad VARCHAR(500) NOT NULL,
             rol INT NOT NULL CHECK (rol IN (1, 2, 3))
           )`,
-          `CREATE TABLE IF NOT EXISTS empresas (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            usuario_id INT,
+          `CREATE TABLE IF NOT EXISTS empresa (
+             id_empresa INT AUTO_INCREMENT PRIMARY KEY,
+            id_usuario INT,
             nombre_empresa VARCHAR(255),
-            web_url VARCHAR(2083),
-            spot_url VARCHAR(2083),
-            logo_url VARCHAR(2083),
+            web VARCHAR(2083),
+            spot VARCHAR(2083),
+            logo VARCHAR(2083),
             descripcion VARCHAR(5000),
             url_meet VARCHAR(2083),
             horario_meet_morning_start TIME NULL,
             horario_meet_morning_end TIME NULL,
             horario_meet_afternoon_start TIME NULL,
             horario_meet_afternoon_end TIME NULL,
-            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+            FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
           )`,
-          `CREATE TABLE IF NOT EXISTS visitantes (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            usuario_id INT,
-            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          `CREATE TABLE IF NOT EXISTS visitante (
+            id_visitante INT AUTO_INCREMENT PRIMARY KEY,
+            id_usuario INT,
+            FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
           )`,
-          `CREATE TABLE IF NOT EXISTS administradores (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            usuario_id INT,
-            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          `CREATE TABLE IF NOT EXISTS administrador (
+            id_administrador INT AUTO_INCREMENT PRIMARY KEY,
+            id_usuario INT,
+            FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
           )`,
           `CREATE TABLE IF NOT EXISTS agenda (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id_agenda INT AUTO_INCREMENT PRIMARY KEY,
             horaI TIME NOT NULL,
             horaF TIME NOT NULL,
             descripcion VARCHAR(3000),
             detalles VARCHAR(3000)
           )`,
-          `CREATE TABLE IF NOT EXISTS intereses (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            empresa_id INT NOT NULL,
-            empresa_interesada_id INT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (empresa_id) REFERENCES empresas(id),
-            FOREIGN KEY (empresa_interesada_id) REFERENCES empresas(id)
-          )`,
-          `CREATE TABLE IF NOT EXISTS votaciones (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            usuario_id INT NOT NULL,
-            empresa_id INT NOT NULL,
+          
+          `CREATE TABLE IF NOT EXISTS votacion (
+            id_votacion INT AUTO_INCREMENT PRIMARY KEY,
+            id_usuarioVotante INT NOT NULL,
+            id_empresaVotada INT NOT NULL,
             voto TINYINT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-            FOREIGN KEY (empresa_id) REFERENCES empresas(id),
-            UNIQUE (usuario_id, empresa_id)
+            FOREIGN KEY (id_usuarioVotante) REFERENCES usuario(id_usuario),
+            FOREIGN KEY (id_empresaVotada) REFERENCES empresa(id_empresa),
+            UNIQUE (id_usuarioVotante, id_empresaVotada)
+          )`,
+          `CREATE TABLE IF NOT EXISTS evento (
+            id_evento INT AUTO_INCREMENT PRIMARY KEY,
+            fechaVotacion_inicio DATETIME NOT NULL,
+            fechaVotacion_fin DATETIME NOT NULL,
+            fechaMostrarGanador_inicio DATETIME NOT NULL,
+            fechaEvento_inicio DATETIME NOT NULL,
+            fechaEvento_fin DATETIME NOT NULL,
+            fechaEdicionInfoEmpresa_inicio DATETIME NOT NULL,
+            fechaEdicionInfoEmpresa_fin DATETIME NOT NULL
+            )`,
+            `CREATE TABLE IF NOT EXISTS direcciones (
+              id_direcciones INT AUTO_INCREMENT PRIMARY KEY,
+              descripcion VARCHAR(255) NOT NULL,
+              url VARCHAR(2083) NOT NULL
+            )`,
+            `CREATE TABLE IF NOT EXISTS relacion_comercial (
+              id_relacionComercial INT AUTO_INCREMENT PRIMARY KEY,
+              id_empresaCompradora INT NOT NULL,
+              id_empresaVendedora INT NOT NULL,
+              fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              FOREIGN KEY (id_empresaCompradora) REFERENCES empresa(id_empresa),
+              FOREIGN KEY (id_empresaVendedora) REFERENCES empresa(id_empresa)
           )`
+
+
         ];
         /*
         Iteramos sobre cada consulta para crear las tablas. CompletedQueries lleva un conteo de las consultas completas.

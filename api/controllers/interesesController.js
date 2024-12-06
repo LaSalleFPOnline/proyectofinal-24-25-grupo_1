@@ -12,17 +12,17 @@ const addInterest = (req, res) => {
   relación de interés. Enviamos una respuesta con estado 400 si falta algún ID. Y definimos una consulta SQL que
   insertará una nueva fila en la tabla con los IDs de las 2 empresas involucradas
   */
-  const { empresa_id, empresa_interesada_id } = req.body;
-  if (!empresa_id || !empresa_interesada_id) {
+  const { id_empresaVendedora, id_empresaCompradora } = req.body;
+  if (!id_empresaVendedora || !id_empresaCompradora) {
     return res.status(400).json({ error: 'Se requieren los IDs de ambas empresas para agregar un interés.' });
   }
-  const query = 'INSERT INTO intereses (empresa_id, empresa_interesada_id) VALUES (?, ?)';
+  const query = 'INSERT INTO relacion_comercial (id_empresaVendedora, id_empresaCompradora) VALUES (?, ?)';
   /*
   Ejecutamos la consulta SQL utilizando los IDs de las empresas como parámetros. Verificamos si hubo un error al
   ejecutar la consulta, registramos el error en la consola y enviamos una respuesta con cóigo de estado 500. Si no
   hay errores enviamos una respuesta 200 y un mensaje indicando que el interés se ha añadido con éxito.
   */
-  connection.query(query, [empresa_id, empresa_interesada_id], (err) => {
+  connection.query(query, [id_empresaVendedora, id_empresaCompradora], (err) => {
     if (err) {
       console.error('Error al agregar interés: ', err);
       return res.status(500).json({ error: 'Error al agregar interés' });
@@ -39,9 +39,9 @@ la empresa identificada está interesada en otras empresas, y donde la empresa i
 interés de otras empresas
 */
 const getInterests = (req, res) => {
-  const empresa_id = req.params.empresa_id;
-  const queryCompras = 'SELECT * FROM intereses WHERE empresa_interesada_id = ?';
-  const queryVentas = 'SELECT * FROM intereses WHERE empresa_id = ?';
+  const empresa_id = req.params.id_empresaVendedora;
+  const queryCompras = 'SELECT * FROM relacion_comercial WHERE id_empresaCompradora = ?';
+  const queryVentas = 'SELECT * FROM relacion_comercial WHERE id_empresaVendedora = ?';
   /*
   Ejecuta la consulta para obtener las relaciones de compra y verifica si hubo un error al ejecutar la consulta. Si lo
   hubo lo registra en la consola y envía una respuesta 500 y un mensaje de error
@@ -73,8 +73,8 @@ const eliminarInteres = (req, res) => {
   }
 
   const query = `
-    DELETE FROM intereses
-    WHERE empresa_id = ? AND empresa_interesada_id = ?;
+    DELETE FROM relacion_comercial
+    WHERE id_empresaVendedora = ? AND id_empresaCompradora = ?;
   `;
   /*
   Ejecutamos la consulta SQL para eliminar la relación de interés. Manejamos cualquier error en la ejecución y lo

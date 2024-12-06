@@ -25,8 +25,8 @@ export class PerfilEmpresaComponent implements OnInit {
   contrasenaErrorMessage: string | null = null;
   errorMessage: string | null = null;
   successMessage: string | null = null;
-  usuario_id: number | null = null;
-  empresa_id: number | null = null; // Añadido para almacenar el ID de la empresa
+  id_usuario: number | null = null;
+  id_empresa: number | null = null; // Añadido para almacenar el ID de la empresa
 
   horarioMananaError: string | null = null;
   horarioTardeError: string | null = null;
@@ -53,8 +53,8 @@ export class PerfilEmpresaComponent implements OnInit {
 
     // Obtener ID de usuario
     if (storedUserId) {
-      this.usuario_id = parseInt(storedUserId, 10); // Asignar ID de usuario
-      console.log('Usuario ID:', this.usuario_id); // Agregar este log
+      this.id_usuario = parseInt(storedUserId, 10); // Asignar ID de usuario
+      console.log('Usuario ID:', this.id_usuario); // Agregar este log
     } else {
       console.error('No se encontró ID de usuario en sessionStorage.');
     }
@@ -64,16 +64,16 @@ export class PerfilEmpresaComponent implements OnInit {
       try {
         const empresa = JSON.parse(storedEmpresa);
         this.enlaceSalaEspera = empresa.url_meet || '';
-        this.logotipo = empresa.logo_url || '';
-        this.spotPublicitario = empresa.spot_url || '';
+        this.logotipo = empresa.logo || '';
+        this.spotPublicitario = empresa.spot || '';
         this.nombreEmpresa = empresa.nombre_empresa || '';
         this.horario_meet_morning_start = empresa.horario_meet_morning_start || '';
         this.horario_meet_morning_end = empresa.horario_meet_morning_end || '';
         this.horario_meet_afternoon_start = empresa.horario_meet_afternoon_start || '';
         this.horario_meet_afternoon_end = empresa.horario_meet_afternoon_end || '';
-        this.paginaWeb = empresa.web_url || '';
+        this.paginaWeb = empresa.web || '';
         this.descripcionProductos = empresa.descripcion || '';
-        this.empresa_id = empresa.id; // Asignar ID de empresa desde los datos
+        this.id_empresa = empresa.id_empresa; // Asignar ID de empresa desde los datos
       } catch (error) {
         console.error('Error al parsear los datos de la empresa:', error);
       }
@@ -88,6 +88,7 @@ export class PerfilEmpresaComponent implements OnInit {
     // Obtener los IDs desde sessionStorage cada vez que se valida el formulario
     const storedUserId = sessionStorage.getItem('userId');
     const storedEmpresaId = sessionStorage.getItem('empresaId');
+<<<<<<< Updated upstream:client/src/app/perfil-empresa/perfil-empresa.component.ts
   
     this.usuario_id = storedUserId ? parseInt(storedUserId, 10) : null;
     this.empresa_id = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
@@ -98,6 +99,17 @@ export class PerfilEmpresaComponent implements OnInit {
       this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
       return;  // Detener la ejecución si falta algún campo
     } else if (!this.usuario_id || !this.empresa_id) {
+=======
+
+    this.id_usuario = storedUserId ? parseInt(storedUserId, 10) : null;
+    this.id_empresa = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
+
+    // Validar el formulario
+    if (!this.enlaceSalaEspera || !this.logotipo ||
+      !this.nombreEmpresa || !this.paginaWeb) {
+    this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+    } else if (!this.id_usuario || !this.id_empresa) {
+>>>>>>> Stashed changes:src/app/perfil-empresa/perfil-empresa.component.ts
       this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
       return;  // Detener la ejecución si los IDs no están disponibles
     } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
@@ -114,12 +126,12 @@ export class PerfilEmpresaComponent implements OnInit {
       this.contrasenaErrorMessage = null;
   
       const empresa = {
-        id: this.empresa_id,
-        usuario_id: this.usuario_id,
+        id_empresa: this.id_empresa,
+        id_usuario: this.id_usuario,
         nombre_empresa: this.nombreEmpresa,
-        web_url: this.paginaWeb,
-        spot_url: this.spotPublicitario,
-        logo_url: this.logotipo,
+        web: this.paginaWeb,
+        spot: this.spotPublicitario,
+        logo: this.logotipo,
         descripcion: this.descripcionProductos,
         url_meet: this.enlaceSalaEspera,
         horario_meet_morning_start: this.horario_meet_morning_start || null,
@@ -140,9 +152,9 @@ export class PerfilEmpresaComponent implements OnInit {
   
           // Actualizamos los datos en el formulario con la respuesta
           this.nombreEmpresa = response.nombre_empresa;
-          this.paginaWeb = response.web_url;
-          this.spotPublicitario = response.spot_url;
-          this.logotipo = response.logo_url;
+          this.paginaWeb = response.web;
+          this.spotPublicitario = response.spot;
+          this.logotipo = response.logo;
           this.descripcionProductos = response.descripcion;
           this.enlaceSalaEspera = response.url_meet;
           this.horario_meet_morning_start = response.horario_meet_morning_start;
@@ -166,13 +178,13 @@ export class PerfilEmpresaComponent implements OnInit {
   }
   
   cambiarContrasena() {
-    if (!this.nuevaContrasena || !this.usuario_id) {
+    if (!this.nuevaContrasena || !this.id_usuario) {
       console.error('Usuario ID y nueva contraseña son obligatorios');
       return;
     }
 
     const requestBody = {
-      usuarioId: this.usuario_id,
+      usuarioId: this.id_usuario,
       nuevaContrasena: this.nuevaContrasena
     };
     this.authService.cambiarContrasena(requestBody).subscribe(

@@ -29,7 +29,7 @@ un marcador de posición para el parámetro
 */
 const getEventById = (req, res) => {
   const { id } = req.params;
-  const sql = 'SELECT * FROM agenda WHERE id = ?';
+  const sql = 'SELECT * FROM agenda WHERE id_agenda = ?';
   /*
   Ejecutamos la consulta SQL utilizando el ID como parámetro. Maneja los error igual que la función getAllEvents. Si
   la consulta no devuelve ningún resultado se responde con un error 404 y un mensaje. Si se encuentra el evento, se

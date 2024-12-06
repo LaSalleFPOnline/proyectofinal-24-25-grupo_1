@@ -86,14 +86,14 @@ export class FeriaPageComponent implements OnInit {
     });
   }
 
-  getEmbedUrl(spotUrl: string): SafeResourceUrl {
-    if (spotUrl) {
-      const videoId = this.extractVideoId(spotUrl);
+  getEmbedUrl(spot: string): SafeResourceUrl {
+    if (spot) {
+      const videoId = this.extractVideoId(spot);
       if (videoId) {
         const embedUrl = `https://www.youtube.com/embed/${videoId}`;
         return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
       } else {
-        console.error('No se pudo extraer el ID de video de la URL:', spotUrl);
+        console.error('No se pudo extraer el ID de video de la URL:', spot);
       }
     }
     return '';
@@ -143,9 +143,9 @@ export class FeriaPageComponent implements OnInit {
   private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
     relations.forEach(rel => {
       // Buscar la empresa correspondiente usando el campo ID especificado
-      const empresa = this.empresas.find(e => e.id === rel[idField]);
+      const empresa = this.empresas.find(e => e.id_empresa === rel[idField]);
       if (empresa) {
-        rel.logo_url = empresa.logo_url;
+        rel.logo = empresa.logo;
         rel.nombre_empresa = empresa.nombre_empresa;
 
         // Añadir detalles de la agenda
@@ -216,7 +216,7 @@ export class FeriaPageComponent implements OnInit {
                 this.horariosDeAtencionTarde = horariosTarde;
 
                 // Asigna el spot si está disponible
-                this.spotUrl = empresa.spot_url || null;  // Añade esta línea
+                this.spotUrl = empresa.spot || null;  // Añade esta línea
 
                 this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
                 const loggedInCompanyId = this.authService.getLoggedInCompanyId();

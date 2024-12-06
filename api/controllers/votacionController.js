@@ -1,21 +1,21 @@
 const { connection } = require('../database/database');
 
 const createVote = (req, res) => {
-    const { usuario_id, empresa_id, voto } = req.body;
+    const { id_usuarioVotante, id_empresaVotada, voto } = req.body;
 
-    if (!usuario_id || !empresa_id || voto === undefined) {
+    if (!id_usuarioVotante || !id_empresaVotada || voto === undefined) {
         return res.status(400).json({ error: 'Datos insuficientes para registrar el voto.' });
     }
 
     // Verificar que la empresa no se esté votando a sí misma
-    if (usuario_id === empresa_id) {
+    if (id_usuarioVotante === id_empresaVotada) {
         return res.status(400).json({ error: 'Una empresa no puede votarse a sí misma.' });
     }
 
     // Verificar si el usuario ya ha votado
-    const verificarUsuarioQuery = 'SELECT * FROM votaciones WHERE usuario_id = ?';
+    const verificarUsuarioQuery = 'SELECT * FROM votacion WHERE id_usuarioVotante = ?';
     
-    connection.query(verificarUsuarioQuery, [usuario_id], (err, results) => {
+    connection.query(verificarUsuarioQuery, [id_usuarioVotante], (err, results) => {
         if (err) {
             console.error('Error al verificar el voto del usuario: ', err);
             return res.status(500).json({ error: 'Error al verificar el voto del usuario' });
@@ -28,11 +28,11 @@ const createVote = (req, res) => {
 
         // Si el usuario no tiene un voto, se procede a insertar el nuevo voto
         const query = `
-            INSERT INTO votaciones (usuario_id, empresa_id, voto)
+            INSERT INTO votacion (id_usuarioVotante, id_empresaVotada, voto)
             VALUES (?, ?, ?);
         `;
 
-        connection.query(query, [usuario_id, empresa_id, voto], (err) => {
+        connection.query(query, [id_usuarioVotante, id_empresaVotada, voto], (err) => {
             if (err) {
                 console.error('Error al registrar el voto: ', err);
                 return res.status(500).json({ error: 'Error al registrar el voto' });
@@ -43,7 +43,7 @@ const createVote = (req, res) => {
 };
 
 const getAllVotes = (req, res) => {
-    const query = 'SELECT * FROM votaciones';
+    const query = 'SELECT * FROM votacion';
     
     connection.query(query, (err, results) => {
         if (err) {
@@ -55,11 +55,11 @@ const getAllVotes = (req, res) => {
 };
 
 const getUserVote = (req, res) => {
-    const usuario_id = req.params.usuario_id;
+    const usuario_id = req.params.id_usuarioVotante;
 
-    const query = 'SELECT * FROM votaciones WHERE usuario_id = ?';
+    const query = 'SELECT * FROM votacion WHERE id_usuarioVotante = ?';
     
-    connection.query(query, [usuario_id], (err, results) => {
+    connection.query(query, [id_usuarioVotante], (err, results) => {
         if (err) {
         console.error('Error al obtener el voto del usuario: ', err);
         return res.status(500).json({ error: 'Error al obtener el voto del usuario' });
@@ -69,15 +69,15 @@ const getUserVote = (req, res) => {
 };
 
 const verificarVoto = (req, res) => {
-    const { usuario_id, empresa_id } = req.query;
+    const { id_usuarioVotante, id_empresaVotada } = req.query;
 
-    if (!usuario_id || !empresa_id) {
+    if (!id_usuarioVotante || !id_empresaVotada) {
         return res.status(400).json({ error: 'Datos insuficientes para verificar el voto.' });
     }
 
-    const query = 'SELECT * FROM votaciones WHERE usuario_id = ? AND empresa_id = ?';
+    const query = 'SELECT * FROM votacion WHERE id_usuarioVotante = ? AND id_empresaVotada = ?';
 
-    connection.query(query, [usuario_id, empresa_id], (err, results) => {
+    connection.query(query, [id_usuarioVotante,id_empresaVotada], (err, results) => {
         if (err) {
             console.error('Error al verificar el voto: ', err);
             return res.status(500).json({ error: 'Error al verificar el voto' });
@@ -92,15 +92,15 @@ const verificarVoto = (req, res) => {
 
 
 const deleteVote = (req, res) => {
-    const { usuario_id, empresa_id } = req.body;
+    const { id_usuarioVotante, id_empresaVotada } = req.body;
 
-    if (!usuario_id || !empresa_id) {
+    if (!id_usuarioVotante || !id_empresaVotada) {
         return res.status(400).json({ message: 'Datos insuficientes para eliminar el voto' });
     }
 
-    const query = 'DELETE FROM votaciones WHERE usuario_id = ? AND empresa_id = ?';
+    const query = 'DELETE FROM votacion WHERE id_usuarioVotante = ? AND id_empresaVotada = ?';
 
-    connection.query(query, [usuario_id, empresa_id], (err, result) => {
+    connection.query(query, [id_usuarioVotante, id_empresaVotada], (err, result) => {
         if (err) {
             console.error('Error al eliminar el voto: ', err);
             return res.status(500).json({ message: 'Error al eliminar el voto' });

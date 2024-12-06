@@ -14,6 +14,9 @@ const { getEmpresas, getEmpresaById } = require('../controllers/adminController'
 const { getAllEvents } = require('../controllers/agendaController');
 const { addInterest, getInterests, eliminarInteres } = require('../controllers/interesesController');
 const { createVote, getAllVotes, getUserVote, verificarVoto, deleteVote } = require('../controllers/votacionController'); // Importa el controlador de votación
+const {getAllEventFechas, getEventByIdFecha} = require('../controllers/eventosController');
+const {getAllDirecciones, getEventByIdDirecccion} = require('../controllers/direccionesController');
+
 /*
 Importamos los middlewares que son funciones que se ejecutan antes de llegar al controlador. El primero procesa el
 cuerpo de la solicitud y el segundo verifica si el usuario está autenticado
@@ -24,6 +27,15 @@ const authenticateToken = require('../middlewares/authMiddleware');
 
 // Esta ruta permite obtener todos los eventos de la agenda.
 router.get('/agenda', getAllEvents);
+// Esta ruta permite obtener todos las fechas .
+router.get('/evento', getAllEventFechas);
+// Esta ruta permite obtener todos las fechas por id .
+router.get('/evento/:id_evento', getEventByIdFecha);
+
+// Esta ruta permite obtener todos las direcciones .
+router.get('/direcciones', getAllDirecciones);
+// Esta ruta permite obtener todos las direcciones por id .
+router.get('/direcciones/:id_direcciones', getEventByIdDirecccion);
 
 // Ruta para registrar un nuevo usuario
 router.post('/register', registerUser);
@@ -52,11 +64,11 @@ router.post('/actualizar-empresa', (req, res) => {
 
 // Estas rutas devuelven un listado de todas las empresas y los detalles de una empresa identificada por un ID
 router.get('/empresas', getEmpresas);
-router.get('/empresa/:id', getEmpresaById);
+router.get('/empresa/:id_empresa', getEmpresaById);
 
 // Rutas para agregar un interés, devolver los intereses relacionados con una empresa, y eliminar un interés existente
 router.post('/add-interest', authenticateToken, addInterest);
-router.get('/relaciones/:empresa_id', authenticateToken, getInterests);
+router.get('/relaciones/:id_empresaVendedora', authenticateToken, getInterests);
 
 // Rutas para necesarias para realizar un registro de un usuario en cualquier rol
 router.get('/check-email', checkEmail);

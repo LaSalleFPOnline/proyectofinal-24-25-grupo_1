@@ -156,13 +156,14 @@ export class AuthService {
         empresa = empresa.data;
     }
 
+
     // Guardar los datos de la empresa en sessionStorage y localStorage
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));
     localStorage.setItem('empresa', JSON.stringify(empresa));
-    if (empresa && empresa.id) {
-        sessionStorage.setItem('empresaId', empresa.id.toString());
-        localStorage.setItem('empresaId', empresa.id.toString());
+    if (empresa && empresa.id_empresa) {
+        sessionStorage.setItem('empresaId', empresa.id_empresa.toString());
+        localStorage.setItem('empresaId', empresa.id_empresa.toString());
     }
   }
 

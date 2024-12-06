@@ -26,9 +26,9 @@ function registerUser(req, res) {
       entidad,
       rol, 
       nombre_empresa, 
-      web_url, 
-      spot_url, 
-      logo_url, 
+      web, 
+      spot, 
+      logo, 
       descripcion, 
       url_meet, 
       horario_meet_morning_start, 
@@ -42,7 +42,7 @@ function registerUser(req, res) {
       return res.status(400).json({ message: 'El email es obligatorio' });
   }
 
-  const checkUserQuery = 'SELECT * FROM usuarios WHERE email = ?';
+  const checkUserQuery = 'SELECT * FROM usuario WHERE email = ?';
   connection.query(checkUserQuery, [email], (err, results) => {
       if (err) {
           console.error('Error al consultar usuario en MySQL:', err);
@@ -68,7 +68,7 @@ function registerUser(req, res) {
                       return res.status(500).json({ message: 'Error al hashear la contraseña' });
                   }
                   console.log('Contraseña hasheada:', hash);
-                  const updatePasswordQuery = 'UPDATE usuarios SET password = ? WHERE email = ?';
+                  const updatePasswordQuery = 'UPDATE usuario SET password = ? WHERE email = ?';
                   connection.query(updatePasswordQuery, [hash, email], (err, result) => {
                       if (err) {
                           console.error('Error al actualizar la contraseña:', err);
@@ -78,18 +78,19 @@ function registerUser(req, res) {
 
                       // Insertar los datos de la empresa
                       if (parseInt(rol, 10) === 1) { // Empresa
-                          const insertEmpresaQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                          const insertEmpresaQuery = 'INSERT INTO empresa (id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end,entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                           const empresaParams = [
-                            user.id, 
+                            user.id_usuario, 
                             nombre_empresa, 
-                            web_url, spot_url, 
-                            logo_url, 
+                            web, spot, 
+                            logo, 
                             descripcion, 
                             url_meet, 
                             horario_meet_morning_start || null,
                             horario_meet_morning_end || null,
                             horario_meet_afternoon_start || null,
                             horario_meet_afternoon_end || null, 
+                            entidad
                           ];
 
                           connection.query(insertEmpresaQuery, empresaParams, (err, result) => {
@@ -121,7 +122,7 @@ function registerUser(req, res) {
 
               console.log('Contraseña hasheada:', hash);
 
-              const insertUserQuery = 'INSERT INTO usuarios (email, password, entidad, rol) VALUES (?, ?, ?)';
+              const insertUserQuery = 'INSERT INTO usuario (email, password, entidad, rol) VALUES (?, ?, ?)';
               connection.query(insertUserQuery, [email, hash, entidad, rol], (err, result) => {
                   if (err) {
                       console.error('Error al registrar usuario en MySQL:', err);
@@ -135,15 +136,15 @@ function registerUser(req, res) {
 
                   switch (parseInt(rol, 10)) {
                       case 1: // Empresa
-                          insertRoleQuery = 'INSERT INTO empresas (usuario_id, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-                          roleParams = [userId, nombre_empresa, web_url, spot_url, logo_url, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end];
+                          insertRoleQuery = 'INSERT INTO empresa (id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                          roleParams = [userId, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end];
                           break;
                       case 2: // Visitante
-                          insertRoleQuery = 'INSERT INTO visitantes (usuario_id) VALUES (?, ?)';
+                          insertRoleQuery = 'INSERT INTO visitante (id_usuario) VALUES (?, ?)';
                           roleParams = [userId];
                           break;
                       case 3: // Administrador
-                          insertRoleQuery = 'INSERT INTO administradores (usuario_id) VALUES (?)';
+                          insertRoleQuery = 'INSERT INTO administrador (id_usuario) VALUES (?)';
                           roleParams = [userId];
                           break;
                       default:
@@ -181,7 +182,7 @@ function loginUser(req, res) {
   if (!email || !password) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
-  const query = 'SELECT * FROM usuarios WHERE email = ?';
+  const query = 'SELECT * FROM usuario WHERE email = ?';
   connection.query(query, [email], (err, results) => {
     if (err) {
       console.error('Error al consultar usuario en MySQL: ', err);
@@ -200,8 +201,8 @@ function loginUser(req, res) {
           let empresaQuery = null;
           let empresaParams = [];
           if (user.rol === 1) {
-            empresaQuery = 'SELECT * FROM empresas WHERE usuario_id = ?';
-            empresaParams = [user.id];
+            empresaQuery = 'SELECT * FROM empresa WHERE id_usuario = ?';
+            empresaParams = [user.id_usuario];
           }
           if (empresaQuery) {
             connection.query(empresaQuery, empresaParams, (err, empresaResults) => {
@@ -210,12 +211,12 @@ function loginUser(req, res) {
                 return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
               }
               const empresa = empresaResults[0] || null;
-              const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+              const token = jwt.sign({ id: user.id_usuario, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
               console.log('Token generado:', token);
               return res.status(200).json({ token, empresa, entidad: user.entidad, rol: user.rol, user }); // Asegúrate de incluir el rol aquí
             });
           } else {
-            const token = jwt.sign({ id: user.id, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+            const token = jwt.sign({ id: user.id_usuario, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
             console.log('Token generado para visitante/administrador:', token);
             return res.status(200).json({ token, rol: user.rol }); // Asegúrate de incluir el rol aquí
           }
@@ -240,7 +241,7 @@ function checkEmail(req, res) {
   }
 
   // Verifica si el email está registrado
-  const checkEmailQuery = 'SELECT * FROM usuarios WHERE email = ?';
+  const checkEmailQuery = 'SELECT * FROM usuario WHERE email = ?';
   connection.query(checkEmailQuery, [email], (err, results) => {
     if (err) {
       console.error('Error al consultar el email en MySQL:', err);
@@ -282,7 +283,7 @@ function getUserDetails(req, res) {
   }
 
   // Consulta para obtener los detalles del usuario por email
-  const getUserQuery = 'SELECT * FROM usuarios WHERE email = ?';
+  const getUserQuery = 'SELECT * FROM usuario WHERE email = ?';
   connection.query(getUserQuery, [email], (err, results) => {
     if (err) {
       console.error('Error al obtener los detalles del usuario en MySQL:', err);
@@ -316,7 +317,7 @@ function cambiarContrasena(req, res) {
       return res.status(500).json({ message: 'Error al cambiar la contraseña' });
     }
     // Actualizamos la contraseña en la base de datos
-    const updatePasswordQuery = 'UPDATE usuarios SET password = ? WHERE id = ?';
+    const updatePasswordQuery = 'UPDATE usuario SET password = ? WHERE id_usuario = ?';
     connection.query(updatePasswordQuery, [hash, usuarioId], (err, result) => {
       if (err) {
         console.error('Error al actualizar la contraseña:', err);
