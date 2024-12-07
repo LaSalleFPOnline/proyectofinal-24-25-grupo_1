@@ -101,10 +101,10 @@
         <p>Empresas participantes</p>
     </div>
     <div class="scroll-container-2">
-        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id)">
+        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
             <div class="logo-container">
                 <div *ngIf="haVotadoPorEmpresa(empresa.id)" class="logo-overlay"></div> <!-- Capa blanca semitransparente -->
-                <img [src]="empresa.logo_url" alt="{{ empresa.nombre }}" class="logo-empresa">
+                <img [src]="empresa.logo" alt="{{ empresa.nombre }}" class="logo-empresa">
                 <!-- Mostrar el ícono de "Me gusta" si el usuario ha votado por la empresa -->
                 <div *ngIf="haVotadoPorEmpresa(empresa.id)" class="icono-container">
                     <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
@@ -128,7 +128,7 @@
 
         <div class="contenedor-arriba">
             <div class="rectangle-detalles">
-                <img *ngIf="empresaSeleccionada.logo_url" [src]="empresaSeleccionada.logo_url" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
+                <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
             </div>
             <p class="empresa">
                 <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
