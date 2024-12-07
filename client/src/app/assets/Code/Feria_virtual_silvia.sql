@@ -7,8 +7,8 @@
 
 -- DATOS TABLA DE EVENTO
 
-INSERT INTO `evento` (`fechaVotacion_inicio`, `fechaVotacion_fin`, `fechaMostrarGanador_inicio`, `fechaEvento_inicio`, `fechaEvento_fin`, `fechaEdicionInfoEmpresa_inicio`, `fechaEdicionInfoEmpresa_fin`) VALUES
-(1, '2025-01-28 00:00:00', '2025-01-30 16:00:00', '', '2025-02-01 07:00:00', '2025-02-01 23:59:59', '2025-01-15 00:00:00', '2025-01-21 00:00:00'),
+INSERT INTO `evento` (`id_evento`, `fechaVotacion_inicio`, `fechaVotacion_fin`, `fechaMostrarGanador_inicio`, `fechaEvento_inicio`, `fechaEvento_fin`, `fechaEdicionInfoEmpresa_inicio`, `fechaEdicionInfoEmpresa_fin`) VALUES
+(1, '2025-01-28 00:00:00', '2025-01-30 16:00:00', '2025-02-01 23:59:59', '2025-02-01 07:00:00', '2025-02-01 23:59:59', '2025-01-15 00:00:00', '2025-01-21 00:00:00');
 
 
 -- DATOS TABLA DE DIRECCIONES
@@ -71,14 +71,14 @@ INSERT INTO `empresa` (`id_empresa`, `id_usuario`, `nombre_empresa`, `web`, `spo
 -- DATOS TABLA ADMIN
 
 INSERT INTO `administrador` (`id_administrador`, `id_usuario`) VALUES
-(1, 10);
+(1, 9);
 
 
 
 -- DATOS TABLA VISITANTES
 
 INSERT INTO `visitante` (`id_visitante`, `id_usuario`) VALUES
-(1, 9);
+(1, 10);
 
 
 

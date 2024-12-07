@@ -88,19 +88,6 @@ export class PerfilEmpresaComponent implements OnInit {
     // Obtener los IDs desde sessionStorage cada vez que se valida el formulario
     const storedUserId = sessionStorage.getItem('userId');
     const storedEmpresaId = sessionStorage.getItem('empresaId');
-<<<<<<< Updated upstream:client/src/app/perfil-empresa/perfil-empresa.component.ts
-  
-    this.usuario_id = storedUserId ? parseInt(storedUserId, 10) : null;
-    this.empresa_id = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
-  
-    // Validar el formulario
-    if (!this.enlaceSalaEspera || !this.logotipo ||
-      !this.nombreEmpresa || !this.paginaWeb) {
-      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
-      return;  // Detener la ejecución si falta algún campo
-    } else if (!this.usuario_id || !this.empresa_id) {
-=======
-
     this.id_usuario = storedUserId ? parseInt(storedUserId, 10) : null;
     this.id_empresa = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
 
@@ -109,7 +96,6 @@ export class PerfilEmpresaComponent implements OnInit {
       !this.nombreEmpresa || !this.paginaWeb) {
     this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
     } else if (!this.id_usuario || !this.id_empresa) {
->>>>>>> Stashed changes:src/app/perfil-empresa/perfil-empresa.component.ts
       this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
       return;  // Detener la ejecución si los IDs no están disponibles
     } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
