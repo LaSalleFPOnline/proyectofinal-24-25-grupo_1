@@ -65,7 +65,7 @@
                         <p>Aquí aparecerán los interesados en mí</p>
                     </div>
                     <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetalles(compra.id_empresaVendedora)">
-                        <img *ngIf="compra.logo_url" [src]="compra.logo_url" alt="{{ compra.nombre_empresa }}" class="logo-interes">
+                        <img *ngIf="compra.logo" [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-interes">
                     </div>
                 </div>
             </div>
