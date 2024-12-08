@@ -11,13 +11,25 @@
     flex-direction: row;
 }
 
+.header.shrink .label{
+    font-size: 10px; /* Tamaño reducido del texto */
+}
+
+.header.shrink .logo {
+    height: 40px; /* Altura reducida del logo */
+}
+
 .logo {
+    width: 100px;
     max-width: 40%;
     height: auto;
     max-height: 6rem;
     cursor: pointer;
 }
 
+.header.shrink .logo {
+    height: 40px; /* Altura reducida del logo */
+}
 .button {
     display: flex;
     align-items: center;
