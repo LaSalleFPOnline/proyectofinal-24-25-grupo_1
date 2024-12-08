@@ -1,19 +1,24 @@
 /* Estilo base para dispositivos grandes (escritorio) */
 
 .header {
-    display: flex;
-    align-items: center;
-    height: 6rem;
-    width: 100vw;
-    max-width: 1280px;
-    padding: 10px;
-    box-sizing: border-box;
-    flex-direction: row;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9); /* Color de fondo con algo de transparencia */
+    transition: height 0.3s, background-color 0.3s; /* Transiciones suaves */
+    height: 80px; /* Altura normal */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: space-between; /* Espacio entre el logo y el contenedor de botones */
 }
 
-.header.shrink .label{
-    font-size: 10px; /* Tamaño reducido del texto */
+.header.shrink {
+    height: 50px; /* Altura reducida */
+    background-color: rgba(255, 255, 255, 1); /* Fondo opaco */
 }
+
 
 .header.shrink .logo {
     height: 40px; /* Altura reducida del logo */
@@ -30,6 +35,7 @@
 .header.shrink .logo {
     height: 40px; /* Altura reducida del logo */
 }
+
 .button {
     display: flex;
     align-items: center;
@@ -37,6 +43,13 @@
     gap: 0.2rem;
     align-items: flex-end;
     margin-left: auto;
+    transition: height 0.3s;
+}
+
+.button-container {
+    display: flex; /* Usar flexbox para el contenedor de botones */
+    align-items: center; /* Centrar verticalmente los botones */
+    margin-left: auto; /* Empujar los botones hacia la derecha */
 }
 
 .header .label {
@@ -59,6 +72,10 @@
     border-radius: 0.8rem;
     border: 2px solid transparent;
     transition: border-color 0.3s;
+}
+
+.header.shrink .label{
+    font-size: 10px; /* Tamaño reducido del texto */
 }
 
 .login {
