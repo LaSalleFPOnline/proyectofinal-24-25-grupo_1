@@ -176,9 +176,11 @@
         <div class="button-container" *ngIf="!ocultarBotonesDeInteraccion">
             <button class="button" *ngIf="!yaVotado && spotUrl" (click)="votar()">Votar</button>
             <button class="button" *ngIf="yaVotado" (click)="eliminarVoto()">Eliminar Voto</button>
-            <button class="button" *ngIf="userType === 1" (click)="agregarOEliminarInteres()">
-                {{ interesadoEnEmpresa ? 'Eliminar interés' : 'Me interesa' }}
-            </button>
+            <ng-container *ngIf="userType === 1">
+                <button class="button" (click)="agregarOEliminarInteres()" *ngIf="empresaSeleccionada">
+                    {{ relacionesVenta?.some(rel => rel.id_empresaVendedora === authService.getLoggedInCompanyId() && rel.id_empresaCompradora === empresaSeleccionada.id_empresa) ? 'Eliminar interés' : 'Me interesa' }}
+                </button>
+            </ng-container>
         </div>
     </div>
 </div>
