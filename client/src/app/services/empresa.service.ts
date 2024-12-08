@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class EmpresaService {  
+export class EmpresaService {
   private apiUrl = environment.apiUrl; // URL del servidor Node.js
 
   constructor(private http: HttpClient, private authService: AuthService) { }

@@ -118,13 +118,16 @@ export class FeriaPageComponent implements OnInit {
   }
 
   obtenerRelaciones(empresaId: number): void {
+    console.log('Ejecutando obtenerRelaciones con empresaId:', empresaId);
     this.interesesService.obtenerRelaciones(empresaId).subscribe((data: any) => {
+      console.log('Datos obtenidos del servicio:', data);
       this.relacionesCompra = data.compras || [];
       this.relacionesVenta = data.ventas || [];
 
       // Asignar logotipos y detalles de agenda para cada tipo de relación
-      this.assignLogosToRelations(this.relacionesCompra, 'empresaSeleccionada');
-      this.assignLogosToRelations(this.relacionesVenta, 'empresa');
+      this.assignLogosToRelations(this.relacionesCompra, 'compra');
+      this.assignLogosToRelations(this.relacionesVenta, 'venta');
+
 
       console.log('Relaciones de compra:', this.relacionesCompra);
       console.log('Relaciones de venta:', this.relacionesVenta);
@@ -140,15 +143,28 @@ export class FeriaPageComponent implements OnInit {
   }
 
 
-  private assignLogosToRelations(relations: any[], idField: 'empresaSeleccionada' | 'empresa'): void {
+  private assignLogosToRelations(relations: any[], relationType: 'compra' | 'venta'): void {
+    console.log('Relaciones a procesar:', relations);
+    console.log('Empresas disponibles:', this.empresas);
+  
+    const idField = relationType === 'compra' ? 'id_empresaVendedora' : 'id_empresaCompradora';
+  
     relations.forEach(rel => {
-      // Buscar la empresa correspondiente usando el campo ID especificado
+      console.log('Procesando relación:', rel, 'con ID:', rel[idField]);
+  
+      // Validar que el campo ID esté definido
+      if (!rel[idField]) {
+        console.error('Campo ID indefinido en la relación:', rel);
+        return;
+      }
+  
+      // Buscar la empresa correspondiente
       const empresa = this.empresas.find(e => e.id_empresa === rel[idField]);
       if (empresa) {
         console.log('Asignando logo:', empresa.logo, 'a relación:', rel);
         rel.logo = empresa.logo;
         rel.nombre_empresa = empresa.nombre_empresa;
-
+  
         // Añadir detalles de la agenda
         rel.horario_meet_morning_start = empresa.horario_meet_morning_start || '';
         rel.horario_meet_morning_end = empresa.horario_meet_morning_end || '';
@@ -160,6 +176,8 @@ export class FeriaPageComponent implements OnInit {
       }
     });
   }
+  
+
 
 
   private saveRelationsToSessionStorage(relations: any[], key: string): void {
@@ -201,6 +219,7 @@ export class FeriaPageComponent implements OnInit {
   }
 
   mostrarDetalles(empresaId: any) {
+    console.log(this.relacionesVenta[0]);
     console.log('ID de la empresa seleccionada:', empresaId); // Asegúrate de que se pase el ID correcto
     if (empresaId && typeof empresaId === 'number') { // Verificación adicional
       this.empresaService.getEmpresaById(empresaId).subscribe(
