@@ -4,14 +4,17 @@
     box-sizing: border-box;
 }
 
+
+
 .test {
     border: 1px solid blueviolet;
 }
 
 html, body {
     width: 100%;
+    max-width: 1280px;
     margin: 0;
-    padding: 0;
+    padding-top: 100px;
     border: 1px solid red; /* QUITAR */
 }
 

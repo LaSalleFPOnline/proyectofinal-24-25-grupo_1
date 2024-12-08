@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false;
   userRole: number | null = null;
   dropdownOpen = false;
+  isShrunk: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -28,9 +29,16 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  // Nueva función para redirigir siempre a la página de inicio
   goToHomePage() {
-    this.router.navigate(['/']); // Redirige a la página de inicio general
+    this.router.navigate(['/']).then(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplazarse suavemente a la parte superior
+    });
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollY = window.scrollY;
+    this.isShrunk = scrollY > 0; // Cambia a true si hay scroll
   }
 
   // Método para navegar con manejo de fragmentos
@@ -110,4 +118,7 @@ export class HeaderComponent implements OnInit {
   closeDropdown() {
     this.dropdownOpen = false; // Cierra el menú desplegable
   }
+  
+
+
 }
