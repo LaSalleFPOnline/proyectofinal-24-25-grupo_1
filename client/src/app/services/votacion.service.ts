@@ -25,7 +25,7 @@ export class VotacionService {
   votar(usuarioId: number, empresaId: number, voto: number): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.apiUrl}/voto`,
-      { usuario_id: usuarioId, empresa_id: empresaId, voto },
+      { id_usuarioVotante: usuarioId, id_empresaVotada: empresaId, voto },
       { headers }
     ).pipe(
       catchError(error => {
@@ -41,7 +41,7 @@ export class VotacionService {
   // Eliminar un voto
   eliminarVoto(usuarioId: number, empresaId: number): Observable<any> {
     const headers = this.getHeaders();
-    const body = { usuario_id: usuarioId, empresa_id: empresaId }; // Cuerpo de la solicitud para DELETE
+    const body = { id_usuarioVotante: usuarioId, id_empresaVotada: empresaId }; // Cuerpo de la solicitud para DELETE
   
     return this.http.request('DELETE', `${this.apiUrl}/voto`, {
       body,
@@ -59,8 +59,8 @@ export class VotacionService {
   verificarVoto(usuarioId: number, empresaId: number): Observable<boolean> {
     const headers = this.getHeaders();
     const params = new HttpParams()
-        .set('usuario_id', usuarioId.toString()) // Asegúrate de que esto coincida con el backend
-        .set('empresa_id', empresaId.toString());
+        .set('id_usuarioVotante', usuarioId.toString()) // Asegúrate de que esto coincida con el backend
+        .set('id_empresaVotada', empresaId.toString());
     
     return this.http.get<{ existe: boolean }>(`${this.apiUrl}/verificar-voto`, { headers, params })
         .pipe(

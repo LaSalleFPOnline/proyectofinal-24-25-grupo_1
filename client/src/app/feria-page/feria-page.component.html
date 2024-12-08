@@ -52,8 +52,8 @@
                         <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
                             <p>Aquí aparecerán las empresas que me interesan</p>
                         </div>
-                        <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.empresa_interesada_id)">
-                            <img *ngIf="venta.logo_url" [src]="venta.logo_url" alt="{{ venta.nombre_empresa }}" class="logo-interes">
+                        <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.empresaSeleccionada?.id_empresa)">
+                            <img *ngIf="venta.logo" [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-interes">
                         </div>
                     </div>
                 </div>
@@ -103,10 +103,10 @@
     <div class="scroll-container-2">
         <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
             <div class="logo-container">
-                <div *ngIf="haVotadoPorEmpresa(empresa.id)" class="logo-overlay"></div> <!-- Capa blanca semitransparente -->
+                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="logo-overlay"></div> <!-- Capa blanca semitransparente -->
                 <img [src]="empresa.logo" alt="{{ empresa.nombre }}" class="logo-empresa">
                 <!-- Mostrar el ícono de "Me gusta" si el usuario ha votado por la empresa -->
-                <div *ngIf="haVotadoPorEmpresa(empresa.id)" class="icono-container">
+                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="icono-container">
                     <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
                 </div>
             </div>
@@ -133,35 +133,35 @@
             <p class="empresa">
                 <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
                 <br class="text-detalles">
-                    <br/>Página web: <a [href]="empresaSeleccionada.web_url" target="_blank">{{ empresaSeleccionada.web_url }}</a>
+                    <br/>Página web: <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
                     <br/>Horarios de ATENCIÓN CLIENTE:
                     <br/> - {{ horariosDeAtencionManana }}
                     <br/> - {{ horariosDeAtencionTarde }}
-                    <br/>Enlace de MEET: <a [href]="empresaSeleccionada.meetLink" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
+                    <br/>Enlace de MEET: <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
             </p>
         </div>
 
         <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
             <div class="contenedor-video-descripcion">
                 <!-- Si hay solo video -->
-                <ng-container *ngIf="empresaSeleccionada.spot_url && !empresaSeleccionada.descripcion">
+                <ng-container *ngIf="empresaSeleccionada.spot && !empresaSeleccionada.descripcion">
                     <iframe
-                        [src]="getEmbedUrl(empresaSeleccionada.spot_url)"
+                        [src]="getEmbedUrl(empresaSeleccionada.spot)"
                         class="video-completo"
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
                 </ng-container>
                 <!-- Si hay solo descripción -->
-                <ng-container *ngIf="!empresaSeleccionada.spot_url && empresaSeleccionada.descripcion">
+                <ng-container *ngIf="!empresaSeleccionada.spot && empresaSeleccionada.descripcion">
                     <div class="descripcion-completa">
                         <p>{{ empresaSeleccionada.descripcion }}</p>
                     </div>
                 </ng-container>
                 <!-- Si hay video y descripción -->
-                <ng-container *ngIf="empresaSeleccionada.spot_url && empresaSeleccionada.descripcion">
+                <ng-container *ngIf="empresaSeleccionada.spot && empresaSeleccionada.descripcion">
                     <iframe
-                        [src]="getEmbedUrl(empresaSeleccionada.spot_url)"
+                        [src]="getEmbedUrl(empresaSeleccionada.spot)"
                         class="video-parcial"
                         frameborder="0"
                         allowfullscreen>

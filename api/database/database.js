@@ -57,7 +57,7 @@ const initializeDatabase = (callback) => {
             rol INT NOT NULL CHECK (rol IN (1, 2, 3))
           )`,
           `CREATE TABLE IF NOT EXISTS empresa (
-             id_empresa INT AUTO_INCREMENT PRIMARY KEY,
+            id_empresa INT AUTO_INCREMENT PRIMARY KEY,
             id_usuario INT,
             nombre_empresa VARCHAR(255),
             web VARCHAR(2083),

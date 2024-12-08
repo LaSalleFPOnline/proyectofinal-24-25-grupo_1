@@ -17,6 +17,7 @@ export class EmpresaService {
   }
 
   getEmpresaById(id: number): Observable<any> {
+    console.log(id); // Verifica que el id esté llegando correctamente
     return this.http.get<any>(`${this.apiUrl}/empresa/${id}`);
   }
 

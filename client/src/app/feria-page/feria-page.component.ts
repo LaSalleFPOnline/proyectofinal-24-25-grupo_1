@@ -123,8 +123,8 @@ export class FeriaPageComponent implements OnInit {
       this.relacionesVenta = data.ventas || [];
 
       // Asignar logotipos y detalles de agenda para cada tipo de relación
-      this.assignLogosToRelations(this.relacionesCompra, 'empresa_id');
-      this.assignLogosToRelations(this.relacionesVenta, 'empresa_interesada_id');
+      this.assignLogosToRelations(this.relacionesCompra, 'empresaSeleccionada');
+      this.assignLogosToRelations(this.relacionesVenta, 'empresa');
 
       console.log('Relaciones de compra:', this.relacionesCompra);
       console.log('Relaciones de venta:', this.relacionesVenta);
@@ -140,11 +140,12 @@ export class FeriaPageComponent implements OnInit {
   }
 
 
-  private assignLogosToRelations(relations: any[], idField: 'empresa_id' | 'empresa_interesada_id'): void {
+  private assignLogosToRelations(relations: any[], idField: 'empresaSeleccionada' | 'empresa'): void {
     relations.forEach(rel => {
       // Buscar la empresa correspondiente usando el campo ID especificado
       const empresa = this.empresas.find(e => e.id_empresa === rel[idField]);
       if (empresa) {
+        console.log('Asignando logo:', empresa.logo, 'a relación:', rel);
         rel.logo = empresa.logo;
         rel.nombre_empresa = empresa.nombre_empresa;
 
@@ -154,6 +155,8 @@ export class FeriaPageComponent implements OnInit {
         rel.horario_meet_afternoon_start = empresa.horario_meet_afternoon_start || '';
         rel.horario_meet_afternoon_end = empresa.horario_meet_afternoon_end || '';
         rel.meet_url = empresa.url_meet || '';
+      } else {
+        console.error('Empresa no encontrada para ID:', rel[idField]);
       }
     });
   }
@@ -198,13 +201,20 @@ export class FeriaPageComponent implements OnInit {
   }
 
   mostrarDetalles(empresaId: any) {
-    if (typeof empresaId === 'number') {
-        this.empresaService.getEmpresaById(empresaId).subscribe(
+    console.log('ID de la empresa seleccionada:', empresaId); // Asegúrate de que se pase el ID correcto
+    if (empresaId && typeof empresaId === 'number') { // Verificación adicional
+      this.empresaService.getEmpresaById(empresaId).subscribe(
             (empresa: any) => {
                 console.log('Datos de la empresa:', empresa);
-                this.empresaSeleccionada = empresa;
+                if (empresa) {
+                  this.empresaSeleccionada = empresa;
+                  console.log(this.empresaSeleccionada);
+                  console.log('ID de Empresa Selecciona:', this.empresaSeleccionada.id_empresa);
 
-                // Construye los horarios de atención a partir de las propiedades individuales
+                } else {
+                  console.error('Error al mostrar los datos de empresa seleccionada');
+                }
+                  // Construye los horarios de atención a partir de las propiedades individuales
                 const horariosManana = `
                     Mañana: ${empresa.horario_meet_morning_start} - ${empresa.horario_meet_morning_end}
                 `;
@@ -218,7 +228,18 @@ export class FeriaPageComponent implements OnInit {
                 // Asigna el spot si está disponible
                 this.spotUrl = empresa.spot || null;  // Añade esta línea
 
-                this.interesadoEnEmpresa = this.relacionesVenta.some(rel => rel.empresa_interesada_id === empresaId);
+                const empresaSeleccionada = this.empresas.find(emp => emp.id_empresa === empresaId);
+                if (empresaSeleccionada) {
+                  this.empresaSeleccionada = empresaSeleccionada;
+                  const loggedInCompanyId = this.authService.getLoggedInCompanyId();
+
+                  this.interesadoEnEmpresa = this.relacionesVenta.some(rel =>
+                    rel.empresa_interesada_id === empresaId && rel.id_empresaVendedora === loggedInCompanyId
+                  );
+
+                  // Actualizar vista después de asignar valores
+                  this.cdr.detectChanges();
+                }
                 const loggedInCompanyId = this.authService.getLoggedInCompanyId();
                 const loggedInUserId = this.authService.getUserId(); // Obtén el ID del usuario logueado
                 if (loggedInUserId !== null) {
@@ -268,7 +289,7 @@ export class FeriaPageComponent implements OnInit {
 
   agregarOEliminarInteres() {
     const empresaId = this.authService.getLoggedInCompanyId();
-    const empresaInteresadaId = this.empresaSeleccionada?.id;
+    const empresaInteresadaId = this.empresaSeleccionada?.id_empresa;
 
     if (empresaId === null || empresaInteresadaId === null) {
         console.error('IDs de las empresas no proporcionados.');
@@ -276,7 +297,7 @@ export class FeriaPageComponent implements OnInit {
     }
 
     if (this.interesadoEnEmpresa) {
-        this.interesesService.eliminarInteres({ empresaId, empresaInteresadaId }).subscribe(
+        this.interesesService.eliminarInteres({ id_empresaVendedora: empresaId, id_empresaCompradora: empresaInteresadaId}).subscribe(
             response => {
                 console.log('Interés eliminado exitosamente', response);
                 this.interesadoEnEmpresa = false;
@@ -308,7 +329,7 @@ export class FeriaPageComponent implements OnInit {
 
   votar(): void {
     const usuarioId = this.authService.getUserId();
-    const empresaVotadaId = this.empresaSeleccionada?.id;
+    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
     const voto = 1; // Aquí defines el valor del voto, puede ser un valor positivo o negativo según tu lógica
 
     if (usuarioId === null || empresaVotadaId === null) {
@@ -332,7 +353,7 @@ export class FeriaPageComponent implements OnInit {
 
   eliminarVoto(): void {
     const usuarioId = this.authService.getUserId();
-    const empresaVotadaId = this.empresaSeleccionada?.id;
+    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
 
     if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
@@ -363,7 +384,7 @@ export class FeriaPageComponent implements OnInit {
   
     if (loggedInUserId !== null) {
       this.empresas.forEach((empresa) => {
-        this.votacionService.verificarVoto(loggedInUserId, empresa.id).subscribe(
+        this.votacionService.verificarVoto(loggedInUserId, empresa.id_empresa).subscribe(
           (yaVotado: boolean) => {
             empresa.votado = yaVotado; // Guardamos el estado del voto directamente en la empresa
           },
@@ -435,6 +456,7 @@ filtrarEventosAgenda() {
     .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
   
   console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
+  this.cdr.detectChanges(); // Forzar la detección de cambios para actualizar la vista.
 }
 
 // Método para agregar evento sin duplicados
