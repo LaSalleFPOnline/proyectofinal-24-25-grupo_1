@@ -3,92 +3,91 @@
         <p>Feria virtual</p>
     </div>
 
-<!-- Agenda -->
-<div class="agenda" id="agenda" *ngIf="userType !== 3">
-    <h2>Agenda</h2>
-    <div *ngFor="let evento of eventosAgenda; let i = index"
-        class="frame"
-        [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'evento-en-curso': evento.enCurso }">
+    <!-- Agenda -->
+    <div class="agenda" id="agenda" *ngIf="userType !== 3">
+        <h2>Agenda</h2>
+        <div *ngFor="let evento of eventosAgenda; let i = index"
+            class="frame"
+            [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'evento-en-curso': evento.enCurso }">
 
-        <!-- Encabezado del evento -->
-        <div class="frame-header">
-            <div class="time-wrapper">
-                <!-- Cambiar hora de inicio y final usando pipes de fecha -->
-                {{ evento.horario_start | date: 'HH:mm' }} a {{ evento.horario_end | date: 'HH:mm' }}
+            <!-- Encabezado del evento -->
+            <div class="frame-header">
+                <div class="time-wrapper">
+                    <!-- Cambiar hora de inicio y final usando pipes de fecha -->
+                    {{ evento.horario_start | date: 'HH:mm' }} a {{ evento.horario_end | date: 'HH:mm' }}
+                </div>
+                <!-- Cambiar la descripción a nombre del evento -->
+                <p class="event-description">{{ evento.nombre }}</p>
+                <img class="plus-icon"
+                    [src]="evento.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'"
+                    alt="Toggle"
+                    (click)="toggleFrame($event)"
+                />
             </div>
-            <!-- Cambiar la descripción a nombre del evento -->
-            <p class="event-description">{{ evento.nombre }}</p>
-            <img class="plus-icon"
-                [src]="evento.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'"
-                alt="Toggle"
-                (click)="toggleFrame($event)"
-            />
-        </div>
-        <!-- Línea separadora que aparece cuando el evento está expandido -->
-        <div class="line" *ngIf="evento.isExpanded"></div>
-        <!-- Contenido del evento expandido -->
-        <div class="frame-content" [ngClass]="{'expanded': evento.isExpanded}">
-            <div class="flexcontainer">
-                <!-- Botón para unirse a la reunión -->
-                <a *ngIf="evento.meet_url" (click)="openMeetLink(evento.meet_url)" class="btn-meet">
-                    Unirse a la reunión
-                </a>
+            <!-- Línea separadora que aparece cuando el evento está expandido -->
+            <div class="line" *ngIf="evento.isExpanded"></div>
+            <!-- Contenido del evento expandido -->
+            <div class="frame-content" [ngClass]="{'expanded': evento.isExpanded}">
+                <div class="flexcontainer">
+                    <!-- Botón para unirse a la reunión -->
+                    <a *ngIf="evento.meet_url" (click)="openMeetLink(evento.meet_url)" class="btn-meet">
+                        Unirse a la reunión
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-        <!-- Mis relaciones comerciales -->
-        <div class="mis-relaciones"  *ngIf="userType !== 3">
-            <div class="titulo-notificaciones">
-                <div class="fondo-notificaciones">
-                    <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
-                </div>
+    <!-- Mis relaciones comerciales -->
+    <div class="mis-relaciones"  *ngIf="userType !== 3">
+        <div class="titulo-notificaciones">
+            <div class="fondo-notificaciones">
+                <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
             </div>
-            <div class="contenedor-realaciones">
-                <div class="overlap-relaciones-1">
-                    <div class="text-relaciones">Mis intereses</div>
-                    <div class="scroll-container">
-                        <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
-                            <p>Aquí aparecerán las empresas que me interesan</p>
-                        </div>
-                        <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.empresaSeleccionada?.id_empresa)">
-                            <img *ngIf="venta.logo" [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-interes">
-                        </div>
+        </div>
+        <div class="contenedor-realaciones">
+            <div class="overlap-relaciones-1">
+                <div class="text-relaciones">Mis intereses</div>
+                <div class="scroll-container">
+                    <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
+                        <p>Aquí aparecerán las empresas que me interesan</p>
                     </div>
-                </div>
-
-                <div class="overlap-relaciones-2">
-                    <div class="text-relaciones">Interesados en mí</div>
-                    <div class="scroll-container">
-                        <div *ngIf="relacionesCompra.length === 0" class="mensaje-sin-relaciones">
-                            <p>Aquí aparecerán los interesados en mí</p>
-                        </div>
-                        <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetalles(compra.empresa_id)">
-                            <img *ngIf="compra.logo_url" [src]="compra.logo_url" alt="{{ compra.nombre_empresa }}" class="logo-interes">
-                        </div>
+                    <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.id_empresaCompradora)">
+                        <img *ngIf="venta.logo" [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-interes">
                     </div>
                 </div>
             </div>
 
-            <div class="contenedor-texto-suma">
-                <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
-                <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
+            <div class="overlap-relaciones-2">
+                <div class="text-relaciones">Interesados en mí</div>
+                <div class="scroll-container">
+                    <div *ngIf="relacionesCompra.length === 0" class="mensaje-sin-relaciones">
+                        <p>Aquí aparecerán los interesados en mí</p>
+                    </div>
+                    <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetalles(compra.id_empresaVendedora)">
+                        <img *ngIf="compra.logo_url" [src]="compra.logo_url" alt="{{ compra.nombre_empresa }}" class="logo-interes">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!---->
-        <!-- Notificaciones
-        <div class="notificaciones">
-            <div class="titulo-notificaciones">
-                <div class="fondo-notificaciones">
-                    <div class="texto-titulo-notificaciones">Notificaciones</div>
-                </div>
+        <div class="contenedor-texto-suma">
+            <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
+            <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
+        </div>
+    </div>
+
+    <!---->
+    <!-- Notificaciones
+    <div class="notificaciones">
+        <div class="titulo-notificaciones">
+            <div class="fondo-notificaciones">
+                <div class="texto-titulo-notificaciones">Notificaciones</div>
             </div>
-            <div class="text-line-container">
-                <p class="text-notificaciones">¿Qué queremos que se notifique?</p>
-                <div class="line-notificaciones"></div>
-            </div>
+        </div>
+        <div class="text-line-container">
+            <p class="text-notificaciones">¿Qué queremos que se notifique?</p>
+            <div class="line-notificaciones"></div>
         </div>
     </div>
     -->
