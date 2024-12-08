@@ -124,6 +124,13 @@ export class FeriaPageComponent implements OnInit {
       this.relacionesCompra = data.compras || [];
       this.relacionesVenta = data.ventas || [];
 
+      // Aquí actualizas el estado de interesadoEnEmpresa después de obtener las relaciones
+      const loggedInCompanyId = this.authService.getLoggedInCompanyId();
+      this.interesadoEnEmpresa = this.relacionesVenta.some(rel => 
+        rel.id_empresaCompradora === loggedInCompanyId && 
+        rel.id_empresaVendedora === empresaId
+      );
+
       // Asignar logotipos y detalles de agenda para cada tipo de relación
       this.assignLogosToRelations(this.relacionesCompra, 'compra');
       this.assignLogosToRelations(this.relacionesVenta, 'venta');
@@ -252,15 +259,23 @@ export class FeriaPageComponent implements OnInit {
                   this.empresaSeleccionada = empresaSeleccionada;
                   const loggedInCompanyId = this.authService.getLoggedInCompanyId();
 
-                  this.interesadoEnEmpresa = this.relacionesVenta.some(rel =>
-                    rel.empresa_interesada_id === empresaId && rel.id_empresaVendedora === loggedInCompanyId
+                  // Filtra únicamente las relaciones donde mi empresa (loggedInCompanyId) es la compradora
+                  this.interesadoEnEmpresa = this.relacionesVenta.some(rel => 
+                    rel.id_empresaCompradora === loggedInCompanyId && 
+                    rel.id_empresaVendedora === empresaId
                   );
+
 
                   // Actualizar vista después de asignar valores
                   this.cdr.detectChanges();
                 }
                 const loggedInCompanyId = this.authService.getLoggedInCompanyId();
                 const loggedInUserId = this.authService.getUserId(); // Obtén el ID del usuario logueado
+                // Verificar si la empresa seleccionada ya está en los intereses
+                this.interesadoEnEmpresa = this.relacionesCompra.some(rel =>
+                  rel.id_empresaVendedora === empresaId &&
+                  rel.id_empresaCompradora === loggedInCompanyId
+                );
                 if (loggedInUserId !== null) {
                     this.votacionService.verificarVoto(loggedInUserId, empresaId).subscribe(
                         (yaVotado: boolean) => {
@@ -307,44 +322,81 @@ export class FeriaPageComponent implements OnInit {
   }
 
   agregarOEliminarInteres() {
-    const empresaId = this.authService.getLoggedInCompanyId();
-    const empresaInteresadaId = this.empresaSeleccionada?.id_empresa;
-
-    if (empresaId === null || empresaInteresadaId === null) {
-        console.error('IDs de las empresas no proporcionados.');
-        return;
+    const empresaId = this.authService.getLoggedInCompanyId(); // ID de la empresa actual
+    const empresaInteresadaId = this.empresaSeleccionada?.id_empresa; // ID de la empresa seleccionada
+  
+    if (!empresaId || !empresaInteresadaId) {
+      console.error('IDs de las empresas no proporcionados.');
+      return;
     }
-
-    if (this.interesadoEnEmpresa) {
-        this.interesesService.eliminarInteres({ id_empresaVendedora: empresaId, id_empresaCompradora: empresaInteresadaId}).subscribe(
-            response => {
-                console.log('Interés eliminado exitosamente', response);
+  
+    // Verificar si la empresa está en las relaciones de compra o venta
+    const esEmpresaEnRelacionesCompra = this.relacionesCompra.some(rel => 
+      rel.id_empresaVendedora === empresaInteresadaId && rel.id_empresaCompradora === empresaId
+    );
+    const esEmpresaEnRelacionesVenta = this.relacionesVenta.some(rel => 
+      rel.id_empresaVendedora === empresaId && rel.id_empresaCompradora === empresaInteresadaId
+    );
+  
+    if (esEmpresaEnRelacionesVenta) {
+      // Si la empresa está en las relaciones de venta, cambiar el botón a "Eliminar interés"
+      if (this.interesadoEnEmpresa) {
+        // Eliminar interés
+        this.interesesService.eliminarInteres({ id_empresaCompradora: empresaId, id_empresaVendedora: empresaInteresadaId })
+          .subscribe({
+              next: () => {
+                console.log('Interés eliminado exitosamente');
                 this.interesadoEnEmpresa = false;
-                // Actualiza la lista de relaciones
-                this.obtenerRelaciones(empresaId);
-                this.filtrarEventosAgenda(); // Actualiza la agenda
-                this.cdr.detectChanges(); // Forzar detección de cambios
+                this.obtenerRelaciones(empresaId); // Actualiza las relaciones
+              },
+              error: err => console.error('Error al eliminar interés:', err),
+              complete: () => this.cdr.detectChanges() // Actualiza la vista
+          });
+      } else {
+        // Si no está interesado, agregar el interés
+        this.interesesService.crearInteres(empresaId, empresaInteresadaId)
+          .subscribe({
+            next: () => {
+              console.log('Interés agregado exitosamente');
+              this.interesadoEnEmpresa = true;
+              this.obtenerRelaciones(empresaId); // Actualiza las relaciones
             },
-            error => {
-                console.error('Error al eliminar interés:', error);
-            }
-        );
-    } else {
-        this.interesesService.crearInteres(empresaId, empresaInteresadaId).subscribe(
-            response => {
-                console.log('Interés agregado exitosamente', response);
-                this.interesadoEnEmpresa = true;
-                // Actualiza la lista de relaciones
-                this.obtenerRelaciones(empresaId);
-                this.filtrarEventosAgenda(); // Actualiza la agenda
-                this.cdr.detectChanges(); // Forzar detección de cambios
+            error: err => console.error('Error al agregar interés:', err),
+            complete: () => this.cdr.detectChanges() // Actualiza la vista
+          });
+      }
+    } else if (esEmpresaEnRelacionesCompra) {
+      // Si la empresa está en las relaciones de compra, cambia el botón a "Eliminar interés"
+      console.log("Eliminar interés en compra");
+      if (this.interesadoEnEmpresa) {
+        // Eliminar interés
+        this.interesesService.eliminarInteres({ id_empresaCompradora: empresaId, id_empresaVendedora: empresaInteresadaId })
+          .subscribe({
+              next: () => {
+                console.log('Interés eliminado exitosamente');
+                this.interesadoEnEmpresa = false;
+                this.obtenerRelaciones(empresaId); // Actualiza las relaciones
+              },
+              error: err => console.error('Error al eliminar interés:', err),
+              complete: () => this.cdr.detectChanges() // Actualiza la vista
+          });
+      } else {
+        // Si no está interesado, agregar el interés
+        this.interesesService.crearInteres(empresaId, empresaInteresadaId)
+          .subscribe({
+            next: () => {
+              console.log('Interés agregado exitosamente');
+              this.interesadoEnEmpresa = true;
+              this.obtenerRelaciones(empresaId); // Actualiza las relaciones
             },
-            error => {
-                console.error('Error al agregar interés:', error);
-            }
-        );
+            error: err => console.error('Error al agregar interés:', err),
+            complete: () => this.cdr.detectChanges() // Actualiza la vista
+          });
+      }
     }
   }
+  
+  
 
   votar(): void {
     const usuarioId = this.authService.getUserId();
