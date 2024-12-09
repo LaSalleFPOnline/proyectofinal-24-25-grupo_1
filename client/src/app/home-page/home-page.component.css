@@ -5,7 +5,7 @@
 }
 
 /* -------------------- Region Video -------------------- */
-
+/* #region video */
 .video {
   display: flex;
   justify-content: center;
@@ -17,48 +17,15 @@
 }
 
 iframe {
-  width: 100%; /* Asegura que el iframe ocupe todo el ancho disponible */
+  width: 100%;
   height: auto;
   max-width: 100%;
   aspect-ratio: 16 / 9;
-  display: block; /* Elimina cualquier espacio adicional en línea */
+  display: block;
 }
+/* #endregion */
 
-/* Video para TABLET */
-
-@media (max-width: 768px) {
-  .video {
-    width: 95%;
-    height: auto; /* Ajusta la altura a auto para evitar problemas de centrado */
-    padding: 12%; /* Remueve el padding para evitar que afecte el centrado */
-    margin: 0 auto;
-  }
-
-  iframe {
-    width: 100%; /* Asegura que el iframe ocupe todo el ancho del contenedor en móviles */
-    height: auto;
-    aspect-ratio: 16 / 9;
-  }
-}
-
-/* Video para MOVIL */
-
-@media (max-width: 480px) {
-  .video {
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
-    padding: 0; /* Evita desbordamientos por padding */
-    margin: 0 auto; /* Centra el contenedor */
-  }
-
-  iframe {
-    width: 100%; /* Asegura que el iframe ocupe todo el ancho */
-  }
-}
-
-
-
-/* -------------------- region Intro -------------------- */
-
+/* #region Intro */
 .intro {
   display: flex;
   flex-direction: row;
@@ -72,7 +39,7 @@ iframe {
   border-color: #F6E953;
   padding: 20px;
   box-sizing: border-box;
-  margin: 0 auto; /* Centro el contenedor horizontalmente */
+  margin: 0 auto;
 }
 
 .flexcontainer {
@@ -84,26 +51,24 @@ iframe {
 }
 
 .text-intro, .text-intro2, .desciption {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
   color: #2B2B2A;
   margin: 0;
 }
 
 .text-intro {
   font-size: clamp(24px, 4vw, 50px);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 100%;
 }
 
 .text-intro2 {
   font-size: clamp(16px, 3vw, 30px);
-  font-weight: 500;
-  line-height: 2%;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 .desciption {
-  /* font-size: clamp(10px, 2vw, 16px); */
+  font-size: clamp(14px, 2vw, 30px);
   line-height: 130%;
   width: 100%;
   box-sizing: border-box;
@@ -122,66 +87,24 @@ iframe {
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 10px; /* Ajuste opcional */
+  border-radius: 10px;
 }
 
-/* Intro para TABLET */
-
+/* Estilos para tablets en posición vertical */
 @media (max-width: 768px) {
   .intro {
     flex-direction: column;
-    width: 90%;
-    height: auto;
-    padding: 10px;
-    border-radius: 45px;
-    box-sizing: border-box;
-    overflow: visible;
-    margin: 0 auto; /* Centro el contenedor horizontalmente */
-  }
-
-  .flexcontainer {
-    width: 100%;
-    height: auto;
-    gap: 15px;
-    position: static;
-  }
-
-  .text-intro, .text-intro2, .desciption {
-    box-sizing: border-box;
-    width: 100%;
-  }
-
-  .text-intro {
-    font-size: clamp(18px, 10vw, 35px);
-    line-height: 1.2em;
-  }
-
-  .text-intro2 {
-    font-size: clamp(16px, 5vw, 28px);
-    line-height: 1.2em;
-  }
-
-  .desciption {
-    font-size: clamp(12px, 4vw, 15px);
-    line-height: 1.4em;
-    max-width: 100%;
-    margin: 0;
-    overflow-wrap: break-word;
+    align-items: center;
   }
 
   .image-container {
+    margin-top: 20px;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
   }
 
   .intro img {
-    width: 70%;
+    width: 100%;
     height: auto;
-    object-fit: cover;
   }
 }
 
@@ -189,18 +112,22 @@ iframe {
 
 @media (max-width: 480px) {
   .intro {
-    width: 90%; /* Ajusta el contenedor sin desbordamientos */
-    padding: 5%; /* Reduce padding para evitar desbordamientos */
+    width: 90%;
+    padding: 5%;
     margin-top: 10%;
   }
 
   .flexcontainer {
     width: 100%;
   }
+
+  .desciption {
+    font-size: 12px;
+  }
 }
+/* #endregion */
 
-
-/* -------------------- Region Agenda -------------------- */
+/* #region Agenda */
 
 /* Estructura general de la agenda */
 .agenda {
@@ -208,17 +135,14 @@ iframe {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 50px auto;
+  margin: 0 auto;
   padding: 1rem;
 }
 .text-intro, .text-intro2, .desciption, .frame {
   font-family: 'Roboto Mono', monospace;
   font-size: large;
 }
-.time-wrapper{
-  font-size: larger;
-  font-weight: 500;
-}
+
 /* Estilo para cada frame */
 .frame {
   display: flex;
@@ -234,13 +158,6 @@ iframe {
   position: relative;
   overflow: hidden;
 }
-
-/* Estilo para el primer frame en la agenda */
-/*.agenda .frame:first-child {
-  background-color: #60A96E;
-  color: white;
-}*/
-
 
 .agenda .frame.current-event:first-child {
   background-color: #60A96E;
@@ -272,6 +189,8 @@ iframe {
   flex-grow: 0;
   margin-right: 1rem;
   overflow-wrap: break-word;
+  font-size: larger;
+  font-weight: 500;
 }
 
 .event-description {
@@ -281,7 +200,7 @@ iframe {
 }
 
 .plus-icon {
-  width: clamp(2rem, 4vw, 4rem); /* Ajuste responsivo del tamaño */
+  width: clamp(2rem, 4vw, 4rem);
   height: clamp(2rem, 4vw, 4rem);
   cursor: pointer;
 }
@@ -300,7 +219,7 @@ iframe {
 
 .frame-content {  /* el expandido */
   display: none;
-  padding: 1rem;
+  padding: 0.3rem;
   box-sizing: border-box;
 }
 
@@ -318,6 +237,26 @@ iframe {
   margin: 0;
 }
 
+@media (max-width: 480px) {
+  .agenda .time-wrapper {
+    font-size: 14px; /* Tamaño de letra reducido para la hora */
+  }
+
+  .agenda .event-description {
+    font-size: 14px; /* Tamaño de letra reducido para la descripción del evento */
+  }
+
+  .agenda .frame-header {
+    font-size: 14px; /* Tamaño de letra reducido para el encabezado del frame */
+  }
+
+  .agenda .frame-content {
+    font-size: 14px; /* Tamaño de letra reducido para el encabezado del frame */
+  }
+}
+
+/* #endregion */
+
 /* #region Descargas */
 .descargas {
   display: flex;
@@ -326,20 +265,14 @@ iframe {
   max-width: 1200px;
   height: auto;
   align-items: center;
+  justify-content: center;
   position: relative;
   border-radius: 45px;
   border: 5px solid #2B2B2A;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem 2rem;
 }
 
-.descargas .titulo-descargas {
-  position: absolute;
-  top: 0.5rem;
-  left: 2rem;
-  font-size: 2rem;
-  color: #2B2B2A;
-}
 .descargas .descarga-programa,
 .descargas .descarga-concurso,
 .descargas .descarga-guia {
@@ -347,10 +280,11 @@ iframe {
   height: auto;
   border-radius: 45px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   position: relative;
   margin: 0 auto;
-  margin-top: 2rem;
+  padding: 1rem;
 }
 
 .descargas .descarga-programa {
@@ -365,125 +299,139 @@ iframe {
   background-color: #384078;
 }
 
-.descargas .heading {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: absolute;
-  margin: 1.5rem;
-  color: #F3F3F3
-}
-
-.descargas .text-wrapper {
-  font-size: 1.8vw;
+.descargas p {
+  margin: 0;
+  line-height: 1.5;
+  color: #F3F3F3;
+  font-size: 1.5vw;
 }
 
 .descargas .link {
   display: inline-flex;
   color: #F3F3F3;
   font-size: 1rem;
-  margin-top: 8rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-top: 1rem;
   cursor: pointer;
-  transition: color 0.3 ease, transform 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .descargas .link:hover{
   transform: scale(1.1);
 }
 
-.descargas .icon img {
+.descargas .link img {
   width: 1.5rem;
   height: 1.5rem;
+  margin-right: 0.5rem;
 }
 
-.descargas .link:hover .icon {
-  transform: scale(1.1);
-}
+@media (max-width: 481px) {
+  .descargas {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.descargas p {
-  margin: 0;
-  line-height: 1.5;
-  margin-left: 1rem;
+  .descargas .descarga-programa,
+  .descargas .descarga-concurso,
+  .descargas .descarga-guia {
+    width: 100%; 
+    margin-top: 1rem;
+  }
+
+  .descargas .descarga-programa p,
+  .descargas .descarga-concurso p,
+  .descargas .descarga-guia p {
+    font-size: 1rem;
+  }
 }
 
 /* #endregion */
 
 /* #region Patrocinadores */
-.titulo-patrocinadores {
-  font-size: 1.5rem; /* Ajusta el tamaño del texto si es necesario */
-  margin-top: 2rem;
-  margin-bottom: -5rem;
+.titulo{
+  margin-top: 20px;
+  margin-bottom: 1rem;
 }
+
 .patrocinadores {
   display: flex;
   width: 80%;
-  height: 500px;
-  align-items: center; /* Centra verticalmente */
-  justify-content: center; /* Centra horizontalmente el contenedor */
+  height: 400px;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-
+  margin: 0 auto;
+  padding: 0.4rem 0;
+  overflow: hidden;
 }
+
 .patrocinadores .fondo {
   position: absolute;
   width: 100%;
-  height: 50%;
+  height: 80%;
   background-color: #384078;
   border-radius: 45px;
-  z-index: 0; /* Envía el fondo detrás de los elementos */
+  z-index: 0;
   overflow: hidden ;
-  border: 10px solid #384078;
+  /* border: 10px solid #384078; */
   ;
 }
 
 .scroll-container {
   width: 100%;
-  overflow-x: auto; /* Habilita el desplazamiento horizontal */
-  white-space: nowrap; /* Evita que los elementos se rompan en múltiples líneas */
-  z-index: 1; /* Asegura que el contenedor de scroll esté encima del fondo */
+  overflow-x: auto;
+  white-space: nowrap;
+  z-index: 1;
+  padding: 0;
 }
 
 .scroll {
   display: flex;
   align-items: center;
-  height: 100%; /* Asegura que los elementos tengan la altura completa */
-  gap: 1rem; /* Espacio entre los elementos */
-  justify-content: space-around; /* Reparte el espacio entre los elementos */
-  animation: scroll 20s linear infinite; /* Velocidad del desplazamiento automático */
+  height: 100%;
+  gap: 1rem;
+  justify-content: space-around;
+  animation: scroll 20s linear infinite;
 
 }
 
-.logo-1, .logo-2, .logo-3, .logo-4 {
-  flex: 1; /* Hace que todos los logos ocupen el mismo espacio */
+.logo {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra el contenido dentro del logo */
+  align-items: center;
   justify-content: center;
-  min-width: 200px; /* Establece un ancho mínimo para cada logo */
+  min-width: 200px;
 }
 
-.overlap-group {        /*Cuadros amarillos*/
+/*Cuadros amarillos*/
+.overlap-group {        
   border-radius: 45px;
   border: 3px solid #F6E953;
   width: 80%;
-  height: 150px; /* Altura fija para los elementos */
+  height: 150px;
   display: flex;
-  align-items: center; /* Centra la imagen verticalmente */
-  justify-content: center; /* Centra la imagen horizontalmente */
-  overflow: hidden; /* Oculta cualquier contenido desbordado */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.overlap-group img {       /*Iconos dentro del cuadro*/
-  max-width: 100%; /* La imagen no excederá el ancho del contenedor */
-  max-height: 100%; /* La imagen no excederá la altura del contenedor */
-  object-fit: cover; /* Asegura que la imagen cubra completamente el contenedor */
+.overlap-group img { 
+  max-width: 100%; 
+  max-height: 100%;
+  object-fit: cover;
 }
 
 .colegio {
+  margin-top: 15px;
   text-align: center;
   color: #F3F3F3;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 0.7rem;
+  overflow-wrap: break-word;
+  
 }
 
 @keyframes scroll {
@@ -495,42 +443,3 @@ iframe {
 }
 /* #endregion */
 
-/* patrocinadores tabletas */
-@media (max-width: 768px) {
-  .logo-1, .logo-2, .logo-3, .logo-4 {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el contenido dentro del logo */
-    justify-content: center;
-    min-width: 30vw; /* Mantiene un ancho mínimo proporcional */
-    padding: 1rem; /* Añade espacio interno alrededor de los logos */
-  }
-
-  .overlap-group {
-    width: 20vw; /* Ajusta el ancho del cuadro amarillo al 80% del contenedor del logo */
-    height: 20vw; /* Ajusta la altura automáticamente para mantener la proporción */
-    display: flex;
-    align-items: center; /* Centra la imagen verticalmente */
-    justify-content: center; /* Centra la imagen horizontalmente */
-    margin: 0 auto; /* Centra el cuadro amarillo dentro del logo */
-    padding: 0;
-    overflow: hidden; /* Asegura que el contenido no se desborde */
-  }
-
-  .overlap-group img {
-    width: 80%; /* Ajusta el ancho de la imagen al 60% del contenedor del cuadro amarillo */
-    height: auto; /* Mantiene la proporción de la imagen */
-    object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor sin deformarse */
-    padding: 0;
-    margin: 0;
-  }
-
-  .colegio {
-    text-align: center;
-    color: #F3F3F3;
-    font-size: 1rem; /* Ajusta el tamaño del texto para pantallas más pequeñas */
-    line-height: 1.2; /* Mejora la legibilidad del texto */
-    margin: 0.5rem 0; /* Añade espacio entre las líneas de texto */
-  }
-}
