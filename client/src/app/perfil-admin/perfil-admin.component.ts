@@ -56,6 +56,10 @@ export class PerfilAdminComponent implements OnInit {
         console.log('Datos de la empresa:', empresa);
         if (empresa) {
           this.empresaSeleccionada = empresa; // Asigna la empresa seleccionada
+          // Llama a la función de scroll después de un pequeño retraso
+          setTimeout(() => {
+            this.scrollToDetalles();
+        }, 0);
         } else {
           console.error('Error al mostrar los datos de empresa seleccionada');
         }
@@ -69,6 +73,14 @@ export class PerfilAdminComponent implements OnInit {
   cerrarDetalles() {
     this.empresaSeleccionada = null;
   }
+
+  scrollToDetalles() {
+    const detallesElement = document.getElementById('detalles');
+    if (detallesElement) {
+        detallesElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   getEmbedUrl(spot: string): SafeResourceUrl {
     if (spot) {
         const videoId = this.extractVideoId(spot);
