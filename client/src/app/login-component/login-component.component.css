@@ -1,122 +1,99 @@
 .login {
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
   width: 90%;
-  max-width: 1000px;
-  height: 90vh;
+  max-width: 800px;
   background-color: #F6E953;
   border-radius: 20px;
-  border: 0.3vw solid #2B2B2A;
-  box-shadow: 0 5px 0 #2B2B2A;
-  margin: 6vh auto;
+  border: 2px solid #2B2B2A;
+  box-shadow: 0 2px 0 #2B2B2A;
+  padding: 2rem;
+  margin: 3vh auto;
 }
 
 .bienvenido {
-  position: absolute;
-  left: 5vh;
-  margin: 2vh;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  margin-left: 0;
+}
+
+.username{
+  width: 70%;
+}
+.password{
+  width: 50%;
 }
 
 .password, .username{
-  position: absolute;
-  width: 80%;
-  height: 13vh;
   background-color: #f3f3f3;
   border-radius: 20px;
   border: 1px solid;
-  box-shadow: 0px 1vh 1vh #2B2B2A;
+  box-shadow: 0px 1px 1px #2B2B2A;
   box-sizing: border-box;
-  padding: 1vw;
-  margin-top: 3vw;
-  left: 7vw;
+  padding: 10px;
+  margin-top: 10px;
 }
 
-.username {
-  top: 24vh;
-  width: 80%;
-}
-
-.password {
-  top: 42vh;
-  width: 60%;
+.username label, .password label {
+  display: block; 
+  margin-bottom: 5px;
+  font-size: 12px;
 }
 
 .username input, .password input {
-  position: absolute;
-  top: 6.5vh;
-  left: 1.5vw;
   width: 90%;
+  height: 30px;
+  margin-left: 5px;
   border: none;
   border-bottom: 1px solid #2B2B2A;
-  background-color: transparent;
+  background-color: #f3f3f3;
   outline: none;
+  padding: 10px;
 }
 
 .enviar {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1vh 2vw;
-  position: absolute;
-  top: 55vh;
-  left: 28vw;
-  background-color: #F3F3F3;
-  border-radius: 1vw;
-  border: none;
-  cursor: pointer;
-  margin-top: 8vh;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .enviar button {
-  font-size: 1.5vw;
+  font-size: 14px;
   color: #2B2B2A;
-  background: none;
-  border: none;
+  background-color: #F3F3F3;
+  border-radius: 20px;
+  border: 2px solid transparent;
   cursor: pointer;
+  padding: 10px 20px;
+  transition: border 0.3s ease, transform 0.3s ease;
 }
 
-.enviar:hover, .enviar:active {
-  border: 1px solid #2B2B2A;
+.enviar button:hover, .enviar button:active {
+  border: 2px solid #2B2B2A;
+  transform: scale(1.05);
 }
 
 .tocho {
   display: flex;
-  position: absolute;
-  top: 70vh;
-  left: 5vw;
   color: #2B2B2A;
-  line-height: 2;
-  margin-top: 2rem;
+  line-height: 1.5;
+  margin-top: 20px;
+  font-size: 12px;
+  text-align: center;
 }
 
-p {
-  font-size: 1.5vw;
-}
-
-.illustration {
-  position: absolute;
-  width: 30%;
-  height: auto;
-  max-width: 300px;
-  top: 38vh;
-  left: calc(90% - 150px);
-  overflow: hidden;
-}
-
-/* Añade estilos para el texto de registro */
 .registro-info {
-  margin: 70vh auto;
-  margin-left: 20vw;
-  padding: 1rem;
+  text-align: center;
+  font-size: 12px;
 }
 
 .enlace {
   color: #007bff;
   cursor: pointer;
   text-decoration: none;
-  position: relative;
-  display: inline-block;
   transition: transform 0.3s ease;
 }
 
@@ -126,15 +103,27 @@ p {
   transform: scale(1.09);
 }
 
+.error-message-container {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  margin-top: 20px; /* Espacio superior */
+}
 
 .error-message {
   color: red;
-  position: absolute;
-  top: 55vh;
-  left: 46%;
-  transform: translateX(-50%);
   background-color: #F3F3F3;
-  padding: 10px;
-  border-radius: 7px;
+  padding: 10px 15px; /* Ajusta el padding para reducir el espacio lateral */
+  border-radius: 20px;
   border: 1px solid red;
+  text-align: center;
+  display: inline-block; /* Asegura que el contenedor se ajuste al tamaño del contenido */
+}
+
+.illustration {
+  position: absolute; /* Posiciona la imagen de forma absoluta */
+  width: 35%; /* Mantener el tamaño proporcional */
+  height: auto;
+  max-width: 300px;
+  top: 30%; /* Centra verticalmente */
+  right: 0
 }
