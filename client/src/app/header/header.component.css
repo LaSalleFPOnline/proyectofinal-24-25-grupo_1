@@ -78,7 +78,7 @@
 .login {
     background-color: white;
     transition: opacity 0.3s;
-    max-width: 15%;
+    max-width: 20%;
     border: none;
 }
 .login img{
@@ -100,19 +100,6 @@
 .hamburger,
 .mobile-menu {
     display: none;
-}
-
-.login-menu {
-    position: relative;
-}
-
-.login-menu .login {
-    max-width: 90%;
-    padding: 0.5rem;
-    margin-left: 0;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
 }
 
 /*Desplegable*/
