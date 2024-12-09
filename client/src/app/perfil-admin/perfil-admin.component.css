@@ -167,3 +167,98 @@ p {
     margin-bottom: -30vh;
     max-width: 40vw;
 }
+
+/* Mostrar Detalles de Empresa */
+
+.detalles {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto; /* Centra el contenedor */
+    background-color: #F6E953; /* Color de fondo */
+    border-radius: 20px; /* Bordes redondeados */
+    border: 1px solid #2B2B2A; /* Borde */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+    padding: 20px; /* Espaciado interno */
+    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
+}
+
+.titulo-detalles {
+    text-align: center; /* Centra el texto */
+    margin-bottom: 20px; /* Espaciado inferior */
+    font-size: 1.5rem; /* Tamaño de fuente */
+    color: #2B2B2A; /* Color del texto */
+}
+
+.close-icon {
+    position: absolute; /* Posiciona el icono de cerrar */
+    top: 10px; /* Espaciado desde la parte superior */
+    right: 10px; /* Espaciado desde la derecha */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el icono */
+}
+
+.contenedor-arriba {
+    display: flex; /* Usa flexbox para el diseño */
+    align-items: center; /* Centra verticalmente */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.rectangle-detalles {
+    flex: 1; /* Ocupa el espacio disponible */
+    display: flex; /* Usa flexbox para el diseño */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    padding: 10px; /* Espaciado interno */
+    background-color: #fff; /* Color de fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.logo-img {
+    max-width: 100px; /* Ancho máximo del logotipo */
+    height: auto; /* Mantiene la proporción */
+}
+
+.empresa {
+    margin-left: 20px; /* Espaciado a la izquierda */
+    flex: 2; /* Ocupa más espacio que el logotipo */
+}
+
+.subtitulo-detalles {
+    font-weight: bold; /* Negrita */
+    font-size: 1.2rem; /* Tamaño de fuente */
+}
+
+.contenedor-abajo {
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.contenedor-video-descripcion {
+    display: flex; /* Usa flexbox para el diseño */
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: center; /* Centra horizontalmente */
+}
+
+.video-completo, .video-parcial {
+    width: 100%; /* Ancho completo */
+    height: auto; /* Mantiene la proporción */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 10px; /* Espaciado inferior */
+}
+
+.descripcion-completa, .descripcion-parcial {
+    text-align: justify; /* Justifica el texto */
+    padding: 10px; /* Espaciado interno */
+    background-color: #f9f9f9; /* Color de fondo */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.close-icon {
+    transform: rotate(45deg); /* Gira el icono 45 grados */
+    transition: transform 0.3s ease; /* Añade una transición suave al girar */
+}
+
+.close-icon:hover {
+    opacity: 0.5; /* Opcional: gira más al pasar el mouse */
+}
