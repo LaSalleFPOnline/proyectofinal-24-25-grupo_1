@@ -39,6 +39,8 @@ export class RegisterComponent implements AfterViewInit {
   horarioMananaError: string | null = null;
   horarioTardeError: string | null = null;
 
+  logoPreview: string | null = null; // Propiedad para la vista previa del logo
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngAfterViewInit() {  }
@@ -258,6 +260,21 @@ export class RegisterComponent implements AfterViewInit {
       } else {
         this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
       }
+    }
+  }
+
+  onLogoFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.logoPreview = e.target?.result as string; // Asigna el contenido leído a logoPreview
+      };
+
+      reader.readAsDataURL(file); // Lee el archivo como una URL base64
     }
   }
 }

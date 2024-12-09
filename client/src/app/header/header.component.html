@@ -1,10 +1,10 @@
-<nav class="header">
+<nav class="header" [ngClass]="{'shrink': isShrunk}">
     <img class="logo" src="assets/Images/logo.png" (click)="goToHomePage()">
 
     <!-- Contenedor para los botones y el menú -->
     <div class="button">
       <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
-            <button class="label" (click)="navigateTo('/')">Inicio</button>
+            <!-- <button class="label" (click)="navigateTo('/')">Inicio</button> -->
             <button class="label" (click)="navigateTo('/', 'agenda')">Programa</button>
             <button class="label" (click)="navigateTo('/', 'descargas')">Descargas</button>
             <button class="login" (click)="handleLogin()">
@@ -18,8 +18,8 @@
             <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
             <button class="label" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
             
-            <div class="login-menu">
-                <button class="login" (click)="toggleDropdown()">
+            <div class="login-menu" (click)="toggleDropdown()">
+                <button class="login">
                     <img src="assets/Images/button-login.png" alt="Login">
                 </button>
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
@@ -31,7 +31,6 @@
                     </button>
                 </div>
             </div>
-            
         </ng-template>
     </div>
 
@@ -45,7 +44,7 @@
     <!-- Menú de navegación móvil -->
     <nav class="mobile-menu" [class.active]="isMenuOpen">
         <ng-container *ngIf="!isLoggedIn; else mobileLoggedInMenu">
-            <button class="label" (click)="navigateAndHideMenu('/')">Inicio</button>
+            <!-- <button class="label" (click)="navigateAndHideMenu('/')">Inicio</button> -->
             <button class="label" (click)="navigateAndHideMenu('/', 'agenda')">Programa</button>
             <button class="label" (click)="navigateAndHideMenu('/', 'descargas')">Descargas</button>
             <button class="login" (click)="handleLoginAndHideMenu()">
