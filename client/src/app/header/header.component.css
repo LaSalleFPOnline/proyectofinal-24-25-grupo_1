@@ -6,34 +6,31 @@
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.9); /* Color de fondo con algo de transparencia */
-    transition: height 0.3s, background-color 0.3s; /* Transiciones suaves */
-    height: 80px; /* Altura normal */
-    display: flex; /* Usar flexbox */
-    align-items: center; /* Centrar verticalmente */
-    justify-content: space-between; /* Espacio entre el logo y el contenedor de botones */
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: height 0.3s, background-color 0.3s;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px; /* Espaciado interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    
 }
 
 .header.shrink {
-    height: 50px; /* Altura reducida */
+    height: 50px;
     background-color: rgba(255, 255, 255, 1); /* Fondo opaco */
 }
 
-
 .header.shrink .logo {
-    height: 40px; /* Altura reducida del logo */
+    transform: scale(0.8);
 }
 
 .logo {
     width: 100px;
     max-width: 40%;
     height: auto;
-    max-height: 6rem;
     cursor: pointer;
-}
-
-.header.shrink .logo {
-    height: 40px; /* Altura reducida del logo */
 }
 
 .button {
@@ -47,9 +44,9 @@
 }
 
 .button-container {
-    display: flex; /* Usar flexbox para el contenedor de botones */
-    align-items: center; /* Centrar verticalmente los botones */
-    margin-left: auto; /* Empujar los botones hacia la derecha */
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 
 .header .label {
@@ -63,8 +60,8 @@
 .label {
     all: unset;
     box-sizing: border-box;
-    display: inline-flex;
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
     gap: 0.6rem;
     padding: 0.5rem;
     position: relative;
@@ -75,7 +72,7 @@
 }
 
 .header.shrink .label{
-    font-size: 10px; /* Tamaño reducido del texto */
+    transform: scale(0.8);
 }
 
 .login {
@@ -122,7 +119,8 @@
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0;
+    left: auto;
     width: max-content;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -156,19 +154,6 @@
 
 /* Estilo para móviles */
 @media (max-width: 480px) {
-    .header {
-        
-        height: auto;
-        position: relative;
-        width: 100%;
-        display: flex;
-        align-items: flex-start;
-        height: 6rem;
-        width: 100vw;
-        padding: 10px;
-        flex-direction: row;
-    }
-
     .logo {
         max-width: 80%;
         margin-bottom: 1rem;
@@ -194,6 +179,10 @@
         z-index: 100;
     }
 
+    .hamburger.shrink .bar {
+        transform: scale(0.5);
+    }
+
     .hamburger .bar {
         width: 2rem;
         height: 0.2rem;
@@ -206,7 +195,8 @@
         display: none;
         position: absolute;
         top: 100%;
-        left: 0;
+        left: auto;
+        right: 0;
         width: 70%;
         background: white;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
