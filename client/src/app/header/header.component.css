@@ -26,6 +26,10 @@
     transform: scale(0.8);
 }
 
+.header.shrink .login {
+    transform: scale(0.8);
+}
+
 .logo {
     width: 100px;
     max-width: 40%;
