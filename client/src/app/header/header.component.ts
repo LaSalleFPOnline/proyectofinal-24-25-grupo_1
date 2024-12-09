@@ -30,31 +30,31 @@ export class HeaderComponent implements OnInit {
   }
 
   goToHomePage() {
-    this.router.navigate(['/']).then(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplazarse suavemente a la parte superior
-    });
+    // Verifica si estamos en la página de inicio
+    if (this.router.url === '/') {
+      // Desplazarse suavemente a la parte superior de la página
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Si no estamos en la página de inicio, navega a la página de inicio
+      this.router.navigate(['/']);
+    }
   }
 
+  // Escucha el evento de scroll
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    const scrollY = window.scrollY;
-    this.isShrunk = scrollY > 0; // Cambia a true si hay scroll
+    this.isShrunk = window.scrollY > 50;
   }
 
   // Método para navegar con manejo de fragmentos
   navigateTo(path: string, fragment?: string) {
-    if (this.router.url.startsWith(path)) {
-      // Si ya estamos en la ruta, desplazarse directamente
-      this.scrollToFragment(fragment);
-    } else {
-      // Si no estamos en la ruta, navega a la nueva ruta y usa el fragmento
-      this.router.navigate([path], { fragment }).then(() => {
+    // Navega a la nueva ruta y usa el fragmento
+    this.router.navigate([path], { fragment }).then(() => {
         if (fragment) {
-          this.scrollToFragment(fragment);
+            this.scrollToFragment(fragment);
         }
-      });
-    }
-  }
+    });
+}
 
   // Redirigir a la ruta correcta según el rol
   navigateToProfile() {

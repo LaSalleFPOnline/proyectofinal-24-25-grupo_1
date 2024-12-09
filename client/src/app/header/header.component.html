@@ -13,15 +13,13 @@
         </ng-container>
 
         <ng-template #loggedInMenu>
-            <button class="label" (click)="navigateTo('/feria')">Inicio</button>
+            <!-- <button class="label" (click)="navigateTo('/feria')">Inicio</button> -->
             <button class="label" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
-            <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button>
+            <!-- <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button> -->
             <button class="label" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
             
-            <div class="login-menu" (click)="toggleDropdown()">
-                <button class="login">
-                    <img src="assets/Images/button-login.png" alt="Login">
-                </button>
+            <button class="login" (click)="toggleDropdown()">
+                <img src="assets/Images/button-login.png" alt="Login">
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
                     <button class="dropdown-item" (click)="navigateToProfile()">
                         <mat-icon>person</mat-icon> Mi Perfil
@@ -30,12 +28,13 @@
                         <mat-icon>exit_to_app</mat-icon> Cerrar Sesión
                     </button>
                 </div>
-            </div>
+            </button>
         </ng-template>
+<!-- TODO si registrado, que aparezca el logo -->
     </div>
 
     <!-- Botón de hamburguesa -->
-    <button class="hamburger" (click)="toggleMenu()" aria-label="Menu">
+    <button class="hamburger" (click)="toggleMenu()" aria-label="Menu" [ngClass]="{'shrink': isShrunk}">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
@@ -53,7 +52,7 @@
         </ng-container>
 
         <ng-template #mobileLoggedInMenu>
-            <button class="label" (click)="navigateAndHideMenu('/feria')">Inicio</button>
+            <!-- <button class="label" (click)="navigateAndHideMenu('/feria')">Inicio</button> -->
             <button class="label" (click)="navigateAndHideMenu('/feria', 'agenda')">Agenda</button>
             <button class="label" (click)="navigateAndHideMenu('/feria', 'avisos')">Avisos</button>
             <button class="label" (click)="navigateAndHideMenu('/feria', 'empresas')">Empresas</button>
