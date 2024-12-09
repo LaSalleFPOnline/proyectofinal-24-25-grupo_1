@@ -22,8 +22,8 @@ export class PerfilAdminComponent implements OnInit {
           ...empresa,
           // Propiedades calculadas para los iconos
           mostrarIconoOK: empresa.nombre_empresa ? true : false, // Mostrar icono OK si tiene nombre de empresa
-          mostrarIconoSPOT: empresa.spot_url ? true : false,  // Mostrar icono SPOT si tiene spot_url
-          mostrarIconoFALTAINFO: !empresa.logo_url // Mostrar icono FALTAINFO si no tiene logo
+          mostrarIconoSPOT: empresa.spot ? true : false,  // Mostrar icono SPOT si tiene spot_url
+          mostrarIconoFALTAINFO: !empresa.logo // Mostrar icono FALTAINFO si no tiene logo
         }));
   
         console.log('Empresas con propiedades para iconos:', this.empresas);

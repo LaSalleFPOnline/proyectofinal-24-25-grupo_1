@@ -3,7 +3,7 @@ Importamos la biblioteca mysql2 que es una extensión del módulo original, con 
 características. Este módulo se usa para interactuar con BBDD MySQL
 */
 const mysql = require('mysql2');
-const keys = require('../keys'); 
+const keys = require('../keys');
 
 /*
 Se crea una conexión a la BBDD. Especificamos el servidor de la BBDD, el nombre de usuario que se utiliza para
