@@ -9,6 +9,7 @@
     border-radius: 45px;
     box-sizing: border-box;
     margin-top: 2rem;
+    margin-bottom: 50px;
 }
 
 .item {
@@ -261,4 +262,51 @@ p {
 
 .close-icon:hover {
     opacity: 0.5; /* Opcional: gira más al pasar el mouse */
+}
+
+/*Usuarios sin contraseña*/
+
+.usuarios-container-principal {
+    width: 100%; /* Asegúrate de que el contenedor tenga un ancho adecuado */
+    margin-top: 20px; /* Espacio superior si es necesario */
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    background-color: #f9f9f9; /* Color de fondo similar al cuadro de empresas */
+    border: 1px solid #ccc; /* Borde similar */
+    border-radius: 45px; /* Bordes redondeados */
+    box-sizing: border-box;
+    padding: 20px; /* Espaciado interno */
+}
+
+.usuarios-container {
+    display: flex; /* Usamos flexbox para alinear los elementos */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en la siguiente línea si no hay suficiente espacio */
+    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+}
+
+.usuarios-item {
+    flex: 1 1 calc(33.333% - 20px); /* Ancho flexible para que tres elementos quepan en una fila */
+    max-width: calc(33.333% - 20px); /* Asegura que el ancho máximo sea el mismo que el flexible */
+    text-align: center; /* Centra el texto dentro de cada item */
+    padding: 100px; /* Espacio interno */
+    display: flex; /* Usamos flexbox para centrar los elementos internos */
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.logo-usuarios {
+    width: 50px; /* Ajusta el tamaño del logo */
+    height: auto; /* Mantiene la proporción */
+}
+
+.usuario-email {
+    font-size: 14px; /* Tamaño de fuente para el correo */
+    margin-top: 5px; /* Espacio entre el logo y el correo */
+}
+
+.iconos-container {
+    display: flex; /* Usamos flexbox para alinear los iconos */
+    justify-content: center; /* Centra los iconos horizontalmente */
+    margin-top: 10px; /* Espacio superior para los iconos */
 }

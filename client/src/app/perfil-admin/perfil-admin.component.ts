@@ -13,11 +13,14 @@ export class PerfilAdminComponent implements OnInit {
   empresaSeleccionada: any = null; // Para almacenar la empresa seleccionada
   horariosDeAtencionManana: string = '';
   horariosDeAtencionTarde: string = '';
+  usuariosSinPassword: any[] = [];
+
   constructor(private empresaService: EmpresaService, private votacionService: VotacionService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.loadEmpresas();
     this.loadEmpresasMasVotadas(); // Carga las empresas más votadas al iniciar el componente
+    this.loadUsuariosSinPassword(); // Llama a la nueva función
   }
   loadEmpresas(): void {
     this.empresaService.getEmpresas().subscribe({
@@ -104,5 +107,15 @@ export class PerfilAdminComponent implements OnInit {
           return shortUrlMatch[1];
       }
       return null;
+  }
+  loadUsuariosSinPassword(): void {
+    this.empresaService.getUsuariosSinPassword().subscribe(
+        (usuarios: any[]) => {
+            this.usuariosSinPassword = usuarios;
+        },
+        error => {
+            console.error('Error al cargar usuarios sin contraseña:', error);
+        }
+    );
   }
 }
