@@ -43,8 +43,13 @@ const createVote = (req, res) => {
 };
 
 const getAllVotes = (req, res) => {
-    const query = 'SELECT * FROM votacion';
-    
+    const query = `
+    SELECT e.*, COUNT(v.id_votacion) AS votos
+    FROM empresa e
+    LEFT JOIN votacion v ON e.id_empresa = v.id_empresaVotada
+    GROUP BY e.id_empresa
+    ORDER BY votos DESC
+    `;
     connection.query(query, (err, results) => {
         if (err) {
         console.error('Error al obtener los votos: ', err);

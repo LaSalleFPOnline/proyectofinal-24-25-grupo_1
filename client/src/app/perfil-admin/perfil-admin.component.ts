@@ -14,6 +14,7 @@ export class PerfilAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadEmpresas();
+    this.loadEmpresasMasVotadas(); // Carga las empresas más votadas al iniciar el componente
   }
   loadEmpresas(): void {
     this.empresaService.getEmpresas().subscribe({
@@ -36,20 +37,15 @@ export class PerfilAdminComponent implements OnInit {
   
   
   
-  loadEmpresasMasVotadas(): void {
-    this.votacionService.obtenerEmpresasMasVotadas().subscribe({
-      next: (data: any[]) => {
-        // Suponiendo que 'data' tiene una propiedad 'votos' para ordenar
-        this.empresas = data.sort((a, b) => b.votos - a.votos); // Ordenar de mayor a menor por votos
-        if (this.empresas.length > 3) {
-          this.empresas = this.empresas.slice(0, 3);
+  loadEmpresasMasVotadas() {
+    this.votacionService.obtenerVotos().subscribe({
+        next: (data: any[]) => {
+            this.empresas = data; // Asegúrate de que cada empresa tenga la propiedad 'votos'
+            console.log('Empresas con votos:', this.empresas); // Verifica la estructura de datos aquí
+        },
+        error: (error) => {
+            console.error('Error al cargar empresas con votos:', error);
         }
-        console.log('Empresas más votadas:', this.empresas);
-      },
-      error: (error) => {
-        console.error('Error al cargar empresas más votadas:', error);
-      }
     });
   }
-  
 }

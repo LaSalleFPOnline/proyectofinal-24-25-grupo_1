@@ -29,14 +29,13 @@
             <p>Votaciones en tiempo real</p>
             <div class="podium">
                 <ng-container *ngIf="empresas.length > 0">
-                    <div *ngFor="let empresa of empresas; let i = index" class="podium-item">
+                    <div *ngFor="let empresa of empresas" class="podium-item">
                         <div class="podium-content">
-                            <img *ngIf="i === 0" src="assets/Illustrations/trofeo.png" alt="{{i + 1}} Puesto" class="trophy-img">
+                            <img src="assets/Illustrations/trofeo.png" class="trophy-img">
                             <img [src]="empresa.logo" alt="Logo de {{empresa.nombre}}" class="company-logo">
                         </div>
-                        <p class="puesto-text">{{i + 1}}<sup>{{ i === 0 ? 'er' : (i === 1 ? 'do' : 'ro') }}</sup> Puesto</p>
                         <p class="company-name">{{empresa.nombre}}</p>
-                        <p class="votos-text">Votos: {{empresa.votos}}</p> <!-- Mostrar el número de votos aquí -->
+                        <p class="votos-text">Votos: {{ empresa.votos }}</p> <!-- Mostrar el número de votos aquí -->
                     </div>
                 </ng-container>
             </div>
