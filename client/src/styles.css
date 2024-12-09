@@ -14,7 +14,9 @@ html, body {
     width: 100%;
     max-width: 1280px;
     margin: 0;
-    padding-top: 100px;
+    padding: 0;
+    margin-top: 50px;
+    font-family: 'Roboto Mono', monospace;
     border: 1px solid red; /* QUITAR */
 }
 
@@ -48,8 +50,6 @@ html, body {
 
 .titulo p {
     margin: 2vh;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
     font-size: clamp(1rem, 2vw, 1.5rem);
     color: #F3F3F3;
 }

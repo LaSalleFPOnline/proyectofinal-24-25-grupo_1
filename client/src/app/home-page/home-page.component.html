@@ -22,13 +22,20 @@
   </div>
 
 <!-- Agenda -->
+<div class="titulo">
+  <p>Agenda</p>
+</div>
 <div class="agenda" id="agenda">
   <div *ngFor="let event of events; let i = index"
       class="frame"
       [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded, 'current-event': event.isCurrent }">
-    <div class="frame-header">
-      <div class="time-wrapper">{{ event.hora }} a {{ event.horaFinal }}</div>
+    
+      <div class="frame-header">
+    
+        <div class="time-wrapper">{{ event.hora }} a {{ event.horaFinal }}</div>
+      
       <p class="event-description">{{ event.descripcion }}</p>
+      
       <img class="plus-icon"
           [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
           alt="Toggle"
@@ -45,84 +52,77 @@
 
 
   <!-- Div de Descargas -->
+  <div class="titulo"> <p>Descargas</p>  </div>
+
   <div class="descargas" id="descargas">
-    <div class="titulo-descargas">
-      <p>Descargas</p>
-    </div>
-    <div class="descarga-programa">
-      <div class="heading">
-        <div class="text-wrapper">Programa<br/>de la Feria</div>
-      </div>
-      <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
-          <div class="icon">
-            <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
+      <div class="descarga-programa">
+          <p>Programa<br/>de la Feria</p><br/>
+          <div class="link" (click)="downloadFile('assets/PDFs/Programa_LSBM_2025.pdf')">
+              <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
+              <p>Descargar PDF</p>
           </div>
-          <p>Descargar el PDF</p>
       </div>
-    </div>
-    <div class="descarga-concurso">
-      <div class="heading">
-        <div class="text-wrapper">Bases<br/>del Concurso</div>
+      <div class="descarga-concurso">
+          <p>Bases<br/>del Concurso</p><br/>
+          <div class="link" (click)="downloadFile('assets/PDFs/Bases_del_Concurso_LSBM_2025.pdf')">
+              <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
+              <p>Descargar PDF</p>
+          </div>
       </div>
-      <div class="link" (click)="downloadFile('assets/PDFs/Bases.pdf')">
-        <div class="icon"><img  src="assets/Images/icon-descarga.png" alt="Download"/></div>
-        <p>Descargar el PDF</p>
+      <div class="descarga-guia">
+          <p>Guía<br/>para participar</p><br/>
+          <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
+              <img src="assets/Images/icon-descarga.png" alt="Download"/>
+              <p>Descargar PDF</p>
+          </div>
       </div>
-    </div>
-    <div class="descarga-guia">
-      <div class="heading">
-        <div class="text-wrapper">Guía<br/>para participar</div>
-      </div>
-      <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
-        <div class="icon"><img src="assets/Images/icon-descarga.png" alt="Download"/></div>
-        <p>Descargar el PDF</p>
-      </div>
-    </div>
   </div>
-  
 
   <!-- Div patrocinadores -->
-  <div class="titulo-patrocinadores">
+  <div class="titulo">
     <p>Patrocinadores y colaboradores</p>
   </div>
   <div class="patrocinadores">
+    
     <div class="fondo"></div>
+    
+    <!-- scroll -->
     <div class="scroll-container">
       <div class="scroll">
-        <div class="logo-1">
+        <div class="logo">
           <div class="overlap-group">
             <img src="assets/Illustrations/BCS.png" alt="BSC"/>
           </div>
           <p class="colegio">
-            <span class="span">Brothers of the Christian Schools<br/></span>
-            <span class="ciudad">Rome</span>
+            Brothers of the<br/>
+            Christian Schools
           </p>
         </div>
-        <div class="logo-2">
+        <div class="logo">
           <div class="overlap-group">
             <img src="assets/Illustrations/logodistrito.png" alt="Distrito" />
           </div>
           <p class="colegio">
-            <span class="span">Distrito ARLEP<br/></span>
-            <span class="ciudad">España</span>
+            Distrito ARLEP<br/>
+            España
           </p>
         </div>
-        <div class="logo-3">
+        <div class="logo">
           <div class="overlap-group">
-            <img src="assets/Illustrations/PROYDE.png" alt="PROYDE" />
+            <img src="assets/Patrocinadores/La_Salle_fp_online_horitzontal_negatiu.png" alt="La_Salle_FPOnline" />
           </div>
           <p class="colegio">
-            <span class="span">Proyde<br/></span>
-            <span class="ciudad">España</span>
+            Formación Profesional Online<br/>
+            España
           </p>
         </div>
-        <div class="logo-4">
+        <div class="logo">
           <div class="overlap-group">
-            <img src="assets/Illustrations/ColeLou.png" alt="BSC"/>
+            <img src="assets/Patrocinadores/La_Salle fp_negativo.png" alt="La_Salle_FP"/>       
           </div>
           <p class="colegio">
-            <span class="span">Colegio N.S. Lourdes<br/></span>
-            <span class="ciudad">Valladolid</span>
+            La Salle FP<br/>
+            Barcelona
           </p>
         </div>
       </div>
