@@ -76,8 +76,7 @@ export class VotacionService {
   
   // Método para obtener las empresas más votadas SANTI
   obtenerVotos(): Observable<any[]> {
-    const headers = this.getHeaders();
-    return this.http.get<any[]>(`${this.apiUrl}/votos`, { headers }).pipe(
+    return this.http.get<any[]>(`${this.apiUrl}/votos`).pipe(
         catchError(error => {
             console.error('Error al obtener votos:', error);
             return throwError(error);

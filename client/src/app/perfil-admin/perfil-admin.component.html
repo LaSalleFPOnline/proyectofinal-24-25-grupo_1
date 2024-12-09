@@ -11,15 +11,9 @@
         <p>{{ empresa.nombre_empresa }}</p>
         <div class="iconos-container">
             <!-- Mostrar icono OK si tiene nombre -->
-            <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/icon_OK.svg" alt="Icono OK" class="icono">
-            
-            <!-- Mostrar icono SPOT si tiene spot -->
-            <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/icon_SPOT.svg" alt="Icono Spot" class="icono">
-            
-            <!-- Mostrar icono FALTAINFO si no tiene logo -->
-            <img *ngIf="empresa.mostrarIconoFALTAINFO" src="assets/Images/icon_FALTAINFO.svg" alt="Icono Sin Logo" class="icono">
+            <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/Icon_OK.png" alt="Icono OK" class="icono">
+            <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/Icon_SPOT.png" alt="Icono Spot" class="icono">
         </div>
-          
     </div>
 </div>
 <!-- Mostrar usuarios sin contraseña -->
@@ -30,11 +24,11 @@
     <div class="usuarios-container">
         <div *ngFor="let usuario of usuariosSinPassword" class="usuarios-item">
             <div class="rectangulo">
-                <img src="assets/Images/icon_SINLOGO.svg" alt="Sin Logo" class="logo-usuarios">
+                <img src="assets/Images/Icon_SINLOGO.png" alt="Sin Logo" class="logo-usuarios">
             </div>
             <p class="usuario-email">{{ usuario.email }}</p>
             <div class="iconos-container">
-                <img src="assets/Images/icon_FALTAINFO.svg" alt="Icono Sin Logo" class="icono">
+                <img src="assets/Images/Icon_FALTAINFO.png" alt="Icono Sin Logo" class="icono-usuario">
             </div>
         </div>
     </div>

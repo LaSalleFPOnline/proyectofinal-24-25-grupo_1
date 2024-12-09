@@ -79,7 +79,7 @@ router.delete('/eliminar-interes' ,authenticateToken, eliminarInteres);
 
 // Rutas relacionadas con las interés
 router.post('/voto', authenticateToken, createVote);       // Ruta para crear un voto
-router.get('/votos', authenticateToken, getAllVotes);      // Ruta para obtener todos los votos
+router.get('/votos', getAllVotes);      // Ruta para obtener todos los votos
 router.get('/voto/:usuario_id', authenticateToken, getUserVote); // Ruta para obtener el voto de un usuario
 router.get('/verificar-voto', authenticateToken, verificarVoto);
 router.delete('/voto', authenticateToken, deleteVote);     // Ruta para eliminar un voto
