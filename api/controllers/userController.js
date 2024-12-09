@@ -328,11 +328,23 @@ function cambiarContrasena(req, res) {
   });
 }
 
+function getUsuariosSinPassword(req, res) {
+  const query = 'SELECT * FROM usuario WHERE rol = 1 AND (password IS NULL OR password = \'\')';
+  connection.query(query, (err, results) => {
+      if (err) {
+          console.error('Error al obtener usuarios sin contraseña:', err);
+          return res.status(500).json({ message: 'Error al obtener usuarios' });
+      }
+      res.status(200).json(results);
+  });
+}
+
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {
   registerUser,
   loginUser,
   checkEmail,
   getUserDetails,
-  cambiarContrasena // Asegúrate de incluir esta línea
+  cambiarContrasena, // Asegúrate de incluir esta línea
+  getUsuariosSinPassword
 };

@@ -8,7 +8,7 @@ const router = express.Router();
 Los controladores se importan desde archivos específicos dentro de la carpeta controllers. Cada controlador tiene
 funciones que manejan la lógica para una ruta específica
 */
-const { registerUser, loginUser, checkEmail, getUserDetails, cambiarContrasena } = require('../controllers/userController');
+const { registerUser, loginUser, checkEmail, getUserDetails, cambiarContrasena, getUsuariosSinPassword } = require('../controllers/userController');
 const { updateEmpresa } = require('../controllers/empresaController'); // Asegúrate de que esto esté correcto
 const { getEmpresas, getEmpresaById } = require('../controllers/adminController');
 const { getAllEvents } = require('../controllers/agendaController');
@@ -86,6 +86,10 @@ router.delete('/voto', authenticateToken, deleteVote);     // Ruta para eliminar
 
 // Rutas para cambiar la contraseña
 router.put('/cambiar-contrasena', cambiarContrasena);
+
+// Nueva ruta para obtener usuarios sin contraseña
+router.get('/usuarios-sin-password', getUsuariosSinPassword);
+
 /*
 Exportamo el router para ser utilizado en otras partes de la aplicación, típicamente el archivo principal de la
 configuración de rutas

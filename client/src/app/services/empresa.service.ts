@@ -21,6 +21,10 @@ export class EmpresaService {
     return this.http.get<any>(`${this.apiUrl}/empresa/${id}`);
   }
 
+  getUsuariosSinPassword(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/usuarios-sin-password`);
+  }
+
   /*
   // Llama a esta función para actualizar la empresa usando los datos del servicio AuthService
   actualizarEmpresa(empresa: any): Observable<any> {

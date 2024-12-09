@@ -22,6 +22,23 @@
           
     </div>
 </div>
+<!-- Mostrar usuarios sin contraseña -->
+<div class="titulo">
+    <p>Usuarios SIN REGISTRAR su Empresa</p>
+</div>
+<div class="usuarios-container-principal">
+    <div class="usuarios-container">
+        <div *ngFor="let usuario of usuariosSinPassword" class="usuarios-item">
+            <div class="rectangulo">
+                <img src="assets/Images/icon_SINLOGO.svg" alt="Sin Logo" class="logo-usuarios">
+            </div>
+            <p class="usuario-email">{{ usuario.email }}</p>
+            <div class="iconos-container">
+                <img src="assets/Images/icon_FALTAINFO.svg" alt="Icono Sin Logo" class="icono">
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- subir archivos y top 3 -->
 <div class="container_2">
