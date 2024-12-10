@@ -72,8 +72,6 @@ export class VotacionService {
         );
   }
 
-
-  
   // Método para obtener las empresas más votadas SANTI
   obtenerVotos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/votos`).pipe(
@@ -83,4 +81,15 @@ export class VotacionService {
         })
     );
   }
+
+  // Método para obtener las fechas de votación
+  obtenerFechasVotacion(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/evento`).pipe(
+      catchError(error => {
+        console.error('Error al obtener fechas de votación:', error);
+        return throwError(error);
+      })
+    );
+  }
+
 }
