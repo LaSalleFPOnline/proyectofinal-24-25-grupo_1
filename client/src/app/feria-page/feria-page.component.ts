@@ -1,4 +1,4 @@
-import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
+import { Component, Renderer2, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { EmpresaService } from '../services/empresa.service';
 import { InteresesService } from '../services/intereses.service';
 import { AuthService } from '../services/auth.service'; // Asegúrate de importar el AuthService
 import { VotacionService } from '../services/votacion.service'; // Importa el nuevo servicio
+import { PopupComponent } from '../popup/popup.component';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -16,7 +17,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   standalone: true,
   templateUrl: './feria-page.component.html',
   styleUrls: ['./feria-page.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, PopupComponent]
 })
 
 export class FeriaPageComponent implements OnInit {
@@ -34,6 +35,7 @@ export class FeriaPageComponent implements OnInit {
   spotUrl: string | null = null;  // Declara la propiedad spotUrl
   eventosAgenda: any[] = [];
   now: Date = new Date();
+  @ViewChild(PopupComponent) popupComponent!: PopupComponent;
 
   constructor(
     private http: HttpClient,
@@ -98,8 +100,6 @@ export class FeriaPageComponent implements OnInit {
     }
     return '';
   }
-
-
 
   extractVideoId(url: string): string | null {
     // Para URLs largas
@@ -183,9 +183,6 @@ export class FeriaPageComponent implements OnInit {
       }
     });
   }
-  
-
-
 
   private saveRelationsToSessionStorage(relations: any[], key: string): void {
     // Añadir URL del meet y horarios a cada relación
@@ -288,8 +285,6 @@ export class FeriaPageComponent implements OnInit {
                         }
                     );
                 }
-
-
                 if (empresaId === loggedInCompanyId) {
                     console.log('Es la empresa del usuario logueado, ocultando botones');
                     this.ocultarBotonesDeInteraccion = true;
@@ -313,9 +308,6 @@ export class FeriaPageComponent implements OnInit {
         console.error('ID de la empresa no es un número:', empresaId);
     }
   }
-
-
-
 
   cerrarDetalles() {
     this.empresaSeleccionada = null;
@@ -362,7 +354,7 @@ export class FeriaPageComponent implements OnInit {
             });
     }
 }
-  
+
   // En tu archivo feria-page.component.ts
   isInteresadoEnEmpresa(): boolean {
     const loggedInCompanyId = this.authService.getLoggedInCompanyId();
@@ -372,52 +364,109 @@ export class FeriaPageComponent implements OnInit {
     );
 }
 
-  votar(): void {
-    const usuarioId = this.authService.getUserId();
-    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
-    const voto = 1; // Aquí defines el valor del voto, puede ser un valor positivo o negativo según tu lógica
+votar(): void {
+  const usuarioId = this.authService.getUserId();
+  const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
+  const voto = 1; // Aquí defines el valor del voto, puede ser un valor positivo o negativo según tu lógica
 
-    if (usuarioId === null || empresaVotadaId === null) {
+  if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
-    }
-
-    this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
-      catchError(error => {
-        console.error('Error al votar:', error);
-        return of(null);
-      })
-    ).subscribe(response => {
-      if (response) {
-        console.log('Voto registrado exitosamente:', response);
-        this.yaVotado = true;
-        localStorage.setItem(`voto_${empresaVotadaId}`, JSON.stringify(this.yaVotado));
-      }
-    });
   }
 
-  eliminarVoto(): void {
-    const usuarioId = this.authService.getUserId();
-    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
+  // Verificar las fechas de votación
+  this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
+      // Agregar console.log para verificar las fechas
+      console.log('Fechas de votación:', fechas);
 
-    if (usuarioId === null || empresaVotadaId === null) {
+      // Asegúrate de que las fechas se extraigan correctamente
+      if (fechas.length === 0) {
+          console.error('No se recibieron fechas de votación.');
+          return; // Detener si no hay fechas
+      }
+
+      const fechaVotacion = fechas[0]; // Tomamos el primer elemento del array
+      const fechaInicio = new Date(fechaVotacion.fechaVotacion_inicio);
+      const fechaFin = new Date(fechaVotacion.fechaVotacion_fin);
+      const ahora = new Date();
+
+      // Asegúrate de que las fechas se comparen correctamente
+      console.log('Fecha actual:', ahora);
+      console.log('Fecha de inicio de votación:', fechaInicio);
+      console.log('Fecha de fin de votación:', fechaFin);
+
+      // Verificar si la fecha actual está fuera del rango de votación
+      if (ahora < fechaInicio || ahora > fechaFin) {
+          // Mostrar el pop-up si está fuera del rango
+          console.log('Mostrando pop-up'); // Agrega este log
+          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`);
+          return; // Asegúrate de que aquí se detenga la ejecución
+      }
+
+      // Si está dentro del rango, proceder a votar
+      this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
+          catchError(error => {
+              console.error('Error al votar:', error);
+              return of(null);
+          })
+      ).subscribe(response => {
+          if (response) {
+              console.log('Voto registrado exitosamente:', response);
+              this.yaVotado = true;
+              localStorage.setItem(`voto_${empresaVotadaId}`, JSON.stringify(this.yaVotado));
+          }
+      });
+  }, error => {
+      console.error('Error al obtener las fechas de votación:', error);
+  });
+}
+
+eliminarVoto(): void {
+  const usuarioId = this.authService.getUserId();
+  const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
+
+  if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
-    }
-
-    this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
-      catchError(error => {
-        console.error('Error al eliminar voto:', error);
-        return of(null);
-      })
-    ).subscribe(response => {
-      if (response) {
-        console.log('Voto eliminado exitosamente', response);
-        this.yaVotado = false;
-        localStorage.removeItem(`voto_${empresaVotadaId}`);
-      }
-    });
   }
+
+  // Verificar las fechas de votación
+  this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
+      // Asegúrate de que las fechas se extraigan correctamente
+      if (fechas.length === 0) {
+          console.error('No se recibieron fechas de votación.');
+          return; // Detener si no hay fechas
+      }
+
+      const fechaVotacion = fechas[0]; // Tomamos el primer elemento del array
+      const fechaInicio = new Date(fechaVotacion.fechaVotacion_inicio);
+      const fechaFin = new Date(fechaVotacion.fechaVotacion_fin);
+      const ahora = new Date();
+
+      // Verificar si la fecha actual está fuera del rango de votación
+      if (ahora < fechaInicio || ahora > fechaFin) {
+          // Mostrar el pop-up si está fuera del rango
+          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`);
+          return; // Asegúrate de que aquí se detenga la ejecución
+      }
+
+      // Si está dentro del rango, proceder a eliminar el voto
+      this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
+          catchError(error => {
+              console.error('Error al eliminar voto:', error);
+              return of(null);
+          })
+      ).subscribe(response => {
+          if (response) {
+              console.log('Voto eliminado exitosamente', response);
+              this.yaVotado = false;
+              localStorage.removeItem(`voto_${empresaVotadaId}`);
+          }
+      });
+  }, error => {
+      console.error('Error al obtener las fechas de votación:', error);
+  });
+}
 
   // Método para verificar si el usuario ha votado por la empresa
   haVotadoPorEmpresa(empresaId: number): boolean {

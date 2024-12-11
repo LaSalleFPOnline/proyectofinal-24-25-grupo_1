@@ -1,0 +1,34 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - POP-UP - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.popup {
+    display: flex; /* Cambiado a flex para centrar el contenido */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.popup-content {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    width: 50%;
+    max-width: 500px;
+    margin: 50px auto;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: black;
+    cursor: pointer;
+}
