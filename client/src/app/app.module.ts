@@ -20,6 +20,7 @@ import { FeriaPageComponent } from './feria-page/feria-page.component'; // Impor
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component'; // Importar el componente PerfilAdmin
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component'; // Importar el componente PerfilEmpresa
 import { NosotrosComponent } from './nosotros/nosotros.component'; // Importar el componente Nosotros
+import { PopupComponent } from './popup/popup.component';
 import { CommonModule } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -43,7 +44,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     CommonModule,
     FooterComponent, // No declararlo, solo importarlo
     FeriaPageComponent, // No declararlo, solo importarlo
-    NosotrosComponent // No declararlo, solo importarlo
+    NosotrosComponent, // No declararlo, solo importarlo
+    PopupComponent // No declararlo, solo importarlo
   ],
   providers: [AuthService, provideHttpClient(withInterceptorsFromDi()), provideAnimations(), provideAnimationsAsync()],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

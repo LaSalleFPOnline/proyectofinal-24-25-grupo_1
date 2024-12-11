@@ -14,41 +14,41 @@
     <!-- Cambiar Contraseña -->
   <div class="campo">
     <label class="text">Cambiar contraseña</label>
-    <input type="password" [(ngModel)]="nuevaContrasena" name="nuevaContrasena" required class="input" placeholder="Ingrese nueva contraseña">
+    <input type="password" [(ngModel)]="nuevaContrasena" name="nuevaContrasena" class="input" placeholder="Ingrese nueva contraseña" [disabled]="!isEditable">
     <img class="line" src="assets/Images/line.png">
   </div>
   <!-- Repetir Contraseña -->
   <div class="campo">
     <label class="text">Repetir contraseña</label>
-    <input type="password" [(ngModel)]="repiteContrasena" name="repiteContrasena" required class="input" placeholder="Repita la contraseña">
+    <input type="password" [(ngModel)]="repiteContrasena" name="repiteContrasena" class="input" placeholder="Repita la contraseña" [disabled]="!isEditable">
     <img class="line" src="assets/Images/line.png">
     <div *ngIf="contrasenaErrorMessage" class="error-message">{{ contrasenaErrorMessage }}</div>
   </div>
     <!-- Nombre de empresa -->
     <div class="campo">
         <label class="text">* Nombre de empresa</label>
-        <input type="text" [(ngModel)]="nombreEmpresa" class="input">
+        <input type="text" [(ngModel)]="nombreEmpresa" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Logotipo -->
     <div class="campo">
         <label class="text">* Logotipo</label>
-        <input type="text" [(ngModel)]="logotipo" class="input">
+        <input type="text" [(ngModel)]="logotipo" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Página web (Producto o servicio) -->
     <div class="campo">
         <label class="text">* Página web (Producto o servicio)</label>
-        <input type="text" [(ngModel)]="paginaWeb" class="input">
+        <input type="text" [(ngModel)]="paginaWeb" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Enlace a Sala de Espera -->
     <div class="campo">
         <label class="text">* Enlace a Sala de Espera</label>
-        <input type="text" [(ngModel)]="enlaceSalaEspera" class="input">
+        <input type="text" [(ngModel)]="enlaceSalaEspera" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
     </div>
 
@@ -70,7 +70,8 @@
             name="horario_meet_morning_start" 
             class="input time-input" 
             [min]="'10:00'" 
-            [max]="'13:00'">
+            [max]="'13:00'"
+            [disabled]="!isEditable">
             <p class="text">hasta</p>
             <input type="time" 
             [(ngModel)]="horario_meet_morning_end" 
@@ -78,7 +79,8 @@
             name="horario_meet_morning_end" 
             class="input time-input" 
             [min]="'10:00'" 
-            [max]="'13:00'">
+            [max]="'13:00'"
+            [disabled]="!isEditable">
         </div>
         <div *ngIf="horarioMananaError" class="error-message">{{horarioMananaError}}</div>
         <img class="line" src="assets/Images/line.png">
@@ -91,7 +93,8 @@
             name="horario_meet_afternoon_start" 
             class="input time-input" 
             [min]="'15:30'" 
-            [max]="'18:30'">
+            [max]="'18:30'"
+            [disabled]="!isEditable">
             <p class="text">hasta</p>
             <input type="time" 
             [(ngModel)]="horario_meet_afternoon_end" 
@@ -99,7 +102,8 @@
             name="horario_meet_afternoon_end" 
             class="input time-input" 
             [min]="'15:30'" 
-            [max]="'18:30'">
+            [max]="'18:30'"
+            [disabled]="!isEditable">
         </div>
         <div *ngIf="horarioTardeError" class="error-message">{{horarioTardeError}}</div>
         <img class="line" src="assets/Images/line.png">
@@ -108,14 +112,14 @@
     <!-- Spot Publicitario -->
     <div class="campo">
         <label class="text">Spot Publicitario</label>
-        <input type="text" [(ngModel)]="spotPublicitario" class="input">
+        <input type="text" [(ngModel)]="spotPublicitario" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
     </div>
 
     <!-- Descripción de productos o servicios -->
     <div class="campo producto">
         <label class="text">Descripción de productos o servicios</label>
-        <textarea [(ngModel)]="descripcionProductos" class="textarea"></textarea>
+        <textarea [(ngModel)]="descripcionProductos" class="textarea" [disabled]="!isEditable"></textarea>
         <img class="line" src="assets/Images/line.png">
     </div>
 
@@ -132,3 +136,5 @@
 <div class="illustration-container">
     <img class="illustration" src="assets/Illustrations/Illustration5.png">
 </div>
+
+<app-popup #popupEdicionEmpresa></app-popup>
