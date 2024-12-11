@@ -421,28 +421,52 @@ votar(): void {
   });
 }
 
-  eliminarVoto(): void {
-    const usuarioId = this.authService.getUserId();
-    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
+eliminarVoto(): void {
+  const usuarioId = this.authService.getUserId();
+  const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
 
-    if (usuarioId === null || empresaVotadaId === null) {
+  if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
-    }
-
-    this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
-      catchError(error => {
-        console.error('Error al eliminar voto:', error);
-        return of(null);
-      })
-    ).subscribe(response => {
-      if (response) {
-        console.log('Voto eliminado exitosamente', response);
-        this.yaVotado = false;
-        localStorage.removeItem(`voto_${empresaVotadaId}`);
-      }
-    });
   }
+
+  // Verificar las fechas de votación
+  this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
+      // Asegúrate de que las fechas se extraigan correctamente
+      if (fechas.length === 0) {
+          console.error('No se recibieron fechas de votación.');
+          return; // Detener si no hay fechas
+      }
+
+      const fechaVotacion = fechas[0]; // Tomamos el primer elemento del array
+      const fechaInicio = new Date(fechaVotacion.fechaVotacion_inicio);
+      const fechaFin = new Date(fechaVotacion.fechaVotacion_fin);
+      const ahora = new Date();
+
+      // Verificar si la fecha actual está fuera del rango de votación
+      if (ahora < fechaInicio || ahora > fechaFin) {
+          // Mostrar el pop-up si está fuera del rango
+          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`);
+          return; // Asegúrate de que aquí se detenga la ejecución
+      }
+
+      // Si está dentro del rango, proceder a eliminar el voto
+      this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
+          catchError(error => {
+              console.error('Error al eliminar voto:', error);
+              return of(null);
+          })
+      ).subscribe(response => {
+          if (response) {
+              console.log('Voto eliminado exitosamente', response);
+              this.yaVotado = false;
+              localStorage.removeItem(`voto_${empresaVotadaId}`);
+          }
+      });
+  }, error => {
+      console.error('Error al obtener las fechas de votación:', error);
+  });
+}
 
   // Método para verificar si el usuario ha votado por la empresa
   haVotadoPorEmpresa(empresaId: number): boolean {
