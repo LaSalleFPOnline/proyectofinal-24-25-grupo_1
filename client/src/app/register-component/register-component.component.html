@@ -60,6 +60,11 @@
         <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url" class="input">
         <img class="line" src="assets/Images/line.png">
       </div>
+      <div class="campo">
+        <label class="text">* Logo:</label>
+        <input type="file" (change)="onLogoFileChange($event)" accept="image/*" class="input" required>
+        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview">
+    </div>
 
 
       <!-- <div class="campo">

@@ -35,11 +35,13 @@ export class RegisterComponent implements AfterViewInit {
   isEmailReadOnly: boolean = false; // Nueva propiedad para controlar la edición del email
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  logoFile: File | null = null; // Para almacenar el archivo del logo
+  logoPreview: string | null = null; // Para la vista previa del logo
 
   horarioMananaError: string | null = null;
   horarioTardeError: string | null = null;
 
-  logoPreview: string | null = null; // Propiedad para la vista previa del logo
+  //logoPreview: string | null = null; // Propiedad para la vista previa del logo
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -149,7 +151,7 @@ export class RegisterComponent implements AfterViewInit {
     if (this.rol === 1) {  // Empresa
       if (!this.nombre_empresa) missingFields.push('Nombre de la Empresa');
       if (!this.web_url) missingFields.push('Web URL');
-      if (!this.logo_url) missingFields.push('Logo URL');
+      if (!this.logoFile) missingFields.push('Logo');
       if (!this.url_meet) missingFields.push('URL Meet');
       if (!this.entidad) missingFields.push('Entidad');
 
@@ -173,43 +175,59 @@ export class RegisterComponent implements AfterViewInit {
     // Si llega aquí, el formulario es válido
     this.submitForm();
   }
+  onLogoFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      this.logoFile = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.logoPreview = e.target?.result as string; // Asigna el contenido leído a logoPreview
+      };
+
+      reader.readAsDataURL(this.logoFile); // Lee el archivo como una URL base64
+    }
+  }
 
   submitForm() {
     // Lógica para enviar el formulario
     if (!this.email || !this.password || this.password !== this.confirmPassword) {
-      this.errorMessage = 'Por favor, completa el formulario correctamente.';
-      return;
+        this.errorMessage = 'Por favor, completa el formulario correctamente.';
+        return;
     }
 
-    const formData = {
-      email: this.email,
-      password: this.password,
-      rol: this.rol,
-      nombre_empresa: this.nombre_empresa,
-      web_url: this.web_url,
-      spot_url: this.spot_url,
-      logo_url: this.logo_url,
-      descripcion: this.descripcion,
-      url_meet: this.url_meet,
-      entidad: this.entidad,
-      horario_meet_morning_start: this.horario_meet_morning_start,
-      horario_meet_morning_end: this.horario_meet_morning_end,
-      horario_meet_afternoon_start: this.horario_meet_afternoon_start,
-      horario_meet_afternoon_end: this.horario_meet_afternoon_end
-    };
+    const formData = new FormData();
+    formData.append('email', this.email);
+    formData.append('password', this.password);
+    formData.append('rol', this.rol.toString());
+    formData.append('nombre_empresa', this.nombre_empresa);
+    formData.append('web', this.web_url);
+    formData.append('spot', this.spot_url);
+    formData.append('descripcion', this.descripcion);
+    formData.append('url_meet', this.url_meet);
+    formData.append('entidad', this.entidad);
+    formData.append('horario_meet_morning_start', this.horario_meet_morning_start);
+    formData.append('horario_meet_morning_end', this.horario_meet_morning_end);
+    formData.append('horario_meet_afternoon_start', this.horario_meet_afternoon_start);
+    formData.append('horario_meet_afternoon_end', this.horario_meet_afternoon_end);
+
+    if (this.logoFile) {
+        formData.append('logo', this.logoFile); // Agrega el archivo del logo al FormData
+    }
 
     this.authService.register(formData).subscribe({
-      next: (response: any) => {
-        this.successMessage = response.message;
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
-      },
-      error: (error: any) => {
-        this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
-      }
+        next: (response: any) => {
+            this.successMessage = response.message;
+            setTimeout(() => {
+                this.router.navigate(['/login']);
+            }, 2000);
+        },
+        error: (error: any) => {
+            this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
+        }
     });
-  }
+}
 
   checkPasswords() {
     if (this.password !== this.confirmPassword) {
@@ -263,18 +281,5 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 
-  onLogoFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        this.logoPreview = e.target?.result as string; // Asigna el contenido leído a logoPreview
-      };
-
-      reader.readAsDataURL(file); // Lee el archivo como una URL base64
-    }
-  }
+  
 }

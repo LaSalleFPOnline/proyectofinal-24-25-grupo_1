@@ -3,7 +3,9 @@ Se importa el módulo express y se crea un router utilizando express.Router. Est
 separado, que luego se pueden integrar en la aplicación principal
 */
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
+const path = require('path');
 /*
 Los controladores se importan desde archivos específicos dentro de la carpeta controllers. Cada controlador tiene
 funciones que manejan la lógica para una ruta específica
@@ -36,9 +38,20 @@ router.get('/evento/:id_evento', getEventByIdFecha);
 router.get('/direcciones', getAllDirecciones);
 // Esta ruta permite obtener todos las direcciones por id .
 router.get('/direcciones/:id_direcciones', getEventByIdDirecccion);
+// Configuración de multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'logos/'); // Asegúrate de que esta carpeta exista
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname)); // Agrega un timestamp al nombre del archivo
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Ruta para registrar un nuevo usuario
-router.post('/register', registerUser);
+router.post('/register',upload.single('logo'),registerUser);
 
 // Ruta para iniciar sesión de un usuario
 router.post('/login', loginUser);

@@ -6,12 +6,15 @@ Importamos el módulo para crear y verificar tokens JWT. Importamos el módulo p
 contraseñas encriptadas
 */
 const { connection } = require('../database/database');
+const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 // Variables de entorno para recuperar la clave secreta para firmar tokens y el tiempo de expiración de los tokens
 const JWT_SECRET = "admin";
 const JWT_EXPIRES_IN = "1h";
+// Configuración de multer para la carga de archivos
+const upload = multer({ dest: 'logos/' }); // Carpeta donde se guardarán los logos
 
 /*
 La función recibe los datos del cuerpo de la solicitud y si faltan el email, password, o rol, la función responde con
@@ -36,6 +39,7 @@ function registerUser(req, res) {
       horario_meet_afternoon_start, 
       horario_meet_afternoon_end
       } = req.body;
+      const logoPath = req.file ? req.file.path : null; // Ruta del archivo subido
 
   if (!email) {
       console.log('Error: El email es obligatorio');
@@ -78,19 +82,19 @@ function registerUser(req, res) {
 
                       // Insertar los datos de la empresa
                       if (parseInt(rol, 10) === 1) { // Empresa
-                          const insertEmpresaQuery = 'INSERT INTO empresa (id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end,entidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                          const insertEmpresaQuery = 'INSERT INTO empresa (id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                           const empresaParams = [
                             user.id_usuario, 
                             nombre_empresa, 
                             web, spot, 
-                            logo, 
+                            logoPath, 
                             descripcion, 
                             url_meet, 
                             horario_meet_morning_start || null,
                             horario_meet_morning_end || null,
                             horario_meet_afternoon_start || null,
                             horario_meet_afternoon_end || null, 
-                            entidad
+                            
                           ];
 
                           connection.query(insertEmpresaQuery, empresaParams, (err, result) => {
