@@ -11,8 +11,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
 </head>
 <body class="mat-typography">
   <app-root></app-root>
+
+  <script>
+    // Inicializa los campos de texto de Material Components Web
+    document.addEventListener('DOMContentLoaded', function() {
+      const textFields = document.querySelectorAll('.mdc-text-field');
+      textFields.forEach((field) => {
+        new mdc.textField.MDCTextField(field);
+      });
+    });
+  </script>
+  
 </body>
 </html>
