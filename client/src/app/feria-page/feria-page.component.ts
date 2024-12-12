@@ -61,7 +61,7 @@ export class FeriaPageComponent implements OnInit {
             next: (data: any[]) => {
               this.empresas = data.map(empresa => ({
                 ...empresa,
-                logoUrl: `${environment.apiUrl}/logos/${empresa.logo}`
+                logoUrl: `${environment.apiUrl}${empresa.logo}`
               }));
               console.log('Empresas: ', this.empresas);
               this.actualizarVotaciones();

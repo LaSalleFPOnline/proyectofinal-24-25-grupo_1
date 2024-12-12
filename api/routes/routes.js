@@ -103,8 +103,6 @@ router.put('/cambiar-contrasena', cambiarContrasena);
 // Nueva ruta para obtener usuarios sin contraseña
 router.get('/usuarios-sin-password', getUsuariosSinPassword);
 
-router.use('/logos', express.static(path.join(__dirname, '../logos')));
-
 /*
 Exportamo el router para ser utilizado en otras partes de la aplicación, típicamente el archivo principal de la
 configuración de rutas
