@@ -15,8 +15,8 @@ export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponentComponent },
   { path: 'feria', component: FeriaPageComponent, canActivate: [AuthGuard] },
-  { path: 'admin', component: PerfilAdminComponent, canActivate: [RoleGuard] },
-  { path: 'empresa', component: PerfilEmpresaComponent },
+  { path: 'admin', component: PerfilAdminComponent, canActivate: [RoleGuard], data: { role: 2 } },
+  { path: 'empresa', component: PerfilEmpresaComponent, canActivate: [RoleGuard], data: { role: 1 } },
   { path: 'nosotros', component: NosotrosComponent },
   /*para registrar usuarios dummy*/
   { path: 'register', component: RegisterComponent },
