@@ -6,12 +6,13 @@ import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component';
 import { RegisterComponent } from './register-component/register-component.component';
 import { NosotrosComponent } from './nosotros/nosotros.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponentComponent },
-  { path: 'feria', component: FeriaPageComponent },
+  { path: 'feria', component: FeriaPageComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: PerfilAdminComponent },
   { path: 'empresa', component: PerfilEmpresaComponent },
   { path: 'nosotros', component: NosotrosComponent },
