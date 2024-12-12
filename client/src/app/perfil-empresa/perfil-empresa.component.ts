@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AgendaService } from '../services/agenda.service'; // Importar el servicio de agenda
+import { PopupComponent } from '../popup/popup.component'; // Importar el componente popup
 
 @Component({
   selector: 'app-perfil-empresa',
   templateUrl: './perfil-empresa.component.html',
-  styleUrls: ['./perfil-empresa.component.css']
+  styleUrls: ['./perfil-empresa.component.css'],
 })
 export class PerfilEmpresaComponent implements OnInit {
   entidad: string = '';
@@ -31,10 +33,15 @@ export class PerfilEmpresaComponent implements OnInit {
   horarioMananaError: string | null = null;
   horarioTardeError: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  fechaEdicionInicio: Date | null = null;
+  fechaEdicionFin: Date | null = null;
+  isEditable: boolean = false;
+  @ViewChild('popupEdicionEmpresa') popupComponent!: PopupComponent;
+
+  constructor(private authService: AuthService, private router: Router, private agendaService: AgendaService) {}
 
   ngOnInit() {
-    const storedUser = sessionStorage.getItem('user');
+    const storedUser  = sessionStorage.getItem('user');
     const storedEmpresa = sessionStorage.getItem('empresa');
     const storedUserId = sessionStorage.getItem('userId');
     const storedEntidad = sessionStorage.getItem('entidad');
@@ -80,9 +87,77 @@ export class PerfilEmpresaComponent implements OnInit {
     } else {
       console.error('No se encontraron datos de la empresa.');
     }
+
+    // Obtener las fechas de edición de la API
+    this.agendaService.obtenerFechasEdicion().subscribe({
+      next: (fechas) => {
+          // Asegúrate de que las fechas estén en el formato correcto
+          if (fechas.length > 0) {
+              this.fechaEdicionInicio = fechas[0].fechaEdicionInfoEmpresa_inicio || null; // Asigna null si no existe
+              this.fechaEdicionFin = fechas[0].fechaEdicionInfoEmpresa_fin || null; // Asigna null si no existe
+          } else {
+              this.fechaEdicionInicio = null;
+              this.fechaEdicionFin = null;
+          }
+          this.checkEditable(); // Llamar a la función checkEditable
+
+          // Registro de las fechas y el estado de isEditable
+          console.log('Fechas de edición:', this.fechaEdicionInicio, this.fechaEdicionFin);
+          console.log('Estado de isEditable después de la verificación:', this.isEditable);
+          // Mostrar el popup si no es editable
+      },
+      error: (error: any) => {
+          console.error('Error al obtener fechas de edición:', error);
+      }
+    });
   }
 
+  ngAfterViewInit() {
+    this.agendaService.obtenerFechasEdicion().subscribe(fechas => {
+        if (fechas.length === 0) {
+            console.error('No se recibieron fechas de edición.');
+            return;
+        }
+        
+        const fechaEdicion = fechas[0];
+        const fechaInicio = new Date(fechaEdicion.fechaEdicionInfoEmpresa_inicio);
+        const fechaFin = new Date(fechaEdicion.fechaEdicionInfoEmpresa_fin);
+        const ahora = new Date();
 
+        // Verificar si el periodo de edición es válido
+        if (ahora < fechaInicio || ahora > fechaFin) {
+            const mensaje = `Lo sentimos, no puedes editar tu información porque estás fuera del periodo de edición de empresas. Este periodo empieza en ${fechaInicio.toLocaleDateString('es-ES')} hasta ${fechaFin.toLocaleDateString('es-ES')}.`;
+            console.log('Fecha de inicio:', fechaInicio);
+            console.log('Fecha de fin:', fechaFin);
+            
+            // Mostrar el popup con el mensaje
+            if (this.popupComponent) {
+                this.popupComponent.openPopup(true, mensaje);
+            } else {
+                console.error('popupComponent no está definido');
+            }
+        } else {
+            // Si el periodo es válido, puedes realizar otras acciones aquí si es necesario
+            this.isEditable = true; // O cualquier otra lógica que necesites
+        }
+    }, error => {
+        console.error('Error al obtener fechas de edición:', error);
+    });
+  }
+  
+
+  checkEditable() {
+    const currentDate = new Date();
+    // Verificar que las fechas no sean nulas antes de realizar la comparación
+    if (this.fechaEdicionInicio && this.fechaEdicionFin) {
+        this.isEditable = currentDate >= new Date(this.fechaEdicionInicio) && currentDate <= new Date(this.fechaEdicionFin);
+        console.log('Fecha actual:', currentDate);
+        console.log('isEditable:', this.isEditable);
+    } else {
+        console.warn('Las fechas de edición no están disponibles.');
+        this.isEditable = false; // Establecer a false si las fechas son nulas
+    }
+  }
 
   validarFormulario() {
     // Obtener los IDs desde sessionStorage cada vez que se valida el formulario
@@ -94,7 +169,7 @@ export class PerfilEmpresaComponent implements OnInit {
     // Validar el formulario
     if (!this.enlaceSalaEspera || !this.logotipo ||
       !this.nombreEmpresa || !this.paginaWeb) {
-    this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
     } else if (!this.id_usuario || !this.id_empresa) {
       this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
       return;  // Detener la ejecución si los IDs no están disponibles
@@ -110,7 +185,7 @@ export class PerfilEmpresaComponent implements OnInit {
     } else {
       this.errorMessage = null;
       this.contrasenaErrorMessage = null;
-  
+
       const empresa = {
         id_empresa: this.id_empresa,
         id_usuario: this.id_usuario,
@@ -129,13 +204,13 @@ export class PerfilEmpresaComponent implements OnInit {
       };
       // Si las contraseñas son válidas, cambia la contraseña
       this.cambiarContrasena();
-    
+
       this.authService.actualizarEmpresa(empresa).subscribe({
         next: (response: any) => {
           console.log('Datos actualizados:', response);
           this.successMessage = 'Datos de la empresa actualizados correctamente.';
           this.errorMessage = null;
-  
+
           // Actualizamos los datos en el formulario con la respuesta
           this.nombreEmpresa = response.nombre_empresa;
           this.paginaWeb = response.web;
@@ -147,10 +222,10 @@ export class PerfilEmpresaComponent implements OnInit {
           this.horario_meet_morning_end = response.horario_meet_morning_end;
           this.horario_meet_afternoon_start = response.horario_meet_afternoon_start;
           this.horario_meet_afternoon_end = response.horario_meet_afternoon_end;
-  
+
           // Actualiza también el sessionStorage
           this.authService.setEmpresa(response);
-  
+
           // Redirigir a la página '/feria'
           this.router.navigate(['/feria']);
         },
@@ -162,7 +237,7 @@ export class PerfilEmpresaComponent implements OnInit {
       });
     }
   }
-  
+
   cambiarContrasena() {
     if (!this.nuevaContrasena || !this.id_usuario) {
       console.error('Usuario ID y nueva contraseña son obligatorios');
@@ -185,13 +260,14 @@ export class PerfilEmpresaComponent implements OnInit {
       }
     );
   }
+
   validarHorarioManana() {
     if (this.horario_meet_morning_start && this.horario_meet_morning_end) {
       const startHour = parseInt(this.horario_meet_morning_start.split(":")[0]);
       const startMin = parseInt(this.horario_meet_morning_start.split(":")[1]);
       const endHour = parseInt(this.horario_meet_morning_end.split(":")[0]);
       const endMin = parseInt(this.horario_meet_morning_end.split(":")[1]);
-  
+
       // Validar que la hora de inicio esté entre las 10:00 y las 13:00
       if (startHour < 10 || (startHour === 13 && startMin > 0) || startHour > 13) {
         this.horarioMananaError = 'La hora de inicio debe estar entre las 10:00 y las 13:00';
@@ -202,14 +278,14 @@ export class PerfilEmpresaComponent implements OnInit {
       }
     }
   }
-  
+
   validarHorarioTarde() {
     if (this.horario_meet_afternoon_start && this.horario_meet_afternoon_end) {
       const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
       const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
       const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
       const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
-  
+
       // Validar que la hora de inicio esté entre las 15:30 y las 18:30
       if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
         this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
@@ -220,5 +296,4 @@ export class PerfilEmpresaComponent implements OnInit {
       }
     }
   }
-  
 }
