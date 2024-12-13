@@ -130,7 +130,7 @@
 
         <div class="contenedor-arriba">
             <div class="rectangle-detalles">
-                <img *ngIf="empresaSeleccionada.logoUrl" [src]="empresaSeleccionada.logoUrl" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
+                <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
             </div>
             <p class="empresa">
                 <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>

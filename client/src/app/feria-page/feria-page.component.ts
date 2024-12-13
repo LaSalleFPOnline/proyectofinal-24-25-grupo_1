@@ -35,7 +35,7 @@ export class FeriaPageComponent implements OnInit {
   spotUrl: string | null = null;
   eventosAgenda: any[] = [];
   now: Date = new Date();
-  logoFiles: string = '';
+  logoUrl: string = '';
   @ViewChild(PopupComponent) popupComponent!: PopupComponent;
 
   constructor(
