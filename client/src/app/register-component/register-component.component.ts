@@ -91,7 +91,7 @@ export class RegisterComponent implements AfterViewInit {
             
             // Mostrar el popup con el mensaje
             if (this.popupComponent) {
-                this.popupComponent.openPopup(true, mensaje);
+                this.popupComponent.openPopup(true, mensaje, 'error');
             } else {
                 console.error('popupComponent no está definido');
             }
@@ -111,7 +111,7 @@ export class RegisterComponent implements AfterViewInit {
       if (!this.isEditable) {
         const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro. Este periodo empieza en ${this.fechaEdicionInicio.toLocaleDateString('es-ES')} hasta ${this.fechaEdicionFin.toLocaleDateString('es-ES')}.`;
         if (this.popupComponent) {
-          this.popupComponent.openPopup(true, mensaje);
+          this.popupComponent.openPopup(true, mensaje, 'error');
         } else {
           console.error('popupComponent no está definido');
         }
@@ -294,6 +294,8 @@ export class RegisterComponent implements AfterViewInit {
     this.authService.register(formData).subscribe({
         next: (response: any) => {
             this.successMessage = response.message;
+            localStorage.setItem('popupMessage', "Registro completado. Bienvenido a la feria virtual La Salle Bussiness Match");
+            localStorage.setItem('popupType', 'success'); // Guardar tipo de mensaje
             setTimeout(() => {
                 this.router.navigate(['/login']);
             }, 2000);

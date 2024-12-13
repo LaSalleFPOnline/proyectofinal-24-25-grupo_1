@@ -53,7 +53,7 @@ INSERT INTO `usuario` (`id_usuario`, `email`, `password`, `entidad`, `rol`) VALU
 (11, 'marta@email.com', '', 'La Salle Gràcia', 1),
 (12, 'jordi@email.com', '', 'La Salle Bonanova', 1),
 (13, 'laura@email.com', '', 'La Salle Congress', 1),
-(14, 'sivia@email.com', '', 'La Salle Santo Ángel', 1),
+(14, 'silvia@email.com', '', 'La Salle Santo Ángel', 1),
 -- Usuario (Admin) SIN registrar
 (15, 'mbella@email.com', '', 'La Salle Barceloneta', 2),
 (16, 'jcortes@email.com', '', 'La Salle Ramón Lull', 2),
@@ -154,7 +154,7 @@ INSERT INTO `usuario` (`id_usuario`, `email`, `password`, `entidad`, `rol`) VALU
 (11, 'marta@email.com', '', 'La Salle Gràcia', 1),
 (12, 'jordi@email.com', '', 'La Salle Bonanova', 1),
 (13, 'laura@email.com', '', 'La Salle Congress', 1),
-(14, 'sivia@email.com', '', 'La Salle Santo Ángel', 1),
+(14, 'silvia@email.com', '', 'La Salle Santo Ángel', 1),
 (15, 'mbella@email.com', '', 'La Salle Barceloneta', 2),
 (16, 'jcortes@email.com', '', 'La Salle Ramón Lull', 2),
 (17, 'lperez@email.com', '', 'La Salle Franciscanas', 2),
