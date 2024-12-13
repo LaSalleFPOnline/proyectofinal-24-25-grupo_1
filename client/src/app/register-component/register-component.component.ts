@@ -2,6 +2,9 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AgendaService } from '../services/agenda.service'; // Importar el servicio de agenda
+import { PopupComponent } from '../popup/popup.component'; // Importar el componente popup
+
 
 @Component({
   selector: 'app-register',
@@ -12,6 +15,7 @@ export class RegisterComponent implements AfterViewInit {
 
   @ViewChild('emailInput') emailInput!: ElementRef;
   @ViewChild('rolInput') rolInput!: ElementRef;
+  @ViewChild('popupEdicionRegistro') popupComponent!: PopupComponent;
 
   email: string = '';
   password: string = '';
@@ -41,11 +45,82 @@ export class RegisterComponent implements AfterViewInit {
   horarioMananaError: string | null = null;
   horarioTardeError: string | null = null;
 
+  fechaEdicionInicio: Date | null = null;
+  fechaEdicionFin: Date | null = null;
+  isEditable: boolean = false;
+
   //logoPreview: string | null = null; // Propiedad para la vista previa del logo
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private agendaService: AgendaService) {}
 
-  ngAfterViewInit() {  }
+  ngOnInit() {
+    // Obtener las fechas de edición de la API
+    this.agendaService.obtenerFechasEdicion().subscribe({
+      next: (fechas) => {
+        if (fechas.length > 0) {
+          this.fechaEdicionInicio = fechas[0].fechaEdicionInfoEmpresa_inicio || null;
+          this.fechaEdicionFin = fechas[0].fechaEdicionInfoEmpresa_fin || null;
+        } else {
+          this.fechaEdicionInicio = null;
+          this.fechaEdicionFin = null;
+        }
+      },
+      error: (error: any) => {
+        console.error('Error al obtener fechas de edición:', error);
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.agendaService.obtenerFechasEdicion().subscribe(fechas => {
+        if (fechas.length === 0) {
+            console.error('No se recibieron fechas de edición.');
+            return;
+        }
+        
+        const fechaEdicion = fechas[0];
+        const fechaInicio = new Date(fechaEdicion.fechaEdicionInfoEmpresa_inicio);
+        const fechaFin = new Date(fechaEdicion.fechaEdicionInfoEmpresa_fin);
+        const ahora = new Date();
+
+        // Verificar si el periodo de edición es válido
+        if (ahora < fechaInicio || ahora > fechaFin) {
+            const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro de nuevas empresas. Este periodo empieza en ${fechaInicio.toLocaleDateString('es-ES')} hasta ${fechaFin.toLocaleDateString('es-ES')}.`;
+            console.log('Fecha de inicio:', fechaInicio);
+            console.log('Fecha de fin:', fechaFin);
+            
+            // Mostrar el popup con el mensaje
+            if (this.popupComponent) {
+                this.popupComponent.openPopup(true, mensaje);
+            } else {
+                console.error('popupComponent no está definido');
+            }
+        } else {
+            // Si el periodo es válido, puedes realizar otras acciones aquí si es necesario
+            this.isEditable = true; // O cualquier otra lógica que necesites
+        }
+    }, error => {
+        console.error('Error al obtener fechas de edición:', error);
+    });
+  }
+
+  checkEditable() {
+    const currentDate = new Date();
+    if (this.fechaEdicionInicio && this.fechaEdicionFin) {
+      this.isEditable = currentDate >= new Date(this.fechaEdicionInicio) && currentDate <= new Date(this.fechaEdicionFin);
+      if (!this.isEditable) {
+        const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro. Este periodo empieza en ${this.fechaEdicionInicio.toLocaleDateString('es-ES')} hasta ${this.fechaEdicionFin.toLocaleDateString('es-ES')}.`;
+        if (this.popupComponent) {
+          this.popupComponent.openPopup(true, mensaje);
+        } else {
+          console.error('popupComponent no está definido');
+        }
+      }
+    } else {
+      console.warn('Las fechas de edición no están disponibles.');
+      this.isEditable = false; // Establecer a false si las fechas son nulas
+    }
+  }
 
   validarEmail() {
     if (!this.email) {
