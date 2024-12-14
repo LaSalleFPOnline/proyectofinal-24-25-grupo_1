@@ -126,6 +126,7 @@ INSERT INTO `evento` (`id_evento`, `fechaVotacion_inicio`, `fechaVotacion_fin`, 
 (1, '2024-12-18 16:00:00', '2025-12-19 23:59:59', '2025-02-01 23:59:59', '2024-12-19 00:00:00', '2024-12-19 23:59:59', '2024-12-16 00:00:00', '2024-12-18 15:00:00');
 
 
+
 INSERT INTO `agenda` (`id_agenda`, `horaI`, `horaF`, `descripcion`, `detalles`) VALUES
 (1, '09:00:00', '09:14:59', 'Acto Inaugural', 'Con invitado institucional. ¡Más detalles, por favor!'),
 (2, '09:15:00', '09:59:59', 'Emprender con...', 'Invitar a un emprendedor. ¡Más detalles, por favor!'),

@@ -4,7 +4,7 @@
   <!-- Campo de Email y Validación -->
   <div *ngIf="!emailValidado" class="campo">
     <label class="text">* Email:</label>
-    <input type="email" id="email" #emailInput [(ngModel)]="email" name="email" class="input" required>
+    <input type="email" id="email" #emailInput [(ngModel)]="email" name="email" class="input" required [disabled]="!isEditable">
     <img class="line" src="assets/Images/line.png">
   </div>
   <button *ngIf="!emailValidado" type="button" (click)="validarEmail()" class="button-validar">Validar Email</button>
