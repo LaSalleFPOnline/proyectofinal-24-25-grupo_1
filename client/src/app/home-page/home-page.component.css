@@ -4,16 +4,18 @@
   box-sizing: border-box;
 }
 
+
 /* -------------------- Region Video -------------------- */
 /* #region video */
 .video {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75%;
-  padding: 5%;
+  width: 100%;
+  /* padding: 5%; */
   box-sizing: border-box;
   margin: 0 auto;
+  margin-bottom: 2rem;
 }
 
 iframe {
@@ -40,6 +42,7 @@ iframe {
   padding: 20px;
   box-sizing: border-box;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 .flexcontainer {
@@ -136,7 +139,7 @@ iframe {
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
 }
 .text-intro, .text-intro2, .desciption, .frame {
   font-family: 'Roboto Mono', monospace;
@@ -270,7 +273,7 @@ iframe {
   border-radius: 45px;
   border: 5px solid #2B2B2A;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 2rem 2rem;
 }
 
 .descargas .descarga-programa,
@@ -284,7 +287,7 @@ iframe {
   justify-content: space-between;
   position: relative;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .descargas .descarga-programa {
@@ -303,7 +306,7 @@ iframe {
   margin: 0;
   line-height: 1.5;
   color: #F3F3F3;
-  font-size: 1.5vw;
+  font-size: 1vw;
 }
 
 .descargas .link {
@@ -320,8 +323,8 @@ iframe {
 }
 
 .descargas .link img {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.5rem;
 }
 
@@ -350,7 +353,7 @@ iframe {
 /* #region Patrocinadores */
 .titulo{
   margin-top: 20px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .patrocinadores {
@@ -361,8 +364,9 @@ iframe {
   justify-content: center;
   position: relative;
   margin: 0 auto;
-  padding: 0.4rem 0;
+  padding: 2rem;
   overflow: hidden;
+  padding: 2rem;
 }
 
 .patrocinadores .fondo {

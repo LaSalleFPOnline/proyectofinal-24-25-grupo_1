@@ -1,43 +1,46 @@
 .footer {
     width: 100%;
+    max-width: 1280px;
+    height: auto;
+    /* min-height: 100%; */
     background-color: #F3F3F3;
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 2rem;
+    font-size: 12px;
+    align-items: start;
+}
+
+.footer-botones,
+.footer-text,
+.footer-content {
+    padding: 1rem; /* Espaciado interno */
+    text-align: center;
+}
+
+
+.footer-text, 
+.footer-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-.logo {
-    width: 10vw;
-    max-width: 9rem;
-    height: auto;
-    margin-bottom: 1rem;
-}
-
-.illustration {
-    position: absolute;
-    width: 15%;
-    height: auto;
-    right: 1rem;
-    margin-bottom: 1rem;
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.footer-botones {
+    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.illustrations-by {
-    text-align: right;
-    margin: 0;
-}
-
-.span {
-    text-decoration: underline;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* padding: 2rem;  */
 }
 
 .titulo-contacta {
@@ -47,7 +50,7 @@
     display: inline-block;
     width: fit-content;
     font-size: 0.7rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     border-radius: 10px;
     padding: 0.5rem 1rem;
     font-size: 0.7rem;
@@ -58,15 +61,6 @@
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
 }
-
-/* Efecto hover */
-.titulo-contacta:hover {
-    background-color: #eb433e;
-    color: #FFFFFF;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-}
-
 
 .titulo-nosotros {
     color: #F3F3F3; /* Color del texto del enlace */
@@ -77,13 +71,21 @@
     display: inline-block;
     width: fit-content;
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Efecto hover */
+.titulo-contacta:hover {
+    background-color: #eb433e;
+    color: #FFFFFF;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
 .titulo-nosotros:hover {
-    background-color: rgb(5, 185, 245);
+    background-color: lightblue;
     color: white;
 }
 .titulo-nosotros a {
@@ -91,11 +93,105 @@
     text-decoration: none;
     display: block;
 }
-
-.footer .text {
-    font-size: 0.7rem;
-    font-family: "Roboto Mono", monospace;
+.divider {
+    width: 2px; /* Ancho de la línea divisoria */
+    background-color: #2B2B2A;
+    height: 100%; 
+    margin: 0 1rem; /* Espaciado horizontal */
 }
+
 .line {
-    width: 100%;
+    width: 100%; /* Asegura que la línea decorativa ocupe todo el ancho */
+    height: 1px; /* Altura de la línea */
+    background-color: #2B2B2A; /* Color de la línea */
+    margin: 1rem 0; /* Espaciado vertical alrededor de la línea */
+}
+
+.illustrations-by {
+    margin: 0; /* Eliminar márgenes para un mejor alineamiento */
+}
+
+.illustrations-by a {
+    color: #2B2B2A; /* Color del enlace */
+    text-decoration: none; /* Sin subrayado en el enlace */
+}
+
+.illustrations-by a:hover {
+    text-decoration: underline; /* Subrayar el enlace al pasar el ratón */
+}
+
+.illustration {
+    position: static;
+    width: 20%;
+    height: auto;
+    right: 0;
+    margin-bottom: 1rem;
+}
+
+.span {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        gap: 0.5rem; /* Reduce el espacio entre columnas */
+        grid-template-columns: 1fr; /* Opcional: Cambiar a una sola columna si necesario */
+        text-align: center; /* Centrar el texto para mayor legibilidad */
+    }
+
+    .footer-botones, 
+    .footer-text, 
+    .footer-content {
+        padding: 0.3rem; /* Ajusta el espaciado interno */
+    }
+
+    .titulo-contacta, 
+    .titulo-nosotros {
+        font-size: 0.5rem; /* Reduce el tamaño de la fuente si es necesario */
+        padding: 0.3rem 0.5rem; /* Ajusta los paddings para mantener proporción */
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .line {
+        margin: 0.5rem 0; /* Reduce el margen de las líneas decorativas */
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .footer {
+        grid-template-columns: 1fr; /* Una sola columna para móviles */
+        gap: 0.5rem; /* Espacio aún más reducido */
+    }
+
+    .titulo-contacta, 
+    .titulo-nosotros {
+        font-size: 0.5rem; /* Tamaño reducido para caber en pantallas muy pequeñas */
+        padding: 0.3rem 0.6rem; /* Padding proporcional */
+        white-space: nowrap;
+    }
+
+    .footer-botones, 
+    .footer-text, 
+    .footer-content {
+        padding: 0.3rem; /* Menor espaciado interno */
+    }
+
+    .line {
+        margin: 0.2rem 0; /* Margen reducido */
+    }
+}
+
+@media (max-width: 834px) {
+    .titulo-contacta {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.6rem;
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .footer {
+        gap: 1rem;
+    }
 }

@@ -3,8 +3,9 @@
 .header {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
     z-index: 1000;
     background-color: rgba(255, 255, 255, 0.9);
     transition: height 0.3s, background-color 0.3s;
@@ -12,9 +13,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px; /* Espaciado interno */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    
+    padding: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+
 }
 
 .header.shrink {
@@ -32,7 +35,7 @@
 
 .logo {
     width: 100px;
-    max-width: 40%;
+    max-width: 35%;
     height: auto;
     cursor: pointer;
 }
