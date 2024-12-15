@@ -132,7 +132,7 @@ export class PerfilEmpresaComponent implements OnInit {
             
             // Mostrar el popup con el mensaje
             if (this.popupComponent) {
-                this.popupComponent.openPopup(true, mensaje);
+                this.popupComponent.openPopup(true, mensaje, 'error');
             } else {
                 console.error('popupComponent no está definido');
             }
@@ -225,7 +225,7 @@ export class PerfilEmpresaComponent implements OnInit {
 
           // Actualiza también el sessionStorage
           this.authService.setEmpresa(response);
-
+          localStorage.setItem('popupMessage', "Has actualizado correctamente los datos de tu empresa");
           // Redirigir a la página '/feria'
           this.router.navigate(['/feria']);
         },

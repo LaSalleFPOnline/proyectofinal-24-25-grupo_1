@@ -1,4 +1,4 @@
-import { Component, Renderer2, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, Renderer2, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   imports: [CommonModule, PopupComponent]
 })
 
-export class FeriaPageComponent implements OnInit {
+export class FeriaPageComponent implements AfterViewInit {
   empresas: any[] = [];
   empresaSeleccionada: any = null;
   relacionesCompra: any[] = [];
@@ -35,8 +35,8 @@ export class FeriaPageComponent implements OnInit {
   spotUrl: string | null = null;
   eventosAgenda: any[] = [];
   now: Date = new Date();
-  logoFiles: string = '';
-  @ViewChild(PopupComponent) popupComponent!: PopupComponent;
+  logoUrl: string = '';
+  @ViewChild('popupComponent') popupComponent!: PopupComponent; // Asegúrate de que el selector sea correcto
 
   constructor(
     private http: HttpClient,
@@ -83,6 +83,15 @@ export class FeriaPageComponent implements OnInit {
         console.error('Error al obtener rol del usuario: ', error);
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    const popupMessage = localStorage.getItem('popupMessage');
+    if (popupMessage) {
+      // Llama a openPopup con ambos argumentos
+      this.popupComponent.openPopup(true, popupMessage); // true para hacer visible el popup
+      localStorage.removeItem('popupMessage'); // Limpiar el mensaje después de mostrarlo
+    }
   }
 
   getEmbedUrl(spot: string): SafeResourceUrl {
@@ -277,7 +286,7 @@ export class FeriaPageComponent implements OnInit {
         return;
     }
     const esEmpresaEnRelacionesVenta = this.relacionesVenta.some(rel => 
-        rel.id_empresaVendedora === empresaId && 
+        rel.id_empresaVendedora === empresaId &&
         rel.id_empresaCompradora === empresaInteresadaId
     );
     if (esEmpresaEnRelacionesVenta) {
@@ -336,7 +345,7 @@ votar(): void {
       console.log('Fecha de fin de votación:', fechaFin);
       if (ahora < fechaInicio || ahora > fechaFin) {
           console.log('Mostrando pop-up');
-          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`);
+          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
           return;
       }
       this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
@@ -373,7 +382,7 @@ eliminarVoto(): void {
       const fechaFin = new Date(fechaVotacion.fechaVotacion_fin);
       const ahora = new Date();
       if (ahora < fechaInicio || ahora > fechaFin) {
-          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`);
+          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
           return;
       }
       this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(

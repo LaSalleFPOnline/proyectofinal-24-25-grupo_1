@@ -5,13 +5,28 @@ const { connection } = require('../database/database');
 Esta función maneja una solicitud para obtener una lista de todos los eventos almacenados en la tabla agenda de la BBDD
 La consulta SQL selecciona todos los registros de la tabla que contiene los eventos
 */
-const getAllEvents = (req, res) => {
-  const sql = 'SELECT * FROM agenda';
+//const getAllEvents = (req, res) => {
+ // const sql = 'SELECT * FROM agenda';
   /*
   Ejecutamos la consulta. Si hay un error durante la ejecución de la consulta, se responde con un estado 500 y un
   mensaje de error en formato JSON. Si la consulta se ejecuta correctamente, los resultados se envían como respuesta
   JSON con un estado 200 (OK).
   */
+
+ /* connection.query(sql, (error, results) => {
+    if (error) {
+      console.error('Error al obtener la agenda:', error);
+      return res.status(500).json({ error: 'Error al obtener la agenda' });
+    }
+    res.status(200).json(results);
+  });
+};*/
+// Suponiendo que estás usando Express y tienes acceso a tu base de datos
+const getAllEvents = (req, res) => {
+  const sql = `SELECT a.*, e.fechaEvento_inicio, e.fechaEvento_fin
+          FROM agenda a
+          CROSS JOIN evento e`;
+
   connection.query(sql, (error, results) => {
     if (error) {
       console.error('Error al obtener la agenda:', error);
@@ -50,5 +65,6 @@ const getEventById = (req, res) => {
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {
   getAllEvents,
-  getEventById
+  getEventById,
+  
 };
