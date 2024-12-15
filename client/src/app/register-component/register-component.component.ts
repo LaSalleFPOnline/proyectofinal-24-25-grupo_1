@@ -237,6 +237,14 @@ export class RegisterComponent implements AfterViewInit {
       if (!isMorningSchedulePresent && !isAfternoonSchedulePresent) {
         missingFields.push('Horario de Meet (mañana o tarde)');
       }
+      // Validar horarios
+      const isMorningValid = this.validarHorarioManana();
+      const isAfternoonValid = this.validarHorarioTarde();
+
+      if (!isMorningValid || !isAfternoonValid) {
+          this.errorMessage = 'Los horarios proporcionados no son válidos.';
+          return; // No continuar si los horarios son inválidos
+      }
     } else if (this.rol === 2) {  // Visitante
       if (!this.entidad) missingFields.push('Entidad');
     }
@@ -322,7 +330,7 @@ export class RegisterComponent implements AfterViewInit {
       default: return 'Desconocido';
     }
   }
-  validarHorarioManana() {
+  validarHorarioManana(): boolean {
     if (this.horario_meet_morning_start && this.horario_meet_morning_end) {
       const startHour = parseInt(this.horario_meet_morning_start.split(":")[0]);
       const startMin = parseInt(this.horario_meet_morning_start.split(":")[1]);
@@ -332,31 +340,37 @@ export class RegisterComponent implements AfterViewInit {
       // Validar que la hora de inicio esté entre las 10:00 y las 13:00
       if (startHour < 10 || (startHour === 13 && startMin > 0) || startHour > 13) {
         this.horarioMananaError = 'La hora de inicio debe estar entre las 10:00 y las 13:00';
+        return false; // Indica que la validación falló
       } else if (endHour < 10 || (endHour === 13 && endMin > 0) || endHour > 13) {
         this.horarioMananaError = 'La hora de fin debe estar entre las 10:00 y las 13:00';
+        return false; // Indica que la validación falló
       } else {
         this.horarioMananaError = null; // Reseteamos el error si la validación es correcta
+        return true; // Indica que la validación falló
       }
     }
+    return true; // Si no hay horarios, consideramos que la validación es exitosa
   }
   
-  validarHorarioTarde() {
+  validarHorarioTarde(): boolean {
     if (this.horario_meet_afternoon_start && this.horario_meet_afternoon_end) {
-      const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
-      const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
-      const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
-      const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
-  
-      // Validar que la hora de inicio esté entre las 15:30 y las 18:30
-      if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
-        this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
-      } else if (endHour < 15 || (endHour === 15 && endMin < 30) || endHour > 18 || (endHour === 18 && endMin > 30)) {
-        this.horarioTardeError = 'La hora de fin debe estar entre las 15:30 y las 18:30';
-      } else {
-        this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
-      }
-    }
-  }
+        const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
+        const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
+        const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
+        const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
 
-  
+        // Validar que la hora de inicio esté entre las 15:30 y las 18:30
+        if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
+            this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
+            return false; // Indica que la validación falló
+        } else if (endHour < 15 || (endHour === 15 && endMin < 30) || endHour > 18 || (endHour === 18 && endMin > 30)) {
+            this.horarioTardeError = 'La hora de fin debe estar entre las 15:30 y las 18:30';
+            return false; // Indica que la validación falló
+        } else {
+            this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
+            return true; // Indica que la validación fue exitosa
+        }
+    }
+    return true; // Si no hay horarios, consideramos que la validación es exitosa
+  }
 }

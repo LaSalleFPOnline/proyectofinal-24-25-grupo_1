@@ -326,12 +326,16 @@ votar(): void {
   const usuarioId = this.authService.getUserId();
   const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
   const voto = 1;
+
+  console.log('Intentando votar...'); // Agregado para depuración
+
   if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
   }
+
   this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
-      console.log('Fechas de votación:', fechas);
+      console.log('Fechas de votación:', fechas); // Agregado para depuración
       if (fechas.length === 0) {
           console.error('No se recibieron fechas de votación.');
           return;
@@ -344,20 +348,23 @@ votar(): void {
       console.log('Fecha de inicio de votación:', fechaInicio);
       console.log('Fecha de fin de votación:', fechaFin);
       if (ahora < fechaInicio || ahora > fechaFin) {
-          console.log('Mostrando pop-up');
+          console.log('Mostrando pop-up por fuera del periodo de votación');
           this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
           return;
       }
       this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
           catchError(error => {
               console.error('Error al votar:', error);
+              // Aquí manejamos el error y mostramos el popup
+              this.popupComponent.openPopup(true, "Solamente puedes votar a 1 empresa. Elimina el voto y vuelve a intentarlo", 'error');
               return of(null);
           })
       ).subscribe(response => {
           if (response) {
               console.log('Voto registrado exitosamente:', response);
-              this.yaVotado = true;
+              this.yaVotado = true; // Asegúrate de que esto se ejecute
               localStorage.setItem(`voto_${empresaVotadaId}`, JSON.stringify(this.yaVotado));
+              this.popupComponent.openPopup(true, "Has registrado tu voto correctamente", 'success'); // Mensaje de éxito
           }
       });
   }, error => {
@@ -395,6 +402,7 @@ eliminarVoto(): void {
               console.log('Voto eliminado exitosamente', response);
               this.yaVotado = false;
               localStorage.removeItem(`voto_${empresaVotadaId}`);
+              this.popupComponent.openPopup(true, "Has eliminado tu voto correctamente", 'success');
           }
       });
   }, error => {
