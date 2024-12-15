@@ -144,7 +144,14 @@ export class PerfilEmpresaComponent implements OnInit {
         console.error('Error al obtener fechas de edición:', error);
     });
   }
-  
+
+  checkPasswords() {
+    if (this.nuevaContrasena !== this.repiteContrasena) {
+        this.contrasenaErrorMessage = 'Las contraseñas no coinciden.';
+    } else {
+        this.contrasenaErrorMessage = null; // Reseteamos el error si las contraseñas coinciden
+    }
+  }
 
   checkEditable() {
     const currentDate = new Date();
@@ -168,73 +175,73 @@ export class PerfilEmpresaComponent implements OnInit {
 
     // Validar el formulario
     if (!this.enlaceSalaEspera || !this.logotipo ||
-      !this.nombreEmpresa || !this.paginaWeb) {
-      this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+        !this.nombreEmpresa || !this.paginaWeb) {
+        this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
     } else if (!this.id_usuario || !this.id_empresa) {
-      this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
-      return;  // Detener la ejecución si los IDs no están disponibles
+        this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
+        return;  // Detener la ejecución si los IDs no están disponibles
     } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
-      this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';
-      return;  // Detener la ejecución si no hay horarios
+        this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';
+        return;  // Detener la ejecución si no hay horarios
     } else if (this.horarioMananaError || this.horarioTardeError) {  // Agregar validación de errores de horario
-      this.errorMessage = 'Por favor, corrija los errores en los horarios.';
-      return;  // Detener la ejecución si hay errores en los horarios
-    } else if (this.contrasena && this.repiteContrasena !== this.contrasena) {
-      this.contrasenaErrorMessage = 'Las contraseñas no coinciden.';
-      return;  // Detener la ejecución si las contraseñas no coinciden
+        this.errorMessage = 'Por favor, corrija los errores en los horarios.';
+        return;  // Detener la ejecución si hay errores en los horarios
+    } else if (this.nuevaContrasena && this.repiteContrasena !== this.nuevaContrasena) {
+        this.errorMessage = 'Las contraseñas no coinciden.'; // Validar contraseñas
+        return;  // Detener la ejecución si las contraseñas no coinciden
     } else {
-      this.errorMessage = null;
-      this.contrasenaErrorMessage = null;
+        this.errorMessage = null;
+        this.contrasenaErrorMessage = null;
 
-      const empresa = {
-        id_empresa: this.id_empresa,
-        id_usuario: this.id_usuario,
-        nombre_empresa: this.nombreEmpresa,
-        web: this.paginaWeb,
-        spot: this.spotPublicitario,
-        logo: this.logotipo,
-        descripcion: this.descripcionProductos,
-        url_meet: this.enlaceSalaEspera,
-        horario_meet_morning_start: this.horario_meet_morning_start || null,
-        horario_meet_morning_end: this.horario_meet_morning_end || null,
-        horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
-        horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
-        entidad: this.entidad,
-        contrasena: this.contrasena // Agregar contrasena al objeto si existe
-      };
-      // Si las contraseñas son válidas, cambia la contraseña
-      this.cambiarContrasena();
+        const empresa = {
+            id_empresa: this.id_empresa,
+            id_usuario: this.id_usuario,
+            nombre_empresa: this.nombreEmpresa,
+            web: this.paginaWeb,
+            spot: this.spotPublicitario,
+            logo: this.logotipo,
+            descripcion: this.descripcionProductos,
+            url_meet: this.enlaceSalaEspera,
+            horario_meet_morning_start: this.horario_meet_morning_start || null,
+            horario_meet_morning_end: this.horario_meet_morning_end || null,
+            horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
+            horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
+            entidad: this.entidad,
+            contrasena: this.nuevaContrasena // Agregar contrasena al objeto si existe
+        };
 
-      this.authService.actualizarEmpresa(empresa).subscribe({
-        next: (response: any) => {
-          console.log('Datos actualizados:', response);
-          this.successMessage = 'Datos de la empresa actualizados correctamente.';
-          this.errorMessage = null;
+        // Si las contraseñas son válidas, cambia la contraseña
+        this.cambiarContrasena();
 
-          // Actualizamos los datos en el formulario con la respuesta
-          this.nombreEmpresa = response.nombre_empresa;
-          this.paginaWeb = response.web;
-          this.spotPublicitario = response.spot;
-          this.logotipo = response.logo;
-          this.descripcionProductos = response.descripcion;
-          this.enlaceSalaEspera = response.url_meet;
-          this.horario_meet_morning_start = response.horario_meet_morning_start;
-          this.horario_meet_morning_end = response.horario_meet_morning_end;
-          this.horario_meet_afternoon_start = response.horario_meet_afternoon_start;
-          this.horario_meet_afternoon_end = response.horario_meet_afternoon_end;
+        this.authService.actualizarEmpresa(empresa).subscribe({
+            next: (response: any) => {
+                console.log('Datos actualizados:', response);
+                this.successMessage = 'Datos de la empresa actualizados correctamente.';
+                this.errorMessage = null;
 
-          // Actualiza también el sessionStorage
-          this.authService.setEmpresa(response);
-          localStorage.setItem('popupMessage', "Has actualizado correctamente los datos de tu empresa");
-          // Redirigir a la página '/feria'
-          this.router.navigate(['/feria']);
-        },
-        error: (error: any) => {
-          console.error('Error al actualizar la empresa:', error);
-          this.errorMessage = 'Hubo un error al actualizar la empresa. Por favor, inténtelo de nuevo.';
-          this.successMessage = null;
-        }
-      });
+                // Actualizamos los datos en el formulario con la respuesta
+                this.nombreEmpresa = response.nombre_empresa;
+                this.paginaWeb = response.web;
+                this.spotPublicitario = response.spot;
+                this.logotipo = response.logo;
+                this.descripcionProductos = response.descripcion;
+                this.enlaceSalaEspera = response.url_meet;
+                this.horario_meet_morning_start = response.horario_meet_morning_start;
+                this.horario_meet_morning_end = response.horario_meet_morning_end;
+                this.horario_meet_afternoon_start = response.horario_meet_afternoon_start;
+                this.horario_meet_afternoon_end = response.horario_meet_afternoon_end;
+
+                // Actualiza también el sessionStorage
+                this.authService.setEmpresa(response);
+                localStorage.setItem('popupMessage', "Has actualizado correctamente los datos de tu empresa");
+                // Redirigir a la página '/feria'
+                this.router.navigate(['/feria']);
+            },
+            error: (error: any) => {
+                console.error('Error al actualizar la empresa:', error);
+                this.errorMessage = 'Hubo un error al actualizar la empresa. Por favor, inténtalo de nuevo más tarde.';
+            }
+        });
     }
   }
 

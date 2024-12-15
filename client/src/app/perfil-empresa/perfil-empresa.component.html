@@ -20,7 +20,7 @@
   <!-- Repetir Contraseña -->
   <div class="campo">
     <label class="text">Repetir contraseña</label>
-    <input type="password" [(ngModel)]="repiteContrasena" name="repiteContrasena" class="input" placeholder="Repita la contraseña" [disabled]="!isEditable">
+    <input type="password" [(ngModel)]="repiteContrasena" name="repiteContrasena" class="input" placeholder="Repita la contraseña" [disabled]="!isEditable" (blur)="checkPasswords()">
     <img class="line" src="assets/Images/line.png">
     <div *ngIf="contrasenaErrorMessage" class="error-message">{{ contrasenaErrorMessage }}</div>
   </div>
