@@ -3,6 +3,49 @@
   background-color: lightblue;
 }
 
+.text{
+  font-size: 16px;
+}
+.input{
+  font-size: 14px;
+}
+
+
+
+.mdc-text-field {
+  background-color: transparent;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.mdc-text-field__input {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.mdc-floating-label {
+  font-size: 12px;
+  color: #2B2B2A;
+  transition: 0.2s ease;
+  box-sizing: border-box;
+}
+
+.mdc-text-field__input:focus + .mdc-notched-outline .mdc-notched-outline__notch {
+  border-color: #2B2B2A;
+}
+
+.mdc-text-field__input:focus + .mdc-notched-outline .mdc-floating-label {
+  transform: translateY(-20px) scale(0.75);
+  color: #2B2B2A;
+  
+}
+
+.mdc-text-field__input:valid + .mdc-notched-outline .mdc-floating-label {
+  transform: translateY(-20px) scale(0.75);
+  color: #2B2B2A;
+}
+
+
 .line {
   display: block;
   width: 90%;
@@ -39,22 +82,28 @@ form select {
   resize: vertical;
 }
 
-.button-validar {
-  padding: 1.25rem 2rem;
-  background-color: #F3F3F3;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 10px;
-  cursor: pointer;
-  z-index: 2;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;    pointer-events: auto;
+.enviar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.button-validar:hover,
-.button-validar:active {
-  border: 1px solid #2B2B2A;
-  background-color: #E0E0E0;
+.enviar button {
+  font-size: 14px;
+  color: #2B2B2A;
+  background-color: #F3F3F3;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: border 0.3s ease, transform 0.3s ease;
+}
+
+.enviar button:hover, .enviar button:active {
+  border: 2px solid #2B2B2A;
+  transform: scale(1.05);
 }
 
 input.error {
@@ -89,8 +138,10 @@ textarea:focus, input:focus, select:focus {
   margin-top: 12px;
 }
 
-
 .campo {
+  margin-bottom: 20px;
+  width: 80%;
+  margin: 0 auto;
   margin-bottom: 20px;
 }
 

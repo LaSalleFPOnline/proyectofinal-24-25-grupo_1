@@ -1,12 +1,12 @@
   
   <!-- Video de YouTube incrustado -->
-  <div class="video">
+  <div class="video container">
     <iframe src="https://www.youtube.com/embed/IJkG-4cfnVg?autoplay=1&mute=1" frameborder="0" allowfullscreen title="YouTube video player"></iframe>
   </div>
   
 
   <!-- Intro -->
-  <div class="intro">
+  <div class="intro container">
     <div class="flexcontainer">
       <p class="text-intro">La Salle Bussiness Match</p>
       <p class="text-intro2">30 de enero 2025</p>
@@ -26,7 +26,7 @@ Genera oportunidades únicas de aprendizaje y desarrollo profesional para estudi
 <div class="titulo">
   <p>Agenda</p>
 </div>
-<div class="agenda" id="agenda">
+<div class="agenda container" id="agenda">
   <div *ngFor="let event of events; let i = index"
       class="frame"
       [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded, 'current-event': event.isCurrent }">
@@ -55,7 +55,7 @@ Genera oportunidades únicas de aprendizaje y desarrollo profesional para estudi
   <!-- Div de Descargas -->
   <div class="titulo"> <p>Descargas</p>  </div>
 
-  <div class="descargas" id="descargas">
+  <div class="descargas container" id="descargas">
       <div class="descarga-programa">
           <p>Programa<br/>de la Feria</p><br/>
           <div class="link" (click)="downloadFile('assets/PDFs/Programa_LSBM_2025.pdf')">
@@ -86,7 +86,6 @@ Genera oportunidades únicas de aprendizaje y desarrollo profesional para estudi
   <div class="patrocinadores">
     
     <div class="fondo"></div>
-    
     <!-- scroll -->
     <div class="scroll-container">
       <div class="scroll">

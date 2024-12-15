@@ -155,11 +155,10 @@
 
     .line {
         margin: 0.5rem 0; /* Reduce el margen de las líneas decorativas */
-    }
-    
+    }   
 }
 
-@media (max-width: 480px) {
+@media (max-width: 375px) {
     .footer {
         grid-template-columns: 1fr; /* Una sola columna para móviles */
         gap: 0.5rem; /* Espacio aún más reducido */
@@ -183,7 +182,7 @@
     }
 }
 
-@media (max-width: 834px) {
+@media (max-width: 850px) {
     .titulo-contacta {
         font-size: 0.6rem;
         padding: 0.3rem 0.6rem;
