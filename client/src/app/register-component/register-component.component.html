@@ -1,13 +1,25 @@
 <form (ngSubmit)="validarFormulario()" class="formulario registro">
-  <div class="titulo">Registro</div>
+  <div class="titulo">
+    <p>Registro</p>
+  </div>
 
   <!-- Campo de Email y Validación -->
   <div *ngIf="!emailValidado" class="campo">
-    <label class="text">* Email:</label>
-    <input type="email" id="email" #emailInput [(ngModel)]="email" name="email" class="input" required [disabled]="!isEditable">
-    <img class="line" src="assets/Images/line.png">
+    <label class="mdc-text-field mdc-text-field--outlined">
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+          <span class="mdc-floating-label" id="email-label">Email</span>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+      <input type="email" id="email" name="email" class="mdc-text-field__input" [(ngModel)]="email" required aria-labelledby="email-label">
+    </label>
+    <div class="enviar">
+      <button mat-raised-button color="primary" type="button" (click)="validarEmail()">Validar Email</button>
+    </div>
   </div>
-  <button *ngIf="!emailValidado" type="button" (click)="validarEmail()" class="button-validar">Validar Email</button>
+  
 
   <!-- Campos adicionales después de validar el email -->
   <div *ngIf="emailValidado">
@@ -18,6 +30,7 @@
       <img class="line" src="assets/Images/line.png">
     </div>
 
+    
     <!-- Contraseña y Confirmar Contraseña -->
     <div class="campo">
       <label class="text">* Contraseña:</label>
@@ -61,38 +74,13 @@
         <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
       </div>
-      <div class="campo">
-        <label class="text">* Logo:</label>
-        <input type="file" (change)="onLogoFileChange($event)" accept="image/*" class="input" required [disabled]="!isEditable">
-        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview">
-    </div>
-
-
-      <!-- <div class="campo">
-        <label class="text">* Logo URL:</label>
-        <input type="text" id="logo_url" [(ngModel)]="logo_url" name="logo_url" class="input">
-        <img class="line" src="assets/Images/line.png">
-      </div> -->
-
-      <!-- <div class="campo">
-        <label class="text">* Logo:</label>
-        <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input">
-        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview">
-
+      
       <div class="campo">
         <label for="logo_file" class="text">* Logo:</label>
         <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input"/>
-        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview"/> -->
+        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview"/>
+      </div>
 
-      <!-- </div> -->
-
-      <!--<div class="campo">
-        <label class="text">* Logo:</label>
-        <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input">
-        <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview">
-      </div>-->
-
-      
       <div class="campo">
         <label class="text">Descripción de productos o servicios</label>
         <img class="line" src="assets/Images/line.png">
@@ -160,8 +148,12 @@
         <img class="line" src="assets/Images/line.png">
       </div>
       </div>
-      <!-- Botón de Registro -->
-      <button type="submit" class="button-validar">Registrarse</button>
+      
+       <!-- Botón de Registro -->
+       <div class="enviar">
+        <button mat-raised-button color="primary" type="submit">REGISTRARSE</button>
+      </div>
+      <!-- <button type="submit" class="button-validar">Registrarse</button> -->
     </div>
 
     <!-- Rol Visitante -->
@@ -179,6 +171,3 @@
 
     <!-- Mensaje de Error -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-</form>
-
-<app-popup #popupEdicionRegistro></app-popup>

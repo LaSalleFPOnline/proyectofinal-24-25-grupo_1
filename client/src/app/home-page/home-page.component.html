@@ -1,20 +1,20 @@
   
   <!-- Video de YouTube incrustado -->
-  <div class="video">
-    <iframe src="https://www.youtube.com/embed/IJkG-4cfnVg" frameborder="0" allowfullscreen title="YouTube video player"></iframe>
+  <div class="video container">
+    <iframe src="https://www.youtube.com/embed/IJkG-4cfnVg?autoplay=1&mute=1" frameborder="0" allowfullscreen title="YouTube video player"></iframe>
   </div>
   
 
   <!-- Intro -->
-  <div class="intro">
+  <div class="intro container">
     <div class="flexcontainer">
       <p class="text-intro">La Salle Bussiness Match</p>
       <p class="text-intro2">30 de enero 2025</p>
       <p class="desciption">
-        La Salle Bussiness Match es una iniciativa que impulsa la colaboración entre los diferentes centros La Salle,
-        promoviendo sinergias globales y aprovechando su red nacional. Este enfoque refuerza la metodología NCA, fomentando
-        la innovación conjunta y la co-creación de valor en proyectos educativos y empresariales. A través de esta actividad,
-        se potencian oportunidades únicas de aprendizaje y desarrollo profesional para estudiante y docentes.
+        Esta iniciativa impulsa la colaboración entre centros La Salle, creando sinergias globales.
+Refuerza la metodología NCA y promueve la innovación y co-creación en proyectos educativos.
+Genera oportunidades únicas de aprendizaje y desarrollo profesional para estudiantes y docentes.
+
       </p>
     </div>
     <div class="image-container">
@@ -26,7 +26,7 @@
 <div class="titulo">
   <p>Agenda</p>
 </div>
-<div class="agenda" id="agenda">
+<div class="agenda container" id="agenda">
   <div *ngFor="let event of events; let i = index"
       class="frame"
       [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded, 'current-event': event.isCurrent }">
@@ -55,7 +55,7 @@
   <!-- Div de Descargas -->
   <div class="titulo"> <p>Descargas</p>  </div>
 
-  <div class="descargas" id="descargas">
+  <div class="descargas container" id="descargas">
       <div class="descarga-programa">
           <p>Programa<br/>de la Feria</p><br/><br/>
           <div class="link" (click)="downloadFile('assets/PDFs/Programa_LSBM_2025.pdf')">
@@ -86,7 +86,6 @@
   <div class="patrocinadores">
     
     <div class="fondo"></div>
-    
     <!-- scroll -->
     <div class="scroll-container">
       <div class="scroll">
