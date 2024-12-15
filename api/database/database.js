@@ -162,15 +162,23 @@ const initializeDatabase = (callback) => {
                 (12, 'jordi@email.com', '', 'La Salle Bonanova', 1),
                 (13, 'laura@email.com', '', 'La Salle Congress', 1),
                 (14, 'sivia@email.com', '', 'La Salle Santo Ángel', 1),
-                (15, 'mbella@email.com', '', 'La Salle Barceloneta', 2),
-                (16, 'jcortes@email.com', '', 'La Salle Ramón Lull', 2),
-                (17, 'lperez@email.com', '', 'La Salle Franciscanas', 2),
-                (18, 'sduarte@email.com', '', 'La Salle Montemolín', 2),
-                (19, 'mb@email.com', '', 'La Salle Montemolín', 3),
-                (20, 'jc@email.com', '', 'La Salle Montemolín', 3),
-                (21, 'lp@email.com', '', 'La Salle Montemolín', 3),
-                (22, 'sd@email.com', '', 'La Salle Montemolín', 3);`,
-             
+                (15, 'empresa1@email.com', '', 'Datos Dummy Empresa', 1),
+                (16, 'empresa2@email.com', '', 'Datos Dummy Empresa', 1),
+                (17, 'empresa3@email.com', '', 'Datos Dummy Empresa', 1),
+                (18, 'mbella@email.com', '', 'La Salle Barceloneta', 2),
+                (19, 'jcortes@email.com', '', 'La Salle Ramón Lull', 2),
+                (20, 'lperez@email.com', '', 'La Salle Franciscanas', 2),
+                (21, 'sduarte@email.com', '', 'La Salle Montemolín', 2),
+                (22, 'visitante1@email.com', '', 'Datos Dummy Visitante', 2),
+                (23, 'visitante2@email.com', '', 'Datos Dummy Visitante', 2),
+                (24, 'visitante3@email.com', '', 'Datos Dummy Visitante', 2),
+                (25, 'mb@email.com', '', 'La Salle Montemolín', 3),
+                (26, 'jc@email.com', '', 'La Salle Montemolín', 3),
+                (27, 'lp@email.com', '', 'La Salle Montemolín', 3),
+                (28, 'sd@email.com', '', 'La Salle Montemolín', 3),
+                (29, 'admin1@email.com', '', 'Datos Dummy Admin', 3),
+                (30, 'admin2@email.com', '', 'Datos Dummy Admin', 3),
+                (31, 'admin3@email.com', '', 'Datos Dummy Admin', 3);`,
             
               `INSERT INTO empresa (id_empresa, id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, 
                 horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) 
@@ -185,35 +193,35 @@ const initializeDatabase = (callback) => {
                 (8, 8, 'Numericco', 'https://www.numericco.com/', 'https://www.youtube.com/watch?v=uYVkAlQft9w', 'https://www.camarazaragoza.com/wp-content/uploads/2019/12/numericcologo.jpg', 'Numericco es una boutique digital especializada en diseño, tecnología y estrategias de marketing, con más de 10 años de experiencia. Su enfoque combina diseño gráfico, ingeniería informática y tecnologías innovadoras para crear soluciones digitales personalizadas, impulsando marcas y proyectos de comercio electrónico. Han ganado múltiples premios nacionales y se destacan como expertos en plataformas como Shopify y PrestaShop, posicionándose como líderes en su sector​.', 'https://meet.google.com/xxb-jjdk-wgw', '10:00:00', '11:00:00', '17:00:00', '17:30:00');`,
             
               `INSERT INTO administrador (id_administrador, id_usuario) VALUES
-               (1, 9);`,
+                (1, 9);`,
             
               `INSERT INTO visitante (id_visitante, id_usuario) VALUES
                 (1, 10);`,
             
-             
               `INSERT INTO votacion (id_votacion, id_usuarioVotante, id_empresaVotada, voto) VALUES
                 (1, 5, 6, 1),
                 (2, 2, 6, 1),
                 (3, 1, 7, 1);`,
-                
+            
               `INSERT INTO agenda (id_agenda, horaI, horaF, descripcion, detalles) VALUES
-            (1, '09:00:00', '09:14:59', 'Acto Inaugural', 'Con invitado institucional. ¡Más detalles, por favor!'),
-            (2, '09:15:00', '09:59:59', 'Emprender con...', 'Invitar a un emprendedor. ¡Más detalles, por favor!'),
-            (3, '10:00:00', '12:59:59', 'Feria Virtual', 'Sesión de mañana. ¡Ánimo en esas relaciones comerciales!'),
-            (4, '13:00:00', '15:29:59', 'Descanso', 'Hacemos un descanso para comer y volver con fuerzas'),
-            (5, '15:30:00', '18:29:59', 'Feria Virtual', 'Sesión de tarde. Recordar votar a la mejor empresa para el concurso. ¡Mucha suerte a todos!'),
-            (6, '18:30:00', '18:59:59', 'Clausura de la Feria', 'Anunciamos a las empresas ganadoras del concurso y terminamos la I Feria de empresas simuladas La Salle Bussiness Match. ¡¡Hasta la próxima!!'),
-            (7, '19:00:00', '19:59:59', 'Networking', '¡Hora de hacer contactos!'),
-            (8, '20:00:00', '21:30:00', 'Charla Motivacional', 'Con un experto en emprendimiento. ¡No te lo pierdas!'),
-            (9, '21:35:00', '22:29:59', 'Premios Extra', 'Sorteos y sorpresas. ¡Atentos a los anuncios!'),
-            (10, '22:30:00', '23:55:00', 'Música en Vivo', 'Disfruta de un momento de relax con buena música.');`,
-            `INSERT INTO relacion_comercial (id_relacionComercial, id_empresaCompradora, id_empresaVendedora) VALUES
-            (1, 1, 2),
-            (2, 1, 6),
-            (3, 1, 5),
-            (4, 4, 1),
-            (5, 6, 1),
-            (6, 5, 1);`,
+                (1, '09:00:00', '09:14:59', 'Acto Inaugural', 'Con invitado institucional. ¡Más detalles, por favor!'),
+                (2, '09:15:00', '09:59:59', 'Emprender con...', 'Invitar a un emprendedor. ¡Más detalles, por favor!'),
+                (3, '10:00:00', '12:59:59', 'Feria Virtual', 'Sesión de mañana. ¡Ánimo en esas relaciones comerciales!'),
+                (4, '13:00:00', '15:29:59', 'Descanso', 'Hacemos un descanso para comer y volver con fuerzas'),
+                (5, '15:30:00', '18:29:59', 'Feria Virtual', 'Sesión de tarde. Recordar votar a la mejor empresa para el concurso. ¡Mucha suerte a todos!'),
+                (6, '18:30:00', '18:59:59', 'Clausura de la Feria', 'Anunciamos a las empresas ganadoras del concurso y terminamos la I Feria de empresas simuladas La Salle Bussiness Match. ¡¡Hasta la próxima!!'),
+                (7, '19:00:00', '19:59:59', 'Networking', '¡Hora de hacer contactos!'),
+                (8, '20:00:00', '21:30:00', 'Charla Motivacional', 'Con un experto en emprendimiento. ¡No te lo pierdas!'),
+                (9, '21:35:00', '22:29:59', 'Premios Extra', 'Sorteos y sorpresas. ¡Atentos a los anuncios!'),
+                (10, '22:30:00', '23:55:00', 'Música en Vivo', 'Disfruta de un momento de relax con buena música.');`,
+            
+              `INSERT INTO relacion_comercial (id_relacionComercial, id_empresaCompradora, id_empresaVendedora) VALUES
+                (1, 1, 2),
+                (2, 1, 6),
+                (3, 1, 5),
+                (4, 4, 1),
+                (5, 6, 1),
+                (6, 5, 1);`
             
               ];
               let completedInserts = 0;
