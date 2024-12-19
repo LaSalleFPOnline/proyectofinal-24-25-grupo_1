@@ -142,12 +142,12 @@ const initializeDatabase = (callback) => {
               //callback(null);
               //insertDummyData(callback);
               const dummyDataQueries = [
-                `INSERT INTO evento (id_evento, fechaVotacion_inicio, fechaVotacion_fin, fechaMostrarGanador_inicio, 
+                `INSERT IGNORE INTO evento (id_evento, fechaVotacion_inicio, fechaVotacion_fin, fechaMostrarGanador_inicio, 
                 fechaEvento_inicio, fechaEvento_fin, fechaEdicionInfoEmpresa_inicio, fechaEdicionInfoEmpresa_fin) 
                 VALUES
                 (1, '2024-12-18 16:00:00', '2025-12-19 23:59:59', '2025-02-01 23:59:59', '2024-12-19 00:00:00', '2024-12-19 23:59:59', '2024-12-16 00:00:00', '2024-12-18 15:00:00');`,
             
-                `INSERT INTO usuario (id_usuario, email, password, entidad, rol) VALUES
+                `INSERT IGNORE INTO usuario (id_usuario, email, password, entidad, rol) VALUES
                 (1, 'implaser@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'La Salle Montemolín', 1),
                 (2, 'metropolitan@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'La Salle Lourdes', 1),
                 (3, 'universitat@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'La Salle Gràcia', 1),
@@ -180,7 +180,7 @@ const initializeDatabase = (callback) => {
                 (30, 'admin2@email.com', '', 'Datos Dummy Admin', 3),
                 (31, 'admin3@email.com', '', 'Datos Dummy Admin', 3);`,
             
-              `INSERT INTO empresa (id_empresa, id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, 
+              `INSERT IGNORE INTO empresa (id_empresa, id_usuario, nombre_empresa, web, spot, logo, descripcion, url_meet, 
                 horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end) 
                 VALUES
                 (1, 1, 'Implaser', 'https://www.implaser.com/', '', 'https://www.implaser.com/wp-content/uploads/2019/03/empresa-saludable-1024x934-1.png', 'Implaser es una empresa líder en señalización y soluciones gráficas, especializada en la fabricación de señalización de seguridad, evacuación y accesibilidad. Con sede en Zaragoza, España, se destaca por su innovación y compromiso con la calidad, ofreciendo productos certificados y personalizados que cumplen con las normativas más exigentes. Implaser también apuesta por la sostenibilidad, utilizando materiales ecológicos y procesos de producción respetuosos con el medio ambiente.', 'https://meet.google.com/spu-czhw-tjt', '10:00:00', '11:00:00','17:00:00','17:30:00'),
@@ -192,18 +192,18 @@ const initializeDatabase = (callback) => {
                 (7, 7, 'Hiberus', 'https://www.hiberus.com/', 'https://www.youtube.com/watch?v=tSyh6afY_kU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV-uFMYkUTnLVIU8KOkezC5w9PfHclFtyCbA&s', 'Hiberus es una destacada empresa española de consultoría tecnológica y desarrollo digital. Ofrecen servicios especializados en transformación digital, outsourcing, y soluciones innovadoras en áreas como inteligencia de datos, eficiencia empresarial y experiencia del cliente. Con más de 3,200 empleados y presencia en 19 países, trabajan con clientes públicos y privados, impulsando su crecimiento mediante tecnología y estrategias de negocio personalizadas.', 'https://meet.google.com/eni-vecv-czx', '12:00:00', '13:00:00', '15:30:00', '16:00:00'),
                 (8, 8, 'Numericco', 'https://www.numericco.com/', 'https://www.youtube.com/watch?v=uYVkAlQft9w', 'https://www.camarazaragoza.com/wp-content/uploads/2019/12/numericcologo.jpg', 'Numericco es una boutique digital especializada en diseño, tecnología y estrategias de marketing, con más de 10 años de experiencia. Su enfoque combina diseño gráfico, ingeniería informática y tecnologías innovadoras para crear soluciones digitales personalizadas, impulsando marcas y proyectos de comercio electrónico. Han ganado múltiples premios nacionales y se destacan como expertos en plataformas como Shopify y PrestaShop, posicionándose como líderes en su sector​.', 'https://meet.google.com/xxb-jjdk-wgw', '10:00:00', '11:00:00', '17:00:00', '17:30:00');`,
             
-              `INSERT INTO administrador (id_administrador, id_usuario) VALUES
+              `INSERT IGNORE INTO administrador (id_administrador, id_usuario) VALUES
                 (1, 9);`,
             
-              `INSERT INTO visitante (id_visitante, id_usuario) VALUES
+              `INSERT IGNORE INTO visitante (id_visitante, id_usuario) VALUES
                 (1, 10);`,
             
-              `INSERT INTO votacion (id_votacion, id_usuarioVotante, id_empresaVotada, voto) VALUES
+              `INSERT IGNORE INTO votacion (id_votacion, id_usuarioVotante, id_empresaVotada, voto) VALUES
                 (1, 5, 6, 1),
                 (2, 2, 6, 1),
                 (3, 1, 7, 1);`,
             
-              `INSERT INTO agenda (id_agenda, horaI, horaF, descripcion, detalles) VALUES
+              `INSERT IGNORE INTO agenda (id_agenda, horaI, horaF, descripcion, detalles) VALUES
                 (1, '09:00:00', '09:14:59', 'Acto Inaugural', 'Con invitado institucional. ¡Más detalles, por favor!'),
                 (2, '09:15:00', '09:59:59', 'Emprender con...', 'Invitar a un emprendedor. ¡Más detalles, por favor!'),
                 (3, '10:00:00', '12:59:59', 'Feria Virtual', 'Sesión de mañana. ¡Ánimo en esas relaciones comerciales!'),
@@ -215,7 +215,7 @@ const initializeDatabase = (callback) => {
                 (9, '21:35:00', '22:29:59', 'Premios Extra', 'Sorteos y sorpresas. ¡Atentos a los anuncios!'),
                 (10, '22:30:00', '23:55:00', 'Música en Vivo', 'Disfruta de un momento de relax con buena música.');`,
             
-              `INSERT INTO relacion_comercial (id_relacionComercial, id_empresaCompradora, id_empresaVendedora) VALUES
+              `INSERT IGNORE INTO relacion_comercial (id_relacionComercial, id_empresaCompradora, id_empresaVendedora) VALUES
                 (1, 1, 2),
                 (2, 1, 6),
                 (3, 1, 5),
