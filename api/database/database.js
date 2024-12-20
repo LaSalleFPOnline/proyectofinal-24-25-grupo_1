@@ -145,7 +145,7 @@ const initializeDatabase = (callback) => {
                 `INSERT IGNORE INTO evento (id_evento, fechaVotacion_inicio, fechaVotacion_fin, fechaMostrarGanador_inicio, 
                 fechaEvento_inicio, fechaEvento_fin, fechaEdicionInfoEmpresa_inicio, fechaEdicionInfoEmpresa_fin) 
                 VALUES
-                (1, '2024-12-18 16:00:00', '2025-12-19 23:59:59', '2025-02-01 23:59:59', '2024-12-19 00:00:00', '2024-12-19 23:59:59', '2024-12-16 00:00:00', '2024-12-18 15:00:00');`,
+                (1, '2024-12-24 00:00:00', '2025-12-26 23:59:59', '2025-02-1 00:00:00', '2024-12-27 00:00:00', '2024-12-27 23:59:59', '2024-12-20 00:00:00', '2024-12-23 23:59:59');`,
             
                 `INSERT IGNORE INTO usuario (id_usuario, email, password, entidad, rol) VALUES
                 (1, 'implaser@email.com', '$2b$10$rr6nxpEJkvlAY1xe/pbISedPshVKwe4GMhL33seGksYl/8H7h7.3K', 'La Salle Montemolín', 1),
