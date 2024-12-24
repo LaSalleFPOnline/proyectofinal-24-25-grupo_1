@@ -342,7 +342,7 @@ const initializeDatabase = (callback) => {
 Cierra la conexión a la BBDD. Connection.end cierra la conexión activa. Si hay un error se maneja y se pasa al callback.
 Si no hay errores, se imprime un mensaje indicando que la conexión fue cerrada con éxito
 */
-const endDatabaseConnection = (callback) => {
+/*const endDatabaseConnection = (callback) => {
   if (connection) {
     connection.end((err) => {
       if (err) {
@@ -355,12 +355,12 @@ const endDatabaseConnection = (callback) => {
   } else {
     callback(null);
   }
-};
+};*/
 
 // Se exportan las funciones y el objeto para que puedan ser utilizadas en otros módulos de la aplicación
 module.exports = {
   initializeDatabase,
-  endDatabaseConnection,
+//  endDatabaseConnection,
   connection
 };
 
