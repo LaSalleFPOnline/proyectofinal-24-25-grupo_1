@@ -4,18 +4,32 @@
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #f0f8ff; /* Fondo de página en azul claro */
-    border: 2px solid #00bfff; /* Borde azul claro */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #f0f8ff; 
+    border: 2px solid #00bfff;
+    border-radius: 10px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
 }
 
 .titulo-seccion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin-bottom: 20px;
-    background-color: #ffeb3b; /* Fondo amarillo */
-    /* padding: 10px; */
+    margin: 0;
+    background-color: #ffeb3b;
     border-radius: 5px;
-    border: 2px solid blue; /* Borde amarillo más oscuro */
+    border: 2px solid blue;
+    padding: 10px;
+}
+
+.titulo-seccion p{ 
+    font-size: 32px;
     color: blue;
 }
 
@@ -29,12 +43,17 @@
     border-radius: 10px;
     border: 2px solid #80cbc4; /* Borde verde más oscuro */
 }
+.fotos-individuales p {
+    font-size: 0.3rem;
+    margin: 0;
+    text-align: center;
+}
 
 .foto-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff; /* Fondo blanco para cada foto */
+    background-color: #ffffff;
     border-radius: 50%;
     padding: 20px;
 }
@@ -49,16 +68,19 @@
 }
 
 .foto-container p {
-    margin-top: 0.5rem;
+    margin: 0;
     font-size: 0.9rem;
     font-weight: bold;
-    color: #000; /* Color del texto en negro */
+    color: #000;
 }
 
 .foto-container p:nth-of-type(2) {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin-top: 0.2rem;
-    color: #555; /* Color del texto secundario en gris oscuro */
+    color: #555;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .experiencia {
@@ -77,12 +99,6 @@
     color: #d32f2f; /* Color del título en rojo oscuro */
 }
 
-.experiencia p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-}
-
 .foto-grupo {
     text-align: center;
     margin-bottom: 20px;
@@ -94,6 +110,75 @@
     border-radius: 10px;
     border: 5px solid #ffeb3b; /* Borde amarillo para la foto de grupo */
 }
+
+/* Ubicación */
+.localizacion {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    text-align: center;
+    border: 2px solid #f3a9a9;
+}
+
+.localizacion h3 {
+    color: #57042c;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.localizacion p, .localizacion address {
+    color: #57042c;
+    margin-bottom: 10px;
+}
+
+.imagen-localizacion-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    
+}
+
+.imagen-localizacion {
+    flex: 1;
+    max-width: 45%;
+    border: 2px solid blue;
+    display: flex;
+    align-items: center;
+}
+
+.imagen-localizacion img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover; 
+    border-radius: 10px;
+}
+
+.center-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.localizacion a {
+    display: inline-block;
+    background-color: #f3a9a9;
+    color: #57042c;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.localizacion a:hover {
+    background-color: #f8c9c9;
+}
+
+
+
 
 @media (max-width: 768px) {
     .fotos-individuales {
