@@ -49,7 +49,8 @@ export class AuthService {
       sessionStorage.setItem('entidad', entidad); // Guardar entidad en sessionStorage
     }
 
-    if (empresa && empresa.id) {
+    if (empresa && empresa.id_empresa) {
+      empresa.id = empresa.id || empresa.id_empresa; // Normalizamos "id"
       this.empresaSubject.next(empresa);
       sessionStorage.setItem('empresaId', empresa.id.toString()); // Asegurar que el ID de la empresa se guarde
     } else {
@@ -156,13 +157,14 @@ export class AuthService {
         empresa = empresa.data;
     }
 
+
     // Guardar los datos de la empresa en sessionStorage y localStorage
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));
     localStorage.setItem('empresa', JSON.stringify(empresa));
-    if (empresa && empresa.id) {
-        sessionStorage.setItem('empresaId', empresa.id.toString());
-        localStorage.setItem('empresaId', empresa.id.toString());
+    if (empresa && empresa.id_empresa) {
+        sessionStorage.setItem('empresaId', empresa.id_empresa.toString());
+        localStorage.setItem('empresaId', empresa.id_empresa.toString());
     }
   }
 
@@ -235,7 +237,7 @@ export class AuthService {
 
   getEmpresaSeleccionadaId(): number | null {
     // Asegúrate de que el ID de la empresa esté en sessionStorage
-    const empresaId = sessionStorage.getItem('empresaId');
+    const empresaId = sessionStorage.getItem('empresaId') || localStorage.getItem('empresaId');
     if (empresaId) {
       return parseInt(empresaId, 10);
     } else {
@@ -255,5 +257,4 @@ export class AuthService {
       params: { email }
     });
   }
-  
 }

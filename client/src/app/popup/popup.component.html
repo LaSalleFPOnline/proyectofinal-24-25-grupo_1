@@ -1,0 +1,6 @@
+<div *ngIf="isVisible" class="popup">
+    <div class="popup-content" [ngStyle]="{'background-color': backgroundColor}">
+        <span class="close" (click)="closePopup()">&times;</span>
+        <p>{{ message }}</p>
+    </div>
+</div>

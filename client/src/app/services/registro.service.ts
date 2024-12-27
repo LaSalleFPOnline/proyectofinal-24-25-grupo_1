@@ -11,10 +11,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  register(userData: any): Observable<any> {
-    console.log('Datos que se están enviando:', userData);  // Imprime los datos en la consola
-
-    return this.http.post<any>(this.apiUrl, userData);
-  }
+ // register(userData: any): Observable<any> {
+     // Imprime los datos en la consola
+    register(userData: FormData): Observable<any> {
+      console.log('Datos que se están enviando:', userData);
+      return this.http.post<any>(`${this.apiUrl}/registro`, userData);
+    }
+    //return this.http.post<any>(this.apiUrl, userData);
+ // }
 }
 // Santi

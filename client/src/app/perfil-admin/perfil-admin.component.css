@@ -4,11 +4,13 @@
     flex-wrap: wrap;
     width: 100%;
     overflow-y: auto;
-    background-color: yellow;
-    border: 1px solid #ccc;
+    background-color: #60A96E;
+    border: 1px solid #2B2B2A;
+    box-shadow: 0 0.25rem 0 #2B2B2A;
     border-radius: 45px;
     box-sizing: border-box;
     margin-top: 2rem;
+    margin-bottom: 50px;
 }
 
 .item {
@@ -35,6 +37,7 @@
 p {
     text-align: center;
     margin: 10px 0 0 0;
+    font-size: 18px;
 }
 
 .iconos-container {
@@ -45,8 +48,8 @@ p {
 }
 
 .icono {
-    width: 24px; /* Tamaño del icono */
-    height: 24px;
+    width: 40px; /* Tamaño del icono */
+    height: 40px;
     fill: currentColor; /* Permite usar el color del texto del contenedor */
 }
 
@@ -69,20 +72,19 @@ p {
 .top3, .enlaces {
     width: 50%;
     border-radius: 45px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 1rem;
-    color: white;
+    color: #2B2B2A;
     text-align: center;
     box-sizing: border-box;
     overflow: auto; /* Añade barras de desplazamiento si el contenido excede el área visible */
 }
 
 .top3 {
-    background-color: green;
+    border: 5px solid #384078;
 }
 
 .enlaces {
-    background-color: red;
+    border: 5px solid #384078;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -114,7 +116,7 @@ p {
 .trophy-img {
     max-width: 50px;
     height: auto;
-    margin-right: 3rem; /* Espacio entre el trofeo y el logo */
+    margin-right: 2rem; /* Espacio entre el trofeo y el logo */
 }
 
 .company-logo {
@@ -147,15 +149,21 @@ p {
 }
 
 .enlaces a {
-    color: yellow;
+    color: #384078;
     text-decoration: none;
     display: block;
     margin: 0.3rem 0;
-    font-size: smaller;
+    font-size: 1rem;
 }
 
 .enlaces a:hover {
     text-decoration: underline; /* Subrayado en hover */
+}
+.line {
+    width: 350px; /* Ajusta este valor según sea necesario */
+    height: 1px; /* Mantiene la altura de la línea */
+    background-color: #2B2B2A; /* Asegúrate de que el color de fondo sea el deseado */
+    margin: 0 auto; /* Centra la línea horizontalmente */
 }
 
 .illustration_2 {
@@ -166,4 +174,156 @@ p {
     height: auto;
     margin-bottom: -30vh;
     max-width: 40vw;
+}
+
+/* Mostrar Detalles de Empresa */
+
+.close-icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 35px;
+    height: 35px;
+    transform: rotate(45deg); /* Rotar el ícono para que parezca una cruz */
+    cursor: pointer;
+    opacity: 1;
+}
+
+.close-icon:hover {
+    opacity: 0.7;
+}
+
+.detalles {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    background-color: #F6E953;
+    border-radius: 45px;
+    border: 1px solid #2B2B2A;
+    box-shadow: 0px 5px 0px #2B2B2A;
+    margin: 0 auto;
+    top: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+    margin-bottom: 30px;
+}
+
+.titulo-detalles {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.contenedor-arriba, .contenedor-abajo {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.rectangle-detalles {
+    width: 40%;
+    max-width: 25vw;
+    min-height: 204px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.logo-img {
+    width: 100%;
+    height: 100%; /* Ocupa todo el alto del contenedor */
+    object-fit: cover; /* Ajusta la imagen al contenedor sin distorsionar */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.contenedor-video-descripcion {
+    display: flex;
+    width: 100%;
+}
+
+.video-completo {
+    width: 100%;
+    height: 315px;
+    flex-shrink: 0;
+}
+
+.descripcion-completa {
+    width: 100%;
+    margin-left: 20px;
+}
+
+.video-parcial {
+    width: 50%;
+    height: 315px;
+    flex-shrink: 0;
+}
+
+.descripcion-parcial {
+    width: 50%;
+    margin-left: 20px;
+    max-height: 315px;
+    overflow-y: auto;
+}
+
+/*Usuarios sin contraseña*/
+
+.usuarios-container-principal {
+    width: 100%; /* Asegúrate de que el contenedor tenga un ancho adecuado */
+    margin-top: 20px; /* Espacio superior si es necesario */
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    background-color: #F6E953; /* Color de fondo similar al cuadro de empresas */
+    border: 1px solid #2B2B2A; /* Borde similar */
+    box-shadow: 0 0.25rem 0 #2B2B2A;
+    border-radius: 45px; /* Bordes redondeados */
+    box-sizing: border-box;
+    padding: 20px; /* Espaciado interno */
+}
+
+.usuarios-container {
+    display: flex; /* Usamos flexbox para alinear los elementos */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en la siguiente línea si no hay suficiente espacio */
+    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+}
+
+.usuarios-item {
+    flex: 1 1 calc(33.333% - 20px); /* Ancho flexible para que tres elementos quepan en una fila */
+    max-width: calc(33.333% - 20px); /* Asegura que el ancho máximo sea el mismo que el flexible */
+    text-align: center; /* Centra el texto dentro de cada item */
+    padding: 10px; /* Espacio interno */
+    margin: 0 30px; /* Margen de 0 arriba y abajo, 10px a los lados */
+    display: flex; /* Usamos flexbox para centrar los elementos internos */
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.logo-usuarios {
+    width: 50px; /* Ajusta el tamaño del logo */
+    height: auto; /* Mantiene la proporción */
+}
+
+.usuario-email {
+    font-size: 14px; /* Tamaño de fuente para el correo */
+    margin-top: 5px; /* Espacio entre el logo y el correo */
+}
+
+.iconos-container {
+    display: flex; /* Usamos flexbox para alinear los iconos */
+    justify-content: center; /* Centra los iconos horizontalmente */
+    margin-top: 10px;
+}
+.icono-usuario {
+    width: 50px; /* Tamaño del icono */
+    height: 50px;
+    fill: currentColor; /* Permite usar el color del texto del contenedor */
 }

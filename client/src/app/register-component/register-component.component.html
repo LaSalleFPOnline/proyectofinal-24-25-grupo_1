@@ -34,7 +34,7 @@
     <!-- Contraseña y Confirmar Contraseña -->
     <div class="campo">
       <label class="text">* Contraseña:</label>
-      <input type="password" id="password" [(ngModel)]="password" name="password" class="input" required>
+      <input type="password" id="password" [(ngModel)]="password" name="password" class="input" required [disabled]="!isEditable">
       <img class="line" src="assets/Images/line.png">
     </div>
 
@@ -42,7 +42,8 @@
       <label class="text">* Repite la contraseña:</label>
       <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="input"
             [ngClass]="{'error': passwordsDoNotMatch}" #confirmPasswordInput
-            (blur)="checkPasswords()">
+            (blur)="checkPasswords()"
+            [disabled]="!isEditable">
       <img class="line" src="assets/Images/line.png">
     </div>
 
@@ -58,19 +59,19 @@
     <div *ngIf="rol === 1">
       <div class="campo">
         <label class="text">* Nombre de la Empresa:</label>
-        <input type="text" id="nombre_empresa" [(ngModel)]="nombre_empresa" name="nombre_empresa" class="input">
+        <input type="text" id="nombre_empresa" [(ngModel)]="nombre_empresa" name="nombre_empresa" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
       </div>
 
       <div class="campo">
         <label class="text">* Web URL:</label>
-        <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url" class="input">
+        <input type="text" id="web_url" [(ngModel)]="web_url" name="web_url" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
       </div>
 
       <div class="campo">
         <label class="text">Spot URL:</label>
-        <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url" class="input">
+        <input type="text" id="spot_url" [(ngModel)]="spot_url" name="spot_url" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
       </div>
       
@@ -83,12 +84,12 @@
       <div class="campo">
         <label class="text">Descripción de productos o servicios</label>
         <img class="line" src="assets/Images/line.png">
-        <textarea class="textarea" placeholder="Escribe aquí..." [(ngModel)]="descripcion" name="descripcion"></textarea>
+        <textarea class="textarea" placeholder="Escribe aquí..." [(ngModel)]="descripcion" name="descripcion" [disabled]="!isEditable"></textarea>
       </div>
 
       <div class="campo">
         <label class="text">* URL Meet:</label>
-        <input type="text" id="url_meet" [(ngModel)]="url_meet" name="url_meet" class="input">
+        <input type="text" id="url_meet" [(ngModel)]="url_meet" name="url_meet" class="input" [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
       </div>
 
@@ -103,7 +104,8 @@
             name="horario_meet_morning_start" 
             class="input time-input" 
             [min]="'10:00'" 
-            [max]="'13:00'">
+            [max]="'13:00'"
+            [disabled]="!isEditable">
             <p class="text">hasta</p>
             <input type="time" 
             [(ngModel)]="horario_meet_morning_end" 
@@ -111,7 +113,8 @@
             name="horario_meet_morning_end" 
             class="input time-input" 
             [min]="'10:00'" 
-            [max]="'13:00'">
+            [max]="'13:00'"
+            [disabled]="!isEditable">
         </div>
         <div *ngIf="horarioMananaError" class="error-message">{{horarioMananaError}}</div>
         <img class="line" src="assets/Images/line.png">
@@ -124,7 +127,8 @@
             name="horario_meet_afternoon_start" 
             class="input time-input" 
             [min]="'15:30'" 
-            [max]="'18:30'">
+            [max]="'18:30'"
+            [disabled]="!isEditable">
             <p class="text">hasta</p>
             <input type="time" 
             [(ngModel)]="horario_meet_afternoon_end" 
@@ -132,14 +136,15 @@
             name="horario_meet_afternoon_end" 
             class="input time-input" 
             [min]="'15:30'" 
-            [max]="'18:30'">
+            [max]="'18:30'"
+            [disabled]="!isEditable">
         </div>
         <div *ngIf="horarioTardeError" class="error-message">{{horarioTardeError}}</div>
         <img class="line" src="assets/Images/line.png">
     </div>
       <div class="campo">
         <label class="text">* Entidad:</label>
-        <input type="text" [(ngModel)]="entidad" name="entidad" class="input" readonly>
+        <input type="text" [(ngModel)]="entidad" name="entidad" class="input" readonly [disabled]="!isEditable">
         <img class="line" src="assets/Images/line.png">
       </div>
       </div>

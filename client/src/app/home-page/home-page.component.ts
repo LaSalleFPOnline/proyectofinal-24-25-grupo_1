@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { AgendaService } from '../services/agenda.service';
 
@@ -9,41 +8,34 @@ import { AgendaService } from '../services/agenda.service';
 })
 export class HomePageComponent implements OnInit {
 
-  events: any[] = []; // Inicializa la lista vacía
+  events: any[] = []; // Lista de eventos
+  fechaEvento_inicio!: Date; // Fecha de inicio del rango
+  fechaEvento_fin!: Date; // Fecha de fin del rango
+  lastUpdatedDate: string | null = null; // Última fecha de actualización
 
   constructor(private agendaService: AgendaService) {}
 
   ngOnInit() {
-    this.loadAgenda(); // Carga los eventos al iniciar el componente
+    // Carga los eventos incluyendo las fechas del rango
+    this.loadAgendaWithDates();
+
+    // Configura un temporizador para verificar el rango cada hora
+    setInterval(() => {
+      this.checkAndLoadAgenda();
+    }, 60 * 60 * 1000); // Cada hora
   }
 
-  loadAgenda() {
+  loadAgendaWithDates() {
     this.agendaService.getAgenda().subscribe(
       data => {
-        console.log('Datos recibidos:', data); // Verifica los datos recibidos
+        // Extrae las fechas del rango
+        if (data.length > 0) {
+          this.fechaEvento_inicio = new Date(data[0].fechaEvento_inicio);
+          this.fechaEvento_fin = new Date(data[0].fechaEvento_fin);
+        }
 
-        // Procesa los eventos
-        this.events = data.map(event => {
-          return {
-            hora: event.horaI.substring(0, 5),
-            horaFinal: event.horaF.substring(0, 5),
-            descripcion: event.descripcion,
-            detalles: event.detalles,
-            isExpanded: false,
-            isCurrent: this.isEventCurrent(event.horaI, event.horaF) // Marca el evento como actual si es necesario
-          };
-        })
-        .filter(event => !this.isEventPast(event.horaFinal)); // Filtra eventos pasados
-
-        // Ordena los eventos de más cercano a más lejano
-        this.events.sort((a, b) => {
-          const aMinutes = this.timeToMinutes(a.hora);
-          const bMinutes = this.timeToMinutes(b.hora);
-          return aMinutes - bMinutes;
-        });
-
-        // Verifica los eventos después de ordenar
-        console.log('Eventos procesados y ordenados:', this.events);
+        // Filtra y procesa los eventos dentro del rango
+        this.checkAndLoadAgenda(data);
       },
       error => {
         console.error('Error al cargar la agenda:', error);
@@ -51,26 +43,80 @@ export class HomePageComponent implements OnInit {
     );
   }
 
-  // Función para convertir una hora en formato HH:MM a minutos
+  checkAndLoadAgenda(data?: any[]) {
+    const today = new Date();
+
+    if (this.fechaEvento_inicio && this.fechaEvento_fin) {
+      if (
+        today >= this.fechaEvento_inicio &&
+        today <= this.fechaEvento_fin
+      ) {
+        const todayString = today.toISOString().split('T')[0];
+
+        // Verifica que no se haya cargado ya hoy
+        if (this.lastUpdatedDate !== todayString) {
+          console.log('Dentro del rango, cargando agenda...');
+          this.processEvents(data || []);
+          this.lastUpdatedDate = todayString; // Actualiza la última fecha de carga
+        }
+      } else {
+        console.log('Fuera del rango, mostrando toda la agenda.');
+      //this.events = data || []; // Asigna directamente todos los eventos
+      this.events = (data || []).map(event => ({
+        hora: event.horaI ? event.horaI.substring(0, 5) : '',
+        horaFinal: event.horaF ? event.horaF.substring(0, 5) : '',
+        descripcion: event.descripcion || '',
+        detalles: event.detalles || '',
+        isExpanded: false,
+        isCurrent: false,
+      }));
+      }
+    }
+  }
+
+  processEvents(data: any[]) {
+    console.log('Datos recibidos:', data);
+
+    // Procesa los eventos
+    this.events = data.map(event => {
+      return {
+        hora: event.horaI.substring(0, 5),
+        horaFinal: event.horaF.substring(0, 5),
+        descripcion: event.descripcion,
+        detalles: event.detalles,
+        isExpanded: false,
+        isCurrent: this.isEventCurrent(event.horaI, event.horaF)
+      };
+    })
+    .filter(event => !this.isEventPast(event.horaFinal));
+
+    // Ordena los eventos por hora
+    this.events.sort((a, b) => {
+      const aMinutes = this.timeToMinutes(a.hora);
+      const bMinutes = this.timeToMinutes(b.hora);
+      return aMinutes - bMinutes;
+    });
+
+    console.log('Eventos procesados y ordenados:', this.events);
+  }
+
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':').map(Number);
     return (hours * 60) + minutes;
   }
 
-  // Función para determinar si un evento está ocurriendo ahora
   private isEventCurrent(startTime: string, endTime: string): boolean {
     const now = new Date();
-    const currentDate = now.toISOString().split('T')[0]; // Fecha actual en formato YYYY-MM-DD
+    const currentDate = now.toISOString().split('T')[0];
     const eventStart = new Date(`${currentDate}T${startTime}`);
     const eventEnd = new Date(`${currentDate}T${endTime}`);
 
     return now >= eventStart && now <= eventEnd;
   }
 
-  // Función para determinar si un evento ha pasado
   private isEventPast(endTime: string): boolean {
     const now = new Date();
-    const currentDate = now.toISOString().split('T')[0]; // Fecha actual en formato YYYY-MM-DD
+    const currentDate = now.toISOString().split('T')[0];
     const eventEnd = new Date(`${currentDate}T${endTime}`);
 
     return now > eventEnd;

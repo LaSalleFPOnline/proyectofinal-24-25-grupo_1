@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,19 @@ export class LoginComponentComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  @ViewChild('popupEdicionRegistro') popupComponent!: PopupComponent;
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  ngAfterViewInit(): void {
+    const popupMessage = localStorage.getItem('popupMessage');
+    console.log('Mensaje del popup:', popupMessage); // Verifica el mensaje
+    if (popupMessage) {
+      // Llama a openPopup con ambos argumentos
+      this.popupComponent.openPopup(true, popupMessage, 'success'); // true para hacer visible el popup
+      localStorage.removeItem('popupMessage'); // Limpiar el mensaje después de mostrarlo
+    }
+  }
   onSubmit() {
     this.authService.login(this.email, this.password)
       .subscribe({
@@ -22,7 +33,7 @@ export class LoginComponentComponent {
           if (response && response.token && response.rol !== undefined) {
             // Aquí añadimos 'response.entidad' para pasarla a setToken
             this.authService.setToken(response.token, response.rol, response.entidad || '');
-
+            localStorage.setItem('popupMessage', "Has iniciado sesión correctamente. Bienvenido a la Feria virtual de La Salle Bussiness Match");
             if (response.empresa) {
               this.authService.setEmpresa(response.empresa);
             }
@@ -54,8 +65,6 @@ export class LoginComponentComponent {
         }
       });
   }
-
-  
 
   navigateToRegister() {
     this.router.navigate(['/register']);

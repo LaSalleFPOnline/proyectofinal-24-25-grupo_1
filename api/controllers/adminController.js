@@ -7,7 +7,7 @@ la tabla empresas y hace un JOIN con la tabla usuarios. Esto asegura que solo se
 asociadas a un usuario válido.
 */
 const getEmpresas = (req, res) => {
-  const query ='SELECT empresas. id, empresas.nombre_empresa, empresas.logo_url, empresas.spot_url, empresas.web_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet_morning_start, empresas.horario_meet_morning_end, empresas.horario_meet_afternoon_start, empresas.horario_meet_afternoon_end FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id;';
+  const query = 'SELECT empresa.id_empresa, empresa.nombre_empresa, empresa.logo, empresa.web, empresa.spot, empresa.descripcion, empresa.url_meet, empresa.horario_meet_morning_start, empresa.horario_meet_morning_end, empresa.horario_meet_afternoon_start, empresa.horario_meet_afternoon_end  FROM empresa JOIN usuario ON empresa.id_usuario = usuario.id_usuario';
   /*
   Se ejecuta la consulta. Si hay un error durante la ejecución se regustra el error en la consola y se responde con
   un estado 500. Si la consulta es exitosa, los resultados se envían como una respuesta JSON con un estado 200
@@ -28,8 +28,8 @@ Esta consulta utiliza un where para filtrar por el ID. El ? es un marcador de po
 de empresaId
 */
 const getEmpresaById = (req, res) => {
-  const empresaId = req.params.id;
-  const query = 'SELECT empresas.id, empresas.nombre_empresa, empresas.logo_url, empresas.web_url, empresas.spot_url, empresas.descripcion, empresas.url_meet, empresas.horario_meet_morning_start, empresas.horario_meet_morning_end, empresas.horario_meet_afternoon_start, empresas.horario_meet_afternoon_end  FROM empresas JOIN usuarios ON empresas.usuario_id = usuarios.id WHERE empresas.id = ?';
+  const empresaId = req.params.id_empresa;
+  const query = 'SELECT empresa.id_empresa, empresa.nombre_empresa, empresa.logo, empresa.web, empresa.spot, empresa.descripcion, empresa.url_meet, empresa.horario_meet_morning_start, empresa.horario_meet_morning_end, empresa.horario_meet_afternoon_start, empresa.horario_meet_afternoon_end  FROM empresa JOIN usuario ON empresa.id_usuario = usuario.id_usuario WHERE empresa.id_empresa = ?';
   /*
   Ejecutamos la consulta con empresaId como parámetro. Manejamos los errores igual que en getEmpresas. Si no se
   encuentra ninguna empresa con el ID dado, se responde con un estado HTTP 404. Si se encuentra la empresa, se devuelve

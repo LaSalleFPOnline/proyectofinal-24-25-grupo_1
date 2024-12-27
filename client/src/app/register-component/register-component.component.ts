@@ -2,6 +2,9 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AgendaService } from '../services/agenda.service'; // Importar el servicio de agenda
+import { PopupComponent } from '../popup/popup.component'; // Importar el componente popup
+
 
 @Component({
   selector: 'app-register',
@@ -12,6 +15,7 @@ export class RegisterComponent implements AfterViewInit {
 
   @ViewChild('emailInput') emailInput!: ElementRef;
   @ViewChild('rolInput') rolInput!: ElementRef;
+  @ViewChild('popupEdicionRegistro') popupComponent!: PopupComponent;
 
   email: string = '';
   password: string = '';
@@ -35,15 +39,88 @@ export class RegisterComponent implements AfterViewInit {
   isEmailReadOnly: boolean = false; // Nueva propiedad para controlar la edición del email
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  logoFile: File | null = null; // Para almacenar el archivo del logo
+  logoPreview: string | null = null; // Para la vista previa del logo
 
   horarioMananaError: string | null = null;
   horarioTardeError: string | null = null;
 
-  logoPreview: string | null = null; // Propiedad para la vista previa del logo
+  fechaEdicionInicio: Date | null = null;
+  fechaEdicionFin: Date | null = null;
+  isEditable: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  //logoPreview: string | null = null; // Propiedad para la vista previa del logo
 
-  ngAfterViewInit() {  }
+  constructor(private authService: AuthService, private router: Router, private agendaService: AgendaService) {}
+
+  ngOnInit() {
+    // Obtener las fechas de edición de la API
+    this.agendaService.obtenerFechasEdicion().subscribe({
+      next: (fechas) => {
+        if (fechas.length > 0) {
+          this.fechaEdicionInicio = fechas[0].fechaEdicionInfoEmpresa_inicio || null;
+          this.fechaEdicionFin = fechas[0].fechaEdicionInfoEmpresa_fin || null;
+        } else {
+          this.fechaEdicionInicio = null;
+          this.fechaEdicionFin = null;
+        }
+      },
+      error: (error: any) => {
+        console.error('Error al obtener fechas de edición:', error);
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.agendaService.obtenerFechasEdicion().subscribe(fechas => {
+        if (fechas.length === 0) {
+            console.error('No se recibieron fechas de edición.');
+            return;
+        }
+        
+        const fechaEdicion = fechas[0];
+        const fechaInicio = new Date(fechaEdicion.fechaEdicionInfoEmpresa_inicio);
+        const fechaFin = new Date(fechaEdicion.fechaEdicionInfoEmpresa_fin);
+        const ahora = new Date();
+
+        // Verificar si el periodo de edición es válido
+        if (ahora < fechaInicio || ahora > fechaFin) {
+            const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro de nuevas empresas. Este periodo empieza en ${fechaInicio.toLocaleDateString('es-ES')} hasta ${fechaFin.toLocaleDateString('es-ES')}.`;
+            console.log('Fecha de inicio:', fechaInicio);
+            console.log('Fecha de fin:', fechaFin);
+            
+            // Mostrar el popup con el mensaje
+            if (this.popupComponent) {
+                this.popupComponent.openPopup(true, mensaje, 'error');
+            } else {
+                console.error('popupComponent no está definido');
+            }
+        } else {
+            // Si el periodo es válido, puedes realizar otras acciones aquí si es necesario
+            this.isEditable = true; // O cualquier otra lógica que necesites
+        }
+    }, error => {
+        console.error('Error al obtener fechas de edición:', error);
+    });
+  }
+
+  checkEditable() {
+    const currentDate = new Date();
+    if (this.fechaEdicionInicio && this.fechaEdicionFin) {
+      this.isEditable = currentDate >= new Date(this.fechaEdicionInicio) && currentDate <= new Date(this.fechaEdicionFin);
+      if (!this.isEditable) {
+        const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro. Este periodo empieza en ${this.fechaEdicionInicio.toLocaleDateString('es-ES')} hasta ${this.fechaEdicionFin.toLocaleDateString('es-ES')}.`;
+        if (this.popupComponent) {
+          this.popupComponent.openPopup(true, mensaje, 'error');
+        } else {
+          console.error('popupComponent no está definido');
+        }
+      }
+    } else {
+      console.warn('Las fechas de edición no están disponibles.');
+      this.isEditable = false; // Establecer a false si las fechas son nulas
+    }
+  }
 
   validarEmail() {
     if (!this.email) {
@@ -149,7 +226,7 @@ export class RegisterComponent implements AfterViewInit {
     if (this.rol === 1) {  // Empresa
       if (!this.nombre_empresa) missingFields.push('Nombre de la Empresa');
       if (!this.web_url) missingFields.push('Web URL');
-      if (!this.logo_url) missingFields.push('Logo URL');
+      if (!this.logoFile) missingFields.push('Logo');
       if (!this.url_meet) missingFields.push('URL Meet');
       if (!this.entidad) missingFields.push('Entidad');
 
@@ -159,6 +236,14 @@ export class RegisterComponent implements AfterViewInit {
       
       if (!isMorningSchedulePresent && !isAfternoonSchedulePresent) {
         missingFields.push('Horario de Meet (mañana o tarde)');
+      }
+      // Validar horarios
+      const isMorningValid = this.validarHorarioManana();
+      const isAfternoonValid = this.validarHorarioTarde();
+
+      if (!isMorningValid || !isAfternoonValid) {
+          this.errorMessage = 'Los horarios proporcionados no son válidos.';
+          return; // No continuar si los horarios son inválidos
       }
     } else if (this.rol === 2) {  // Visitante
       if (!this.entidad) missingFields.push('Entidad');
@@ -173,43 +258,61 @@ export class RegisterComponent implements AfterViewInit {
     // Si llega aquí, el formulario es válido
     this.submitForm();
   }
+  onLogoFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      this.logoFile = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.logoPreview = e.target?.result as string; // Asigna el contenido leído a logoPreview
+      };
+
+      reader.readAsDataURL(this.logoFile); // Lee el archivo como una URL base64
+    }
+  }
 
   submitForm() {
     // Lógica para enviar el formulario
     if (!this.email || !this.password || this.password !== this.confirmPassword) {
-      this.errorMessage = 'Por favor, completa el formulario correctamente.';
-      return;
+        this.errorMessage = 'Por favor, completa el formulario correctamente.';
+        return;
     }
 
-    const formData = {
-      email: this.email,
-      password: this.password,
-      rol: this.rol,
-      nombre_empresa: this.nombre_empresa,
-      web_url: this.web_url,
-      spot_url: this.spot_url,
-      logo_url: this.logo_url,
-      descripcion: this.descripcion,
-      url_meet: this.url_meet,
-      entidad: this.entidad,
-      horario_meet_morning_start: this.horario_meet_morning_start,
-      horario_meet_morning_end: this.horario_meet_morning_end,
-      horario_meet_afternoon_start: this.horario_meet_afternoon_start,
-      horario_meet_afternoon_end: this.horario_meet_afternoon_end
-    };
+    const formData = new FormData();
+    formData.append('email', this.email);
+    formData.append('password', this.password);
+    formData.append('rol', this.rol.toString());
+    formData.append('nombre_empresa', this.nombre_empresa);
+    formData.append('web', this.web_url);
+    formData.append('spot', this.spot_url);
+    formData.append('descripcion', this.descripcion);
+    formData.append('url_meet', this.url_meet);
+    formData.append('entidad', this.entidad);
+    formData.append('horario_meet_morning_start', this.horario_meet_morning_start);
+    formData.append('horario_meet_morning_end', this.horario_meet_morning_end);
+    formData.append('horario_meet_afternoon_start', this.horario_meet_afternoon_start);
+    formData.append('horario_meet_afternoon_end', this.horario_meet_afternoon_end);
+
+    if (this.logoFile) {
+        formData.append('logo', this.logoFile); // Agrega el archivo del logo al FormData
+    }
 
     this.authService.register(formData).subscribe({
-      next: (response: any) => {
-        this.successMessage = response.message;
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
-      },
-      error: (error: any) => {
-        this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
-      }
+        next: (response: any) => {
+            this.successMessage = response.message;
+            localStorage.setItem('popupMessage', "Registro completado. Bienvenido a la feria virtual La Salle Bussiness Match");
+            localStorage.setItem('popupType', 'success'); // Guardar tipo de mensaje
+            setTimeout(() => {
+                this.router.navigate(['/login']);
+            }, 2000);
+        },
+        error: (error: any) => {
+            this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
+        }
     });
-  }
+}
 
   checkPasswords() {
     if (this.password !== this.confirmPassword) {
@@ -227,7 +330,7 @@ export class RegisterComponent implements AfterViewInit {
       default: return 'Desconocido';
     }
   }
-  validarHorarioManana() {
+  validarHorarioManana(): boolean {
     if (this.horario_meet_morning_start && this.horario_meet_morning_end) {
       const startHour = parseInt(this.horario_meet_morning_start.split(":")[0]);
       const startMin = parseInt(this.horario_meet_morning_start.split(":")[1]);
@@ -237,44 +340,37 @@ export class RegisterComponent implements AfterViewInit {
       // Validar que la hora de inicio esté entre las 10:00 y las 13:00
       if (startHour < 10 || (startHour === 13 && startMin > 0) || startHour > 13) {
         this.horarioMananaError = 'La hora de inicio debe estar entre las 10:00 y las 13:00';
+        return false; // Indica que la validación falló
       } else if (endHour < 10 || (endHour === 13 && endMin > 0) || endHour > 13) {
         this.horarioMananaError = 'La hora de fin debe estar entre las 10:00 y las 13:00';
+        return false; // Indica que la validación falló
       } else {
         this.horarioMananaError = null; // Reseteamos el error si la validación es correcta
+        return true; // Indica que la validación falló
       }
     }
+    return true; // Si no hay horarios, consideramos que la validación es exitosa
   }
   
-  validarHorarioTarde() {
+  validarHorarioTarde(): boolean {
     if (this.horario_meet_afternoon_start && this.horario_meet_afternoon_end) {
-      const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
-      const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
-      const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
-      const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
-  
-      // Validar que la hora de inicio esté entre las 15:30 y las 18:30
-      if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
-        this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
-      } else if (endHour < 15 || (endHour === 15 && endMin < 30) || endHour > 18 || (endHour === 18 && endMin > 30)) {
-        this.horarioTardeError = 'La hora de fin debe estar entre las 15:30 y las 18:30';
-      } else {
-        this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
-      }
+        const startHour = parseInt(this.horario_meet_afternoon_start.split(":")[0]);
+        const startMin = parseInt(this.horario_meet_afternoon_start.split(":")[1]);
+        const endHour = parseInt(this.horario_meet_afternoon_end.split(":")[0]);
+        const endMin = parseInt(this.horario_meet_afternoon_end.split(":")[1]);
+
+        // Validar que la hora de inicio esté entre las 15:30 y las 18:30
+        if (startHour < 15 || (startHour === 15 && startMin < 30) || startHour > 18 || (startHour === 18 && startMin > 30)) {
+            this.horarioTardeError = 'La hora de inicio debe estar entre las 15:30 y las 18:30';
+            return false; // Indica que la validación falló
+        } else if (endHour < 15 || (endHour === 15 && endMin < 30) || endHour > 18 || (endHour === 18 && endMin > 30)) {
+            this.horarioTardeError = 'La hora de fin debe estar entre las 15:30 y las 18:30';
+            return false; // Indica que la validación falló
+        } else {
+            this.horarioTardeError = null; // Reseteamos el error si la validación es correcta
+            return true; // Indica que la validación fue exitosa
+        }
     }
-  }
-
-  onLogoFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        this.logoPreview = e.target?.result as string; // Asigna el contenido leído a logoPreview
-      };
-
-      reader.readAsDataURL(file); // Lee el archivo como una URL base64
-    }
+    return true; // Si no hay horarios, consideramos que la validación es exitosa
   }
 }

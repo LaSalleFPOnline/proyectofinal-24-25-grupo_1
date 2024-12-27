@@ -5,21 +5,32 @@
 <!-- Cuadro de empresas -->
 <div class="container">
     <div *ngFor="let empresa of empresas" class="item">
-        <div class="rectangulo">
-            <img [src]="empresa.logo_url" alt="{{ empresa.nombre_empresa }} logo">
+        <div class="rectangulo" (click)="mostrarDetalles(empresa.id_empresa)">
+            <img [src]="empresa.logo" alt="{{ empresa.nombre_empresa }} logo">
         </div>
         <p>{{ empresa.nombre_empresa }}</p>
         <div class="iconos-container">
             <!-- Mostrar icono OK si tiene nombre -->
-            <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/icon_OK.svg" alt="Icono OK" class="icono">
-            
-            <!-- Mostrar icono SPOT si tiene spot -->
-            <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/icon_SPOT.svg" alt="Icono Spot" class="icono">
-            
-            <!-- Mostrar icono FALTAINFO si no tiene logo -->
-            <img *ngIf="empresa.mostrarIconoFALTAINFO" src="assets/Images/icon_FALTAINFO.svg" alt="Icono Sin Logo" class="icono">
+            <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/Icon_OK.png" alt="Icono OK" class="icono">
+            <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/Icon_SPOT.png" alt="Icono Spot" class="icono">
         </div>
-          
+    </div>
+</div>
+<!-- Mostrar usuarios sin contraseña -->
+<div class="titulo">
+    <p>Usuarios SIN REGISTRAR su Empresa</p>
+</div>
+<div class="usuarios-container-principal">
+    <div class="usuarios-container">
+        <div *ngFor="let usuario of usuariosSinPassword" class="usuarios-item">
+            <div class="rectangulo">
+                <img src="assets/Images/Icon_SINLOGO.png" alt="Sin Logo" class="logo-usuarios">
+            </div>
+            <p class="usuario-email">{{ usuario.email }}</p>
+            <div class="iconos-container">
+                <img src="assets/Images/Icon_FALTAINFO.png" alt="Icono Sin Logo" class="icono-usuario">
+            </div>
+        </div>
     </div>
 </div>
 
@@ -29,14 +40,14 @@
             <p>Votaciones en tiempo real</p>
             <div class="podium">
                 <ng-container *ngIf="empresas.length > 0">
-                <div *ngFor="let empresa of empresas; let i = index" class="podium-item">
-                    <div class="podium-content">
-                    <img *ngIf="i === 0" src="assets/Illustrations/trofeo.png" alt="{{i + 1}} Puesto" class="trophy-img">
-                    <img [src]="empresa.logo_url" alt="Logo de {{empresa.nombre}}" class="company-logo">
+                    <div *ngFor="let empresa of empresas" class="podium-item">
+                        <div class="podium-content">
+                            <img src="assets/Illustrations/trofeo.png" class="trophy-img">
+                            <img [src]="empresa.logo" alt="Logo de {{empresa.nombre}}" class="company-logo" (click)="mostrarDetalles(empresa.id_empresa)">
+                        </div>
+                        <p class="company-name">{{empresa.nombre}}</p>
+                        <p class="votos-text">Votos: {{ empresa.votos }}</p> <!-- Mostrar el número de votos aquí -->
                     </div>
-                    <p class="puesto-text">{{i + 1}}<sup>{{ i === 0 ? 'er' : (i === 1 ? 'do' : 'ro') }}</sup> Puesto</p>
-                    <p class="company-name">{{empresa.nombre}}</p>
-                </div>
                 </ng-container>
             </div>
         </div>
@@ -55,3 +66,56 @@
     <img src="assets/Illustrations/Illustration6.png" alt="Ilustración" class="illustration">
 </div> -->
 
+<!-- Mostrar DETALLES de Empresa -->
+
+<div *ngIf="empresaSeleccionada" class="detalles" id="detalles">
+    <div class="titulo-detalles">
+        <div class="titulo">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
+    </div>
+
+    <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
+
+    <div class="contenedor-arriba">
+        <div class="rectangle-detalles">
+            <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
+        </div>
+        <p class="empresa">
+            <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
+            <br class="text-detalles">
+                <br/>Página web: <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
+                <br/>Horarios de ATENCIÓN CLIENTE:
+                <br/> - {{ horariosDeAtencionManana }}
+                <br/> - {{ horariosDeAtencionTarde }}
+                <br/>Enlace de MEET: <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
+        </p>
+    </div>
+
+    <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
+        <div class="contenedor-video-descripcion">
+            <ng-container *ngIf="empresaSeleccionada.spot && !empresaSeleccionada.descripcion">
+                <iframe
+                    [src]="getEmbedUrl(empresaSeleccionada.spot)"
+                    class="video-completo"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+            </ng-container>
+            <ng-container *ngIf="!empresaSeleccionada.spot && empresaSeleccionada.descripcion">
+                <div class="descripcion-completa">
+                    <p>{{ empresaSeleccionada.descripcion }}</p>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="empresaSeleccionada.spot && empresaSeleccionada.descripcion">
+                <iframe
+                    [src]="getEmbedUrl(empresaSeleccionada.spot)"
+                    class="video-parcial"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+                <div class="descripcion-parcial">
+                    <p>{{ empresaSeleccionada.descripcion }}</p>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

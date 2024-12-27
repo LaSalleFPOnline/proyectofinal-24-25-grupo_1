@@ -29,7 +29,6 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  // Nueva función para redirigir siempre a la página de inicio
   goToHomePage() {
     // Verifica si estamos en la página de inicio
     if (this.router.url === '/') {
@@ -119,4 +118,7 @@ export class HeaderComponent implements OnInit {
   closeDropdown() {
     this.dropdownOpen = false; // Cierra el menú desplegable
   }
+  
+
+
 }
