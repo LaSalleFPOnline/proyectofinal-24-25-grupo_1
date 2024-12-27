@@ -5,28 +5,15 @@
       <app-popup #popupEdicionRegistro></app-popup>
   
   <form (ngSubmit)="onSubmit()">
-
-      <label class="mdc-text-field mdc-text-field--outlined">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__notch">
-          <span class="mdc-floating-label" id="email-label">Nombre de Usuario</span><br>
-        </span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-      <input type="email" id="email" name="email" class="mdc-text-field__input" [(ngModel)]="email" required aria-labelledby="email-label">
-    </label>
+    <div class="username">
+      <p>Nombre de Usuario</p>
+      <input type="email" [(ngModel)]="email" name="email">
+    </div>
   
-    <label class="mdc-text-field mdc-text-field--outlined">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__notch">
-          <span class="mdc-floating-label" id="password-label">Contraseña</span>
-        </span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-      <input type="password" id="password" name="password" class="mdc-text-field__input" [(ngModel)]="password" required aria-labelledby="password-label">
-    </label>
+    <div class="password">
+      <p>Contraseña</p>
+      <input type="password" [(ngModel)]="password" name="password">
+    </div>
 
     <div class="enviar">
       <button mat-raised-button color="primary" type="submit">ENVIAR</button>
