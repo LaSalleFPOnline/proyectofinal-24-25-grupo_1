@@ -360,7 +360,7 @@ Si no hay errores, se imprime un mensaje indicando que la conexión fue cerrada 
 // Se exportan las funciones y el objeto para que puedan ser utilizadas en otros módulos de la aplicación
 module.exports = {
   initializeDatabase,
-//  endDatabaseConnection,
+  // endDatabaseConnection,
   connection
 };
 

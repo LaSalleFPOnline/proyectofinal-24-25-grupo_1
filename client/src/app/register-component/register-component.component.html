@@ -5,28 +5,23 @@
 
   <!-- Campo de Email y Validación -->
   <div *ngIf="!emailValidado" class="campo">
-    <label class="mdc-text-field mdc-text-field--outlined">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__notch">
-          <span class="mdc-floating-label" id="email-label">Email</span>
-        </span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-      <input type="email" id="email" name="email" class="mdc-text-field__input" [(ngModel)]="email" required aria-labelledby="email-label">
-    </label>
-    <div class="enviar">
-      <button mat-raised-button color="primary" type="button" (click)="validarEmail()">Validar Email</button>
-    </div>
+    <label class="text">* Email:</label>
+    <input type="email" id="email" name="email" class="mdc-text-field__input" [(ngModel)]="email" required aria-labelledby="email-label">
+    <img class="line" src="assets/Images/line.png">
   </div>
-  
+
+  <div class="enviar">
+    <button mat-raised-button color="primary" type="button" (click)="validarEmail()"tabindex="2">Validar Email</button>
+  </div>
+
 
   <!-- Campos adicionales después de validar el email -->
   <div *ngIf="emailValidado">
     <!-- Campo de Email (solo lectura) -->
     <div class="campo">
       <label class="text">* Email:</label>
-      <input type="email" id="email" [(ngModel)]="email" name="email" class="input" readonly>
+      <input type="email" id="email" [(ngModel)]="email" name="email" class="input" tabindex="1"
+      (keydown.enter)="validarEmail()" readonly>
       <img class="line" src="assets/Images/line.png">
     </div>
 
