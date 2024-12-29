@@ -17,7 +17,7 @@
     padding: 2rem;
     left: 50%;
     transform: translateX(-50%);
-
+    font-family: 'Indivisa', sans-serif;
 }
 
 .header.shrink {
