@@ -1,6 +1,12 @@
 
 .registro{
-  background-color: lightblue;
+  background-color: rgba(var(--color-azul-rgb), 0.1);
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.formulario.registro > div {
+  margin-bottom: 1.5rem;
 }
 
 .text{
@@ -10,12 +16,9 @@
   font-size: 14px;
 }
 
-
-
 .mdc-text-field {
   background-color: transparent;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .mdc-text-field__input {
@@ -25,24 +28,24 @@
 
 .mdc-floating-label {
   font-size: 12px;
-  color: #2B2B2A;
+  color: var(--color-negro);
   transition: 0.2s ease;
   box-sizing: border-box;
 }
 
 .mdc-text-field__input:focus + .mdc-notched-outline .mdc-notched-outline__notch {
-  border-color: #2B2B2A;
+  border-color: var(--color-negro);
 }
 
 .mdc-text-field__input:focus + .mdc-notched-outline .mdc-floating-label {
   transform: translateY(-20px) scale(0.75);
-  color: #2B2B2A;
+  color: var(--color-negro);
   
 }
 
 .mdc-text-field__input:valid + .mdc-notched-outline .mdc-floating-label {
   transform: translateY(-20px) scale(0.75);
-  color: #2B2B2A;
+  color: var(--color-negro);
 }
 
 
@@ -60,7 +63,6 @@ form input[type="url"],
 form select {
   width: 90%;
   padding: 10px;
-  margin-bottom: 15px;
   border: none;
   border-radius: 10px;
   box-sizing: border-box;
@@ -92,8 +94,8 @@ form select {
 
 .enviar button {
   font-size: 14px;
-  color: #2B2B2A;
-  background-color: #F3F3F3;
+  color: var(--color-negro);
+  background-color: var(--color-blanco);
   border-radius: 20px;
   border: 2px solid transparent;
   cursor: pointer;
@@ -102,16 +104,16 @@ form select {
 }
 
 .enviar button:hover, .enviar button:active {
-  border: 2px solid #2B2B2A;
+  border: 2px solid var(--color-negro);
   transform: scale(1.05);
 }
 
 input.error {
-  border: 2px solid red !important;
+  border: 2px solid var(--color-rojo) !important;
 }
 
 input.error:focus {
-  border: 2px solid red !important;
+  border: 2px solid var(--color-rojo) !important;
   outline: none; /* Elimina el contorno azul predeterminado del navegador */
 }
 

@@ -17,7 +17,17 @@ html, body {
 
 body {
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
+
+main {
+    flex: 1;
+  }
+
+  footer {
+    margin-top: auto;
+  }
 
 /* Font-Face Definitions */
 @font-face {
@@ -73,7 +83,7 @@ h1, h2, h3 {
 }
 
 h4, h5, h6 {
-    font-family: 'Indivisa Display Serif', serif;
+    font-family: 'Indivisa Text Serif', serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -133,7 +143,6 @@ blockquote {
     max-width: 60rem;
     margin: 0 auto;
     padding-top: 3rem;
-    background-color: #F6E953;
     border-radius: 45px;
     border: 1px solid #2B2B2A;
     box-shadow: 0px 5px 0px #2B2B2A;
@@ -147,3 +156,18 @@ blockquote {
     box-shadow: 0px 0.3rem 0px #2B2B2A;
     padding: 1rem 2rem;
 }
+
+:root {
+    --color-rojo: #AC3635;
+    --color-rojo-rgb: 172, 54, 53;
+    --color-azul: #384078;
+    --color-azul-rgb: 56, 64, 120;
+    --color-amarillo: #F6E953;
+    --color-amarillo-rgb: 246,233,83;
+    --color-verde: #60A96E;
+    --color-verde-rgb: 96, 169, 110;
+    --color-negro: #2B2B2A;
+    --color-blanco: #F3F3F3;
+    --color-gris: #D3D3D3;
+
+  }

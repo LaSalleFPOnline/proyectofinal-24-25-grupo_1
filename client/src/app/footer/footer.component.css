@@ -1,26 +1,27 @@
 .footer {
     width: 100%;
-    max-width: 1280px;
+    max-width: none;
+    margin: 0;
     height: auto;
-    /* min-height: 100%; */
     background-color: #F3F3F3;
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
     position: relative;
     bottom: 0;
     left: 0;
     right: 0;
-    top: 2rem;
     font-size: 12px;
     align-items: start;
+    /* gap: 1rem; */
+    top: 1rem;
+    margin-top: auto;
 }
 
 .footer-botones,
 .footer-text,
 .footer-content {
-    padding: 1rem; /* Espaciado interno */
+    padding: 0.5rem; /* Espaciado interno */
     text-align: center;
 }
 
@@ -40,7 +41,6 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    /* padding: 2rem;  */
 }
 
 .titulo-contacta {
@@ -64,65 +64,69 @@
 
 .titulo-nosotros {
     color: #F3F3F3; /* Color del texto del enlace */
-    background-color: blue;
+    background-color: var(--color-azul);
     border-radius: 10px;
     padding: 0.5rem 1rem;
     font-size: 0.7rem;
     display: inline-block;
     width: fit-content;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Efecto hover */
 .titulo-contacta:hover {
-    background-color: #eb433e;
-    color: #FFFFFF;
-    transform: scale(1.05);
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+    opacity: 0.7;
+    transform: scale(1.1);
     transition: all 0.3s ease;
 }
 
 .titulo-nosotros:hover {
-    background-color: lightblue;
-    color: white;
+    background-color: var(--color-azul);
+    color: var(--color-blanco);
+    opacity: 0.7;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
 }
 .titulo-nosotros a {
-    color: #F3F3F3;
+    color: var(--color-blanco);
     text-decoration: none;
     display: block;
 }
 .divider {
     width: 2px; /* Ancho de la línea divisoria */
-    background-color: #2B2B2A;
+    background-color: var(--color-negro);
     height: 100%; 
     margin: 0 1rem; /* Espaciado horizontal */
 }
 
 .line {
-    width: 100%; /* Asegura que la línea decorativa ocupe todo el ancho */
-    height: 1px; /* Altura de la línea */
-    background-color: #2B2B2A; /* Color de la línea */
-    margin: 1rem 0; /* Espaciado vertical alrededor de la línea */
+    width: 100%;
+    height: 1px; 
+    background-color: var(--color-negro); 
+    margin: 1rem 0;
 }
 
 .illustrations-by {
-    margin: 0; /* Eliminar márgenes para un mejor alineamiento */
+    margin: 0;
 }
 
 .illustrations-by a {
-    color: #2B2B2A; /* Color del enlace */
-    text-decoration: none; /* Sin subrayado en el enlace */
+    color: var(--color-negro);
+    text-decoration: none; 
 }
 
 .illustrations-by a:hover {
-    text-decoration: underline; /* Subrayar el enlace al pasar el ratón */
+    text-decoration: underline;
 }
 
 .illustration {
     position: static;
-    width: 20%;
+    width: 15%;
     height: auto;
     right: 0;
     margin-bottom: 1rem;
@@ -134,34 +138,36 @@
 
 @media (max-width: 768px) {
     .footer {
-        gap: 0.5rem; /* Reduce el espacio entre columnas */
-        grid-template-columns: 1fr; /* Opcional: Cambiar a una sola columna si necesario */
-        text-align: center; /* Centrar el texto para mayor legibilidad */
+        gap: 0.5rem; 
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 
     .footer-botones, 
     .footer-text, 
     .footer-content {
-        padding: 0.3rem; /* Ajusta el espaciado interno */
+        padding: 0.2rem;
     }
 
     .titulo-contacta, 
     .titulo-nosotros {
-        font-size: 0.5rem; /* Reduce el tamaño de la fuente si es necesario */
-        padding: 0.3rem 0.5rem; /* Ajusta los paddings para mantener proporción */
+        font-size: 0.5rem; 
+        padding: 0.3rem 0.5rem;
         width: auto;
         white-space: nowrap;
     }
 
     .line {
-        margin: 0.5rem 0; /* Reduce el margen de las líneas decorativas */
+        margin: 0.5rem 0;
     }   
 }
 
 @media (max-width: 375px) {
     .footer {
-        grid-template-columns: 1fr; /* Una sola columna para móviles */
-        gap: 0.5rem; /* Espacio aún más reducido */
+        width: 100%;
+        max-width: none;
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
     }
 
     .titulo-contacta, 
@@ -176,9 +182,8 @@
     .footer-content {
         padding: 0.3rem; /* Menor espaciado interno */
     }
-
-    .line {
-        margin: 0.2rem 0; /* Margen reducido */
+    .illustration{
+        display: none;
     }
 }
 
@@ -191,6 +196,9 @@
     }
 
     .footer {
-        gap: 1rem;
+        width: 100%;
+        max-width: none;
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
     }
 }

@@ -2,11 +2,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Indivisa', sans-serif;
 }
 
 .container {
   padding: 2rem;
   box-sizing: border-box;
+}
+
+.video,
+.intro,
+.agenda,
+.descargas,
+.patrocinadores {
+  margin: 2rem 0;
 }
 
 
@@ -41,7 +50,7 @@ iframe {
   height: auto;
   border-radius: 45px;
   border: 5px solid;
-  border-color: #F6E953;
+  border-color: var(--color-amarillo);
   padding: 20px;
   box-sizing: border-box;
   margin: 0 auto;
@@ -58,7 +67,7 @@ iframe {
 }
 
 .text-intro, .text-intro2, .desciption {
-  color: #2B2B2A;
+  color: var(--color-negro);
   margin: 0;
 }
 
@@ -127,10 +136,6 @@ iframe {
   .flexcontainer {
     width: 100%;
   }
-
-  .desciption {
-    font-size: 12px;
-  }
 }
 /* #endregion */
 
@@ -144,10 +149,6 @@ iframe {
   width: 100%;
   margin: 0 auto;
 }
-.text-intro, .text-intro2, .desciption, .frame {
-  font-family: 'Roboto Mono', monospace;
-  font-size: large;
-}
 
 /* Estilo para cada frame */
 .frame {
@@ -157,8 +158,8 @@ iframe {
   padding: 1rem 1rem;
   background-color: #F3F3F3;
   border-radius: 3rem;
-  border: 1px solid #2B2B2A;
-  box-shadow: 0 0.25rem 0 #2B2B2A;
+  border: 1px solid var(--color-negro);
+  box-shadow: 0 0.25rem 0 var(--color-negro);
   margin-bottom: 2vw;
   transition: background-color 0.3s ease, height 0.3s ease;
   position: relative;
@@ -166,19 +167,19 @@ iframe {
 }
 
 .agenda .frame.current-event:first-child {
-  background-color: #60A96E;
+  background-color: var(--color-verde);
   color: white;
 }
 
 /* Estilo para cualquier frame que sea el evento actual */
 .current-event {
-  background-color: #60A96E;
+  background-color:var(--color-verde);
   color: white;
 }
 
 .frame.expanded {
-  background-color: #F3F3F3;
-  color: black;
+  background-color: var(--color-blanco);
+  color: var(--color-negro);
 }
 .frame-header {
   display: flex;
@@ -215,8 +216,8 @@ iframe {
   width: 100%;
   height: 1px;
   margin-top: 1rem;
-  background-color: #2B2B2A;
-  display: none; /* Oculta la línea por defecto */
+  background-color: var(--color-negro);
+  display: none;
 }
 
 .frame.expanded .line {
@@ -244,20 +245,31 @@ iframe {
 }
 
 @media (max-width: 480px) {
+  /* Agenda ocupa 90% y se centra */
+  .agenda {
+    width: 100%;
+    margin: 0 auto;
+    padding: 5px;
+  }
+
+  .frame{
+    width: 90%;
+    box-shadow: 0 0.1rem 0 var(--color-negro);
+  }
   .agenda .time-wrapper {
-    font-size: 14px; /* Tamaño de letra reducido para la hora */
+    font-size: 14px;
   }
 
   .agenda .event-description {
-    font-size: 14px; /* Tamaño de letra reducido para la descripción del evento */
+    font-size: 14px;
   }
 
   .agenda .frame-header {
-    font-size: 14px; /* Tamaño de letra reducido para el encabezado del frame */
+    font-size: 14px;
   }
 
   .agenda .frame-content {
-    font-size: 14px; /* Tamaño de letra reducido para el encabezado del frame */
+    font-size: 14px;
   }
 }
 
@@ -267,18 +279,18 @@ iframe {
 .descargas {
   display: flex;
   flex-wrap: wrap;
-  width: 80%;
+  width: 90%;
   max-width: 1200px;
   height: auto;
-  align-items: center;
+  align-items: stretch; /* Fuerza a que todas las tarjetas tengan la misma altura */
   justify-content: center;
   position: relative;
   border-radius: 45px;
-  border: 5px solid #2B2B2A;
+  border: 5px solid var(--color-negro);
   margin: 0 auto;
   margin-bottom: 2rem;
   margin-top: 2rem;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .descargas .descarga-programa,
@@ -292,33 +304,33 @@ iframe {
   justify-content: space-between;
   position: relative;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .descargas .descarga-programa {
-  background-color: #60A96E;
+  background-color: var(--color-verde);
 }
 
 .descargas .descarga-concurso {
-  background-color: #AC3635;
+  background-color: var(--color-rojo);
 }
 
 .descargas .descarga-guia {
-  background-color: #384078;
+  background-color: var(--color-azul);
 }
 
 .descargas p {
   margin: 0;
   line-height: 1.5;
   color: #F3F3F3;
-  font-size: 1vw;
+  font-size: 20px;
 }
 
 .descargas .link {
   display: inline-flex;
   color: #F3F3F3;
-  font-size: 1rem;
-  margin-top: 1rem;
+  font-size: 12px;
+  /* margin-top: 1rem; */
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -378,12 +390,10 @@ iframe {
   position: absolute;
   width: 100%;
   height: 80%;
-  background-color: #384078;
+  background-color: var(--color-azul);
   border-radius: 45px;
   z-index: 0;
-  overflow: hidden ;
-  /* border: 10px solid #384078; */
-  ;
+  overflow: hidden;
 }
 
 .scroll-container {
@@ -416,13 +426,14 @@ iframe {
 /*Cuadros amarillos*/
 .overlap-group {        
   border-radius: 45px;
-  border: 3px solid #F6E953;
+  border: 3px solid var(--color-amarillo);
   width: 80%;
   height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 1rem;
 }
 
 .overlap-group img { 
@@ -438,7 +449,7 @@ iframe {
   width: 100%;
   box-sizing: border-box;
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 1rem;
   overflow-wrap: break-word;
   
 }

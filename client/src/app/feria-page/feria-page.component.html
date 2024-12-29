@@ -21,7 +21,7 @@
                 <img class="plus-icon"
                     [src]="evento.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'"
                     alt="Toggle"
-                    (click)="toggleFrame($event)"
+                    (click)="toggleFrame($event, evento)"
                 />
             </div>
             <!-- Línea separadora que aparece cuando el evento está expandido -->
@@ -41,152 +41,75 @@
     <!-- MOSTRAR EL POPUP -->
     <app-popup #popupComponent></app-popup>
 
-<!-- Botones de selección -->
-<div class="filter-buttons">
-    <button class="md-button" (click)="mostrarTodas()">Mostrar todas</button>
-    <button class="md-button" (click)="mostrarInteresadas()">Interesadas en mí</button>
-    <button class="md-button" (click)="mostrarMisIntereses()">Mis intereses</button>
-</div>
-
-
-<!-- Contenedor para mostrar todas las empresas -->
-<div *ngIf="mostrarTodasEmpresas" class="scroll-container-2">
-    <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
-        <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
-        <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
+    <!-- Botones de selección -->
+    <div class="filter-buttons">
+        <button class="md-button" (click)="mostrarTodas()">Mostrar todas</button>
+        <button class="md-button" (click)="mostrarInteresadas()">Interesadas en mí ({{ relacionesCompra.length }})</button>
+        <button class="md-button" (click)="mostrarMisIntereses()">Mis intereses ({{ relacionesVenta.length }})</button> 
     </div>
-</div>
 
-<!-- Contenedor para mostrar interesadas en mí -->
-<div *ngIf="mostrarInteresadasEnMi" class="scroll-container-2">
-    <!-- Si hay empresas interesadas, mostramos la lista -->
-    <div *ngIf="relacionesCompra.length > 0">
-        <div *ngFor="let compra of relacionesCompra" class="rectangle-empresas" (click)="mostrarDetalles(compra.id_empresaVendedora)">
-            <div class="logo-container">
-                <div *ngIf="haVotadoPorEmpresa(compra.id_empresaVendedora)" class="logo-overlay"></div>
-                <img [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-empresa">
-                <div *ngIf="haVotadoPorEmpresa(compra.id_empresaVendedora)" class="icono-container">
-                    <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
-                </div>
-            </div>
-            <p class="txt-logo">
-                {{ compra.nombre_empresa }}
-            </p>
+
+    <!-- Contenedor para mostrar todas las empresas -->
+    <div *ngIf="mostrarTodasEmpresas" class="scroll-container-2">
+        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
+            <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
+            <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
         </div>
     </div>
 
-    <!-- Si no hay empresas interesadas, mostramos el mensaje -->
-    <div *ngIf="relacionesCompra.length === 0" class="rectangle-empty">
-        <p class="txt-empty">Aquí aparecerán las empresas interesadas en mí</p>
-    </div>
-</div>
-
-<!-- Contenedor para mostrar mis intereses -->
-<div *ngIf="mostrarMisInteresesEmpresas" class="scroll-container-2">
-    <!-- Si hay empresas en mis intereses, mostramos la lista -->
-    <div *ngIf="relacionesVenta.length > 0">
-        <div *ngFor="let venta of relacionesVenta" class="rectangle-empresas" (click)="mostrarDetalles(venta.id_empresaCompradora)">
-            <div class="logo-container">
-                <img [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-empresa">
-            </div>
-            <p class="txt-logo">
-                {{ venta.nombre_empresa }}
-            </p>
-        </div>
-    </div>
-
-    <!-- Si no hay empresas en mis intereses, mostramos el mensaje -->
-    <div *ngIf="relacionesVenta.length === 0" class="rectangle-empty">
-        <p class="txt-empty">Aquí aparecerán las empresas que me interesan</p>
-    </div>
-</div>
-
-
-    <!-- Mis relaciones comerciales -->
-    <div class="mis-relaciones"  *ngIf="userType !== 3">
-        <div class="titulo-notificaciones">
-            <div class="fondo-notificaciones">
-                <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
-            </div>
-        </div>
-        <div class="contenedor-realaciones">
-            <div class="overlap-relaciones-1">
-                <div class="text-relaciones">Mis intereses</div>
-                <div class="scroll-container">
-                    <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
-                        <p>Aquí aparecerán las empresas que me interesan</p>
-                    </div>
-                    <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.id_empresaCompradora)">
-                        <img *ngIf="venta.logo" [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-interes">
+    <!-- Contenedor para mostrar interesadas en mí -->
+    <div *ngIf="mostrarInteresadasEnMi" class="scroll-container-2">
+        <!-- Si hay empresas interesadas, mostramos la lista -->
+        <div *ngIf="relacionesCompra.length > 0">
+            <div *ngFor="let compra of relacionesCompra" class="rectangle-empresas" (click)="mostrarDetalles(compra.id_empresaVendedora)">
+                <div class="logo-container">
+                    <div *ngIf="haVotadoPorEmpresa(compra.id_empresaVendedora)" class="logo-overlay"></div>
+                    <img [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-empresa">
+                    <div *ngIf="haVotadoPorEmpresa(compra.id_empresaVendedora)" class="icono-container">
+                        <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
                     </div>
                 </div>
+                <p class="txt-logo">
+                    {{ compra.nombre_empresa }}
+                </p>
             </div>
+        </div>
 
-            <div class="overlap-relaciones-2">
-                <div class="text-relaciones">Interesados en mí</div>
-                <div class="scroll-container">
-                    <div *ngIf="relacionesCompra.length === 0" class="mensaje-sin-relaciones">
-                        <p>Aquí aparecerán los interesados en mí</p>
-                    </div>
-                    <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetalles(compra.id_empresaVendedora)">
-                        <img *ngIf="compra.logo" [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-interes">
-                    </div>
+        <!-- Si no hay empresas interesadas, mostramos el mensaje -->
+        <div *ngIf="relacionesCompra.length === 0" class="rectangle-empty">
+            <p class="txt-empty">Aquí aparecerán las empresas interesadas en mí</p>
+        </div>
+    </div>
+
+    <!-- Contenedor para mostrar mis intereses -->
+    <div *ngIf="mostrarMisInteresesEmpresas" class="scroll-container-2">
+        <!-- Si hay empresas en mis intereses, mostramos la lista -->
+        <div *ngIf="relacionesVenta.length > 0">
+            <div *ngFor="let venta of relacionesVenta" class="rectangle-empresas" (click)="mostrarDetalles(venta.id_empresaCompradora)">
+                <div class="logo-container">
+                    <img [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-empresa">
                 </div>
+                <p class="txt-logo">
+                    {{ venta.nombre_empresa }}
+                </p>
             </div>
         </div>
-
-        <div class="contenedor-texto-suma">
-            <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
-            <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
+        <!-- Si no hay empresas en mis intereses, mostramos el mensaje -->
+        <div *ngIf="relacionesVenta.length === 0" class="rectangle-empty">
+            <p class="txt-empty">Aquí aparecerán las empresas que me interesan</p>
         </div>
     </div>
-
-    <!---->
-    <!-- Notificaciones
-    <div class="notificaciones">
-        <div class="titulo-notificaciones">
-            <div class="fondo-notificaciones">
-                <div class="texto-titulo-notificaciones">Notificaciones</div>
-            </div>
-        </div>
-        <div class="text-line-container">
-            <p class="text-notificaciones">¿Qué queremos que se notifique?</p>
-            <div class="line-notificaciones"></div>
-        </div>
-    </div>
-    -->
 
     <!-- Ilustración -->
     <img class="illustration" src="assets/Illustrations/Illustration4.png">
 
-    <!-- Listado empresas -->
-    <div class="titulo" id="empresas">
-        <p>Empresas participantes</p>
-    </div>
-    <div class="scroll-container-2">
-        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
-            <div class="logo-container">
-                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="logo-overlay"></div> <!-- Capa blanca semitransparente -->
-                <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
-                <!-- Mostrar el ícono de "Me gusta" si el usuario ha votado por la empresa -->
-                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="icono-container">
-                    <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
-                </div>
-            </div>
-            <p class="txt-logo">
-                {{ empresa.nombre_empresa }}
-            </p>
-        </div>
-    </div>
-
-
 
     <!-- Detalle empresas -->
     <div *ngIf="empresaSeleccionada" class="detalles" id="detalles">
-        <div class="titulo-detalles">
-            <div class="titulo">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
+        <div class="titulo">
+            <p>Detalles de {{ empresaSeleccionada.nombre_empresa }}</p>
         </div>
-
+        
         <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
 
         <div class="contenedor-arriba">
@@ -196,11 +119,11 @@
             <p class="empresa">
                 <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
                 <br class="text-detalles">
-                    <br/>Página web: <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
-                    <br/>Horarios de ATENCIÓN CLIENTE:
-                    <br/> - {{ horariosDeAtencionManana }}
-                    <br/> - {{ horariosDeAtencionTarde }}
-                    <br/>Enlace de MEET: <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
+                <br/><strong>Página web:</strong> <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
+                <br/><strong>Horarios de ATENCIÓN CLIENTE:</strong>
+                <br/> - {{ horariosDeAtencionManana }}
+                <br/> - {{ horariosDeAtencionTarde }}
+                <br/><br/><strong>Enlace de MEET:</strong> <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
             </p>
         </div>
 
@@ -246,3 +169,63 @@
         </div>
     </div>
 </div>
+
+
+    <!-- Mis relaciones comerciales -->
+    <!-- <div class="mis-relaciones"  *ngIf="userType !== 3">
+        <div class="titulo-notificaciones">
+            <div class="fondo-notificaciones">
+                <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
+            </div>
+        </div>
+        <div class="contenedor-realaciones">
+            <div class="overlap-relaciones-1">
+                <div class="text-relaciones">Mis intereses</div>
+                <div class="scroll-container">
+                    <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
+                        <p>Aquí aparecerán las empresas que me interesan</p>
+                    </div>
+                    <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.id_empresaCompradora)">
+                        <img *ngIf="venta.logo" [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-interes">
+                    </div>
+                </div>
+            </div>
+
+            <div class="overlap-relaciones-2">
+                <div class="text-relaciones">Interesados en mí</div>
+                <div class="scroll-container">
+                    <div *ngIf="relacionesCompra.length === 0" class="mensaje-sin-relaciones">
+                        <p>Aquí aparecerán los interesados en mí</p>
+                    </div>
+                    <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetalles(compra.id_empresaVendedora)">
+                        <img *ngIf="compra.logo" [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-interes">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contenedor-texto-suma">
+            <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
+            <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
+        </div>
+    </div> -->
+
+        <!-- Listado empresas -->
+    <!-- <div class="titulo" id="empresas">
+        <p>Empresas participantes</p>
+    </div>
+    <div class="scroll-container-2">
+        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
+            <div class="logo-container">
+                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="logo-overlay"></div>
+                <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
+
+                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="icono-container">
+                    <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
+                </div>
+            </div>
+            <p class="txt-logo">
+                {{ empresa.nombre_empresa }}
+            </p>
+        </div>
+    </div> -->
