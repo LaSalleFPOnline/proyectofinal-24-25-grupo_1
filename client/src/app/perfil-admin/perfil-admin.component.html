@@ -16,20 +16,23 @@
         </div>
     </div>
 </div>
-<!-- Mostrar usuarios sin contraseña -->
+
+<!-- Usuarios sin contraseña -->
 <div class="titulo">
     <p>Usuarios SIN REGISTRAR su Empresa</p>
 </div>
-<div class="usuarios-container-principal">
-    <div class="usuarios-container">
-        <div *ngFor="let usuario of usuariosSinPassword" class="usuarios-item">
-            <div class="rectangulo">
-                <img src="assets/Images/Icon_SINLOGO.png" alt="Sin Logo" class="logo-usuarios">
-            </div>
-            <p class="usuario-email">{{ usuario.email }}</p>
-            <div class="iconos-container">
-                <img src="assets/Images/Icon_FALTAINFO.png" alt="Icono Sin Logo" class="icono-usuario">
-            </div>
+
+<div class="usuarios-container">
+    <div *ngFor="let usuario of usuariosSinPassword" class="usuario-item">
+        <!-- Logo predeterminado -->
+        <div class="rectangulo">
+            <img src="assets/Images/Icon_SINLOGO.png" alt="Sin Logo" class="logo-usuarios">
+        </div>
+        <!-- Correo del usuario -->
+        <p class="usuario-email">{{ usuario.email }}</p>
+        <!-- Icono adicional -->
+        <div class="iconos-container">
+            <img src="assets/Images/Icon_FALTAINFO.png" alt="Icono Sin Información" class="icono-usuario">
         </div>
     </div>
 </div>
@@ -67,7 +70,6 @@
 </div> -->
 
 <!-- Mostrar DETALLES de Empresa -->
-
 <div *ngIf="empresaSeleccionada" class="detalles" id="detalles">
     <div class="titulo-detalles">
         <div class="titulo">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>

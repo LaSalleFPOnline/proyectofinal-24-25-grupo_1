@@ -1,21 +1,31 @@
+/* Espaciado vertical uniforme */
+.container,
+.usuarios-container,
+.container_2,
+.detalles {
+    margin-bottom: 3rem;
+}
+
 /* Tablero de empresas */
 .container {
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
     overflow-y: auto;
-    background-color: #60A96E;
-    border: 1px solid #2B2B2A;
-    box-shadow: 0 0.25rem 0 #2B2B2A;
+    background-color: rgba(var(--color-verde-rgb),0.1);
+    border: 1px solid var(--color-negro);
+    box-shadow: 0 0.25rem 0 var(--color-negro);
     border-radius: 45px;
     box-sizing: border-box;
-    margin-top: 2rem;
-    margin-bottom: 50px;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
 }
 
 .item {
-    flex: 1 1 calc(33.333% - 20px);
-    margin: 5px;
+    flex: 1 1 calc(20% - 1.5rem);
+    margin: 0;
+    text-align: center;
     box-sizing: border-box;
 }
 
@@ -26,7 +36,8 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    margin: 10px;
+    cursor: pointer;
+    padding: 1rem;
 }
 
 .rectangulo img {
@@ -34,23 +45,80 @@
     width: auto;
 }
 
-p {
-    text-align: center;
-    margin: 10px 0 0 0;
-    font-size: 18px;
+.nombre-empresa {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .iconos-container {
     display: flex;
-    gap: 10px; /* Espaciado entre iconos */
-    justify-content: center; /* Centra los iconos horizontalmente */
-    margin-top: 10px;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.5rem;
 }
 
 .icono {
-    width: 40px; /* Tamaño del icono */
-    height: 40px;
-    fill: currentColor; /* Permite usar el color del texto del contenedor */
+    width: 30px;
+    height: 30px;
+}
+
+/*Sin contraseña*/
+/* Contenedor principal de usuarios sin registrar */
+.usuarios-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(var(--color-rojo-rgb),0.1);
+    border: 1px solid var(--color-negro);
+    border-radius: 45px;
+    box-shadow: 0 0.25rem 0 var(--color-negro);
+    margin-top: 20px;
+}
+
+/* Cada usuario */
+.usuario-item {
+    flex: 1 1 calc(20% - 1.5rem);
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border: 1px solid var(--color-gris); 
+    border-radius: 10px;
+    background-color: var(--color-blanco); 
+    transition: transform 0.3s ease;
+}
+
+.usuario-item:hover {
+    transform: scale(1.1);
+}
+
+/* Logo del usuario */
+.logo-usuarios {
+    width: 30px;
+    margin-bottom: 0.2rem;
+}
+
+/* Correo del usuario */
+.usuario-email {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+/* Contenedor de iconos */
+.iconos-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;    
+}
+
+/* Tamaño de los iconos */
+.icono-usuario {
+    width: 15px;
+    height: 15px;
 }
 
 /* Top3 y enlaces */

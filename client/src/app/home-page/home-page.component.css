@@ -72,7 +72,7 @@ iframe {
 }
 
 .text-intro {
-  font-size: clamp(24px, 4vw, 50px);
+  font-size: clamp(1rem, 3vw, 3rem);
   font-weight: 700;
   line-height: 100%;
 }

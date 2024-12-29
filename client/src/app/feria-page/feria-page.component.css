@@ -148,6 +148,19 @@
     height: auto;
     box-sizing: border-box;
 }
+.scroll-container-empresas{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+    overflow-y: auto;
+    max-height: calc(2 * 300px + 30px + 20px);
+    border: 2px solid var(--color-negro);
+    border-radius: 10px;
+    background-color: var(--color-blanco);
+    justify-content: center;
+    border: 3px solid yellow;
+}
 
 .mis-relaciones {
     background-color: var(--color-azul);
@@ -208,6 +221,17 @@
     overflow-y: auto;
     padding: 0 10px;
     margin-bottom: 2rem;
+}
+.scroll-container-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Asegúrate de ajustar el tamaño mínimo y máximo */
+    gap: 15px; /* Espacio entre elementos */
+    padding: 15px;
+    overflow-y: auto;
+    border: 2px solid var(--color-negro);
+    border-radius: 10px;
+    background-color: var(--color-blanco);
+    justify-content: center;
 }
 
 .mensaje-sin-relaciones p {
@@ -325,11 +349,25 @@
     gap: 15px;
     padding: 15px;
     overflow-y: auto;
-    max-height: calc(2 * 200px + 30px + 20px);
+    max-height: calc(2 * 300px + 30px + 20px);
     border: 2px solid var(--color-negro);
     border-radius: 10px;
     background-color: var(--color-blanco);
     justify-content: center;
+}
+
+
+.rectangle-empresas {
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-gris);
 }
 
 .rectangle-empty {
@@ -357,19 +395,7 @@
     max-height: calc(1 * 150px + 15px); /* Altura para una sola fila */
 }
 
-.rectangle-empresas {
-    overflow: hidden;
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-    aspect-ratio: 1 / 1;
-    background-color: var(--color-gris);
 
-}
 
 .logo-container {
     position: relative;
@@ -419,6 +445,47 @@
     font-size: 14px;
     margin: 0;
 }
+
+/* Contenedor de los botones en la sección de empresas */
+.empresa-info-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px; /* Espacio entre botones */
+    padding: 10px 20px; /* Margen interno */
+    background-color: var(--color-blanco);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para contenedor */
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botones específicos para esta sección */
+.button-container-pk {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espacio entre los iconos */
+    margin-top: 10px;
+}
+
+/* Estilo de los iconos */
+.icono-empresa {
+    width: 15px; /* Ajusta el tamaño de los iconos */
+    height: 15px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.icono-empresa:hover {
+    transform: scale(1.1); /* Ampliación al pasar el mouse */
+    opacity: 0.8; /* Reducción de opacidad */
+}
+
+.icono-empresa:active {
+    transform: scale(0.9); /* Reducción al hacer clic */
+}
+
 /* #endregion */
 
 
