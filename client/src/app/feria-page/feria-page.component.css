@@ -1,4 +1,5 @@
-/* -------------------- Region Agenda -------------------- */
+
+/* #region Agenda-*/
 .feriapage{
     font-family: 'Indivisa' sans-serif;
 }
@@ -11,47 +12,38 @@
     padding: 1rem;
 }
 
-.text-intro, .text-intro2, .desciption, .frame {
-    font-size: large;
-}
-
-.time-wrapper {
-    font-size: larger;
-    font-weight: 500;
-}
-
 /* Estilo para cada frame */
 .frame {
     display: flex;
     flex-direction: column;
     width: 80%;
     padding: 1rem 1rem;
-    background-color: #F3F3F3;
+    background-color: var(--color-blanco);
     border-radius: 3rem;
-    border: 1px solid #2B2B2A;
-    box-shadow: 0 0.25rem 0 #2B2B2A;
+    border: 1px solid var(--color-negro);
+    box-shadow: 0 0.25rem 0 var(--color-negro);
     margin-bottom: 2vw;
     transition: background-color 0.3s ease, height 0.3s ease;
     position: relative;
-    overflow: hidden;
+    font-size: 1.5rem;
 }
 
 .evento-en-curso {
-    background-color: #60A96E; /* Verde para el evento actual */
+    background-color: var(--color-verde);
+    color: var(--color-blanco);
 }
 .frame.evento-en-curso.expanded {
-    background-color: #60A96E; /* Mantiene el verde para el evento actual expandido */
-    color: white; /* Asegura que el texto siga siendo blanco */
+    background-color: var(--color-verde);
+    color: var(--color-blanco);
 }
 
 .future-event {
-    background-color: #D3D3D3; /* Gris para eventos futuros */
-    color: black;
+    background-color: var(--color-gris);
+    color: var(--color-negro);
 }
 
 .frame.expanded {
-    background-color: #F3F3F3;
-    color: black;
+    overflow: visible;
 }
 
 .frame-header {
@@ -87,7 +79,7 @@
     width: 100%;
     height: 1px;
     margin-top: 1rem;
-    background-color: #2B2B2A;
+    background-color: var(--color-negro);
     display: none;
 }
 
@@ -111,22 +103,38 @@
 
 .text {
     width: 100%;
-    color: black;
+    color: var(--color-negro);
     margin: 0;
 }
 
 .btn-meet {
-    color: black;
+    color: var(--color-negro);
     transition: color 0.3s ease;
 }
 
 .btn-meet:hover {
-    color: red;
+    color: var(--color-rojo);
 }
 
 .btn-meet:active {
-    color: red;
+    color: var(--color-rojo);
 }
+
+@media (max-width: 480px) {
+    .agenda {
+      width: 100%;
+      margin: 0 auto;
+      padding: 5px;
+    }
+    
+    .frame {
+      width: 95%;
+      margin: 0 auto 2 rem auto;
+      font-size: 16px;
+      padding: 10px;
+      box-shadow: 0 0.1rem 0 var(--color-negro);
+    }
+  }
 
 /* #endregion */
 
@@ -142,9 +150,9 @@
 }
 
 .mis-relaciones {
-    background-color: #384078;
+    background-color: var(--color-azul);
     border-radius: 3rem;
-    box-shadow: 1px 0.3vw 1px #2B2B2A;
+    box-shadow: 1px 0.3vw 1px var(--color-negro);
     box-sizing: border-box;
     position: relative;
     margin-bottom: 2rem;
@@ -155,7 +163,7 @@
     justify-content: space-between;
     margin-top: 3rem;
     gap: 10px;
-    border: 10px solid #384078;
+    border: 10px solid var(--color-azul);
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
@@ -164,7 +172,7 @@
 .columna-relaciones {
     display: flex;
     flex-direction: column;
-    width: 48%; /* Ajusta según el espacio deseado */
+    width: 48%;
 }
 
 .titulo-notificaciones {
@@ -183,14 +191,15 @@
     flex-direction: column;
     width: 45%;
     height: 100%;
-    background-color: #F3F3F3;
+    background-color: var(--color-blanco);
     border-radius: 45px;
     overflow-y: auto;
     box-sizing: border-box;
     top: 0.5rem;
 }
 
-.scroll-container {
+.scroll-container,
+.scroll-container-2 {
     margin-top: 3rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -203,13 +212,13 @@
 
 .mensaje-sin-relaciones p {
     font-size: 0.8rem;
-    color: #7f7f7f;
+    color: var(--color-gris);
     text-align: center;
     margin: 0.5rem 0;
 }
 
 .rectangle-relaciones {
-    background-color: #D9D9D9;
+    background-color: var(--color-gris);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -255,24 +264,24 @@
 /* #region NOTIFICACIONES */
 
 .notificaciones {
-    background-color: #AC3635;
+    background-color: var(--color-rojo);
     border-radius: 3rem;
     border: 2px solid black;
-    box-shadow: 1px 0.3vw 1px #2B2B2A;
+    box-shadow: 1px 0.3vw 1px var(--color-negro);
     box-sizing: border-box;
     position: relative;
 }
 
 .fondo-notificaciones {
     padding: 1rem;
-    background-color: #F3F3F3;
+    background-color: var(--color-blanco);
     border-radius: 0.7vw;
 }
 
 .texto-titulo-notificaciones {
     font-weight: 500;
     font-size: clamp(1rem, 2vw, 1.5rem);
-    color: #2B2B2A;
+    color: var(--color-negro);
 }
 
 .text-line-container {
@@ -286,15 +295,15 @@
     width: 90%;
     margin-left: 2rem;
     font-weight: 400;
-    font-size: 1rem; /* Cambiado de 1vw a 1rem */
-    color: #F3F3F3;
+    font-size: 1rem;
+    color: var(--color-blanco);
 }
 
 .line-notificaciones {
     display: block;
     width: 90%;
-    height: 0.1vh;
-    background-color: #F3F3F3;
+    height: 1px;
+    background-color: var(--color-blanco);
     margin-left: 2rem;
 }
 
@@ -307,48 +316,71 @@
     margin: 0 auto;
     margin-bottom: 50px;
 }
-
 /* #endregion */
 
 /* #region Listado Empresas */
 .scroll-container-2 {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px; /* Espacio entre los logos */
+    gap: 15px;
     padding: 15px;
-    overflow-y: auto; /* Habilita el scroll vertical */
-    /* max-height: 80vh; */
-    max-height: calc(2 * 150px + 30px + 20px); /* Altura máxima para 2 filas, 150px es el tamaño de las tarjetas */
-    border: 2px solid #2B2B2A; /* Opcional: Borde para visualización */
+    overflow-y: auto;
+    max-height: calc(2 * 200px + 30px + 20px);
+    border: 2px solid var(--color-negro);
     border-radius: 10px;
-    background-color: #F3F3F3;
+    background-color: var(--color-blanco);
     justify-content: center;
 }
 
-.rectangle-empresas {
+.rectangle-empty {
     display: flex;
-    flex-direction: column; /* Cambia la dirección a columna */
-    align-items: center; /* Centra el contenido horizontalmente */
-    justify-content: center; /* Centra el contenido verticalmente */
-    width: 15%; /* Ancho del contenedor de imagen */
-    aspect-ratio: 1 / 1;
-    background-color: #D9D9D9;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    background-color: var(--color-gris);
+    border: 2px dashed var(--color-gris);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    height: 150px;
+    box-sizing: border-box;
+}
+
+.txt-empty {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-gris);
+}
+
+.scroll-container-2:empty {
+    max-height: calc(1 * 150px + 15px); /* Altura para una sola fila */
+}
+
+.rectangle-empresas {
     overflow: hidden;
     border-radius: 10px;
-    /* margin-bottom: 20px; */
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-gris);
+
 }
 
 .logo-container {
-    position: relative; /* Necesario para posicionar el ícono dentro */
-    width: 100%; /* Toma todo el ancho disponible */
-    height: 80%; /* Ocupa el 80% de la altura del contenedor */
+    position: relative;
+    width: 100%;
+    height: 80%;
 }
 
 .logo-empresa {
     width: 100%;
-    height: 100%; /* Asegura que la imagen ocupe todo el espacio disponible */
-    object-fit: cover; /* Ajusta la imagen dentro del contenedor sin distorsión, con posible recorte */
+    height: 100%; 
+    object-fit: cover;
 }
 
 /* Capa blanca semitransparente sobre el logo */
@@ -358,20 +390,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.6); /* Fondo blanco semitransparente */
-    border-radius: 10px; /* Esquinas redondeadas */
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
 }
 
 /* Contenedor del ícono */
 .icono-container {
     position: absolute;
-    top: 50%; /* Centra el ícono verticalmente */
-    left: 50%; /* Centra el ícono horizontalmente */
-    transform: translate(-50%, -50%); /* Ajuste fino para centrar */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .icono-gusta {
-    width: 100px;  /* Ajusta el tamaño del ícono */
+    width: 100px;
     height: 100px;
 }
 
@@ -383,7 +415,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+    text-overflow: ellipsis;
     font-size: 14px;
     margin: 0;
 }
@@ -398,7 +430,7 @@
     right: 30px;
     width: 35px;
     height: 35px;
-    transform: rotate(45deg); /* Rotar el ícono para que parezca una cruz */
+    transform: rotate(45deg);
     cursor: pointer;
     opacity: 1;
 }
@@ -412,16 +444,17 @@
     width: 90%;
     max-width: 1200px;
     height: auto;
-    background-color: #F6E953;
+    background-color: rgba(var(--color-amarillo-rgb), 0.1);
     border-radius: 45px;
-    border: 1px solid #2B2B2A;
-    box-shadow: 0px 5px 0px #2B2B2A;
+    border: 1px solid var(--color-negro);
+    box-shadow: 0px 5px 0px var(--color-negro);
     margin: 0 auto;
     top: 10px;
     padding: 10px;
     box-sizing: border-box;
     overflow: auto;
     margin-bottom: 30px;
+    font-family: 'Indivisa' sans-serif;
 }
 
 .titulo-detalles {
@@ -452,8 +485,8 @@
 
 .logo-img {
     width: 100%;
-    height: 100%; /* Ocupa todo el alto del contenedor */
-    object-fit: cover; /* Ajusta la imagen al contenedor sin distorsionar */
+    height: 100%;
+    object-fit: cover;
     position: absolute;
     top: 0;
     left: 0;
@@ -473,6 +506,8 @@
 .descripcion-completa {
     width: 100%;
     margin-left: 20px;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
 .video-parcial {
@@ -483,13 +518,12 @@
 
 .descripcion-parcial {
     width: 50%;
-    margin-left: 20px;
+    margin-left: 40px;
     max-height: 315px;
     overflow-y: auto;
+    padding: 40px;
+    box-sizing: border-box;
 }
-
-
-/* #region detalles de empresa */
 
 .contenedor-abajo {
     display: flex;
@@ -505,7 +539,7 @@
 }
 
 .columna-scroll {
-    flex: 1 1 58%; /* Ocupa el espacio restante (aproximadamente 58%) */
+    flex: 1 1 40%; /* Ocupa el espacio restante (aproximadamente 58%) */
     max-height: 25vw; /* Limita la altura máxima para mantener la proporción */
     overflow-y: auto; /* Permite el scroll vertical si el contenido es largo */
     padding: 10px;
@@ -519,14 +553,6 @@
     height: auto; /* Mantendrá la proporción del video */
     border-radius: 10px; /* Bordes redondeados para el video */
 }
-
-/* Otros estilos relacionados, ya proporcionados antes */
-
-/* #endregion */
-
-
-/* #endregion */
-
 
 .empresa {
     display: flex;
@@ -574,7 +600,7 @@
     opacity: 1;
 }
 
-/* #endregion Listado Empresas */
+/* #endregion */
 
 /* Botones de filtro */
 .filter-buttons {
@@ -585,8 +611,8 @@
 }
 
 .md-button {
-    background-color: #6200ea;
-    color: white;
+    background-color: var(--color-azul);
+    color: var(--color-blanco);
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -600,65 +626,10 @@
 }
 
 .md-button:hover {
-    background-color: #3700b3;
+    background-color: rgba(var(--color-azul-rgb), 0.7);
     transform: translateY(-2px);
 }
 
 .md-button:active {
     transform: translateY(1px);
-}
-
-/* Contenedor para las empresas */
-.scroll-container-2 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px;
-    overflow-y: auto;
-    max-height: calc(2 * 150px + 30px + 20px); /* Altura máxima para 2 filas */
-    border: 2px solid #2B2B2A;
-    border-radius: 10px;
-    background-color: #F3F3F3;
-    justify-content: center;
-}
-
-/* Estilo de las empresas */
-.rectangle-empresas {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-    aspect-ratio: 1 / 1;
-    background-color: #D9D9D9;
-    overflow: hidden;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-/* Contenedor vacío */
-.rectangle-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30%; /* Tamaño más grande para destacar */
-    /* aspect-ratio: 1 / 1; */
-    background-color: #EFEFEF;
-    border: 2px dashed #B0B0B0;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    height: 150px;
-    box-sizing: border-box; /* Incluye padding en la altura */
-}
-
-/* Texto del mensaje vacío */
-.txt-empty {
-    font-size: 14px;
-    font-weight: bold;
-    color: #7A7A7A;
-}
-.scroll-container-2:empty {
-    max-height: calc(1 * 150px + 15px); /* Altura para una sola fila */
 }

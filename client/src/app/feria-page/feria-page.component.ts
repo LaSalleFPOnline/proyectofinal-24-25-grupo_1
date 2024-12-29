@@ -181,25 +181,57 @@ export class FeriaPageComponent implements AfterViewInit {
     console.log(`${key} guardadas en sessionStorage.`);
   }
 
-  toggleFrame(event: Event) {
+  // toggleFrame(event: Event) {
+  //   const icon = event.target as HTMLImageElement;
+  //   const frame = icon.closest('.frame') as HTMLElement;
+  //   if (!frame) return;
+  //   if (this.expandedFrame && this.expandedFrame !== frame) {
+  //     this.renderer.removeClass(this.expandedFrame, 'expanded');
+  //     this.renderer.addClass(this.expandedFrame, 'collapsed');
+  //   }
+  //   if (frame.classList.contains('expanded')) {
+  //     this.renderer.removeClass(frame, 'expanded');
+  //     this.renderer.addClass(frame, 'collapsed');
+  //     this.expandedFrame = null;
+  //   } else {
+  //     this.renderer.removeClass(frame, 'collapsed');
+  //     this.renderer.addClass(frame, 'expanded');
+  //     this.expandedFrame = frame;
+  //   }
+  // }
+
+  toggleFrame(event: Event, evento: any) {
     const icon = event.target as HTMLImageElement;
     const frame = icon.closest('.frame') as HTMLElement;
     if (!frame) return;
+  
+    // Cierra el frame anterior si estaba abierto
     if (this.expandedFrame && this.expandedFrame !== frame) {
       this.renderer.removeClass(this.expandedFrame, 'expanded');
       this.renderer.addClass(this.expandedFrame, 'collapsed');
+      
+      // BUSCA qué 'eventoAnterior' era y márcalo como isExpanded = false
+      // (Si estás guardando su índice o tienes forma de identificarlo).
     }
+  
+    // Si este frame ya está expandido, lo cerramos
     if (frame.classList.contains('expanded')) {
       this.renderer.removeClass(frame, 'expanded');
       this.renderer.addClass(frame, 'collapsed');
       this.expandedFrame = null;
+      
+      // AQUÍ lo marcamos como colapsado
+      evento.isExpanded = false;
+  
     } else {
       this.renderer.removeClass(frame, 'collapsed');
       this.renderer.addClass(frame, 'expanded');
       this.expandedFrame = frame;
+  
+      // AQUÍ lo marcamos como expandido
+      evento.isExpanded = true;
     }
   }
-
   mostrarDetalles(empresaId: any) {
     console.log(this.relacionesVenta[0]);
     console.log('ID de la empresa seleccionada:', empresaId);

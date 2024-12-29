@@ -34,7 +34,7 @@
 }
 
 .logo {
-    width: 100px;
+    width: 120px;
     max-width: 35%;
     height: auto;
     cursor: pointer;
@@ -77,6 +77,7 @@
     border: 2px solid transparent;
     transition: border-color 0.3s;
     align-self: center;
+    font-size: 1rem;
 }
 
 .label:hover,

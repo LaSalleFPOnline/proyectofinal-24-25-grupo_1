@@ -5,41 +5,47 @@
   position: relative;
   width: 90%;
   max-width: 800px;
-  background-color: rgba(246, 233, 83, 0.1);
+  background-color: rgba(var(--color-amarillo-rgb),0.1);
   border-radius: 20px;
-  border: 2px solid #2B2B2A;
-  box-shadow: 0 2px 0 #2B2B2A;
+  border: 2px solid var(--color-negro);
+  box-shadow: 0 2px 0 var(--color-negro);
   padding: 1.5rem;
   margin: 20px auto;
+  font-family: 'Indivisa' sans-serif;
+}
+
+.username,
+.password,
+.enviar,
+.registro-info,
+.error-message-container,
+.tocho {
+  margin-top: 1.5rem;
 }
 
 p {
   font-size: 1rem;
-  margin-bottom: 0.3rem; 
+  margin: 0;
 }
 
-.bienvenido {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  margin-left: 0;
-  text-align: center;
+.titulo p{
+  font-size: 24px;
+  padding: 10px;
 }
-
 .password, .username{
   position: relative;
   width: 80%;
-  background-color: #f3f3f3;
+  background-color: var(--color-blanco);
   border-radius: 20px;
-  border: 1px solid #2B2B2A;
-  box-shadow: 0px 1vh 1vh #2B2B2A;
+  border: 2px solid var(--color-negro);
+  box-shadow: 0 2px 0 var(--color-negro);
   padding: 1rem;
-  margin-top: 1.5rem;
 }
 
 .username input, .password input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid #2B2B2A;
+  border-bottom: 1px solid var(--color-negro);
   background-color: transparent;
   padding: 0.5rem;
   font-size: 1rem;
@@ -48,7 +54,6 @@ p {
 }
 
 .enviar {
-  margin-top: 2rem;
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -56,8 +61,8 @@ p {
 
 .enviar button {
   font-size: 1rem;
-  color: #2B2B2A;
-  background-color: #F3F3F3;
+  color: var(--color-negro);
+  background-color: var(--color-blanco);
   border-radius: 20px;
   border: 2px solid transparent;
   cursor: pointer;
@@ -66,14 +71,13 @@ p {
 }
 
 .enviar button:hover, .enviar button:active {
-  border: 2px solid #2B2B2A;
+  border: 2px solid var(--color-negro);
   transform: scale(1.05);
 }
 
 .tocho {
-  color: #2B2B2A;
+  color: var(--color-negro);
   line-height: 2;
-  margin-top: 0.5rem;
   text-align: center;
   font-size: 0.5rem;
 }
@@ -85,10 +89,11 @@ p {
 }
 
 .enlace {
-  color: #007bff;
+  color: var(--color-azul);
+  text-decoration: underline;
   cursor: pointer;
-  text-decoration: none;
   transition: transform 0.3s ease;
+  font-weight: bold;
 }
 
 .enlace:hover {
@@ -99,15 +104,14 @@ p {
 .error-message-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 .error-message {
-  color: red;
-  background-color: #F3F3F3;
+  color: var(--color-rojo);
+  background-color: var(--color-blanco);
   padding: 10px 15px;
   border-radius: 20px;
-  border: 1px solid red;
+  border: 1px solid var(--color-rojo);
   text-align: center;
   display: inline-block;
 }
@@ -155,5 +159,3 @@ p {
     margin-top: 10px;
   }
 }
-
-
