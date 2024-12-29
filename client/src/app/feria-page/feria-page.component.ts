@@ -511,4 +511,26 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
     evento.expandido = !evento.expandido;
   }
 
+  mostrarTodasEmpresas: boolean = true;
+  mostrarInteresadasEnMi: boolean = false;
+  mostrarMisInteresesEmpresas: boolean = false;
+  
+
+  mostrarTodas(): void {
+      this.mostrarTodasEmpresas = true;
+      this.mostrarInteresadasEnMi = false;
+      this.mostrarMisInteresesEmpresas = false;
+  }
+  
+  mostrarInteresadas(): void {
+      this.mostrarTodasEmpresas = false;
+      this.mostrarInteresadasEnMi = true;
+      this.mostrarMisInteresesEmpresas = false;
+  }
+  
+  mostrarMisIntereses(): void {
+      this.mostrarTodasEmpresas = false;
+      this.mostrarInteresadasEnMi = false;
+      this.mostrarMisInteresesEmpresas = true;
+  }
 }

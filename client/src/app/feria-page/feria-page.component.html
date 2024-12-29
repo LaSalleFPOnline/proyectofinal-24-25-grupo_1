@@ -41,6 +41,67 @@
     <!-- MOSTRAR EL POPUP -->
     <app-popup #popupComponent></app-popup>
 
+<!-- Botones de selección -->
+<div class="filter-buttons">
+    <button class="md-button" (click)="mostrarTodas()">Mostrar todas</button>
+    <button class="md-button" (click)="mostrarInteresadas()">Interesadas en mí</button>
+    <button class="md-button" (click)="mostrarMisIntereses()">Mis intereses</button>
+</div>
+
+
+<!-- Contenedor para mostrar todas las empresas -->
+<div *ngIf="mostrarTodasEmpresas" class="scroll-container-2">
+    <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
+        <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
+        <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
+    </div>
+</div>
+
+<!-- Contenedor para mostrar interesadas en mí -->
+<div *ngIf="mostrarInteresadasEnMi" class="scroll-container-2">
+    <!-- Si hay empresas interesadas, mostramos la lista -->
+    <div *ngIf="relacionesCompra.length > 0">
+        <div *ngFor="let compra of relacionesCompra" class="rectangle-empresas" (click)="mostrarDetalles(compra.id_empresaVendedora)">
+            <div class="logo-container">
+                <div *ngIf="haVotadoPorEmpresa(compra.id_empresaVendedora)" class="logo-overlay"></div>
+                <img [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-empresa">
+                <div *ngIf="haVotadoPorEmpresa(compra.id_empresaVendedora)" class="icono-container">
+                    <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
+                </div>
+            </div>
+            <p class="txt-logo">
+                {{ compra.nombre_empresa }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Si no hay empresas interesadas, mostramos el mensaje -->
+    <div *ngIf="relacionesCompra.length === 0" class="rectangle-empty">
+        <p class="txt-empty">Aquí aparecerán las empresas interesadas en mí</p>
+    </div>
+</div>
+
+<!-- Contenedor para mostrar mis intereses -->
+<div *ngIf="mostrarMisInteresesEmpresas" class="scroll-container-2">
+    <!-- Si hay empresas en mis intereses, mostramos la lista -->
+    <div *ngIf="relacionesVenta.length > 0">
+        <div *ngFor="let venta of relacionesVenta" class="rectangle-empresas" (click)="mostrarDetalles(venta.id_empresaCompradora)">
+            <div class="logo-container">
+                <img [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-empresa">
+            </div>
+            <p class="txt-logo">
+                {{ venta.nombre_empresa }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Si no hay empresas en mis intereses, mostramos el mensaje -->
+    <div *ngIf="relacionesVenta.length === 0" class="rectangle-empty">
+        <p class="txt-empty">Aquí aparecerán las empresas que me interesan</p>
+    </div>
+</div>
+
+
     <!-- Mis relaciones comerciales -->
     <div class="mis-relaciones"  *ngIf="userType !== 3">
         <div class="titulo-notificaciones">
