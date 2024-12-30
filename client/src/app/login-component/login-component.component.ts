@@ -70,53 +70,12 @@ export class LoginComponentComponent {
         },
         error: (error) => {
           console.error('Error al intentar iniciar sesión:', error);
-          this.errorMessage = 'Credenciales inválidas';
+          this.errorMessage = 'En email con es correcto. Por favor, regístrate';   //Hay que velidarEmail
         }
       });
   }
 
-  validarEmail() {
-    if (!this.email) {
-        this.errorMessage = 'Por favor, introduce un email.';
-        return;
-    }
 
-    this.authService.checkEmail(this.email).subscribe({
-        next: (response: { message: string; rol?: number }) => {
-            console.log('Respuesta del servidor:', response);
-
-            if (response.rol !== undefined) {
-                this.rol = response.rol;
-                console.log('Rol recibido:', this.rol); // Mensaje de depuración
-            } else {
-                console.warn('El rol no está definido en la respuesta del servidor. Verifica el backend.');
-                this.errorMessage = 'El rol no está disponible. Por favor, contacta con soporte.';
-                return;
-            }
-
-            if (response.message === 'El correo está registrado sin contraseña') {
-              this.errorMessage = 'El correo está registrado sin contraseña. Tienes que registrarte';  
-              this.emailValidado = true; // Habilita el formulario para editar
-                this.isEmailReadOnly = true; // Hace el email de solo lectura
-                this.errorMessage = null;
-                this.successMessage = null;
-                // this.loadForm();
-            } else if (response.message === 'Credenciales inválidas') {
-                this.errorMessage = 'Este es un evento privdo. Contacta con tu profesor';
-                this.emailValidado = false;
-                this.isEmailReadOnly = false; // Permite volver a editar el email si es necesario
-            } else if (response.message === 'Este correo ya está registrado') {
-                // this.errorMessage = 'Este correo ya está registrado.';
-                this.emailValidado = false;
-                this.isEmailReadOnly = false; // Permite volver a editar el email si es necesario
-            }
-        },
-        error: (error: any) => {
-            console.error('Error al validar el email:', error);
-            this.errorMessage = 'Error al verificar el email. Inténtalo de nuevo.';
-        }
-    });
-  }
 
   navigateToRegister() {
     this.router.navigate(['/register']);
