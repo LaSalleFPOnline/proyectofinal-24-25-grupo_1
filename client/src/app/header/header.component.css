@@ -93,12 +93,12 @@
 .login {
     background-color: white;
     transition: opacity 0.3s;
-    max-width: 20%;
+    max-width: 30%;
     border: none;
 }
 .login img{
     cursor: pointer;
-    width: 80%;
+    width: 60%;
     transition: opacity 0.3s, transform 0.3s;
 }
 

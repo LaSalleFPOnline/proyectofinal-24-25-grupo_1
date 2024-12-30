@@ -22,7 +22,9 @@
       <form (ngSubmit)="onSubmit()">
         <div class="username">
           <p>email</p>
-          <input type="email" [(ngModel)]="email" name="email">
+          <input type="email" [(ngModel)]="email" name="email" required
+          #emailInput="ngModel"
+          (blur)="validarEmail()">
         </div>
 
         <div class="password">
