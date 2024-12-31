@@ -15,11 +15,12 @@
 }
 
 .username,
+.presentacion,
 .password,
 .enviar,
 .registro-info,
 .error-message-container,
-.tocho {
+.container {
   margin-top: 1.5rem;
 }
 
@@ -32,13 +33,35 @@ p {
   font-size: 24px;
   padding: 10px;
 }
+
+.container {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  flex-wrap: nowrap;
+}
+
+.form-container {
+  flex: 95%; 
+}
+
+.illustration {
+  flex: 5%;
+  max-width: 150px;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
 .password, .username{
   position: relative;
-  width: 80%;
+  width: 90%;
   background-color: var(--color-blanco);
   border-radius: 20px;
   border: 2px solid var(--color-negro);
-  box-shadow: 0 2px 0 var(--color-negro);
+  box-shadow: 0 1px 0 var(--color-negro);
   padding: 1rem;
 }
 
@@ -47,10 +70,10 @@ p {
   border: none;
   border-bottom: 1px solid var(--color-negro);
   background-color: transparent;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   font-size: 1rem;
   outline: none;
-  margin-top: 0.1rem;
+  /* margin-top: 0.1rem; */
 }
 
 .enviar {
@@ -75,15 +98,9 @@ p {
   transform: scale(1.05);
 }
 
-.tocho {
-  color: var(--color-negro);
-  line-height: 2;
-  text-align: center;
-  font-size: 0.5rem;
-}
-
 .registro-info {
   text-align: center;
+  justify-content: center;
   font-size: 12px;
   margin-top: 15px;
 }
@@ -116,15 +133,7 @@ p {
   display: inline-block;
 }
 
-.illustration {
-  position: absolute;
-  width: 25%;
-  height: auto;
-  max-width: 300px;
-  top: 20%;
-  right: 0;
-  padding: 2rem;
-}
+
 
 @media (max-width: 380px) {
   .illustration {

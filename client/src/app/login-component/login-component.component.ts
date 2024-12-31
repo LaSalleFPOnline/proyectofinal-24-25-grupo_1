@@ -11,7 +11,16 @@ import { PopupComponent } from '../popup/popup.component';
 export class LoginComponentComponent {
   email: string = '';
   password: string = '';
-  errorMessage: string = '';
+
+  emailValidado: boolean = false;
+  isEmailReadOnly: boolean = false; // Nueva propiedad para controlar la edición del email
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+  logoFile: File | null = null; // Para almacenar el archivo del logo
+  logoPreview: string | null = null; // Para la vista previa del logo
+  rol: number = 1; // 1: Empresa, 2: Visitante, 3: Admin
+
+
   @ViewChild('popupEdicionRegistro') popupComponent!: PopupComponent;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -61,10 +70,12 @@ export class LoginComponentComponent {
         },
         error: (error) => {
           console.error('Error al intentar iniciar sesión:', error);
-          this.errorMessage = 'Credenciales inválidas';
+          this.errorMessage = 'En email con es correcto. Por favor, regístrate';   //Hay que velidarEmail
         }
       });
   }
+
+
 
   navigateToRegister() {
     this.router.navigate(['/register']);

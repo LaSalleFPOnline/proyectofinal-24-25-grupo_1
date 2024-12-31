@@ -52,8 +52,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([path], { fragment }).then(() => {
         if (fragment) {
             this.scrollToFragment(fragment);
-        }
+        }else if (path === 'nosotros') {
+          // Si la ruta es 'nosotros', desplaza al inicio de la página
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }      
     });
+    
 }
 
   // Redirigir a la ruta correcta según el rol

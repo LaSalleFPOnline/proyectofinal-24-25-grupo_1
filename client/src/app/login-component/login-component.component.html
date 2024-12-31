@@ -1,44 +1,52 @@
+
 <div class="login">
   <div class="titulo">
     <p>Bienvenido</p>
   </div>
 
-      <!-- MOSTRAR EL POPUP -->
-      <app-popup #popupEdicionRegistro></app-popup>
+  <!-- MOSTRAR EL POPUP -->
+  <app-popup #popupEdicionRegistro></app-popup>
   
-  <form (ngSubmit)="onSubmit()">
-    <div class="username">
-      <p>Nombre de Usuario</p>
-      <input type="email" [(ngModel)]="email" name="email">
-    </div>
-  
-    <div class="password">
-      <p>Contraseña</p>
-      <input type="password" [(ngModel)]="password" name="password">
-    </div>
-
-    <div class="enviar">
-      <button mat-raised-button color="primary" type="submit">ENVIAR</button>
-    </div>
-  
+  <div class="presentacion">
     <div class="text registro-info">
-      <p>Si no tienes cuenta,
-        <a (click)="navigateToRegister()" class="enlace">regístrate</a>
+      <h6>Hola, bienvenido a La Salle Bussines Match</h6>
+      <p>Este es un evento privado.
+      <br>Sólo se permite el acceso con email validado por la organización del evento</p>
+      <p>Si tienes algún problema ponte en contacto con tu profesor.
       </p>
     </div>
+  </div>
 
-    <div class="error-message-container">
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div class="container">
+    <div class="form-container">
+      <form (ngSubmit)="onSubmit()">
+        <div class="username">
+          <p>email</p>
+          <input type="email" [(ngModel)]="email" name="email">
+        </div>
+
+        <div class="password">
+          <p>Contraseña</p>
+          <input type="password" [(ngModel)]="password" name="password">
+        </div>
+
+        <div class="enviar">
+          <button mat-raised-button color="primary" type="submit">ENVIAR</button>
+        </div>
+
+        <div class="error-message-container">
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        </div>            
+      </form>
     </div>
-        
-    <div class="tocho">
-      <p>
-          Este es un evento privado. <br>
-          Si tienes algún problema ponte en contacto con tu profesor
-      </p>
-    </div>
-  </form>
+    
+    <img class="illustration" src="assets/Illustrations/Illustration3.png">
   
-  <img class="illustration" src="assets/Illustrations/Illustration3.png">
-
+    
+  </div>
+  <div class="text registro-info">
+    <p><strong>Si no tienes contraseña,
+      <a (click)="navigateToRegister()" class="enlace">regístrate</a>
+    </strong></p>
+  </div>
 </div>

@@ -3,7 +3,7 @@
     max-width: none;
     margin: 0;
     height: auto;
-    background-color: #F3F3F3;
+    background-color: var(--color-blanco);
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -44,8 +44,8 @@
 }
 
 .titulo-contacta {
-    color: #F3F3F3;
-    background-color: #AC3635;
+    color: var(--color-blanco);
+    background-color: var(--color-rojo);
     font-size: 1rem;
     display: inline-block;
     width: fit-content;
@@ -63,7 +63,7 @@
 }
 
 .titulo-nosotros {
-    color: #F3F3F3; /* Color del texto del enlace */
+    color: var(--color-blanco);
     background-color: var(--color-azul);
     border-radius: 10px;
     padding: 0.5rem 1rem;
@@ -78,17 +78,15 @@
 
 /* Efecto hover */
 .titulo-contacta:hover {
-    background-color: var(--color-rojo);
+    background-color: rgba(var(--color-rojo-rgb), 0.3);
     color: var(--color-blanco);
-    opacity: 0.7;
     transform: scale(1.1);
     transition: all 0.3s ease;
 }
 
 .titulo-nosotros:hover {
-    background-color: var(--color-azul);
+    background-color: rgba(var(--color-azul-rgb), 0.3);
     color: var(--color-blanco);
-    opacity: 0.7;
     transform: scale(1.1);
     transition: all 0.3s ease;
 }
@@ -97,12 +95,12 @@
     text-decoration: none;
     display: block;
 }
-.divider {
-    width: 2px; /* Ancho de la línea divisoria */
+/* .divider {
+    width: 2px;
     background-color: var(--color-negro);
     height: 100%; 
-    margin: 0 1rem; /* Espaciado horizontal */
-}
+    margin: 0 1rem;
+} */
 
 .line {
     width: 100%;
