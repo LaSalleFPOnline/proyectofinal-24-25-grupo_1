@@ -36,7 +36,7 @@ export class FeriaPageComponent implements AfterViewInit {
   eventosAgenda: any[] = [];
   now: Date = new Date();
   logoUrl: string = '';
-  @ViewChild('popupComponent') popupComponent!: PopupComponent;
+  @ViewChild('popupComponent') popupComponent!: PopupComponent; // Asegúrate de que el selector sea correcto
 
   constructor(
     private http: HttpClient,
@@ -241,8 +241,6 @@ export class FeriaPageComponent implements AfterViewInit {
                 console.log('Datos de la empresa:', empresa);
                 if (empresa) {
                   this.empresaSeleccionada = empresa;
-                  this.spotUrl = empresa.spot || null; // Asigna el spotUrl aquí
-                  console.log('Spot URL:', this.spotUrl);
                   console.log(this.empresaSeleccionada);
                   console.log('ID de Empresa Selecciona:', this.empresaSeleccionada.id_empresa);
                 } else {
@@ -545,79 +543,26 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
     evento.expandido = !evento.expandido;
   }
 
-  filtroActivo: string = 'todas'; // Filtro inicial
   mostrarTodasEmpresas: boolean = true;
   mostrarInteresadasEnMi: boolean = false;
   mostrarMisInteresesEmpresas: boolean = false;
-  empresasVotadas: any[] = [];
-  // mostrarMiVoto: boolean = false;
   
 
   mostrarTodas(): void {
-    this.filtroActivo = 'todas';
-    this.mostrarTodasEmpresas = true;
-    this.mostrarInteresadasEnMi = false;
-    this.mostrarMisInteresesEmpresas = false;
+      this.mostrarTodasEmpresas = true;
+      this.mostrarInteresadasEnMi = false;
+      this.mostrarMisInteresesEmpresas = false;
   }
   
   mostrarInteresadas(): void {
-    this.filtroActivo = 'interesadas';
-    this.mostrarTodasEmpresas = false;
-    this.mostrarInteresadasEnMi = true;
-    this.mostrarMisInteresesEmpresas = false;
-
-    const empresaId = this.authService.getLoggedInCompanyId();
-    if (empresaId) {
-        this.obtenerRelaciones(empresaId); // Carga las relaciones
-        this.relacionesCompra.forEach(rel => {
-            const empresa = this.empresas.find(e => e.id_empresa === rel.id_empresaVendedora);
-            if (empresa) {
-                rel.spotDisponible = !!empresa.spot; // Determina si tiene spot disponible
-                rel.yaVotado = this.haVotadoPorEmpresa(empresa.id_empresa); // Comprueba si ya votó
-            }
-        });
-        this.cdr.detectChanges(); // Refresca la vista para mostrar los cambios
-    } else {
-        console.error('No se pudo obtener el ID de la empresa logueada.');
-    }
-}
+      this.mostrarTodasEmpresas = false;
+      this.mostrarInteresadasEnMi = true;
+      this.mostrarMisInteresesEmpresas = false;
+  }
   
   mostrarMisIntereses(): void {
-    this.filtroActivo = 'misIntereses';
-    this.mostrarTodasEmpresas = false;
-    this.mostrarInteresadasEnMi = false;
-    this.mostrarMisInteresesEmpresas = true;
-
-      const empresaId = this.authService.getLoggedInCompanyId();
-    if (empresaId) {
-        this.obtenerRelaciones(empresaId); // Carga las relaciones
-        this.relacionesCompra.forEach(rel => {
-            const empresa = this.empresas.find(e => e.id_empresa === rel.id_empresaVendedora);
-            if (empresa) {
-                rel.spotDisponible = !!empresa.spot; // Determina si tiene spot disponible
-                rel.yaVotado = this.haVotadoPorEmpresa(empresa.id_empresa); // Comprueba si ya votó
-            }
-        });
-        this.cdr.detectChanges(); // Refresca la vista para mostrar los cambios
-    } else {
-        console.error('No se pudo obtener el ID de la empresa logueada.');
-    }
+      this.mostrarTodasEmpresas = false;
+      this.mostrarInteresadasEnMi = false;
+      this.mostrarMisInteresesEmpresas = true;
   }
-  mostrarMiVoto(): void {
-    this.filtroActivo = 'miVoto';
-    this.mostrarTodasEmpresas = false;
-    this.mostrarInteresadasEnMi = false;
-    this.mostrarMisInteresesEmpresas = false;
-    // this.mostrarMiVoto = true;
-
-    // Filtrar empresas votadas
-    const loggedInUserId = this.authService.getUserId();
-    if (loggedInUserId) {
-        this.empresasVotadas = this.empresas.filter(empresa =>
-            this.haVotadoPorEmpresa(empresa.id_empresa)
-        );
-    } else {
-        console.error('Usuario no autenticado. No se puede filtrar empresas votadas.');
-    }
-}
 }

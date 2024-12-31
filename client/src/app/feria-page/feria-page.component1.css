@@ -1,4 +1,5 @@
 
+
 /* #region Agenda-*/
 .feriapage{
     font-family: 'Indivisa' sans-serif;
@@ -138,180 +139,28 @@
 
 /* #endregion */
 
-
-/* #region Relaciones */
-.contenedor-notificaciones-realaciones {
-    display: block;
-    width: 100%;
-    max-width: 1280px;
-    margin-top: 6vh;
-    height: auto;
-    box-sizing: border-box;
-}
-
-.scroll-container,
-.scroll-container-2 {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    height: auto;
-    overflow-y: auto;
-    padding: 0 10px;
-    margin-bottom: 2rem;
-}
-.scroll-container-2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Asegúrate de ajustar el tamaño mínimo y máximo */
-    gap: 15px; /* Espacio entre elementos */
-    padding: 15px;
-    overflow-y: auto;
-    border: 2px solid var(--color-negro);
-    border-radius: 10px;
-    background-color: var(--color-blanco);
-    justify-content: center;
-}
-
-.mensaje-sin-relaciones p {
-    font-size: 0.8rem;
-    color: var(--color-gris);
-    text-align: center;
-    margin: 0.5rem 0;
-}
-
-.rectangle-relaciones {
-    background-color: var(--color-gris);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    padding: 5px;
-}
-
-.logo-interes {
-    max-width: 50%;
-    height: auto;
-    object-fit: contain;
-}
-
-.text-relaciones {
-    position: absolute;
-    justify-content: center;
-    text-align: center;
-    top: 1vw;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.contenedor-texto-suma {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.text-suma-1, .text-suma-2 {
-    color: white;
-    text-align: center;
-    width: 48%;
-    padding: 0.5rem;
-    box-sizing: border-box;
-}
-
-/* #endregion */
-
-/* #region NOTIFICACIONES */
-
-.notificaciones {
-    background-color: var(--color-rojo);
-    border-radius: 3rem;
-    border: 2px solid black;
-    box-shadow: 1px 0.3vw 1px var(--color-negro);
-    box-sizing: border-box;
-    position: relative;
-}
-
-.fondo-notificaciones {
-    padding: 1rem;
-    background-color: var(--color-blanco);
-    border-radius: 0.7vw;
-}
-
-.texto-titulo-notificaciones {
-    font-weight: 500;
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    color: var(--color-negro);
-}
-
-.text-line-container {
-    position: relative;
-    margin-top: 3rem;
-    overflow-y: auto;
-    max-height: 80%;
-}
-
-.text-notificaciones {
-    width: 90%;
-    margin-left: 2rem;
-    font-weight: 400;
-    font-size: 1rem;
-    color: var(--color-blanco);
-}
-
-.line-notificaciones {
-    display: block;
-    width: 90%;
-    height: 1px;
-    background-color: var(--color-blanco);
-    margin-left: 2rem;
-}
-
-.illustration {
-    display: block;
-    width: 70%;
-    height: auto;
-    position: relative;
-    top: 40px;
-    margin: 0 auto;
-    margin-bottom: 50px;
-}
-/* #endregion */
-
 /* #region Listado Empresas */
-.scroll-container-empresas{
-    margin-top: 20px;
+/* Contenedor de empresas */
+.scroll-empresas {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px;
+    gap: 20px;
+    padding: 20px;
     overflow-y: auto;
-    max-height: calc(2 * 300px + 30px + 20px);
-    border: 2px solid var(--color-negro);
+    max-height: calc(2 * 240px + 30px + 20px);
+    border: 2px solid var(--color-amarillo);
     border-radius: 10px;
     background-color: var(--color-blanco);
     justify-content: center;
+    margin: 20px;
+
 }
 
-.scroll-container-2 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px;
-    overflow-y: auto;
-    max-height: calc(2 * 300px + 30px + 20px);
-    border: 2px solid var(--color-negro);
-    border-radius: 10px;
-    background-color: var(--color-blanco);
-    justify-content: center;
-}
-
-.rectangle-empresas {
+/* Tarjeta de empresa */
+.caja-empresa {
     overflow: hidden;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -319,96 +168,49 @@
     width: 20%;
     aspect-ratio: 1 / 1;
     background-color: var(--color-gris);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Añadido para sombra similar a original */
+    transition: transform 0.2s;
+    cursor: pointer;
+    border: 2px solid var(--color-azul);
+    display: inline-block;
 }
 
-.rectangle-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30%;
-    background-color: var(--color-gris);
-    border: 2px dashed var(--color-gris);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    height: 150px;
-    box-sizing: border-box;
+.caja-empresa:hover {
+    transform: scale(1.05);
 }
 
-.txt-empty {
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--color-gris);
-}
-
-.scroll-container-2:empty {
-    max-height: calc(1 * 150px + 15px); /* Altura para una sola fila */
-}
-
-.logo-container {
-    position: relative;
-    width: 100%;
-    height: 80%;
-}
-
+/* Logo de la empresa */
 .logo-empresa {
-    width: 100%;
-    height: 100%; 
-    object-fit: cover;
+    width: 160px;
+    /* height: 150px; */
+    object-fit: contain;
+    margin-bottom: 5px;
 }
 
-/* Capa blanca semitransparente sobre el logo */
-.logo-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 10px;
-}
-
-/* Estilo para el texto */
-.txt-logo {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+/* Nombre de la empresa */
+.nombre-empresa {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
     text-overflow: ellipsis;
-    font-size: 14px;
-    margin: 0;
+    white-space: nowrap;
+    /* overflow: hidden; */
+    width: 100%;
+    text-align: center;
 }
 
 /* Contenedor de los botones en la sección de empresas */
-.empresa-info-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px; /* Espacio entre botones */
-    padding: 10px 20px; /* Margen interno */
-    background-color: var(--color-blanco);
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para contenedor */
-    margin-top: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Botones específicos para esta sección */
 .button-container-pk {
+    width: 100%;
     display: flex;
     justify-content: center;
-    gap: 10px; /* Espacio entre los iconos */
+    gap: 15px;
     margin-top: 10px;
 }
 
-/* Estilo de los iconos */
+/* Iconos de empresa */
 .icono-empresa {
-    width: 15px; /* Ajusta el tamaño de los iconos */
-    height: 15px;
+    width: 20px;
+    /* height: 15px; */
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -422,15 +224,14 @@
     transform: scale(0.9); /* Reducción al hacer clic */
 }
 
-
+/* Contenedor para mostrar interesadas en mí */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 .scroll-empresas-2 {
-    margin-top: 20px;
-    width: 100%;
+    /* width: 100%; */
     display: flex !important;
     flex-wrap: wrap !important;
     max-height: calc(2 * 240px + 40px);
@@ -439,7 +240,8 @@
     border-radius: 10px;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-blanco)
+    background-color: var(--color-amarillo);
+    background-color: pink;
 }
 
 .caja-empresa-2 {
@@ -447,127 +249,107 @@
     width: 27%;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1; /* Relación de aspecto cuadrada */
     background-color: var(--color-gris);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra */
+    border-radius: 10px; /* Bordes redondeados */
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s; /* Efecto de hover */
     margin: 20px;
-    border:2px solid var(--color-negro);
+    border:2px solid var(--color-rojo); /* Borde */ 
     padding: 15px;    
     display: inline-block;  
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .caja-empresa-2:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Efecto al pasar el mouse */
 }
 
 .logo-empresa-2 {
-    width: 100%;
-    max-width: 180px;
-    object-fit: contain;
-    margin-bottom: 10px;
-    aspect-ratio: 1 / 1;
+    width: 100%; /* Ancho del logo */
+    max-width: 160px;
+    object-fit: contain; /* Ajuste del contenido del logo */
+    margin-bottom: 10px; /* Espacio debajo del logo */
+    aspect-ratio: 1 / 1; /* Relación de aspecto cuadrada */
+    border: 2px solid yellow;
     height: auto;
     object-fit: contain;
     margin-bottom: 5px;
-    justify-content: center;
-    align-items: center;
 }
 
 .nombre-empresa-2 {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    font-size: 1.1rem; /* Tamaño de fuente del nombre */
+    margin-bottom: 10px; /* Espacio debajo del nombre */
+    text-overflow: ellipsis; /* Elipsis para texto largo */
     white-space: nowrap;
-    text-overflow: ellipsis;
     width: 100%;
-    text-align: center;
-    
+    text-align: center; /* Centra el texto */
 }
 
 .button-container-pk-2 {
     display: flex;
-    justify-content: space-around;
-    gap: 10px;
+    justify-content: center;
+    gap: 15px; /* Espacio entre iconos */
     width: 100%;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    padding: 10px;
-    box-sizing: border-box;
 }
 
-.button-pk {
-    background-color: var(--color-azul);
-    color: var(--color-blanco);
-    font-size: 0.9rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    align-items: flex-start;
+.icono-empresa-2 {
+    width: 20px; /* Ancho de los iconos */
     cursor: pointer;
-    width: 100%;
-    margin: 0;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.button-pk.disabled,
-.button-pk:disabled {
-    background-color: #e0e0e0; /* Color de fondo deshabilitado */
-    color: #a0a0a0; /* Color del texto deshabilitado */
-    cursor: not-allowed; /* Cursor de no permitido */
-    transform: none; /* Eliminar cualquier transformación visual */
+.icono-empresa:hover {
+    transform: scale(1.1); /* Efecto al pasar el mouse */
+    opacity: 0.8; /* Reduce la opacidad */
 }
 
-.button-pk:disabled:hover {
-    background-color: #e0e0e0; /* Asegurar que no cambie de color al pasar el mouse */
-    transform: none; /* Evitar efectos de hover */
+.icono-empresa:active {
+    transform: scale(0.9); /* Efecto al hacer clic */
 }
 
-.button-pk:hover {
-    background-color: rgba(var(--color-azul-rgb), 0.8);
-    transform: scale(1.05);
+
+
+/* Para pantallas grandes (escritorios) */
+@media (min-width: 1024px) {
+    .caja-empresa {
+        width: 20%; /* Mantiene 5 columnas */
+    }
 }
 
-.button-pk:active {
-    transform: scale(0.95);
+/* Para pantallas medianas (tabletas) */
+@media (max-width: 1023px) and (min-width: 768px) {
+    .caja-empresa {
+        width: 30%; /* Ajusta a 3 columnas */
+    }
+    
+    .scroll-empresas {
+        height: calc(2 * 260px + 30px + 20px); /* Ajusta la altura si es necesario */
+    }
 }
 
-.filter-buttons .md-button {
-    background-color: var(--color-azul);
-    color: var(--color-blanco);
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    padding: 15px 20px;
-    width: 200px;
-    height: 50px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+/* Para pantallas pequeñas (móviles) */
+@media (max-width: 767px) and (min-width: 480px) {
+    .caja-empresa {
+        width: 45%; /* Ajusta a 2 columnas */
+    }
+    
+    .scroll-empresas {
+        height: calc(2 * 240px + 30px + 20px); /* Ajusta la altura si es necesario */
+    }
 }
 
-.filter-buttons .md-button:hover {
-    background-color: rgba(var(--color-azul-rgb), 0.7);
-    transform: translateY(-2px);
+/* Para pantallas muy pequeñas (móviles en orientación vertical) */
+@media (max-width: 479px) {
+    .caja-empresa {
+        width: 100%; /* Una sola columna */
+    }
+    
+    .scroll-empresas {
+        height: auto; /* Permite altura automática */
+        max-height: none; /* Elimina la altura máxima para scroll */
+    }
 }
-
-.filter-buttons .md-button:active {
-    transform: translateY(1px);
-}
-
-/* Estilo para el botón activo */
-.filter-buttons .md-button.active-filter {
-    background-color: var(--color-blanco); /* Fondo blanco */
-    color: var(--color-azul); /* Texto azul */
-    border: 2px solid var(--color-azul); /* Bordes para resaltar */
-    transform: scale(1.05); /* Sutil ampliación */
-}
-
 
 /* #endregion */
 
@@ -750,8 +532,6 @@
     opacity: 1;
 }
 
-/* #endregion */
-
 /* Botones de filtro */
 .filter-buttons {
     display: flex;
@@ -782,4 +562,16 @@
 
 .md-button:active {
     transform: translateY(1px);
+}
+/* #endregion */
+
+.illustration {
+    display: block;
+    width: 60%;
+    max-width: 300px;
+    height: auto;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    margin-top: 50px;
 }

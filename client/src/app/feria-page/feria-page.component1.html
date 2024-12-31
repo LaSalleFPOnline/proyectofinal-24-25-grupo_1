@@ -1,4 +1,8 @@
 <div class="feriaPage" id="feriaPage">
+    <div class="titulo">
+        <p>Feria virtual</p>
+    </div>
+
     <!-- Agenda -->
     <div class="agenda" id="agenda" *ngIf="userType !== 3">
         <h2>Agenda</h2>
@@ -39,57 +43,98 @@
 
     <!-- Botones de selección -->
     <div class="filter-buttons">
-        <button 
-            class="md-button" 
-            [ngClass]="{'active-filter': filtroActivo === 'todas'}" 
-            (click)="mostrarTodas()">
-            Mostrar todas
-        </button>
-        <button 
-            class="md-button" 
-            [ngClass]="{'active-filter': filtroActivo === 'interesadas'}" 
-            (click)="mostrarInteresadas()">
-            Interesadas ({{ relacionesCompra.length }})
-        </button>
-        <button 
-            class="md-button" 
-            [ngClass]="{'active-filter': filtroActivo === 'misIntereses'}" 
-            (click)="mostrarMisIntereses()">
-            Mis intereses ({{ relacionesVenta.length }})
-        </button>
-        <button 
-            class="md-button" 
-            [ngClass]="{'active-filter': filtroActivo === 'miVoto'}">
-            Mi voto
-        </button>
+        <button class="md-button" (click)="mostrarTodas()">Mostrar todas</button>
+        <button class="md-button" (click)="mostrarInteresadas()">Interesadas en mí ({{ relacionesCompra.length }})</button>
+        <button class="md-button" (click)="mostrarMisIntereses()">Mis intereses ({{ relacionesVenta.length }})</button>  
+        <button class="md-button" >Mi voto</button> 
     </div>
 
-
-    <!-- Contenedor para mostrar todas las empresas -->
-    <div *ngIf="mostrarTodasEmpresas" class="scroll-container-empresas">
-        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
-            <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
-            <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
-            <div class="button-container-pk-2">
-                <!-- Botón de interés -->
-                <button class="button-pk" (click)="agregarOEliminarInteres()">
-                    {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
-                </button>
-                
-                <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
-                <button 
-                    class="button-pk" 
-                    [disabled]="!empresaSeleccionada?.spot" 
-                    [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
-                    (click)="empresaSeleccionada?.spot ? votar() : null">
-                    Votar
-                </button>
-
-                <!-- Botón eliminar voto -->
-                <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
-            </div>
+    
+<!-- Contenedor para mostrar todas las empresas -->
+<div class="scroll-empresas">
+    <!-- Empresa 1 -->
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
         </div>
     </div>
+
+    <!-- Empresa 2 -->
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 2" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 2</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+
+    <div class="caja-empresa">
+        <img src="assets/Images/Lorem.png" alt="Empresa 1" class="logo-empresa">
+        <p class="nombre-empresa">Empresa 1</p>
+        <div class="button-container-pk">
+            <img src="assets/Images/interesa_no.png" alt="Eliminar interés" class="icono-empresa">
+            <img src="assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa">
+        </div>
+    </div>
+</div>
 
     <!-- Contenedor para mostrar interesadas en mí -->
     <div *ngIf="mostrarInteresadasEnMi" class="scroll-empresas-2">
@@ -99,22 +144,22 @@
                 <img [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-empresa-2">
                 <p class="nombre-empresa-2">{{ compra.nombre_empresa }}</p>
                 <div class="button-container-pk-2">
-                    <!-- Botón de interés -->
-                    <button class="button-pk" (click)="agregarOEliminarInteres()">
-                        {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
-                    </button>
+                    <!-- Icono de interés (siempre visible) -->
+                    <img 
+                        [src]="isInteresadoEnEmpresa() ? '/assets/Images/interesa_no.png' : '/assets/Images/interesa.png'" 
+                        alt="{{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}" 
+                        class="icono-empresa-2" 
+                        (click)="agregarOEliminarInteres()">
                     
-                    <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
-                    <button 
-                        class="button-pk" 
-                        [disabled]="!empresaSeleccionada?.spot" 
-                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
-                        (click)="empresaSeleccionada?.spot ? votar() : null">
-                        Votar
-                    </button>
-
-                    <!-- Botón eliminar voto -->
-                    <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
+                    <!-- Icono votar (solo si tiene spot y no ha votado) -->
+                    <img 
+                        *ngIf="spotUrl && !yaVotado" src="/assets/Images/votar.png" alt="Votar" class="icono-empresa-2" 
+                        (click)="votar()">
+                    
+                    <!-- Icono eliminar voto (solo si ya ha votado) -->
+                    <img 
+                        *ngIf="yaVotado" src="/assets/Images/votar_eliminar.png" alt="Eliminar Voto" class="icono-empresa-2" 
+                        (click)="eliminarVoto()">
                 </div>
             </div>
         </div>
@@ -126,71 +171,49 @@
     </div>
 
     <!-- Contenedor para mostrar mis intereses -->
-    <div *ngIf="mostrarMisInteresesEmpresas" class="scroll-empresas-2">
+    <div *ngIf="mostrarMisInteresesEmpresas" class="scroll-container-empresas">
         <!-- Si hay empresas en mis intereses, mostramos la lista -->
         <div *ngIf="relacionesVenta.length > 0">
-            <div *ngFor="let venta of relacionesVenta" class="caja-empresa-2" (click)="mostrarDetalles(venta.id_empresaCompradora)">
-                <div class="logo-empresa-2">
-                    <img [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-empresa-2">
+            <div *ngFor="let venta of relacionesVenta" class="rectangle-empresas" (click)="mostrarDetalles(venta.id_empresaCompradora)">
+                <div class="logo-container">
+                    <img [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-empresa">
                 </div>
-                <p class="nombre-empresa-2">{{ venta.nombre_empresa }}</p>
-                <div class="button-container-pk-2">
-                    <!-- Botón de interés -->
-                    <button class="button-pk" (click)="agregarOEliminarInteres()">
-                        {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
-                    </button>
+                <p class="txt-logo">{{ venta.nombre_empresa }}</p>
+                <div class="button-container-pk">
+                    <!-- Icono de interés (siempre visible) -->
+                    <img 
+                        [src]="isInteresadoEnEmpresa() ? '/assets/Images/interesa_no.png' : '/assets/Images/interesa.png'" 
+                        alt="{{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}" 
+                        class="icono-empresa" 
+                        (click)="agregarOEliminarInteres()">
                     
-                    <!-- Botón votar -->
-                    <!-- <button *ngIf="spotUrl && !yaVotado" class="button-pk" (click)="votar()">Votar</button> -->
-                    <button 
-                        class="button-pk" 
-                        [disabled]="!empresaSeleccionada?.spot" 
-                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
-                        (click)="empresaSeleccionada?.spot ? votar() : null">
-                        Votar
-                    </button>
-                    <!-- Botón eliminar voto -->
-                    <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
+                    <!-- Icono votar (solo si tiene spot y no ha votado) -->
+                    <img 
+                        *ngIf="spotUrl && !yaVotado" 
+                        src="/assets/Images/votar.png" 
+                        alt="Votar" 
+                        class="icono-empresa" 
+                        (click)="votar()">
+                    
+                    <!-- Icono eliminar voto (solo si ya ha votado) -->
+                    <img 
+                        *ngIf="yaVotado" 
+                        src="/assets/Images/votar_eliminar.png" 
+                        alt="Eliminar Voto" 
+                        class="icono-empresa" 
+                        (click)="eliminarVoto()">
                 </div>
             </div>
-            <!-- Si no hay empresas en mis intereses, mostramos el mensaje -->
-            <div *ngIf="relacionesVenta.length === 0" class="rectangle-empty">
-                <p class="txt-empty">Aquí aparecerán las empresas que me interesan</p>
-            </div>
+        </div>
+        <!-- Si no hay empresas en mis intereses, mostramos el mensaje -->
+        <div *ngIf="relacionesVenta.length === 0" class="rectangle-empty">
+            <p class="txt-empty">Aquí aparecerán las empresas que me interesan</p>
         </div>
     </div>
 
-    <!-- Contenedor para mostrar "Mi voto" -->
-    <!-- <div *ngIf="mostrarMiVoto" class="scroll-empresas-2">
-    
-        <div *ngIf="empresasVotadas.length > 0">
-            <div *ngFor="let empresa of empresasVotadas" class="caja-empresa">
-                <img [src]="empresa.logo" alt="{{ empresa.nombre_empresa }}" class="logo-empresa">
-                <p class="nombre-empresa">{{ empresa.nombre_empresa }}</p>
-                <div class="button-container-pk">
-    
-                    <img 
-                        src="assets/Images/interesa_no.png" 
-                        alt="Eliminar interés" 
-                        class="icono-empresa" 
-                        (click)="agregarOEliminarInteres(empresa.id_empresa)">
-    
-                    <img 
-                        src="assets/Images/votar_eliminar.png" 
-                        alt="Eliminar Voto" 
-                        class="icono-empresa" 
-                        (click)="eliminarVoto(empresa.id_empresa)">
-                </div>
-            </div>
-        </div>
-    
-        <div *ngIf="empresasVotadas.length === 0" class="rectangle-empty">
-            <p class="txt-empty">Aquí aparecerán las empresas que has votado</p>
-        </div>
-    </div> -->
-
     <!-- Ilustración -->
     <img class="illustration" src="assets/Illustrations/Illustration4.png">
+
 
     <!-- Detalle empresas -->
     <div *ngIf="empresaSeleccionada" class="detalles" id="detalles">
