@@ -18,7 +18,7 @@ const { addInterest, getInterests, eliminarInteres } = require('../controllers/i
 const { createVote, getAllVotes, getUserVote, verificarVoto, deleteVote } = require('../controllers/votacionController'); // Importa el controlador de votación
 const {getAllEventFechas, getEventByIdFecha} = require('../controllers/eventosController');
 const {getAllDirecciones, getEventByIdDirecccion} = require('../controllers/direccionesController');
-
+const {getEventFechasAgendaFeria} = require('../controllers/agendaFeriaController');
 /*
 Importamos los middlewares que son funciones que se ejecutan antes de llegar al controlador. El primero procesa el
 cuerpo de la solicitud y el segundo verifica si el usuario está autenticado
@@ -26,7 +26,8 @@ cuerpo de la solicitud y el segundo verifica si el usuario está autenticado
 const { parseRequestBody } = require('../middlewares/middlewares');
 const authenticateToken = require('../middlewares/authMiddleware');
 
-
+//ruta agenda feria
+router.get('/agendaFeria', getEventFechasAgendaFeria);
 // Esta ruta permite obtener todos los eventos de la agenda.
 router.get('/agenda', getAllEvents);
 // Esta ruta permite obtener todos las fechas .
