@@ -204,16 +204,16 @@ const initializeDatabase = (callback) => {
                 (3, 1, 7, 1);`,
             
               `INSERT IGNORE INTO agenda (id_agenda, horaI, horaF, descripcion, detalles) VALUES
-                (1, '09:00:00', '09:14:59', 'Acto Inaugural', 'Con invitado institucional. ¡Más detalles, por favor!'),
-                (2, '09:15:00', '09:59:59', 'Emprender con...', 'Invitar a un emprendedor. ¡Más detalles, por favor!'),
-                (3, '10:00:00', '12:59:59', 'Feria Virtual', 'Sesión de mañana. ¡Ánimo en esas relaciones comerciales!'),
-                (4, '13:00:00', '15:29:59', 'Descanso', 'Hacemos un descanso para comer y volver con fuerzas'),
-                (5, '15:30:00', '18:29:59', 'Feria Virtual', 'Sesión de tarde. Recordar votar a la mejor empresa para el concurso. ¡Mucha suerte a todos!'),
-                (6, '18:30:00', '18:59:59', 'Clausura de la Feria', 'Anunciamos a las empresas ganadoras del concurso y terminamos la I Feria de empresas simuladas La Salle Bussiness Match. ¡¡Hasta la próxima!!'),
-                (7, '19:00:00', '19:59:59', 'Networking', '¡Hora de hacer contactos!'),
-                (8, '20:00:00', '21:30:00', 'Charla Motivacional', 'Con un experto en emprendimiento. ¡No te lo pierdas!'),
-                (9, '21:35:00', '22:29:59', 'Premios Extra', 'Sorteos y sorpresas. ¡Atentos a los anuncios!'),
-                (10, '22:30:00', '23:55:00', 'Música en Vivo', 'Disfruta de un momento de relax con buena música.');`,
+                (1, '09:00:00', '09:15:00', 'Acto Inaugural', 'Enlace a meet: https://meet.google.com/jfs-cwuq-znf'),
+                (2, '09:15:00', '10:00:00', 'Conferencia: Emprender con Lluís Valls', 'Enlace a meet: https://meet.google.com/jfs-cwuq-znf'),
+                (3, '10:00:00', '12:59:59', 'Feria Virtual', 'Sesión de mañana.'),
+                (4, '15:30:00', '18:29:59', 'Descanso', 'Hacemos un descanso para comer y volver con fuerzas'),
+                (5, '15:30:00', '18:29:59', 'Feria Virtual', 'Sesión de tarde.'),
+                (6, '18:30:00', '18:59:59', 'Clausura de la Feria', 'Anuncio de la empresa ganadora del concurso de spots. Enlace meet: https://meet.google.com/jfs-cwuq-znf'),
+                (7, '19:00:00', '19:59:59', 'Para pruebas. Borrar al publicar', '¡Hora de hacer contactos!'),
+                (8, '20:00:00', '21:30:00', 'Para pruebas. Borrar al publicar', 'Con un experto en emprendimiento. ¡No te lo pierdas!'),
+                (9, '21:35:00', '22:29:59', 'Para pruebas. Borrar al publicar', 'Sorteos y sorpresas. ¡Atentos a los anuncios!'),
+                (10, '22:30:00', '23:55:00', 'Para pruebas. Borrar al publicar', 'Disfruta de un momento de relax con buena música.');`,
             
               `INSERT IGNORE INTO relacion_comercial (id_relacionComercial, id_empresaCompradora, id_empresaVendedora) VALUES
                 (1, 1, 2),
