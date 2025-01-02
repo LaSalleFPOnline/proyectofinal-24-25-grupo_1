@@ -70,24 +70,30 @@
         <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
             <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
             <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
-            <div class="button-container-pk-2">
-                <!-- Botón de interés -->
-                <button class="button-pk" (click)="agregarOEliminarInteres()">
-                    {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
-                </button>
-                
-                <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
-                <button 
-                    class="button-pk" 
-                    [disabled]="!empresaSeleccionada?.spot" 
-                    [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
-                    (click)="empresaSeleccionada?.spot ? votar() : null">
-                    Votar
-                </button>
-
-                <!-- Botón eliminar voto -->
-                <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
-            </div>
+            <!--
+                <div class="button-container-pk-2">
+                -->
+                    <!-- Botón de interés -->
+                <!--
+                    <button class="button-pk" (click)="agregarOEliminarInteres()">
+                        {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
+                    </button>
+                -->
+                    <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
+                <!--
+                    <button 
+                        class="button-pk" 
+                        [disabled]="!empresaSeleccionada?.spot" 
+                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
+                        (click)="empresaSeleccionada?.spot ? votar() : null">
+                        Votar
+                    </button>
+                    -->
+                    <!-- Botón eliminar voto -->
+                <!--
+                    <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
+                </div>
+                -->
         </div>
     </div>
 
@@ -98,13 +104,17 @@
             <div *ngFor="let compra of relacionesCompra" class="caja-empresa-2" (click)="mostrarDetalles(compra.id_empresaVendedora)">
                 <img [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-empresa-2">
                 <p class="nombre-empresa-2">{{ compra.nombre_empresa }}</p>
+                <!--
                 <div class="button-container-pk-2">
+                -->
                     <!-- Botón de interés -->
+                <!--
                     <button class="button-pk" (click)="agregarOEliminarInteres()">
                         {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
                     </button>
-                    
+                -->
                     <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
+                <!--
                     <button 
                         class="button-pk" 
                         [disabled]="!empresaSeleccionada?.spot" 
@@ -112,10 +122,12 @@
                         (click)="empresaSeleccionada?.spot ? votar() : null">
                         Votar
                     </button>
-
+                    -->
                     <!-- Botón eliminar voto -->
+                <!--
                     <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
                 </div>
+                -->
             </div>
         </div>
     
@@ -134,14 +146,17 @@
                     <img [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-empresa-2">
                 </div>
                 <p class="nombre-empresa-2">{{ venta.nombre_empresa }}</p>
+                <!--
                 <div class="button-container-pk-2">
+                -->
                     <!-- Botón de interés -->
+                <!--
                     <button class="button-pk" (click)="agregarOEliminarInteres()">
                         {{ isInteresadoEnEmpresa() ? 'Eliminar interés' : 'Me interesa' }}
                     </button>
-                    
-                    <!-- Botón votar -->
-                    <!-- <button *ngIf="spotUrl && !yaVotado" class="button-pk" (click)="votar()">Votar</button> -->
+                -->
+                    <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
+                <!--
                     <button 
                         class="button-pk" 
                         [disabled]="!empresaSeleccionada?.spot" 
@@ -149,9 +164,12 @@
                         (click)="empresaSeleccionada?.spot ? votar() : null">
                         Votar
                     </button>
+                    -->
                     <!-- Botón eliminar voto -->
+                <!--
                     <button *ngIf="yaVotado" class="button-pk" (click)="eliminarVoto()">Eliminar voto</button>
                 </div>
+                -->
             </div>
             <!-- Si no hay empresas en mis intereses, mostramos el mensaje -->
             <div *ngIf="relacionesVenta.length === 0" class="rectangle-empty">

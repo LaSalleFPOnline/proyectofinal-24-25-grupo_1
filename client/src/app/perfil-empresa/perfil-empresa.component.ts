@@ -36,6 +36,7 @@ export class PerfilEmpresaComponent implements OnInit {
   fechaEdicionInicio: Date | null = null;
   fechaEdicionFin: Date | null = null;
   isEditable: boolean = false;
+  userRole: number | null = null;
   @ViewChild('popupEdicionEmpresa') popupComponent!: PopupComponent;
 
   constructor(private authService: AuthService, private router: Router, private agendaService: AgendaService) {}
@@ -57,6 +58,11 @@ export class PerfilEmpresaComponent implements OnInit {
         console.error('Error al parsear los datos del usuario:', error);
       }
     }
+
+    // Obtener el rol del usuario
+    this.authService.getUserRole().subscribe(role => {
+      this.userRole = role;
+    });
 
     // Obtener ID de usuario
     if (storedUserId) {

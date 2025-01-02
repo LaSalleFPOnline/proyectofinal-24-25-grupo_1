@@ -60,11 +60,11 @@ const getAllVotes = (req, res) => {
 };
 
 const getUserVote = (req, res) => {
-    const usuario_id = req.params.id_usuarioVotante;
+    const usuario_id = req.params.usuario_id;
 
     const query = 'SELECT * FROM votacion WHERE id_usuarioVotante = ?';
     
-    connection.query(query, [id_usuarioVotante], (err, results) => {
+    connection.query(query, [usuario_id], (err, results) => {
         if (err) {
         console.error('Error al obtener el voto del usuario: ', err);
         return res.status(500).json({ error: 'Error al obtener el voto del usuario' });

@@ -62,16 +62,7 @@ export class HeaderComponent implements OnInit {
 
   // Redirigir a la ruta correcta según el rol
   navigateToProfile() {
-    if (this.userRole === 1) {
-      // Redirigir a la página de empresa
-      this.router.navigate(['/empresa']);
-    } else if (this.userRole === 2) {
-      // Redirigir a la página de admin
-      this.router.navigate(['/admin']);
-    } else {
-      // Redirigir a una página por defecto (opcional)
-      this.router.navigate(['/perfil']);
-    }
+    this.router.navigate(['/empresa']); // Redirigir a la página de empresa para todos los roles
   }
 
   // Método para manejar el desplazamiento a una sección dentro de la página

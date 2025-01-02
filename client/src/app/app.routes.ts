@@ -16,13 +16,11 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponentComponent },
   { path: 'feria', component: FeriaPageComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: PerfilAdminComponent, canActivate: [RoleGuard], data: { role: 2 } },
-  { path: 'empresa', component: PerfilEmpresaComponent, canActivate: [RoleGuard], data: { role: 1 } },
+  { path: 'empresa', component: PerfilEmpresaComponent, canActivate: [AuthGuard] },
   { path: 'nosotros', component: NosotrosComponent },
   /*para registrar usuarios dummy*/
   { path: 'register', component: RegisterComponent },
 
   /* En caso de no encontrar ruta, por defecto, al home*/
   { path: '**', redirectTo: '', pathMatch: 'full' }
-
-
 ];

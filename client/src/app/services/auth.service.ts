@@ -156,8 +156,6 @@ export class AuthService {
         // Extraer los datos reales de la empresa
         empresa = empresa.data;
     }
-
-
     // Guardar los datos de la empresa en sessionStorage y localStorage
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));

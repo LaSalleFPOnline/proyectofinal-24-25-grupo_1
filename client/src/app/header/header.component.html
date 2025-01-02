@@ -7,7 +7,7 @@
             <!-- <button class="label" (click)="navigateTo('/')">Inicio</button> -->
             <button class="label" (click)="navigateTo('/', 'agenda')">Programa</button>
             <button class="label" (click)="navigateTo('/', 'descargas')">Descargas</button>
-            <button class="label" (click)="navigateTo('home-page', 'patrocinadores')">Patrocinadores</button>
+            <button class="label" (click)="navigateTo('/', 'patrocinadores')">Patrocinadores</button>
             <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             <button class="login" (click)="handleLogin()">
                 <img src="assets/Images/button-login.png">
@@ -15,11 +15,20 @@
         </ng-container>
 
         <ng-template #loggedInMenu>
-            <!-- <button class="label" (click)="navigateTo('/feria')">Inicio</button> -->
-            <button class="label" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
-            <!-- <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button> -->
-            <button class="label" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
-            
+            <!-- Botones para usuarios logueados -->
+            <ng-container *ngIf="userRole === 1 || userRole === 3">
+                <!-- Botones para Empresa y Visitante -->
+                <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
+                <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
+            </ng-container>
+
+            <ng-container *ngIf="userRole === 2">
+                <!-- Botones para Admin -->
+                <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
+                <button class="label" (click)="navigateTo('admin')">Panel del administrador</button>
+                <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
+            </ng-container>
+
             <button class="login" (click)="toggleDropdown()">
                 <img src="assets/Images/button-login.png" alt="Login">
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">

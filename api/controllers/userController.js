@@ -222,7 +222,15 @@ function loginUser(req, res) {
           } else {
             const token = jwt.sign({ id: user.id_usuario, rol: user.rol }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
             console.log('Token generado para visitante/administrador:', token);
-            return res.status(200).json({ token, rol: user.rol }); // Asegúrate de incluir el rol aquí
+            const entidadQuery = 'SELECT entidad FROM usuario WHERE id_usuario = ?';
+            connection.query(entidadQuery, [user.id_usuario], (err, entidadResults) => {
+              if (err) {
+                console.error('Error al consultar entidad en MySQL: ', err);
+                return res.status(500).json({ message: 'Error al intentar iniciar sesión' });
+              }
+              const entidad = entidadResults[0].entidad;
+              return res.status(200).json({ token, rol: user.rol, entidad }); // Asegúrate de incluir el rol aquí
+            });
           }
         } else {
           console.log('Contraseña inválida');
