@@ -184,7 +184,7 @@
     <!-- Contenedor para mostrar "Mi voto" -->
 <div *ngIf="filtroActivo === 'miVoto'" class="scroll-empresas-2">
     <div *ngIf="empresasVotadas.length > 0" class="rectangle-empresas">
-        <div *ngFor="let empresa of empresasVotadas" class="caja-empresa">
+        <div *ngFor="let empresa of empresasVotadas" class="caja-empresa" (click)="mostrarDetalles(empresa.id_empresa)">
             <img [src]="empresa.logoUrl" alt="{{ empresa.nombre_empresa }}" class="logo-empresa">
             <p class="nombre-empresa">{{ empresa.nombre_empresa }}</p>
         </div>

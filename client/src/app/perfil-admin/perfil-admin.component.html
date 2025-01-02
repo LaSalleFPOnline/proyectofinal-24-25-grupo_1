@@ -106,3 +106,59 @@
         </div>
     </div>
 </div>
+
+<!-- Detalles de EMPRESA SELECCIONADA -->
+<div *ngIf="empresaSeleccionada" class="detalles" id="detalles">
+    <div class="titulo">
+        <p>Detalles de {{ empresaSeleccionada.nombre_empresa }}</p>
+    </div>
+    
+    <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
+
+    <div class="contenedor-arriba">
+        <div class="rectangle-detalles">
+            <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
+        </div>
+        <p class="empresa">
+            <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
+            <br class="text-detalles">
+            <br/><strong>Página web:</strong> <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
+            <br/><strong>Horarios de ATENCIÓN CLIENTE:</strong>
+            <br/> - {{ horariosDeAtencionManana }}
+            <br/> - {{ horariosDeAtencionTarde }}
+            <br/><br/><strong>Enlace de MEET:</strong> <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
+        </p>
+    </div>
+
+    <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
+        <div class="contenedor-video-descripcion">
+            <!-- Si hay solo video -->
+            <ng-container *ngIf="empresaSeleccionada.spot && !empresaSeleccionada.descripcion">
+                <iframe
+                    [src]="getEmbedUrl(empresaSeleccionada.spot)"
+                    class="video-completo"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+            </ng-container>
+            <!-- Si hay solo descripción -->
+            <ng-container *ngIf="!empresaSeleccionada.spot && empresaSeleccionada.descripcion">
+                <div class="descripcion-completa">
+                    <p>{{ empresaSeleccionada.descripcion }}</p>
+                </div>
+            </ng-container>
+            <!-- Si hay video y descripción -->
+            <ng-container *ngIf="empresaSeleccionada.spot && empresaSeleccionada.descripcion">
+                <iframe
+                    [src]="getEmbedUrl(empresaSeleccionada.spot)"
+                    class="video-parcial"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+                <div class="descripcion-parcial">
+                    <p>{{ empresaSeleccionada.descripcion }}</p>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
