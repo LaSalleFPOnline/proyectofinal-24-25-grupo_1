@@ -387,11 +387,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 10px; /* Espacio entre botones */
-    padding: 10px 20px; /* Margen interno */
+    gap: 10px; 
+    padding: 10px 20px;
     background-color: var(--color-blanco);
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para contenedor */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -401,27 +401,26 @@
 .button-container-pk {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Espacio entre los iconos */
+    gap: 10px;
     margin-top: 10px;
 }
 
 /* Estilo de los iconos */
 .icono-empresa {
-    width: 15px; /* Ajusta el tamaño de los iconos */
+    width: 15px;
     height: 15px;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .icono-empresa:hover {
-    transform: scale(1.1); /* Ampliación al pasar el mouse */
-    opacity: 0.8; /* Reducción de opacidad */
+    transform: scale(1.1);
+    opacity: 0.8;
 }
 
 .icono-empresa:active {
-    transform: scale(0.9); /* Reducción al hacer clic */
+    transform: scale(0.9);
 }
-
 
 *,
 *::before,
@@ -468,7 +467,7 @@
 
 .logo-empresa-2 {
     width: 100%;
-    max-width: 180px;
+    max-width: 280px;
     object-fit: contain;
     margin-bottom: 10px;
     aspect-ratio: 1 / 1;
@@ -486,7 +485,6 @@
     text-overflow: ellipsis;
     width: 100%;
     text-align: center;
-    
 }
 
 .button-container-pk-2 {
@@ -517,15 +515,15 @@
 
 .button-pk.disabled,
 .button-pk:disabled {
-    background-color: #e0e0e0; /* Color de fondo deshabilitado */
-    color: #a0a0a0; /* Color del texto deshabilitado */
-    cursor: not-allowed; /* Cursor de no permitido */
-    transform: none; /* Eliminar cualquier transformación visual */
+    background-color: var(--color-gris);
+    color: #a0a0a0;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .button-pk:disabled:hover {
-    background-color: #e0e0e0; /* Asegurar que no cambie de color al pasar el mouse */
-    transform: none; /* Evitar efectos de hover */
+    background-color: var(--color-gris);
+    transform: none;
 }
 
 .button-pk:hover {
@@ -562,10 +560,10 @@
 
 /* Estilo para el botón activo */
 .filter-buttons .md-button.active-filter {
-    background-color: var(--color-blanco); /* Fondo blanco */
-    color: var(--color-azul); /* Texto azul */
-    border: 2px solid var(--color-azul); /* Bordes para resaltar */
-    transform: scale(1.05); /* Sutil ampliación */
+    background-color: var(--color-blanco);
+    color: var(--color-azul);
+    border: 2px solid var(--color-azul);
+    transform: scale(1.05);
 }
 
 
@@ -782,4 +780,71 @@
 
 .md-button:active {
     transform: translateY(1px);
+}
+
+/* Vista para tabletas (768px o menos) */
+@media (max-width: 768px) {
+    .scroll-container-empresas, .scroll-empresas-2 {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .rectangle-empresas, .caja-empresa-2 {
+        width: 45%;
+        margin-bottom: 15px;
+    }
+}
+
+/* Ajuste para móviles (480px o menos) */
+@media (max-width: 480px) {
+    .scroll-container-empresas, .scroll-empresas-2 {
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        height: auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rectangle-empresas, .caja-empresa-2 {
+        width: 90%;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+    }
+    .filter-buttons .md-button {
+        flex: 1 1 calc(100% - 10px);
+        max-width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 375px) {
+    .scroll-container-empresas {
+        overflow-y: auto;
+        height: auto;
+        padding: 10px;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rectangle-empresas {
+        width: 100%;
+        margin: 0 auto 15px auto;
+        align-items: center;
+        justify-content: center;
+    }
+    .filter-buttons .md-button {
+        flex: 1 1 calc(100% - 10px);
+        max-width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
 }

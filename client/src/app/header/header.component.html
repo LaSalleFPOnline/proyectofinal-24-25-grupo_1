@@ -15,22 +15,15 @@
         </ng-container>
 
         <ng-template #loggedInMenu>
-            <!-- Botones para usuarios logueados -->
-            <ng-container *ngIf="userRole === 1 || userRole === 3">
-                <!-- Botones para Empresa y Visitante -->
-                <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
-                <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
-            </ng-container>
-
-            <ng-container *ngIf="userRole === 2">
-                <!-- Botones para Admin -->
-                <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
-                <button class="label" (click)="navigateTo('admin')">Panel del administrador</button>
-                <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
-            </ng-container>
-
+            <!-- <button class="label" (click)="navigateTo('/feria')">Inicio</button> -->
+            <button class="label" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
+            <!-- <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button> -->
+            <button class="label" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
+            
             <button class="login" (click)="toggleDropdown()">
                 <img src="assets/Images/button-login.png" alt="Login">
+            
+                <!-- Dropdown -->
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
                     <button class="dropdown-item" (click)="navigateToProfile()">
                         <mat-icon>person</mat-icon> Mi Perfil
@@ -58,7 +51,8 @@
             <button class="label" (click)="navigateAndHideMenu('/', 'agenda')">Programa</button>
             <button class="label" (click)="navigateAndHideMenu('/', 'descargas')">Descargas</button>
             <button class="login" (click)="handleLoginAndHideMenu()">
-                <img src="assets/Images/button-login.png">
+                <!-- <img src="assets/Images/button-login.png"> -->
+                <img [src]="logoUrl || 'assets/Images/button-login.png'" alt="Logo" class="logo">
             </button>
         </ng-container>
 
@@ -67,7 +61,8 @@
             <button class="label" (click)="navigateAndHideMenu('/feria', 'agenda')">Agenda</button>
             <button class="label" (click)="navigateAndHideMenu('/feria', 'empresas')">Empresas</button>
             <button class="login" (click)="handleLoginAndHideMenu()">
-                <img src="assets/Images/button-login.png">
+                <!-- <img src="assets/Images/button-login.png"> -->
+                <img [src]="logoUrl || 'assets/Images/button-login.png'" alt="Logo" class="logo">
             </button>
         </ng-template>
     </nav>
