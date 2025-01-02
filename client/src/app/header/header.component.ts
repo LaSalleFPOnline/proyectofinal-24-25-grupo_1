@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   dropdownOpen = false;
   isShrunk: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private elementRef: ElementRef) {}
 
   ngOnInit() {
     // Suscripción al estado de autenticación
@@ -44,6 +44,19 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isShrunk = window.scrollY > 50;
+  }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  // Escucha el evento de clic en todo el documento
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.dropdownOpen = false;
+    }
   }
 
   // Método para navegar con manejo de fragmentos
@@ -88,9 +101,7 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
+
 
   handleLogin() {
     if (this.isLoggedIn) {
@@ -109,8 +120,8 @@ export class HeaderComponent implements OnInit {
   }
 
   handleLoginAndHideMenu() {
-    this.handleLogin();
     this.isMenuOpen = false;
+    this.handleLogin();
   }
 
   handleLogout() {
@@ -123,6 +134,4 @@ export class HeaderComponent implements OnInit {
     this.dropdownOpen = false; // Cierra el menú desplegable
   }
   
-
-
 }

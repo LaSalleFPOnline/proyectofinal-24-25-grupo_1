@@ -15,13 +15,13 @@
         </ng-container>
 
         <ng-template #loggedInMenu>
-            <!-- <button class="label" (click)="navigateTo('/feria')">Inicio</button> -->
             <button class="label" (click)="navigateTo('/feria', 'agenda')">Agenda</button>
-            <!-- <button class="label" (click)="navigateTo('/feria', 'avisos')">Avisos</button> -->
             <button class="label" (click)="navigateTo('/feria', 'empresas')">Empresas</button>
             
             <button class="login" (click)="toggleDropdown()">
                 <img src="assets/Images/button-login.png" alt="Login">
+            
+                <!-- Dropdown -->
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
                     <button class="dropdown-item" (click)="navigateToProfile()">
                         <mat-icon>person</mat-icon> Mi Perfil
