@@ -34,6 +34,7 @@ services:
     volumes:
       - /app/node_modules
       - ./api:/app
+      - ./api/uploads:/app/uploads
     environment:
       - DB_USER=${DB_USER}
       - DB_HOST=${DB_HOST}

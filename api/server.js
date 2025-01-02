@@ -12,6 +12,7 @@ InitializeDatabase y endDatabaseConnection son funciones que inician la conexió
 Routes es el archivo de rutas que importamos y define los endpoints de la API
 */
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { initializeDatabase, endDatabaseConnection } = require('./database/database');
@@ -48,6 +49,9 @@ initializeDatabase((err) => {
     });
   }
 });
+
+// Servir la carpeta uploads como estática
+app.use('/logos', express.static(path.join(__dirname, 'logos')));
 
 /*
 Todas las rutas están disponibles bajo el prefijo /api.
