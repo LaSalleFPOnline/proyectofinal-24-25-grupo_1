@@ -39,6 +39,7 @@ export class PerfilAdminComponent implements OnInit {
         next: (data: any[]) => {
             this.empresas = data.map(empresa => ({
                 ...empresa,
+                registrada: empresa.registrada ?? false,
                 mostrarIconoOK: empresa.nombre_empresa ? true : false,
                 mostrarIconoSPOT: empresa.spot ? true : false,
             }));
@@ -46,6 +47,8 @@ export class PerfilAdminComponent implements OnInit {
             this.saveIconStates(); // Guarda los estados de los iconos después de cargar las empresas
             this.loadIconStates(); // Carga los estados de los iconos
             this.loadEmpresasMasVotadas(); // Carga los votos después de cargar las empresas
+            this.empresasFiltradas = [...this.empresas];
+            
         },
         error: (error) => {
             console.error('Error al cargar empresas:', error);
@@ -167,5 +170,27 @@ export class PerfilAdminComponent implements OnInit {
             console.error('Error al cargar usuarios sin contraseña:', error);
         }
     );
+  }
+
+  empresasFiltradas: any[] = [];
+  filtroActivo: string = 'registradas'; // Filtro activo por defecto
+  
+
+  // Método para filtrar empresas
+  filtrarEmpresas(tipo: string): void {
+    this.filtroActivo = tipo; // Actualiza el filtro activo
+    
+    if (tipo === 'registradas') {
+      this.empresasFiltradas = [...this.empresas]; // Filtra registradas
+    } else if (tipo === 'sin-registrar') {
+      this.empresasFiltradas = this.empresas.filter(empresa => !empresa.registrada); // Filtra sin registrar
+    } else if (tipo === 'votaciones') {
+      this.empresasFiltradas = this.empresas; // Suponiendo que las votaciones usan el mismo array
+    } else if (tipo === 'meets') {
+      this.empresasFiltradas = this.empresas.filter(empresa => empresa.url_meet && empresa.url_meet.trim() !== '');
+    }
+  
+    console.log('Filtro aplicado:', tipo, this.empresasFiltradas); // Depuración
+    this.cdr.detectChanges(); // Forzar la detección de cambios
   }
 }

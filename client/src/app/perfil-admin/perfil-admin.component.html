@@ -1,123 +1,108 @@
 <div class="titulo">
-    <p>Empresas participantes</p>
+    <p>Panel de administración</p>
 </div>
 
-<!-- Cuadro de empresas -->
-<div class="container">
-    <div *ngFor="let empresa of empresas" class="item">
-        <div class="rectangulo" (click)="mostrarDetalles(empresa.id_empresa)">
-            <img [src]="empresa.logo" alt="{{ empresa.nombre_empresa }} logo">
-        </div>
-        <p>{{ empresa.nombre_empresa }}</p>
-        <div class="iconos-container">
-            <!-- Mostrar icono OK si tiene nombre -->
-            <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/Icon_OK.png" alt="Icono OK" class="icono">
-            <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/Icon_SPOT.png" alt="Icono Spot" class="icono">
-        </div>
+<!-- Botones de filtro -->
+<div class="filter-buttons">
+    <div class="filter-group">
+        <button 
+            class="md-button" 
+            [class.active-filter]="filtroActivo === 'registradas'" 
+            (click)="filtrarEmpresas('registradas')">
+            Registradas
+        </button>
+        <button 
+            class="md-button" 
+            [class.active-filter]="filtroActivo === 'sin-registrar'" 
+            (click)="filtrarEmpresas('sin-registrar')">
+            Sin Registrar
+        </button>
+    </div>
+
+    <div class="filter-group">
+        <button 
+            class="md-button" 
+            [class.active-filter]="filtroActivo === 'votaciones'" 
+            (click)="filtrarEmpresas('votaciones')">
+            Votaciones
+        </button>
+        <button 
+            class="md-button" 
+            [class.active-filter]="filtroActivo === 'meets'" 
+            (click)="filtrarEmpresas('meets')">
+            Meets
+        </button>
     </div>
 </div>
+
+<!-- Contenedor de empresas filtradas -->
+<div *ngIf="filtroActivo === 'registradas'">
+    <div class="titulo">
+      <p>Empresas registradas</p>
+    </div>
+    
+    <div class="scroll-container-empresas">
+      <div *ngFor="let empresa of empresasFiltradas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
+        <img [src]="empresa.logo" alt="{{ empresa.nombre_empresa }} logo" class="logo-empresa">
+        <p class="empresa-nombre">{{ empresa.nombre_empresa }}</p>
+        <div class="iconos-container">
+          <img *ngIf="empresa.mostrarIconoOK" src="assets/Images/Icon_OK.png" alt="Icono OK" class="icono">
+          <img *ngIf="empresa.mostrarIconoSPOT" src="assets/Images/Icon_SPOT.png" alt="Icono Spot" class="icono">
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- Usuarios sin contraseña -->
-<div class="titulo">
-    <p>Usuarios SIN REGISTRAR su Empresa</p>
-</div>
+<div *ngIf="filtroActivo === 'sin-registrar'">
+    <div class="titulo">
+        <p>Usuarios SIN REGISTRAR su Empresa</p>
+    </div>
 
-<div class="usuarios-container">
-    <div *ngFor="let usuario of usuariosSinPassword" class="usuario-item">
-        <!-- Logo predeterminado -->
-        <div class="rectangulo">
-            <img src="assets/Images/Icon_SINLOGO.png" alt="Sin Logo" class="logo-usuarios">
-        </div>
-        <!-- Correo del usuario -->
-        <p class="usuario-email">{{ usuario.email }}</p>
-        <!-- Icono adicional -->
-        <div class="iconos-container">
-            <img src="assets/Images/Icon_FALTAINFO.png" alt="Icono Sin Información" class="icono-usuario">
+    <div class="scroll-container-empresas">
+        <div *ngFor="let usuario of usuariosSinPassword" class="rectangle-empresas">
+            <div class="logo-container">
+                <img src="assets/Images/Icon_SINLOGO.png" alt="Sin Logo" class="logo-empresa">
+            </div>
+            <p class="empresa-nombre">{{ usuario.email }}</p>
+            <div class="iconos-container">
+                <img src="assets/Images/Icon_FALTAINFO.png" alt="Icono Sin Información" class="icono-2">
+            </div>
         </div>
     </div>
 </div>
 
-<!-- subir archivos y top 3 -->
-<div class="container_2">
-        <div class="top3">
-            <p>Votaciones en tiempo real</p>
-            <div class="podium">
-                <ng-container *ngIf="empresas.length > 0">
-                    <div *ngFor="let empresa of empresas" class="podium-item">
-                        <div class="podium-content">
-                            <img src="assets/Illustrations/trofeo.png" class="trophy-img">
-                            <img [src]="empresa.logo" alt="Logo de {{empresa.nombre}}" class="company-logo" (click)="mostrarDetalles(empresa.id_empresa)">
-                        </div>
-                        <p class="company-name">{{empresa.nombre}}</p>
-                        <p class="votos-text">Votos: {{ empresa.votos }}</p> <!-- Mostrar el número de votos aquí -->
+<!-- Votaciones top 3 -->
+<div *ngIf="filtroActivo === 'votaciones'">
+    <div class="titulo">
+        <p>Votaciones en tiempo real</p>
+    </div>
+
+    <div class="top3">
+        <div class="podium">
+            <ng-container *ngIf="empresas.length > 0">
+                <div *ngFor="let empresa of empresas" class="podium-item">
+                    <div class="podium-content">
+                        <img src="assets/Illustrations/trofeo.png" class="trophy-img">
+                        <img [src]="empresa.logo" alt="Logo de {{empresa.nombre}}" class="company-logo" (click)="mostrarDetalles(empresa.id_empresa)">
                     </div>
-                </ng-container>
-            </div>
+                    <p class="company-name">{{empresa.nombre}}</p>
+                    <p class="votos-text">Votos: {{ empresa.votos }}</p>
+                </div>
+            </ng-container>
         </div>
-        <div class="enlaces">
-            <div class="label">
-                <div class="text-wrapper" >Enlaces a meet</div>
-                <img src="assets/Images/line.png" alt="Línea" class="line">
-            </div>
-            <div *ngFor="let empresa of empresas" class="meet-link">
-                <a [href]="empresa.url_meet" target="_blank">{{empresa.nombre_empresa}}</a>
-                <img src="assets/Images/line.png" alt="Línea" class="line">
-            </div>
-        </div>
+    </div>
 </div>
-<!-- <div class="illustration_2">
-    <img src="assets/Illustrations/Illustration6.png" alt="Ilustración" class="illustration">
-</div> -->
 
-<!-- Mostrar DETALLES de Empresa -->
-<div *ngIf="empresaSeleccionada" class="detalles" id="detalles">
-    <div class="titulo-detalles">
-        <div class="titulo">Detalles de {{ empresaSeleccionada.nombre_empresa }}</div>
+<!-- Enlaces a meet -->
+<div *ngIf="filtroActivo === 'meets'">
+    <div class="titulo">
+        <p>Enlaces a Meet</p>
     </div>
 
-    <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
-
-    <div class="contenedor-arriba">
-        <div class="rectangle-detalles">
-            <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
-        </div>
-        <p class="empresa">
-            <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
-            <br class="text-detalles">
-                <br/>Página web: <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
-                <br/>Horarios de ATENCIÓN CLIENTE:
-                <br/> - {{ horariosDeAtencionManana }}
-                <br/> - {{ horariosDeAtencionTarde }}
-                <br/>Enlace de MEET: <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
-        </p>
-    </div>
-
-    <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
-        <div class="contenedor-video-descripcion">
-            <ng-container *ngIf="empresaSeleccionada.spot && !empresaSeleccionada.descripcion">
-                <iframe
-                    [src]="getEmbedUrl(empresaSeleccionada.spot)"
-                    class="video-completo"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-            </ng-container>
-            <ng-container *ngIf="!empresaSeleccionada.spot && empresaSeleccionada.descripcion">
-                <div class="descripcion-completa">
-                    <p>{{ empresaSeleccionada.descripcion }}</p>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="empresaSeleccionada.spot && empresaSeleccionada.descripcion">
-                <iframe
-                    [src]="getEmbedUrl(empresaSeleccionada.spot)"
-                    class="video-parcial"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                <div class="descripcion-parcial">
-                    <p>{{ empresaSeleccionada.descripcion }}</p>
-                </div>
-            </ng-container>
+    <div class="enlaces">
+        <div *ngFor="let empresa of empresas" class="meet-link">
+            <a [href]="empresa.url_meet" target="_blank">{{empresa.nombre_empresa}}</a>
         </div>
     </div>
 </div>
