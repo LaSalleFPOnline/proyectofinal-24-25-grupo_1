@@ -49,7 +49,8 @@
             <button class="label" (click)="navigateAndHideMenu('/', 'agenda')">Programa</button>
             <button class="label" (click)="navigateAndHideMenu('/', 'descargas')">Descargas</button>
             <button class="login" (click)="handleLoginAndHideMenu()">
-                <img src="assets/Images/button-login.png">
+                <!-- <img src="assets/Images/button-login.png"> -->
+                <img [src]="logoUrl || 'assets/Images/button-login.png'" alt="Logo" class="logo">
             </button>
         </ng-container>
 
@@ -58,7 +59,8 @@
             <button class="label" (click)="navigateAndHideMenu('/feria', 'agenda')">Agenda</button>
             <button class="label" (click)="navigateAndHideMenu('/feria', 'empresas')">Empresas</button>
             <button class="login" (click)="handleLoginAndHideMenu()">
-                <img src="assets/Images/button-login.png">
+                <!-- <img src="assets/Images/button-login.png"> -->
+                <img [src]="logoUrl || 'assets/Images/button-login.png'" alt="Logo" class="logo">
             </button>
         </ng-template>
     </nav>

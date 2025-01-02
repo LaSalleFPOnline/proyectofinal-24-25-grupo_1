@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { EmpresaService } from '../services/empresa.service';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +14,9 @@ export class HeaderComponent implements OnInit {
   userRole: number | null = null;
   dropdownOpen = false;
   isShrunk: boolean = false;
+  logoUrl: string | null = null; // Define la propiedad para almacenar el logo
 
-  constructor(private router: Router, private authService: AuthService, private elementRef: ElementRef) {}
+  constructor(private router: Router, private authService: AuthService, private elementRef: ElementRef, private empresaService: EmpresaService) {}
 
   ngOnInit() {
     // Suscripción al estado de autenticación
@@ -25,6 +27,19 @@ export class HeaderComponent implements OnInit {
         this.authService.getUserRole().subscribe(role => {
           this.userRole = role;
         });
+      }
+    });
+    this.empresaService.getEmpresas().subscribe({
+      next: (empresas) => {
+        console.log('Empresas obtenidas:', empresas);
+        if (empresas.length > 0) {
+          // Genera la URL completa del logo si no viene directamente como `logoUrl`
+          this.logoUrl = empresas[0].logo;
+          console.log('Logo asignado al header:', this.logoUrl);
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener las empresas:', err);
       }
     });
   }
@@ -101,8 +116,6 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-
-
   handleLogin() {
     if (this.isLoggedIn) {
       this.authService.logout();
@@ -133,5 +146,4 @@ export class HeaderComponent implements OnInit {
   closeDropdown() {
     this.dropdownOpen = false; // Cierra el menú desplegable
   }
-  
 }
