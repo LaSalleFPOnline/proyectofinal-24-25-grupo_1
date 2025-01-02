@@ -174,51 +174,68 @@ export class PerfilEmpresaComponent implements OnInit {
 
   validarFormulario() {
     // Obtener los IDs desde sessionStorage cada vez que se valida el formulario
-    const storedUserId = sessionStorage.getItem('userId');
-    const storedEmpresaId = sessionStorage.getItem('empresaId');
+    const storedUserId = localStorage.getItem('userId');
+    const storedEmpresaId = localStorage.getItem('empresaId');
     this.id_usuario = storedUserId ? parseInt(storedUserId, 10) : null;
     this.id_empresa = storedEmpresaId ? parseInt(storedEmpresaId, 10) : null;
 
-    // Validar el formulario
-    if (!this.enlaceSalaEspera || !this.logotipo ||
-        !this.nombreEmpresa || !this.paginaWeb) {
-        this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
-    } else if (!this.id_usuario || !this.id_empresa) {
+    // Validar el formulario según el rol del usuario
+    if (this.userRole === 1) {
+      // Validación para el rol 1 (empresa)
+      if (!this.enlaceSalaEspera || !this.logotipo ||
+          !this.nombreEmpresa || !this.paginaWeb) {
+          this.errorMessage = 'Por favor, complete todos los campos obligatorios.';
+          return; // Detener la ejecución si faltan campos obligatorios
+      }
+
+      // Validación de horarios para el rol 1 (empresa)
+      if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
+          this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';
+          return;  // Detener la ejecución si no hay horarios
+      } else if (this.horarioMananaError || this.horarioTardeError) {  // Agregar validación de errores de horario
+          this.errorMessage = 'Por favor, corrija los errores en los horarios.';
+          return;  // Detener la ejecución si hay errores en los horarios
+      }
+    }
+
+    // Validación común para todos los roles
+    if (!this.id_usuario) {
         this.errorMessage = 'ID de usuario o ID de empresa no disponibles.';
         return;  // Detener la ejecución si los IDs no están disponibles
-    } else if (!this.horario_meet_morning_start && !this.horario_meet_afternoon_start) {
-        this.errorMessage = 'Debe rellenar al menos uno de los campos de horario (mañana o tarde).';
-        return;  // Detener la ejecución si no hay horarios
-    } else if (this.horarioMananaError || this.horarioTardeError) {  // Agregar validación de errores de horario
-        this.errorMessage = 'Por favor, corrija los errores en los horarios.';
-        return;  // Detener la ejecución si hay errores en los horarios
-    } else if (this.nuevaContrasena && this.repiteContrasena !== this.nuevaContrasena) {
-        this.errorMessage = 'Las contraseñas no coinciden.'; // Validar contraseñas
-        return;  // Detener la ejecución si las contraseñas no coinciden
+    } else if (this.nuevaContrasena && !this.repiteContrasena) {
+        this.errorMessage = 'Por favor, repita la nueva contraseña.'; // Validar si se ingresó nueva contraseña pero no se repitió
+        return;
+    } else if (this.repiteContrasena && !this.nuevaContrasena) {
+        this.errorMessage = 'Por favor, ingrese la nueva contraseña.'; // Validar si se repitió la contraseña pero no se ingresó nueva
+        return;
+    } else if (this.nuevaContrasena && this.repiteContrasena && this.repiteContrasena !== this.nuevaContrasena) {
+        this.errorMessage = 'Las contraseñas no coinciden.'; // Validar si las contraseñas no coinciden
+        return;
     } else {
         this.errorMessage = null;
         this.contrasenaErrorMessage = null;
 
         const empresa = {
-            id_empresa: this.id_empresa,
-            id_usuario: this.id_usuario,
-            nombre_empresa: this.nombreEmpresa,
-            web: this.paginaWeb,
-            spot: this.spotPublicitario,
-            logo: this.logotipo,
-            descripcion: this.descripcionProductos,
-            url_meet: this.enlaceSalaEspera,
-            horario_meet_morning_start: this.horario_meet_morning_start || null,
-            horario_meet_morning_end: this.horario_meet_morning_end || null,
-            horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
-            horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
-            entidad: this.entidad,
-            contrasena: this.nuevaContrasena // Agregar contrasena al objeto si existe
+          id_empresa: this.id_empresa,
+          id_usuario: this.id_usuario,
+          nombre_empresa: this.nombreEmpresa,
+          web: this.paginaWeb,
+          spot: this.spotPublicitario,
+          logo: this.logotipo,
+          descripcion: this.descripcionProductos,
+          url_meet: this.enlaceSalaEspera,
+          horario_meet_morning_start: this.horario_meet_morning_start || null,
+          horario_meet_morning_end: this.horario_meet_morning_end || null,
+          horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
+          horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
+          entidad: this.entidad,
+          contrasena: this.nuevaContrasena // Agregar contrasena al objeto si existe
         };
 
-        // Si las contraseñas son válidas, cambia la contraseña
-        this.cambiarContrasena();
-
+        // Si se proporciona una nueva contraseña, cambiarla
+        if (this.nuevaContrasena) {
+            this.cambiarContrasena();
+        }
         this.authService.actualizarEmpresa(empresa).subscribe({
             next: (response: any) => {
                 console.log('Datos actualizados:', response);

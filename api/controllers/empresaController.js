@@ -93,8 +93,32 @@ const updateEmpresa = (empresa, callback) => {
   }
 };
 
+const updatePasswordForNonAdminRoles = (userId, nuevaContrasena, callback) => {
+  if (!userId || !nuevaContrasena) {
+    console.error('ID de usuario y nueva contraseña son obligatorios');
+    return callback(new Error('ID de usuario y nueva contraseña son obligatorios'));
+  }
+
+  const updateQuery = `
+    UPDATE usuario
+    SET contrasena = ?
+    WHERE id_usuario = ?
+  `;
+
+  connection.query(updateQuery, [nuevaContrasena, userId], (err) => {
+    if (err) {
+      console.error('Error al actualizar la contraseña: ', err);
+      return callback(err);
+    }
+
+    console.log('Contraseña actualizada correctamente');
+    return callback(null, { message: 'Contraseña actualizada correctamente' });
+  });
+};
+
 // Exportamos las funciones para que puedan ser utilizadas en otros archivos de la aplicación
 module.exports = {
   updateEmpresa,
   getEmpresaDataByUsuarioId,
+  updatePasswordForNonAdminRoles
 };
