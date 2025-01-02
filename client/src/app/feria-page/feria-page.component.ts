@@ -482,6 +482,7 @@ eliminarVoto(): void {
         this.votacionService.verificarVoto(loggedInUserId, empresa.id_empresa).subscribe(
           (yaVotado: boolean) => {
             empresa.votado = yaVotado;
+            localStorage.setItem(`voto_${empresa.id_empresa}`, JSON.stringify(yaVotado)); // Guardar en localStorage
           },
           (error) => {
             console.error('Error al verificar el voto:', error);

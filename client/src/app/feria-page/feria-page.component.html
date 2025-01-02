@@ -61,7 +61,8 @@
         </button>
         <button 
             class="md-button" 
-            [ngClass]="{'active-filter': filtroActivo === 'miVoto'}">
+            [ngClass]="{'active-filter': filtroActivo === 'miVoto'}"
+            (click)="mostrarMiVoto()">
             Mi voto
         </button>
     </div>
@@ -181,33 +182,17 @@
     </div>
 
     <!-- Contenedor para mostrar "Mi voto" -->
-    <!-- <div *ngIf="mostrarMiVoto" class="scroll-empresas-2">
-    
-        <div *ngIf="empresasVotadas.length > 0">
-            <div *ngFor="let empresa of empresasVotadas" class="caja-empresa">
-                <img [src]="empresa.logo" alt="{{ empresa.nombre_empresa }}" class="logo-empresa">
-                <p class="nombre-empresa">{{ empresa.nombre_empresa }}</p>
-                <div class="button-container-pk">
-    
-                    <img 
-                        src="assets/Images/interesa_no.png" 
-                        alt="Eliminar interés" 
-                        class="icono-empresa" 
-                        (click)="agregarOEliminarInteres(empresa.id_empresa)">
-    
-                    <img 
-                        src="assets/Images/votar_eliminar.png" 
-                        alt="Eliminar Voto" 
-                        class="icono-empresa" 
-                        (click)="eliminarVoto(empresa.id_empresa)">
-                </div>
-            </div>
+<div *ngIf="filtroActivo === 'miVoto'" class="scroll-empresas-2">
+    <div *ngIf="empresasVotadas.length > 0" class="rectangle-empresas">
+        <div *ngFor="let empresa of empresasVotadas" class="caja-empresa">
+            <img [src]="empresa.logoUrl" alt="{{ empresa.nombre_empresa }}" class="logo-empresa">
+            <p class="nombre-empresa">{{ empresa.nombre_empresa }}</p>
         </div>
-    
-        <div *ngIf="empresasVotadas.length === 0" class="rectangle-empty">
-            <p class="txt-empty">Aquí aparecerán las empresas que has votado</p>
-        </div>
-    </div> -->
+    </div>
+    <div *ngIf="empresasVotadas.length === 0" class="rectangle-empty">
+        <p class="txt-empty">Aquí aparecerán las empresas que has votado</p>
+    </div>
+</div>
 
     <!-- Ilustración -->
     <img class="illustration" src="assets/Illustrations/Illustration4.png">
