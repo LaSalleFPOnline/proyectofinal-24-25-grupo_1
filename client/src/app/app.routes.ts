@@ -9,8 +9,6 @@ import { NosotrosComponent } from './nosotros/nosotros.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 
-
-
 export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponentComponent },
@@ -18,9 +16,6 @@ export const routes: Routes = [
   { path: 'admin', component: PerfilAdminComponent, canActivate: [RoleGuard], data: { role: 2 } },
   { path: 'empresa', component: PerfilEmpresaComponent, canActivate: [AuthGuard] },
   { path: 'nosotros', component: NosotrosComponent },
-  /*para registrar usuarios dummy*/
   { path: 'register', component: RegisterComponent },
-
-  /* En caso de no encontrar ruta, por defecto, al home*/
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

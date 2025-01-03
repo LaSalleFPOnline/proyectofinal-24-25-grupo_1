@@ -1,60 +1,47 @@
-
 .registro{
   background-color: rgba(var(--color-azul-rgb), 0.1);
   margin: 0 auto;
   margin-bottom: 20px;
 }
-
 .formulario.registro > div {
   margin-bottom: 1.5rem;
 }
-
 .text{
   font-size: 16px;
 }
 .input{
   font-size: 14px;
 }
-
 .mdc-text-field {
   background-color: transparent;
   width: 100%;
 }
-
 .mdc-text-field__input {
   padding: 10px;
   box-sizing: border-box;
 }
-
 .mdc-floating-label {
   font-size: 12px;
   color: var(--color-negro);
   transition: 0.2s ease;
   box-sizing: border-box;
 }
-
 .mdc-text-field__input:focus + .mdc-notched-outline .mdc-notched-outline__notch {
   border-color: var(--color-negro);
 }
-
 .mdc-text-field__input:focus + .mdc-notched-outline .mdc-floating-label {
   transform: translateY(-20px) scale(0.75);
   color: var(--color-negro);
-  
 }
-
 .mdc-text-field__input:valid + .mdc-notched-outline .mdc-floating-label {
   transform: translateY(-20px) scale(0.75);
   color: var(--color-negro);
 }
-
-
 .line {
   display: block;
   width: 90%;
   height: 1px;
 }
-
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
@@ -69,7 +56,6 @@ form select {
   display: block;
   background-color: inherit;
 }
-
 .textarea {
   width: 90%;
   padding: 10px;
@@ -83,7 +69,6 @@ form select {
   height: auto;
   resize: vertical;
 }
-
 .enviar {
   display: flex;
   align-items: center;
@@ -91,7 +76,6 @@ form select {
   padding: 10px;
   box-sizing: border-box;
 }
-
 .enviar button {
   font-size: 14px;
   color: var(--color-negro);
@@ -102,62 +86,53 @@ form select {
   padding: 10px 20px;
   transition: border 0.3s ease, transform 0.3s ease;
 }
-
 .enviar button:hover, .enviar button:active {
   border: 2px solid var(--color-negro);
   transform: scale(1.05);
 }
-
 input.error {
   border: 2px solid var(--color-rojo) !important;
 }
-
 input.error:focus {
   border: 2px solid var(--color-rojo) !important;
-  outline: none; /* Elimina el contorno azul predeterminado del navegador */
+  outline: none;
 }
-
 textarea:focus, input:focus, select:focus {
   outline: none;
 }
 
 /* Horario del meet */
+
 .horario {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
   margin-left: 15px;
 }
-
 .horario .text {
   margin-right: 10px;
   line-height: 1;
   align-items: center;
 }
-
 .horario .time-input {
   width: auto;
   margin-top: 12px;
 }
-
 .campo {
   margin-bottom: 20px;
   width: 80%;
   margin: 0 auto;
   margin-bottom: 20px;
 }
-
 .text {
   display: block;
   font-weight: bold;
   margin-bottom: 8px;
 }
-
 .input {
   display: block;
   margin-bottom: 12px;
 }
-
 .logo-preview {
   display: block;
   max-width: 100%;

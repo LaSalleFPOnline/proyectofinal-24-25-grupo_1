@@ -6,14 +6,15 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AgendaFeriaService {
-  private apiUrl = environment.apiUrl; // URL del servidor Node.js
 
+export class AgendaFeriaService {
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   getEventFechasAgendaFeria(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/agendaFeria`);
   }
-  
+
 }

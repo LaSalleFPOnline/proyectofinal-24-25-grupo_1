@@ -1,37 +1,34 @@
-  
-  <!-- Video de YouTube incrustado -->
-  <div class="video container">
-    <iframe 
-      src="https://www.youtube.com/embed/IJkG-4cfnVg?autoplay=1&mute=1&loop=1&playlist=IJkG-4cfnVg" 
-      frameborder="0" 
-      allowfullscreen 
-      title="YouTube video player">
-    </iframe>
-  </div>
+<!-- Video de YouTube incrustado -->
+<div class="video container">
+  <iframe
+    src="https://www.youtube.com/embed/IJkG-4cfnVg?autoplay=1&mute=1&loop=1&playlist=IJkG-4cfnVg" 
+    frameborder="0"
+    allowfullscreen
+    title="YouTube video player">
+  </iframe>
+</div>
 
-  <!-- Intro -->
-  <div class="introcontainer">
-    <!-- Primera parte: Text-intro -->
-    <div class="text-intro-container">
-      <p class="text-intro">La Salle Bussiness Match</p>
-      <p class="text-intro2">30 de enero 2025</p>
+<!-- Intro -->
+<div class="introcontainer">
+  <!-- Primera parte: Text-intro -->
+  <div class="text-intro-container">
+    <p class="text-intro">La Salle Business Match</p>
+    <p class="text-intro2">30 de enero 2025</p>
+  </div>
+  <!-- Segunda parte: Flexcontainer e Image-container -->
+  <div class="content-container">
+    <div class="flexcontainer">
+      <p class="desciption">
+        Esta iniciativa impulsa la colaboración entre centros La Salle, creando sinergias globales.
+        Refuerza la metodología NCA y promueve la innovación y co-creación en proyectos educativos.
+        Genera oportunidades únicas de aprendizaje y desarrollo profesional para estudiantes y docentes.
+      </p>
     </div>
-  
-    <!-- Segunda parte: Flexcontainer e Image-container -->
-    <div class="content-container">
-      <div class="flexcontainer">
-        
-        <p class="desciption">
-          Esta iniciativa impulsa la colaboración entre centros La Salle, creando sinergias globales.
-          Refuerza la metodología NCA y promueve la innovación y co-creación en proyectos educativos.
-          Genera oportunidades únicas de aprendizaje y desarrollo profesional para estudiantes y docentes.
-        </p>
-      </div>
-      <div class="image-container">
-        <img src="assets/Illustrations/Illustration1.png" alt="Ilustración del evento" />
-      </div>
+    <div class="image-container">
+      <img src="assets/Illustrations/Illustration1.png" alt="Ilustración del evento" />
     </div>
   </div>
+</div>
 
 <!-- Agenda -->
 <div class="titulo" id="Programa">
@@ -39,19 +36,15 @@
 </div>
 <div class="agenda container" id="agenda">
   <div *ngFor="let event of events; let i = index"
-      class="frame"
-      [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded, 'current-event': event.isCurrent }">
-    
-      <div class="frame-header">
-    
-        <div class="time-wrapper">{{ event.hora }} a {{ event.horaFinal }}</div>
-      
+    class="frame"
+    [ngClass]="{ 'expanded': event.isExpanded, 'collapsed': !event.isExpanded, 'current-event': event.isCurrent }">
+    <div class="frame-header">
+      <div class="time-wrapper">{{ event.hora }} a {{ event.horaFinal }}</div>
       <p class="event-description">{{ event.descripcion }}</p>
-      
       <img class="plus-icon"
-          [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
-          alt="Toggle"
-          (click)="toggleContent(i)" />
+        [src]="event.isExpanded ? 'assets/Images/icon-minus.png' : 'assets/Images/icon-plus.png'" 
+        alt="Toggle"
+        (click)="toggleContent(i)" />
     </div>
     <div class="line" *ngIf="event.isExpanded"></div>
     <div class="frame-content" [ngClass]="{'expanded': event.isExpanded}">
@@ -62,84 +55,81 @@
   </div>
 </div>
 
-
-  <!-- Div de Descargas -->
-  <div id="descargas">
-    <div class="titulo"> <p>Descargas</p>  </div>
-
-    <div class="descargas container" id="descargas">
-        <div class="descarga-programa">
-            <p>Programa<br/>de la Feria</p><br/><br/>
-            <div class="link" (click)="downloadFile('assets/PDFs/Programa_LSBM_2025.pdf')">
-                <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
-                <p>Descargar PDF</p>
-            </div>
-        </div>
-        <div class="descarga-concurso">
-            <p>Bases<br/>del Concurso</p><br/><br/>
-            <div class="link" (click)="downloadFile('assets/PDFs/Bases_del_Concurso_LSBM_2025.pdf')">
-                <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
-                <p>Descargar PDF</p>
-            </div>
-        </div>
-        <div class="descarga-guia">
-            <p>Guía<br/>para participar</p><br/><br/>
-            <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
-                <img src="assets/Images/icon-descarga.png" alt="Download"/>
-                <p>Descargar PDF</p>
-            </div>
-        </div>
+<!-- Div de Descargas -->
+<div id="descargas">
+  <div class="titulo"> <p>Descargas</p>  </div>
+  <div class="descargas container" id="descargas">
+    <div class="descarga-programa">
+      <p>Programa<br/>de la Feria</p><br/><br/>
+      <div class="link" (click)="downloadFile('assets/PDFs/Programa_LSBM_2025.pdf')">
+        <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
+        <p>Descargar PDF</p>
+      </div>
+    </div>
+    <div class="descarga-concurso">
+      <p>Bases<br/>del Concurso</p><br/><br/>
+      <div class="link" (click)="downloadFile('assets/PDFs/Bases_del_Concurso_LSBM_2025.pdf')">
+        <img class="arrow" src="assets/Images/icon-descarga.png" alt="Download"/>
+        <p>Descargar PDF</p>
+      </div>
+    </div>
+    <div class="descarga-guia">
+      <p>Guía<br/>para participar</p><br/><br/>
+      <div class="link" (click)="downloadFile('assets/PDFs/Programa_Dummy.pdf')">
+        <img src="assets/Images/icon-descarga.png" alt="Download"/>
+        <p>Descargar PDF</p>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- Div patrocinadores -->
-  <div id="patrocinadores">
-    <div class="titulo">
-      <p>Patrocinadores y colaboradores</p>
-    </div>
-    <div class="patrocinadores">
-      
-      <div class="fondo"></div>
-      <!-- scroll -->
-      <div class="scroll-container">
-        <div class="scroll">
-          <div class="logo">
-            <div class="overlap-group">
-              <img src="assets/Illustrations/BCS.png" alt="BSC"/>
-            </div>
-            <p class="colegio">
-              Brothers of the<br/>
-              Christian Schools
-            </p>
+<!-- Div patrocinadores -->
+<div id="patrocinadores">
+  <div class="titulo">
+    <p>Patrocinadores y colaboradores</p>
+  </div>
+  <div class="patrocinadores">
+    <div class="fondo"></div>
+    <!-- scroll -->
+    <div class="scroll-container">
+      <div class="scroll">
+        <div class="logo">
+          <div class="overlap-group">
+            <img src="assets/Illustrations/BCS.png" alt="BSC"/>
           </div>
-          <div class="logo">
-            <div class="overlap-group">
-              <img src="assets/Illustrations/logodistrito.png" alt="Distrito" />
-            </div>
-            <p class="colegio">
-              Distrito ARLEP<br/>
-              España
-            </p>
+          <p class="colegio">
+            Brothers of the<br/>
+            Christian Schools
+          </p>
+        </div>
+        <div class="logo">
+          <div class="overlap-group">
+            <img src="assets/Illustrations/logodistrito.png" alt="Distrito" />
           </div>
-          <div class="logo">
-            <div class="overlap-group">
-              <img src="assets/Patrocinadores/La_Salle_fp_online_horitzontal_negatiu.png" alt="La_Salle_FPOnline" />
-            </div>
-            <p class="colegio">
-              Formación Profesional Online<br/>
-              España
-            </p>
+          <p class="colegio">
+            Distrito ARLEP<br/>
+            España
+          </p>
+        </div>
+        <div class="logo">
+          <div class="overlap-group">
+            <img src="assets/Patrocinadores/La_Salle_fp_online_horitzontal_negatiu.png" alt="La_Salle_FPOnline" />
           </div>
-          <div class="logo">
-            <div class="overlap-group">
-              <img src="assets/Patrocinadores/La_Salle fp_negativo.png" alt="La_Salle_FP"/>       
-            </div>
-            <p class="colegio">
-              La Salle FP<br/>
-              Barcelona
-            </p>
+          <p class="colegio">
+            Formación Profesional Online<br/>
+            España
+          </p>
+        </div>
+        <div class="logo">
+          <div class="overlap-group">
+            <img src="assets/Patrocinadores/La_Salle fp_negativo.png" alt="La_Salle_FP"/>
           </div>
+          <p class="colegio">
+            La Salle FP<br/>
+            Barcelona
+          </p>
         </div>
       </div>
     </div>
   </div>
+</div>

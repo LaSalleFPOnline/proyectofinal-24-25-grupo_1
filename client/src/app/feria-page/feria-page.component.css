@@ -1,5 +1,6 @@
 
-/* #region Agenda-*/
+/* #Region Agenda */
+
 .feriapage{
     font-family: 'Indivisa' sans-serif;
 }
@@ -11,7 +12,6 @@
     margin: 50px auto;
     padding: 1rem;
 }
-
 /* Estilo para cada frame */
 .frame {
     display: flex;
@@ -27,7 +27,6 @@
     position: relative;
     font-size: 1.5rem;
 }
-
 .evento-en-curso {
     background-color: var(--color-verde);
     color: var(--color-blanco);
@@ -36,45 +35,37 @@
     background-color: var(--color-verde);
     color: var(--color-blanco);
 }
-
 .future-event {
     background-color: var(--color-gris);
     color: var(--color-negro);
 }
-
 .frame.expanded {
     overflow: visible;
 }
-
 .frame-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
 }
-
 .frame.expanded .frame-content {
     display: block;
 }
-
 .time-wrapper {
     flex-grow: 0;
     margin-right: 1rem;
     overflow-wrap: break-word;
 }
-
 .event-description {
     margin: 0;
     flex: 2;
     overflow-wrap: break-word;
 }
-
 .plus-icon {
     width: clamp(2rem, 4vw, 4rem);
     height: clamp(2rem, 4vw, 4rem);
     cursor: pointer;
 }
-
 .line {
     width: 100%;
     height: 1px;
@@ -82,17 +73,14 @@
     background-color: var(--color-negro);
     display: none;
 }
-
 .frame.expanded .line {
     display: block;
 }
-
 .frame-content {
     display: none;
     padding: 1rem;
     box-sizing: border-box;
 }
-
 .flexcontainer {
     display: flex;
     flex-direction: column;
@@ -100,46 +88,42 @@
     padding: 1rem;
     box-sizing: border-box;
 }
-
 .text {
     width: 100%;
     color: var(--color-negro);
     margin: 0;
 }
-
 .btn-meet {
     color: var(--color-negro);
     transition: color 0.3s ease;
 }
-
 .btn-meet:hover {
     color: var(--color-rojo);
 }
-
 .btn-meet:active {
     color: var(--color-rojo);
 }
 
 @media (max-width: 480px) {
     .agenda {
-      width: 100%;
-      margin: 0 auto;
-      padding: 5px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 5px;
     }
-    
     .frame {
-      width: 95%;
-      margin: 0 auto 2 rem auto;
-      font-size: 16px;
-      padding: 10px;
-      box-shadow: 0 0.1rem 0 var(--color-negro);
+        width: 95%;
+        margin: 0 auto 2 rem auto;
+        font-size: 16px;
+        padding: 10px;
+        box-shadow: 0 0.1rem 0 var(--color-negro);
     }
-  }
+}
 
-/* #endregion */
+/* #EndRegion */
 
 
-/* #region Relaciones */
+/* #Region Relaciones */
+
 .contenedor-notificaciones-realaciones {
     display: block;
     width: 100%;
@@ -148,7 +132,6 @@
     height: auto;
     box-sizing: border-box;
 }
-
 .scroll-container,
 .scroll-container-2 {
     margin-top: 3rem;
@@ -162,8 +145,8 @@
 }
 .scroll-container-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Asegúrate de ajustar el tamaño mínimo y máximo */
-    gap: 15px; /* Espacio entre elementos */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
     padding: 15px;
     overflow-y: auto;
     border: 2px solid var(--color-negro);
@@ -171,14 +154,12 @@
     background-color: var(--color-blanco);
     justify-content: center;
 }
-
 .mensaje-sin-relaciones p {
     font-size: 0.8rem;
     color: var(--color-gris);
     text-align: center;
     margin: 0.5rem 0;
 }
-
 .rectangle-relaciones {
     background-color: var(--color-gris);
     display: flex;
@@ -189,13 +170,11 @@
     height: auto;
     padding: 5px;
 }
-
 .logo-interes {
     max-width: 50%;
     height: auto;
     object-fit: contain;
 }
-
 .text-relaciones {
     position: absolute;
     justify-content: center;
@@ -204,7 +183,6 @@
     left: 50%;
     transform: translateX(-50%);
 }
-
 .contenedor-texto-suma {
     display: flex;
     justify-content: space-between;
@@ -212,7 +190,6 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 .text-suma-1, .text-suma-2 {
     color: white;
     text-align: center;
@@ -221,9 +198,9 @@
     box-sizing: border-box;
 }
 
-/* #endregion */
+/* #EndRegion */
 
-/* #region NOTIFICACIONES */
+/* #Region NOTIFICACIONES */
 
 .notificaciones {
     background-color: var(--color-rojo);
@@ -233,26 +210,22 @@
     box-sizing: border-box;
     position: relative;
 }
-
 .fondo-notificaciones {
     padding: 1rem;
     background-color: var(--color-blanco);
     border-radius: 0.7vw;
 }
-
 .texto-titulo-notificaciones {
     font-weight: 500;
     font-size: clamp(1rem, 2vw, 1.5rem);
     color: var(--color-negro);
 }
-
 .text-line-container {
     position: relative;
     margin-top: 3rem;
     overflow-y: auto;
     max-height: 80%;
 }
-
 .text-notificaciones {
     width: 90%;
     margin-left: 2rem;
@@ -260,7 +233,6 @@
     font-size: 1rem;
     color: var(--color-blanco);
 }
-
 .line-notificaciones {
     display: block;
     width: 90%;
@@ -268,7 +240,6 @@
     background-color: var(--color-blanco);
     margin-left: 2rem;
 }
-
 .illustration {
     display: block;
     width: 70%;
@@ -278,9 +249,11 @@
     margin: 0 auto;
     margin-bottom: 50px;
 }
-/* #endregion */
 
-/* #region Listado Empresas */
+/* #EndRegion */
+
+/* #Region Listado Empresas */
+
 .scroll-container-empresas{
     margin-top: 20px;
     display: flex;
@@ -294,7 +267,6 @@
     background-color: var(--color-blanco);
     justify-content: center;
 }
-
 .scroll-container-2 {
     display: flex;
     flex-wrap: wrap;
@@ -307,7 +279,6 @@
     background-color: var(--color-blanco);
     justify-content: center;
 }
-
 .rectangle-empresas {
     overflow: hidden;
     border-radius: 10px;
@@ -320,7 +291,6 @@
     aspect-ratio: 1 / 1;
     background-color: var(--color-gris);
 }
-
 .rectangle-empty {
     display: flex;
     flex-direction: column;
@@ -335,29 +305,24 @@
     height: 150px;
     box-sizing: border-box;
 }
-
 .txt-empty {
     font-size: 14px;
     font-weight: bold;
     color: var(--color-gris);
 }
-
 .scroll-container-2:empty {
-    max-height: calc(1 * 150px + 15px); /* Altura para una sola fila */
+    max-height: calc(1 * 150px + 15px);
 }
-
 .logo-container {
     position: relative;
     width: 100%;
     height: 80%;
 }
-
 .logo-empresa {
     width: 100%;
-    height: 100%; 
+    height: 100%;
     object-fit: cover;
 }
-
 /* Capa blanca semitransparente sobre el logo */
 .logo-overlay {
     position: absolute;
@@ -368,7 +333,6 @@
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 10px;
 }
-
 /* Estilo para el texto */
 .txt-logo {
     width: 100%;
@@ -381,13 +345,12 @@
     font-size: 14px;
     margin: 0;
 }
-
 /* Contenedor de los botones en la sección de empresas */
 .empresa-info-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 10px; 
+    gap: 10px;
     padding: 10px 20px;
     background-color: var(--color-blanco);
     border-radius: 10px;
@@ -396,7 +359,6 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 /* Botones específicos para esta sección */
 .button-container-pk {
     display: flex;
@@ -404,7 +366,6 @@
     gap: 10px;
     margin-top: 10px;
 }
-
 /* Estilo de los iconos */
 .icono-empresa {
     width: 15px;
@@ -412,16 +373,13 @@
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
-
 .icono-empresa:hover {
     transform: scale(1.1);
     opacity: 0.8;
 }
-
 .icono-empresa:active {
     transform: scale(0.9);
 }
-
 *,
 *::before,
 *::after {
@@ -440,7 +398,6 @@
     align-items: center;
     background-color: var(--color-blanco)
 }
-
 .caja-empresa-2 {
     box-sizing: border-box;
     width: 27%;
@@ -454,17 +411,15 @@
     transition: transform 0.2s;
     margin: 20px;
     border:2px solid var(--color-negro);
-    padding: 15px;    
-    display: inline-block;  
+    padding: 15px;
+    display: inline-block;
     flex-wrap: nowrap;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
 .caja-empresa-2:hover {
     transform: scale(1.05);
 }
-
 .logo-empresa-2 {
     width: 100%;
     max-width: 280px;
@@ -477,7 +432,6 @@
     justify-content: center;
     align-items: center;
 }
-
 .nombre-empresa-2 {
     font-size: 1.1rem;
     margin-bottom: 10px;
@@ -486,7 +440,6 @@
     width: 100%;
     text-align: center;
 }
-
 .button-container-pk-2 {
     display: flex;
     justify-content: space-around;
@@ -497,7 +450,6 @@
     padding: 10px;
     box-sizing: border-box;
 }
-
 .button-pk {
     background-color: var(--color-azul);
     color: var(--color-blanco);
@@ -512,7 +464,6 @@
     margin: 0;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 .button-pk.disabled,
 .button-pk:disabled {
     background-color: var(--color-gris);
@@ -520,21 +471,17 @@
     cursor: not-allowed;
     transform: none;
 }
-
 .button-pk:disabled:hover {
     background-color: var(--color-gris);
     transform: none;
 }
-
 .button-pk:hover {
     background-color: rgba(var(--color-azul-rgb), 0.8);
     transform: scale(1.05);
 }
-
 .button-pk:active {
     transform: scale(0.95);
 }
-
 .filter-buttons .md-button {
     background-color: var(--color-azul);
     color: var(--color-blanco);
@@ -548,16 +495,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
 }
-
 .filter-buttons .md-button:hover {
     background-color: rgba(var(--color-azul-rgb), 0.7);
     transform: translateY(-2px);
 }
-
 .filter-buttons .md-button:active {
     transform: translateY(1px);
 }
-
 /* Estilo para el botón activo */
 .filter-buttons .md-button.active-filter {
     background-color: var(--color-blanco);
@@ -566,11 +510,10 @@
     transform: scale(1.05);
 }
 
+/* #EndRegion */
 
-/* #endregion */
 
-
-/* #region detalles de empresa */
+/* #Region DETALLES de empresa */
 
 .close-icon {
     position: absolute;
@@ -582,11 +525,9 @@
     cursor: pointer;
     opacity: 1;
 }
-
 .close-icon:hover {
     opacity: 0.7;
 }
-
 .detalles {
     position: relative;
     width: 90%;
@@ -604,14 +545,12 @@
     margin-bottom: 30px;
     font-family: 'Indivisa' sans-serif;
 }
-
 .titulo-detalles {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
 }
-
 .contenedor-arriba, .contenedor-abajo {
     position: relative;
     width: 90%;
@@ -622,7 +561,6 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
-
 .rectangle-detalles {
     width: 40%;
     max-width: 25vw;
@@ -630,7 +568,6 @@
     margin-bottom: 20px;
     position: relative;
 }
-
 .logo-img {
     width: 100%;
     height: 100%;
@@ -639,31 +576,26 @@
     top: 0;
     left: 0;
 }
-
 .contenedor-video-descripcion {
     display: flex;
     width: 100%;
 }
-
 .video-completo {
     width: 100%;
     height: 315px;
     flex-shrink: 0;
 }
-
 .descripcion-completa {
     width: 100%;
     margin-left: 20px;
     padding: 15px;
     box-sizing: border-box;
 }
-
 .video-parcial {
     width: 50%;
     height: 315px;
     flex-shrink: 0;
 }
-
 .descripcion-parcial {
     width: 50%;
     margin-left: 40px;
@@ -672,47 +604,40 @@
     padding: 40px;
     box-sizing: border-box;
 }
-
 .contenedor-abajo {
     display: flex;
     box-sizing: border-box;
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-    justify-content: space-between; /* Distribuye el espacio entre las columnas */
-    gap: 20px; /* Espacio entre la columna de video y la columna de scroll */
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
 }
-
 .columna-video {
-    flex: 1 1 40%; /* Ocupa el 40% del ancho disponible */
-    min-width: 300px; /* Asegura un tamaño mínimo para la columna del video */
+    flex: 1 1 40%;
+    min-width: 300px;
 }
-
 .columna-scroll {
-    flex: 1 1 40%; /* Ocupa el espacio restante (aproximadamente 58%) */
-    max-height: 25vw; /* Limita la altura máxima para mantener la proporción */
-    overflow-y: auto; /* Permite el scroll vertical si el contenido es largo */
+    flex: 1 1 40%;
+    max-height: 25vw;
+    overflow-y: auto;
     padding: 10px;
-    background-color: #F3F3F3; /* Fondo para la columna de scroll */
-    box-shadow: inset 0px 0px 5px rgba(0,0,0,0.1); /* Sombra interior para un efecto de profundidad */
-    border-radius: 10px; /* Bordes redondeados para la columna de scroll */
+    background-color: #F3F3F3;
+    box-shadow: inset 0px 0px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
-
 .video-spot {
-    width: 100%; /* El video ocupará todo el ancho disponible */
-    height: auto; /* Mantendrá la proporción del video */
-    border-radius: 10px; /* Bordes redondeados para el video */
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
 }
-
 .empresa {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: calc(100% - 25vw - 20px); /* Ajuste para ocupar el ancho restante en la columna derecha */
+    max-width: calc(100% - 25vw - 20px);
 }
-
 .subtitulo-detalles {
     font-weight: 500;
 }
-
 .text-detalles {
     margin-top: 0;
     margin-bottom: 0;
@@ -721,11 +646,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px; /* Espacio entre botones */
-    padding: 20px; /* Espacio interno del contenedor */
-    box-sizing: border-box; /* Incluye padding en el ancho total del contenedor */
+    gap: 15px;
+    padding: 20px;
+    box-sizing: border-box;
 }
-
 .button {
     display: flex;
     width: 96px;
@@ -741,23 +665,22 @@
     text-align: center;
     box-sizing: border-box;
 }
-
 .button:hover,
 .button:active {
     border: 2px solid #2B2B2A;
     opacity: 1;
 }
 
-/* #endregion */
+/* #EndRegion */
 
 /* Botones de filtro */
+
 .filter-buttons {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
 }
-
 .md-button {
     background-color: var(--color-azul);
     color: var(--color-blanco);
@@ -772,17 +695,16 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 .md-button:hover {
     background-color: rgba(var(--color-azul-rgb), 0.7);
     transform: translateY(-2px);
 }
-
 .md-button:active {
     transform: translateY(1px);
 }
 
 /* Vista para tabletas (768px o menos) */
+
 @media (max-width: 768px) {
     .scroll-container-empresas, .scroll-empresas-2 {
         flex-wrap: wrap;
@@ -790,7 +712,6 @@
         padding: 10px;
         gap: 10px;
     }
-
     .rectangle-empresas, .caja-empresa-2 {
         width: 45%;
         margin-bottom: 15px;
@@ -798,6 +719,7 @@
 }
 
 /* Ajuste para móviles (480px o menos) */
+
 @media (max-width: 480px) {
     .scroll-container-empresas, .scroll-empresas-2 {
         flex-direction: column;
@@ -809,7 +731,6 @@
         align-items: center;
         justify-content: center;
     }
-
     .rectangle-empresas, .caja-empresa-2 {
         width: 90%;
         margin-bottom: 15px;
@@ -824,7 +745,6 @@
         justify-content: center;
     }
 }
-
 @media (max-width: 375px) {
     .scroll-container-empresas {
         overflow-y: auto;
@@ -834,7 +754,6 @@
         align-items: center;
         justify-content: center;
     }
-
     .rectangle-empresas {
         width: 100%;
         margin: 0 auto 15px auto;

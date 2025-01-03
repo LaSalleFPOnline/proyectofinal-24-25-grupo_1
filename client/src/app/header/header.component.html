@@ -1,9 +1,10 @@
 <nav class="header" [ngClass]="{'shrink': isShrunk}">
+
     <img class="logo" src="assets/Images/logo.png" (click)="goToHomePage()">
 
     <!-- Contenedor para los botones y el menú -->
     <div class="button">
-      <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
+        <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
             <!-- <button class="label" (click)="navigateTo('/')">Inicio</button> -->
             <button class="label" (click)="navigateTo('/', 'agenda')">Programa</button>
             <button class="label" (click)="navigateTo('/', 'descargas')">Descargas</button>
@@ -13,7 +14,6 @@
                 <img src="assets/Images/button-login.png">
             </button>
         </ng-container>
-
         <ng-template #loggedInMenu>
             <!-- Botones para usuarios logueados -->
             <ng-container *ngIf="userRole === 1 || userRole === 3">
@@ -21,14 +21,12 @@
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
-
             <ng-container *ngIf="userRole === 2">
                 <!-- Botones para Admin -->
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('admin')">Panel del administrador</button>
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
-
             <button class="login" (click)="toggleDropdown()">
                 <img src="assets/Images/button-login.png" alt="Login">
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
@@ -41,7 +39,7 @@
                 </div>
             </button>
         </ng-template>
-<!-- TODO si registrado, que aparezca el logo -->
+    <!-- TODO si registrado, que aparezca el logo -->
     </div>
 
     <!-- Botón de hamburguesa -->
@@ -63,7 +61,6 @@
                 <img src="assets/Images/button-login.png">
             </button>
         </ng-container>
-
         <ng-template #mobileLoggedInMenu>
             <!-- Botones para usuarios logueados -->
             <ng-container *ngIf="userRole === 1 || userRole === 3">
@@ -71,14 +68,12 @@
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
-
             <ng-container *ngIf="userRole === 2">
                 <!-- Botones para Admin -->
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('admin')">Panel del administrador</button>
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
-
             <button class="login" (click)="toggleDropdown()">
                 <img src="assets/Images/button-login.png" alt="Login">
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">

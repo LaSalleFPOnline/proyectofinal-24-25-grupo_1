@@ -3,26 +3,26 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-popup',
-  standalone: true, // Asegúrate de que esto esté presente
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
 })
 
 export class PopupComponent {
+
   isVisible: boolean = false;
   message: string = '';
-  backgroundColor: string = ''; // Nueva propiedad para el color de fondo
+  backgroundColor: string = '';
 
   openPopup(isVisible: boolean, message: string, type: 'success' | 'error' = 'success') {
     this.isVisible = isVisible;
     this.message = message;
-
-    // Establecer el color del borde según el tipo
     this.backgroundColor = type === 'success' ? '#60A96E' : '#AC3635';
   }
 
   closePopup() {
     this.isVisible = false;
   }
+
 }

@@ -5,9 +5,11 @@ import { AuthService } from '../services/auth.service';
 import { map, take } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
+
 export class AuthGuard implements CanActivate {
+
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(
@@ -15,15 +17,16 @@ export class AuthGuard implements CanActivate {
         state: RouterStateSnapshot
     ): Observable<boolean> {
         return this.authService.isLoggedIn().pipe(
-        take(1),
-        map((isLoggedIn: boolean) => {
-            if (isLoggedIn) {
-            return true;
-            } else {
-            this.router.navigate(['/login']); // Redirige al login si no está autenticado
-            return false;
-            }
-        })
+            take(1),
+            map((isLoggedIn: boolean) => {
+                if (isLoggedIn) {
+                return true;
+                } else {
+                this.router.navigate(['/login']);
+                return false;
+                }
+            })
         );
     }
+
 }

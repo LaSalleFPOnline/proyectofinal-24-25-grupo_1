@@ -1,14 +1,14 @@
 <footer class="footer">
+
   <div class="footer-botones">
     <div class="titulo-nosotros">
       <a [routerLink]="['/nosotros']">Sobre con nosotros</a>
     </div>
-
     <div class="titulo-contacta" (click)="sendMail()">
           Contacta con nosotros
     </div>
-  </div>    
-  
+  </div>
+
   <!-- <div class="divider"></div> -->
 
   <div class="footer-text">
@@ -24,24 +24,24 @@
       Silvia Duarte<br/>
       Santiago de Frutos<br>
       La Salle FP Online 2025
-    </p>    
+    </p>
   </div>
-  
+
   <!-- <div class="divider"></div> -->
 
-  <div class="footer-content">    
+  <div class="footer-content">
     <img class="illustration" src="assets/Illustrations/Illustration2.png" alt="Illustration"/>
 
     <!-- <img class="line" src="assets/Images/line.png" alt="Decorative line"/> -->
-    
+
     <p class="text illustrations-by">
-        <span>Illustrations by dekob2 from </span>
-          <a href="https://icons8.com/illustrations/" target="_blank" rel="noopener noreferrer">
-              <span class="span">Ouch!<br></span>
-          </a>
-          <a href="https://lasalle.cat/es/politica-de-privacidad/" target="_blank" rel="noopener noreferrer">
-            <span class="span">Privacy Policy</span>
-          </a>
+      <span>Illustrations by dekob2 from </span>
+      <a href="https://icons8.com/illustrations/" target="_blank" rel="noopener noreferrer">
+        <span class="span">Ouch!<br></span>
+      </a>
+      <a href="https://lasalle.cat/es/politica-de-privacidad/" target="_blank" rel="noopener noreferrer">
+        <span class="span">Privacy Policy</span>
+      </a>
     </p>
   </div>
 
@@ -52,7 +52,6 @@
     const email = "LSBM@lasalle.es";
     const mailtoLink = `mailto:${email}`;
     console.log("Intentando abrir el cliente de correo con el enlace:", mailtoLink);
-
     try {
       window.location.href = mailtoLink;
       console.log("Mailto ejecutado correctamente.");

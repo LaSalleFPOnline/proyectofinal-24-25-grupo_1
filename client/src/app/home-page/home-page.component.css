@@ -4,12 +4,10 @@
   box-sizing: border-box;
   font-family: 'Indivisa', sans-serif;
 }
-
 .container {
   padding: 2rem;
   box-sizing: border-box;
 }
-
 .video,
 .intro,
 .agenda,
@@ -18,8 +16,7 @@
   margin: 2rem 0;
 }
 
-
-/* #region video */
+/* #Region Video */
 
 .video {
   display: flex;
@@ -29,7 +26,6 @@
   box-sizing: border-box;
   margin-bottom: 2rem;
 }
-
 iframe {
   width: 100%;
   height: auto;
@@ -37,9 +33,11 @@ iframe {
   aspect-ratio: 16 / 9;
   display: block;
 }
-/* #endregion */
 
-/* #region Intro */
+/* #EndRegion */
+
+/* #Region Intro */
+
  /* Contenedor general de intro */
 .introcontainer {
   width: 80%;
@@ -51,20 +49,17 @@ iframe {
   box-sizing: border-box;
   margin-bottom: 2rem;
 }
-
 /* Text-intro ocupa todo el ancho */
 .text-intro-container {
   width: 100%;
   /* text-align: center; */
   margin-bottom: 1rem;
 }
-
 .text-intro {
   font-size: clamp(1rem, 3vw, 3rem);
   font-weight: bold;
   color: var(--color-negro);
 }
-
 /* Contenedor para flexcontainer e image-container en dos columnas */
 .content-container {
   display: flex;
@@ -73,7 +68,6 @@ iframe {
   align-items: flex-start;
   gap: 1rem;
 }
-
 /* Flexcontainer ocupa el 60% */
 .flexcontainer {
   width: 60%;
@@ -81,20 +75,17 @@ iframe {
   flex-direction: column;
   gap: 1rem;
 }
-
 .text-intro2 {
   font-size: clamp(16px, 3vw, 30px);
   font-weight: 400;
   line-height: 1.5;
   color: var(--color-negro);
 }
-
 .desciption {
   font-size: clamp(14px, 1.5vw, 18px);
   line-height: 130%;
   color: var(--color-negro);
 }
-
 /* Image-container ocupa el 40% */
 .image-container {
   width: 40%;
@@ -102,7 +93,6 @@ iframe {
   justify-content: center;
   align-items: center;
 }
-
 .image-container img {
   max-width: 70%;
   height: auto;
@@ -112,17 +102,16 @@ iframe {
 }
 
 /* Estilo responsivo para pantallas más pequeñas */
+
 @media (max-width: 768px) {
   .content-container {
     flex-direction: column;
     align-items: center;
   }
-
   .flexcontainer,
   .image-container {
     width: 100%;
   }
-
   .image-container {
     margin-top: 1rem;
   }
@@ -133,18 +122,17 @@ iframe {
     width: 90%;
     padding: 5%;
   }
-
   .flexcontainer {
     width: 100%;
   }
-
   .image-container {
-    display: none; /* Oculta la imagen en dispositivos muy pequeños */
+    display: none;
   }
 }
-/* #endregion */
 
-/* #region Agenda */
+/* #EndRegion */
+
+/* #Region Agenda */
 
 /* Estructura general de la agenda */
 .agenda {
@@ -154,7 +142,6 @@ iframe {
   width: 100%;
   margin: 0 auto;
 }
-
 /* Estilo para cada frame */
 .frame {
   display: flex;
@@ -170,18 +157,15 @@ iframe {
   position: relative;
   overflow: hidden;
 }
-
 .agenda .frame.current-event:first-child {
   background-color: var(--color-verde);
   color: white;
 }
-
 /* Estilo para cualquier frame que sea el evento actual */
 .current-event {
   background-color:var(--color-verde);
   color: white;
 }
-
 .frame.expanded {
   background-color: var(--color-blanco);
   color: var(--color-negro);
@@ -192,11 +176,9 @@ iframe {
   width: 100%;
   align-items: center;
 }
-
 .frame.expanded .frame-content {
   display: block;
 }
-
 .time-wrapper {
   flex-grow: 0;
   margin-right: 1rem;
@@ -204,19 +186,16 @@ iframe {
   font-size: larger;
   font-weight: 500;
 }
-
 .event-description {
   margin: 0;
   flex: 2;
   overflow-wrap: break-word;
 }
-
 .plus-icon {
   width: clamp(2rem, 4vw, 4rem);
   height: clamp(2rem, 4vw, 4rem);
   cursor: pointer;
 }
-
 .line {
   width: 100%;
   height: 1px;
@@ -224,17 +203,14 @@ iframe {
   background-color: var(--color-negro);
   display: none;
 }
-
 .frame.expanded .line {
   display: block;
 }
-
-.frame-content {  /* el expandido */
+.frame-content {
   display: none;
   padding: 0.3rem;
   box-sizing: border-box;
 }
-
 .flexcontainer {
   display: flex;
   flex-direction: column;
@@ -242,7 +218,6 @@ iframe {
   padding: 1rem;
   box-sizing: border-box;
 }
-
 .text {
   width: 100%;
   color: black;
@@ -256,7 +231,6 @@ iframe {
     margin: 0 auto;
     padding: 5px;
   }
-
   .frame{
     width: 90%;
     box-shadow: 0 0.1rem 0 var(--color-negro);
@@ -264,30 +238,28 @@ iframe {
   .agenda .time-wrapper {
     font-size: 14px;
   }
-
   .agenda .event-description {
     font-size: 14px;
   }
-
   .agenda .frame-header {
     font-size: 14px;
   }
-
   .agenda .frame-content {
     font-size: 14px;
   }
 }
 
-/* #endregion */
+/* #EndRegion */
 
-/* #region Descargas */
+/* #Region Descargas */
+
 .descargas {
   display: flex;
   flex-wrap: wrap;
   width: 90%;
   max-width: 1200px;
   height: auto;
-  align-items: stretch; /* Fuerza a que todas las tarjetas tengan la misma altura */
+  align-items: stretch;
   justify-content: center;
   position: relative;
   border-radius: 45px;
@@ -297,7 +269,6 @@ iframe {
   margin-top: 2rem;
   padding: 1rem;
 }
-
 .descargas .descarga-programa,
 .descargas .descarga-concurso,
 .descargas .descarga-guia {
@@ -311,26 +282,21 @@ iframe {
   margin: 0 auto;
   padding: 1rem;
 }
-
 .descargas .descarga-programa {
   background-color: var(--color-verde);
 }
-
 .descargas .descarga-concurso {
   background-color: var(--color-rojo);
 }
-
 .descargas .descarga-guia {
   background-color: var(--color-azul);
 }
-
 .descargas p {
   margin: 0;
   line-height: 1.5;
   color: #F3F3F3;
   font-size: 20px;
 }
-
 .descargas .link {
   display: inline-flex;
   color: #F3F3F3;
@@ -339,11 +305,9 @@ iframe {
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
-
 .descargas .link:hover{
   transform: scale(1.1);
 }
-
 .descargas .link img {
   width: 1rem;
   height: 1rem;
@@ -355,14 +319,12 @@ iframe {
     flex-direction: column;
     align-items: center;
   }
-
   .descargas .descarga-programa,
   .descargas .descarga-concurso,
   .descargas .descarga-guia {
-    width: 100%; 
+    width: 100%;
     margin-top: 1rem;
   }
-
   .descargas .descarga-programa p,
   .descargas .descarga-concurso p,
   .descargas .descarga-guia p {
@@ -370,14 +332,14 @@ iframe {
   }
 }
 
-/* #endregion */
+/* #EndRegion */
 
-/* #region Patrocinadores */
+/* #Region Patrocinadores */
+
 .titulo{
   margin-top: 20px;
   margin-bottom: 2rem;
 }
-
 .patrocinadores {
   display: flex;
   width: 80%;
@@ -390,7 +352,6 @@ iframe {
   overflow: hidden;
   padding: 2rem;
 }
-
 .patrocinadores .fondo {
   position: absolute;
   width: 100%;
@@ -400,7 +361,6 @@ iframe {
   z-index: 0;
   overflow: hidden;
 }
-
 .scroll-container {
   width: 100%;
   overflow-x: auto;
@@ -408,7 +368,6 @@ iframe {
   z-index: 1;
   padding: 0;
 }
-
 .scroll {
   display: flex;
   align-items: center;
@@ -416,9 +375,7 @@ iframe {
   gap: 1rem;
   justify-content: space-around;
   animation: scroll 20s linear infinite;
-
 }
-
 .logo {
   flex: 1;
   display: flex;
@@ -428,8 +385,9 @@ iframe {
   min-width: 200px;
 }
 
-/*Cuadros amarillos*/
-.overlap-group {        
+/* Cuadros amarillos */
+
+.overlap-group {
   border-radius: 45px;
   border: 3px solid var(--color-amarillo);
   width: 80%;
@@ -440,13 +398,11 @@ iframe {
   overflow: hidden;
   padding: 1rem;
 }
-
-.overlap-group img { 
-  max-width: 100%; 
+.overlap-group img {
+  max-width: 100%;
   max-height: 100%;
   object-fit: cover;
 }
-
 .colegio {
   margin-top: 15px;
   text-align: center;
@@ -456,7 +412,6 @@ iframe {
   text-align: center;
   font-size: 1rem;
   overflow-wrap: break-word;
-  
 }
 
 @keyframes scroll {
@@ -466,5 +421,5 @@ iframe {
   75% { transform: translateX(-75%); }
   100% { transform: translateX(-100%); }
 }
-/* #endregion */
 
+/* #EndRegion */

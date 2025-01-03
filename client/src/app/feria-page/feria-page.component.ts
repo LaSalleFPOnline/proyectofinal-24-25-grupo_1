@@ -23,6 +23,7 @@ import { NgZone } from '@angular/core';
 })
 
 export class FeriaPageComponent implements AfterViewInit {
+
   empresas: any[] = [];
   empresaSeleccionada: any = null;
   relacionesCompra: any[] = [];
@@ -92,27 +93,21 @@ export class FeriaPageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const popupMessage = localStorage.getItem('popupMessage');
     if (popupMessage) {
-      // Llama a openPopup con ambos argumentos
-      this.popupComponent.openPopup(true, popupMessage); // true para hacer visible el popup
-      localStorage.removeItem('popupMessage'); // Limpiar el mensaje después de mostrarlo
+      this.popupComponent.openPopup(true, popupMessage);
+      localStorage.removeItem('popupMessage');
     }
   }
-  // Nueva función para cargar eventos
+
   cargarEventosAgenda(): void {
     this.agendaFeriaService.getEventFechasAgendaFeria().subscribe({
-      next: (evento: any) => {  // Aquí evento ya es un objeto, no un array
+      next: (evento: any) => {
         console.log('Eventos de la agenda:', evento);
-  
-        // Si la respuesta es un objeto único, puedes directamente acceder a sus propiedades
         this.eventosAgenda = [{
           ...evento,
           fechaInicio: new Date(evento.fechaEvento_inicio),
           fechaFin: new Date(evento.fechaEvento_fin),
         }];
-        
         console.log('Datos cargados en eventosAgenda:', this.eventosAgenda);
-  
-        // Filtrar los eventos
         this.filtrarEventosAgenda();
       },
       error: (error) => {
@@ -163,8 +158,8 @@ export class FeriaPageComponent implements AfterViewInit {
       console.log('Relaciones de venta:', this.relacionesVenta);
       this.saveRelationsToSessionStorage(this.relacionesCompra, 'relacionesCompra');
       this.saveRelationsToSessionStorage(this.relacionesVenta, 'relacionesVenta');
-      this.filtrarEventosAgenda(); // Filtrar eventos de la agenda
-      this.cdr.detectChanges(); // Forzar la detección de cambios
+      this.filtrarEventosAgenda();
+      this.cdr.detectChanges();
     }, error => {
       console.error('Error al obtener relaciones:', error);
     });
@@ -231,105 +226,93 @@ export class FeriaPageComponent implements AfterViewInit {
     const icon = event.target as HTMLImageElement;
     const frame = icon.closest('.frame') as HTMLElement;
     if (!frame) return;
-  
-    // Cierra el frame anterior si estaba abierto
     if (this.expandedFrame && this.expandedFrame !== frame) {
       this.renderer.removeClass(this.expandedFrame, 'expanded');
       this.renderer.addClass(this.expandedFrame, 'collapsed');
-      
-      // BUSCA qué 'eventoAnterior' era y márcalo como isExpanded = false
-      // (Si estás guardando su índice o tienes forma de identificarlo).
     }
-  
-    // Si este frame ya está expandido, lo cerramos
     if (frame.classList.contains('expanded')) {
       this.renderer.removeClass(frame, 'expanded');
       this.renderer.addClass(frame, 'collapsed');
       this.expandedFrame = null;
-      
-      // AQUÍ lo marcamos como colapsado
       evento.isExpanded = false;
-  
     } else {
       this.renderer.removeClass(frame, 'collapsed');
       this.renderer.addClass(frame, 'expanded');
       this.expandedFrame = frame;
-  
-      // AQUÍ lo marcamos como expandido
       evento.isExpanded = true;
     }
   }
+
   mostrarDetalles(empresaId: any) {
     console.log(this.relacionesVenta[0]);
     console.log('ID de la empresa seleccionada:', empresaId);
     if (empresaId && typeof empresaId === 'number') {
       this.empresaService.getEmpresaById(empresaId).subscribe(
-            (empresa: any) => {
-                console.log('Datos de la empresa:', empresa);
-                if (empresa) {
-                  this.empresaSeleccionada = empresa;
-                  this.spotUrl = empresa.spot || null; // Asigna el spotUrl aquí
-                  console.log('Spot URL:', this.spotUrl);
-                  console.log(this.empresaSeleccionada);
-                  console.log('ID de Empresa Selecciona:', this.empresaSeleccionada.id_empresa);
-                } else {
-                  console.error('Error al mostrar los datos de empresa seleccionada');
-                }
-                const horariosManana = `
-                    Mañana: ${empresa.horario_meet_morning_start} - ${empresa.horario_meet_morning_end}
-                `;
-                this.horariosDeAtencionManana = horariosManana;
-                const horariosTarde = `
-                    Tarde: ${empresa.horario_meet_afternoon_start} - ${empresa.horario_meet_afternoon_end}
-                `;
-                this.horariosDeAtencionTarde = horariosTarde;
-                this.spotUrl = empresa.spot || null;
-
-                const empresaSeleccionada = this.empresas.find(emp => emp.id_empresa === empresaId);
-                if (empresaSeleccionada) {
-                  this.empresaSeleccionada = empresaSeleccionada;
-                  const loggedInCompanyId = this.authService.getLoggedInCompanyId();
-                  this.interesadoEnEmpresa = this.relacionesVenta.some(rel =>
-                    rel.id_empresaVendedora === loggedInCompanyId &&
-                    rel.id_empresaCompradora === empresaId
-                  );
-                  this.cdr.detectChanges();
-                }
-                const loggedInCompanyId = this.authService.getLoggedInCompanyId();
-                const loggedInUserId = this.authService.getUserId();
-                this.interesadoEnEmpresa = this.relacionesCompra.some(rel =>
-                  rel.id_empresaVendedora === empresaId &&
-                  rel.id_empresaCompradora === loggedInCompanyId
-                );
-                if (loggedInUserId !== null) {
-                    this.votacionService.verificarVoto(loggedInUserId, empresaId).subscribe(
-                        (yaVotado: boolean) => {
-                            this.yaVotado = yaVotado;
-                            console.log(`Estado del voto para la empresa ${empresaId}:`, this.yaVotado);
-                            localStorage.setItem(`voto_${empresaId}`, JSON.stringify(this.yaVotado));
-                        },
-                        error => {
-                            console.error('Error al verificar el voto:', error);
-                            this.yaVotado = false;
-                        }
-                    );
-                }
-                if (empresaId === loggedInCompanyId) {
-                    console.log('Es la empresa del usuario logueado, ocultando botones');
-                    this.ocultarBotonesDeInteraccion = true;
-                } else {
-                    this.ocultarBotonesDeInteraccion = false;
-                }
-                this.cdr.detectChanges();
-                const detallesElement = document.getElementById('detalles');
-                if (detallesElement) {
-                    detallesElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            },
-            error => {
-                console.error('Error al obtener los detalles de la empresa:', error);
-            }
-        );
+        (empresa: any) => {
+          console.log('Datos de la empresa:', empresa);
+          if (empresa) {
+            this.empresaSeleccionada = empresa;
+            this.spotUrl = empresa.spot || null; // Asigna el spotUrl aquí
+            console.log('Spot URL:', this.spotUrl);
+            console.log(this.empresaSeleccionada);
+            console.log('ID de Empresa Selecciona:', this.empresaSeleccionada.id_empresa);
+          } else {
+            console.error('Error al mostrar los datos de empresa seleccionada');
+          }
+          const horariosManana = `
+            Mañana: ${empresa.horario_meet_morning_start} - ${empresa.horario_meet_morning_end}
+          `;
+          this.horariosDeAtencionManana = horariosManana;
+          const horariosTarde = `
+            Tarde: ${empresa.horario_meet_afternoon_start} - ${empresa.horario_meet_afternoon_end}
+          `;
+          this.horariosDeAtencionTarde = horariosTarde;
+          this.spotUrl = empresa.spot || null;
+          const empresaSeleccionada = this.empresas.find(emp => emp.id_empresa === empresaId);
+          if (empresaSeleccionada) {
+            this.empresaSeleccionada = empresaSeleccionada;
+            const loggedInCompanyId = this.authService.getLoggedInCompanyId();
+            this.interesadoEnEmpresa = this.relacionesVenta.some(rel =>
+              rel.id_empresaVendedora === loggedInCompanyId &&
+              rel.id_empresaCompradora === empresaId
+            );
+            this.cdr.detectChanges();
+          }
+          const loggedInCompanyId = this.authService.getLoggedInCompanyId();
+          const loggedInUserId = this.authService.getUserId();
+          this.interesadoEnEmpresa = this.relacionesCompra.some(rel =>
+            rel.id_empresaVendedora === empresaId &&
+            rel.id_empresaCompradora === loggedInCompanyId
+          );
+          if (loggedInUserId !== null) {
+            this.votacionService.verificarVoto(loggedInUserId, empresaId).subscribe(
+              (yaVotado: boolean) => {
+                this.yaVotado = yaVotado;
+                console.log(`Estado del voto para la empresa ${empresaId}:`, this.yaVotado);
+                localStorage.setItem(`voto_${empresaId}`, JSON.stringify(this.yaVotado));
+              },
+              error => {
+                console.error('Error al verificar el voto:', error);
+                this.yaVotado = false;
+              }
+            );
+          }
+          if (empresaId === loggedInCompanyId) {
+            console.log('Es la empresa del usuario logueado, ocultando botones');
+            this.ocultarBotonesDeInteraccion = true;
+          } else {
+            this.ocultarBotonesDeInteraccion = false;
+          }
+          this.cdr.detectChanges();
+          const detallesElement = document.getElementById('detalles');
+          if (detallesElement) {
+            detallesElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        },
+        error => {
+          console.error('Error al obtener los detalles de la empresa:', error);
+        }
+      );
     } else {
         console.error('ID de la empresa no es un número:', empresaId);
     }
@@ -343,63 +326,60 @@ export class FeriaPageComponent implements AfterViewInit {
     const empresaId = this.authService.getLoggedInCompanyId();
     const empresaInteresadaId = this.empresaSeleccionada?.id_empresa;
     if (!empresaId || !empresaInteresadaId) {
-        console.error('IDs de las empresas no proporcionados.');
-        return;
+      console.error('IDs de las empresas no proporcionados.');
+      return;
     }
-    const esEmpresaEnRelacionesVenta = this.relacionesVenta.some(rel => 
-        rel.id_empresaVendedora === empresaId &&
-        rel.id_empresaCompradora === empresaInteresadaId
+    const esEmpresaEnRelacionesVenta = this.relacionesVenta.some(rel =>
+      rel.id_empresaVendedora === empresaId &&
+      rel.id_empresaCompradora === empresaInteresadaId
     );
     if (esEmpresaEnRelacionesVenta) {
-        this.interesesService.eliminarInteres({ id_empresaVendedora: empresaId, id_empresaCompradora: empresaInteresadaId })
-            .subscribe({
-                next: () => {
-                    console.log('Interés eliminado exitosamente');
-                    this.interesadoEnEmpresa = false;
-                    this.obtenerRelaciones(empresaId);
-                },
-                error: err => console.error('Error al eliminar interés:', err),
-                complete: () => this.cdr.detectChanges()
-            });
+      this.interesesService.eliminarInteres({ id_empresaVendedora: empresaId, id_empresaCompradora: empresaInteresadaId })
+      .subscribe({
+        next: () => {
+          console.log('Interés eliminado exitosamente');
+          this.interesadoEnEmpresa = false;
+          this.obtenerRelaciones(empresaId);
+        },
+        error: err => console.error('Error al eliminar interés:', err),
+        complete: () => this.cdr.detectChanges()
+      });
     } else {
-        this.interesesService.crearInteres(empresaId, empresaInteresadaId)
-            .subscribe({
-                next: () => {
-                    console.log('Interés agregado exitosamente');
-                    this.interesadoEnEmpresa = true;
-                    this.obtenerRelaciones(empresaId);
-                },
-                error: err => console.error('Error al agregar interés:', err),
-                complete: () => this.cdr.detectChanges()
-            });
+      this.interesesService.crearInteres(empresaId, empresaInteresadaId)
+      .subscribe({
+        next: () => {
+          console.log('Interés agregado exitosamente');
+          this.interesadoEnEmpresa = true;
+          this.obtenerRelaciones(empresaId);
+        },
+        error: err => console.error('Error al agregar interés:', err),
+        complete: () => this.cdr.detectChanges()
+      });
     }
-}
+  }
 
   isInteresadoEnEmpresa(): boolean {
     const loggedInCompanyId = this.authService.getLoggedInCompanyId();
     return this.relacionesVenta.some(rel =>
-        rel.id_empresaVendedora === loggedInCompanyId &&
-        rel.id_empresaCompradora === this.empresaSeleccionada?.id_empresa
+      rel.id_empresaVendedora === loggedInCompanyId &&
+      rel.id_empresaCompradora === this.empresaSeleccionada?.id_empresa
     );
-}
-
-votar(): void {
-  const usuarioId = this.authService.getUserId();
-  const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
-  const voto = 1;
-
-  console.log('Intentando votar...'); // Agregado para depuración
-
-  if (usuarioId === null || empresaVotadaId === null) {
-      console.error('IDs de las empresas no proporcionados.');
-      return;
   }
 
-  this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
-      console.log('Fechas de votación:', fechas); // Agregado para depuración
+  votar(): void {
+    const usuarioId = this.authService.getUserId();
+    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
+    const voto = 1;
+    console.log('Intentando votar...');
+    if (usuarioId === null || empresaVotadaId === null) {
+      console.error('IDs de las empresas no proporcionados.');
+      return;
+    }
+    this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
+      console.log('Fechas de votación:', fechas);
       if (fechas.length === 0) {
-          console.error('No se recibieron fechas de votación.');
-          return;
+        console.error('No se recibieron fechas de votación.');
+        return;
       }
       const fechaVotacion = fechas[0];
       const fechaInicio = new Date(fechaVotacion.fechaVotacion_inicio);
@@ -409,67 +389,66 @@ votar(): void {
       console.log('Fecha de inicio de votación:', fechaInicio);
       console.log('Fecha de fin de votación:', fechaFin);
       if (ahora < fechaInicio || ahora > fechaFin) {
-          console.log('Mostrando pop-up por fuera del periodo de votación');
-          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
-          return;
+        console.log('Mostrando pop-up por fuera del periodo de votación');
+        this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
+        return;
       }
       this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
-          catchError(error => {
-              console.error('Error al votar:', error);
-              // Aquí manejamos el error y mostramos el popup
-              this.popupComponent.openPopup(true, "Solamente puedes votar a 1 empresa. Elimina el voto y vuelve a intentarlo", 'error');
-              return of(null);
-          })
+        catchError(error => {
+          console.error('Error al votar:', error);
+          this.popupComponent.openPopup(true, "Solamente puedes votar a 1 empresa. Elimina el voto y vuelve a intentarlo", 'error');
+          return of(null);
+        })
       ).subscribe(response => {
-          if (response) {
-              console.log('Voto registrado exitosamente:', response);
-              this.yaVotado = true; // Asegúrate de que esto se ejecute
-              localStorage.setItem(`voto_${empresaVotadaId}`, JSON.stringify(this.yaVotado));
-              this.popupComponent.openPopup(true, "Has registrado tu voto correctamente", 'success'); // Mensaje de éxito
-          }
+        if (response) {
+          console.log('Voto registrado exitosamente:', response);
+          this.yaVotado = true;
+          localStorage.setItem(`voto_${empresaVotadaId}`, JSON.stringify(this.yaVotado));
+          this.popupComponent.openPopup(true, "Has registrado tu voto correctamente", 'success');
+        }
       });
-  }, error => {
+    }, error => {
       console.error('Error al obtener las fechas de votación:', error);
-  });
-}
+    });
+  }
 
-eliminarVoto(): void {
-  const usuarioId = this.authService.getUserId();
-  const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
-  if (usuarioId === null || empresaVotadaId === null) {
+  eliminarVoto(): void {
+    const usuarioId = this.authService.getUserId();
+    const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
+    if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
-  }
-  this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
+    }
+    this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
       if (fechas.length === 0) {
-          console.error('No se recibieron fechas de votación.');
-          return;
+        console.error('No se recibieron fechas de votación.');
+        return;
       }
       const fechaVotacion = fechas[0];
       const fechaInicio = new Date(fechaVotacion.fechaVotacion_inicio);
       const fechaFin = new Date(fechaVotacion.fechaVotacion_fin);
       const ahora = new Date();
       if (ahora < fechaInicio || ahora > fechaFin) {
-          this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
-          return;
+        this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
+        return;
       }
       this.votacionService.eliminarVoto(usuarioId, empresaVotadaId).pipe(
-          catchError(error => {
-              console.error('Error al eliminar voto:', error);
-              return of(null);
-          })
+        catchError(error => {
+          console.error('Error al eliminar voto:', error);
+          return of(null);
+        })
       ).subscribe(response => {
-          if (response) {
-              console.log('Voto eliminado exitosamente', response);
-              this.yaVotado = false;
-              localStorage.removeItem(`voto_${empresaVotadaId}`);
-              this.popupComponent.openPopup(true, "Has eliminado tu voto correctamente", 'success');
-          }
+        if (response) {
+          console.log('Voto eliminado exitosamente', response);
+          this.yaVotado = false;
+          localStorage.removeItem(`voto_${empresaVotadaId}`);
+          this.popupComponent.openPopup(true, "Has eliminado tu voto correctamente", 'success');
+        }
       });
-  }, error => {
+    }, error => {
       console.error('Error al obtener las fechas de votación:', error);
-  });
-}
+    });
+  }
 
   haVotadoPorEmpresa(empresaId: number): boolean {
     return localStorage.getItem(`voto_${empresaId}`) === 'true';
@@ -482,7 +461,7 @@ eliminarVoto(): void {
         this.votacionService.verificarVoto(loggedInUserId, empresa.id_empresa).subscribe(
           (yaVotado: boolean) => {
             empresa.votado = yaVotado;
-            localStorage.setItem(`voto_${empresa.id_empresa}`, JSON.stringify(yaVotado)); // Guardar en localStorage
+            localStorage.setItem(`voto_${empresa.id_empresa}`, JSON.stringify(yaVotado));
           },
           (error) => {
             console.error('Error al verificar el voto:', error);
@@ -498,352 +477,290 @@ eliminarVoto(): void {
     this.relacionesCompra = relacionesCompra;
     this.relacionesVenta = relacionesVenta;
     this.filtrarEventosAgenda();
-}
+  }
 
-/*filtrarEventosAgenda() {
-  const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-  console.log('Todas las relaciones combinadas:', allEventos);
-  const currentDate = this.now.toISOString().split('T')[0];
-  const eventosUnicos = new Set();
-  this.eventosAgenda = [];
-  allEventos.forEach(rel => {
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+  /*
+  filtrarEventosAgenda() {
+    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
+    console.log('Todas las relaciones combinadas:', allEventos);
+    const currentDate = this.now.toISOString().split('T')[0];
+    const eventosUnicos = new Set();
+    this.eventosAgenda = [];
+    allEventos.forEach(rel => {
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+            const horarioStart = new Date(`${currentDate}T${rel.horario_meet_morning_start}`);
+            const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
+            const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+            const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+            if (!eventosUnicos.has(eventoId)) {
+                this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+                eventosUnicos.add(eventoId);
+            }
+        }
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+            const horarioStart = new Date(`${currentDate}T${rel.horario_meet_afternoon_start}`);
+            const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
+            const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+            const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+            if (!eventosUnicos.has(eventoId)) {
+                this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+                eventosUnicos.add(eventoId); // Agregar el evento al conjunto
+            }
+        }
+    });
+    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
+      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
+    console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
+    this.cdr.detectChanges();
+  }
+  */
+  /*
+  filtrarEventosAgenda(): void {
+    console.log('Datos iniciales de eventosAgenda:', this.eventosAgenda);
+    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
+      console.log('No hay eventos en eventosAgenda. No se realiza filtrado.');
+      return; // Salimos si no hay eventos cargados
+    }
+    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
+    console.log('Todas las relaciones combinadas:', allEventos);
+    const eventosUnicos = new Set();
+    const eventosFiltrados: any[] = []; // Lista temporal para los eventos filtrados
+    allEventos.forEach(rel => {
+      this.eventosAgenda.forEach(eventoAgenda => {
+        const currentDate = eventoAgenda.fechaInicio.toISOString().split('T')[0];
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
           const horarioStart = new Date(`${currentDate}T${rel.horario_meet_morning_start}`);
           const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
           const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
           const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
           if (!eventosUnicos.has(eventoId)) {
-              this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-              eventosUnicos.add(eventoId);
+            eventosFiltrados.push({
+              nombre: rel.nombre_empresa,
+              meet_url: rel.meet_url,
+              horario_start: horarioStart,
+              horario_end: horarioEnd,
+              enCurso,
+            });
+            eventosUnicos.add(eventoId);
           }
-      }
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+        }
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
           const horarioStart = new Date(`${currentDate}T${rel.horario_meet_afternoon_start}`);
           const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
           const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
           const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
           if (!eventosUnicos.has(eventoId)) {
-              this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-              eventosUnicos.add(eventoId); // Agregar el evento al conjunto
+            eventosFiltrados.push({
+              nombre: rel.nombre_empresa,
+              meet_url: rel.meet_url,
+              horario_start: horarioStart,
+              horario_end: horarioEnd,
+              enCurso,
+            });
+            eventosUnicos.add(eventoId);
           }
-      }
-  });
-  this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-    .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-  console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
-  this.cdr.detectChanges();
-}*/
-/*filtrarEventosAgenda(): void {
-  console.log('Datos iniciales de eventosAgenda:', this.eventosAgenda);
-
-  if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-    console.log('No hay eventos en eventosAgenda. No se realiza filtrado.');
-    return; // Salimos si no hay eventos cargados
+        }
+      });
+    });
+    this.eventosAgenda = eventosFiltrados
+      .filter(evento => evento.horario_end > this.now)
+      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
+    console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
+    this.cdr.markForCheck();
   }
-
-  const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-  console.log('Todas las relaciones combinadas:', allEventos);
-
-  const eventosUnicos = new Set();
-  const eventosFiltrados: any[] = []; // Lista temporal para los eventos filtrados
-
-  // Iterar sobre cada relación para generar los horarios en base a eventosAgenda
-  allEventos.forEach(rel => {
-    this.eventosAgenda.forEach(eventoAgenda => {
-      const currentDate = eventoAgenda.fechaInicio.toISOString().split('T')[0];
-
-      // Eventos de mañana
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-        const horarioStart = new Date(`${currentDate}T${rel.horario_meet_morning_start}`);
-        const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-
-        if (!eventosUnicos.has(eventoId)) {
-          eventosFiltrados.push({
-            nombre: rel.nombre_empresa,
-            meet_url: rel.meet_url,
-            horario_start: horarioStart,
-            horario_end: horarioEnd,
-            enCurso,
-          });
-          eventosUnicos.add(eventoId);
+  */
+  /*
+  filtrarEventosAgenda() {
+    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
+    console.log('Todas las relaciones combinadas:', allEventos);
+    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
+      console.warn('No hay eventosAgenda cargada con fechas clave.');
+      return;
+    }
+    const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
+    const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
+    const eventosUnicos = new Set();
+    this.eventosAgenda = [];
+    allEventos.forEach(rel => {
+      const currentDate = new Date(fechaInicio);
+      while (currentDate <= fechaFin) {
+        const formattedDate = currentDate.toISOString().split('T')[0];
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
+          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          if (!eventosUnicos.has(eventoId)) {
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+            eventosUnicos.add(eventoId);
+          }
         }
-      }
-
-      // Eventos de tarde
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-        const horarioStart = new Date(`${currentDate}T${rel.horario_meet_afternoon_start}`);
-        const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-
-        if (!eventosUnicos.has(eventoId)) {
-          eventosFiltrados.push({
-            nombre: rel.nombre_empresa,
-            meet_url: rel.meet_url,
-            horario_start: horarioStart,
-            horario_end: horarioEnd,
-            enCurso,
-          });
-          eventosUnicos.add(eventoId);
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
+          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          if (!eventosUnicos.has(eventoId)) {
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+            eventosUnicos.add(eventoId);
+          }
         }
+        currentDate.setDate(currentDate.getDate() + 1);
       }
     });
-  });
-
-  // Actualizar eventosAgenda con los filtrados
-  this.eventosAgenda = eventosFiltrados
-    .filter(evento => evento.horario_end > this.now)
-    .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-
-  console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
-
-  // Forzar que Angular detecte los cambios, incluso si no se ha producido una actualización en la vista
-  this.cdr.markForCheck();
-}
-*/
-/*filtrarEventosAgenda() {
-  const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-  console.log('Todas las relaciones combinadas:', allEventos);
-
-  // Verificar si existe una fecha clave en eventosAgenda
-  if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-    console.warn('No hay eventosAgenda cargada con fechas clave.');
-    return;
+    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
+      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
+    console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
+    this.cdr.detectChanges();
   }
-
-  const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
-  const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
-
-  const eventosUnicos = new Set();
-  this.eventosAgenda = [];
-
-  // Iterar sobre cada evento y procesarlo únicamente dentro del rango de fechas clave
-  allEventos.forEach(rel => {
-    // Procesar solo las fechas clave (fechaInicio a fechaFin)
+  */
+  /*
+  filtrarEventosAgenda() {
+    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
+    console.log('Todas las relaciones combinadas:', allEventos);
+    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
+      console.warn('No hay eventosAgenda cargada con fechas clave.');
+      allEventos.forEach(rel => {
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+          const horarioStart = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_morning_start}`);
+          const horarioEnd = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_morning_end}`);
+          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
+        }
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+          const horarioStart = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_afternoon_start}`);
+          const horarioEnd = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_afternoon_end}`);
+          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
+        }
+      });
+      console.log('Mostrando eventos sin tratamiento:', this.eventosAgenda);
+      this.cdr.detectChanges();
+      return;
+    }
+    const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
+    const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
+    const eventosUnicos = new Set();
     const currentDate = new Date(fechaInicio); // Comienza desde la fecha de inicio
     while (currentDate <= fechaFin) {
       const formattedDate = currentDate.toISOString().split('T')[0];
-
-      // Procesar horarios de la mañana
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-        const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
-        const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-        if (!eventosUnicos.has(eventoId)) {
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-          eventosUnicos.add(eventoId);
+      allEventos.forEach(rel => {
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
+          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          if (!eventosUnicos.has(eventoId)) {
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+            eventosUnicos.add(eventoId);
+          }
         }
-      }
-
-      // Procesar horarios de la tarde
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-        const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
-        const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-        if (!eventosUnicos.has(eventoId)) {
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-          eventosUnicos.add(eventoId);
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
+          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          if (!eventosUnicos.has(eventoId)) {
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+            eventosUnicos.add(eventoId);
+          }
         }
-      }
-
-      // No avanzar más allá de la fecha clave
+      });
       currentDate.setDate(currentDate.getDate() + 1);
     }
-  });
-
-  // Filtrar eventos futuros y ordenar
-  this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
+    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
     .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-
-  console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
-  this.cdr.detectChanges();
-}*/
-/*filtrarEventosAgenda() {
-  const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-  console.log('Todas las relaciones combinadas:', allEventos);
-
-  // Verificar si existe una fecha clave en eventosAgenda
-  if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-    console.warn('No hay eventosAgenda cargada con fechas clave.');
-
-    // Mostrar todos los eventos sin tratamiento
-    allEventos.forEach(rel => {
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-        const horarioStart = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_morning_start}`);
-        const horarioEnd = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_morning_end}`);
-        this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
-      }
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-        const horarioStart = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_afternoon_start}`);
-        const horarioEnd = new Date(`${this.now.toISOString().split('T')[0]}T${rel.horario_meet_afternoon_end}`);
-        this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
-      }
-    });
-
-    console.log('Mostrando eventos sin tratamiento:', this.eventosAgenda);
+    console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
     this.cdr.detectChanges();
-    return;
   }
+  */
 
-  // Si existe una fecha clave, filtrar los eventos según esa fecha
-  const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
-  const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
-  const eventosUnicos = new Set();
-
-  const currentDate = new Date(fechaInicio); // Comienza desde la fecha de inicio
-  while (currentDate <= fechaFin) {
-    const formattedDate = currentDate.toISOString().split('T')[0];
-
-    allEventos.forEach(rel => {
-      // Procesar horarios de la mañana
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-        const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
-        const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-        if (!eventosUnicos.has(eventoId)) {
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-          eventosUnicos.add(eventoId);
+  filtrarEventosAgenda() {
+    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
+    console.log('Todas las relaciones combinadas:', allEventos);
+    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
+      console.warn('No hay eventosAgenda cargada con fechas clave.');
+      const empresasVistas = new Set();
+      allEventos.forEach(rel => {
+        const fechaEvento = this.now.toISOString().split('T')[0];
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+          if (!empresasVistas.has(`${rel.nombre_empresa}-morning`)) {
+            const horarioStart = new Date(`${fechaEvento}T${rel.horario_meet_morning_start}`);
+            const horarioEnd = new Date(`${fechaEvento}T${rel.horario_meet_morning_end}`);
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
+            empresasVistas.add(`${rel.nombre_empresa}-morning`);
+          }
         }
-      }
-
-      // Procesar horarios de la tarde
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-        const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
-        const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-        if (!eventosUnicos.has(eventoId)) {
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-          eventosUnicos.add(eventoId);
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+          if (!empresasVistas.has(`${rel.nombre_empresa}-afternoon`)) {
+            const horarioStart = new Date(`${fechaEvento}T${rel.horario_meet_afternoon_start}`);
+            const horarioEnd = new Date(`${fechaEvento}T${rel.horario_meet_afternoon_end}`);
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
+            empresasVistas.add(`${rel.nombre_empresa}-afternoon`);
+          }
         }
-      }
-    });
-
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  // Filtrar eventos futuros y ordenar
-  this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-    .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-
-  console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
-  this.cdr.detectChanges();
-}*/
-filtrarEventosAgenda() {
-  const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-  console.log('Todas las relaciones combinadas:', allEventos);
-
-  // Verificar si existe una fecha clave en eventosAgenda
-  if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-    console.warn('No hay eventosAgenda cargada con fechas clave.');
-
-    // Mostrar todos los eventos sin tratamiento
-    const empresasVistas = new Set();  // Set para controlar empresas fuera de fechas clave
-    allEventos.forEach(rel => {
-      // Verificamos si el evento está fuera de las fechas clave
-      const fechaEvento = this.now.toISOString().split('T')[0];
-
-      // Procesar horarios de la mañana
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-        if (!empresasVistas.has(`${rel.nombre_empresa}-morning`)) {  // Aseguramos que solo se agregue una vez por empresa-mañana
-          const horarioStart = new Date(`${fechaEvento}T${rel.horario_meet_morning_start}`);
-          const horarioEnd = new Date(`${fechaEvento}T${rel.horario_meet_morning_end}`);
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
-          empresasVistas.add(`${rel.nombre_empresa}-morning`);  // Añadimos al set para no repetir en la mañana
-        }
-      }
-
-      // Procesar horarios de la tarde
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-        if (!empresasVistas.has(`${rel.nombre_empresa}-afternoon`)) {  // Aseguramos que solo se agregue una vez por empresa-tarde
-          const horarioStart = new Date(`${fechaEvento}T${rel.horario_meet_afternoon_start}`);
-          const horarioEnd = new Date(`${fechaEvento}T${rel.horario_meet_afternoon_end}`);
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
-          empresasVistas.add(`${rel.nombre_empresa}-afternoon`);  // Añadimos al set para no repetir en la tarde
-        }
-      }
-    });
-
-    console.log('Mostrando eventos sin tratamiento:', this.eventosAgenda);
-    this.cdr.detectChanges();
-    return;
-  }
-
-  // Si existe una fecha clave, filtrar los eventos según esa fecha
-  const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
-  const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
-  const eventosUnicos = new Set();
-
-  const currentDate = new Date(fechaInicio); // Comienza desde la fecha de inicio
-  while (currentDate <= fechaFin) {
-    const formattedDate = currentDate.toISOString().split('T')[0];
-
-    allEventos.forEach(rel => {
-      // Procesar horarios de la mañana
-      if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-        const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
-        const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-        if (!eventosUnicos.has(eventoId)) {
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-          eventosUnicos.add(eventoId);
-        }
-      }
-
-      // Procesar horarios de la tarde
-      if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-        const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
-        const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
-        const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-        const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-        if (!eventosUnicos.has(eventoId)) {
-          this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-          eventosUnicos.add(eventoId);
-        }
-      }
-    });
-
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  // Filtrar eventos futuros y ordenar
-  this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-    .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-
-  console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
-  this.cdr.detectChanges();
-}
-
-
-agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: Date, enCurso: boolean) {
-  const eventoExistente = this.eventosAgenda.some(evento =>
-      evento.nombre === nombre &&
-      evento.horario_start.getTime() === horarioStart.getTime() &&
-      evento.horario_end.getTime() === horarioEnd.getTime() &&
-      enCurso
-  );
-  if (!eventoExistente) {
-      this.eventosAgenda.push({
-          nombre: nombre,
-          meet_url: meetUrl,
-          horario_start: horarioStart,
-          horario_end: horarioEnd,
-          estado: 'pendiente',
-          enCurso
       });
+      console.log('Mostrando eventos sin tratamiento:', this.eventosAgenda);
+      this.cdr.detectChanges();
+      return;
+    }
+    const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
+    const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
+    const eventosUnicos = new Set();
+    const currentDate = new Date(fechaInicio);
+    while (currentDate <= fechaFin) {
+      const formattedDate = currentDate.toISOString().split('T')[0];
+      allEventos.forEach(rel => {
+        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
+          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
+          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          if (!eventosUnicos.has(eventoId)) {
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+            eventosUnicos.add(eventoId);
+          }
+        }
+        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
+          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
+          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
+          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
+          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
+          if (!eventosUnicos.has(eventoId)) {
+            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
+            eventosUnicos.add(eventoId);
+          }
+        }
+      });
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
+      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
+    console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
+    this.cdr.detectChanges();
   }
-}
 
-esEventoEnCurso(inicio: Date, fin: Date): boolean {
-  const ahora = new Date();
-  return ahora >= inicio && ahora <= fin;
-}
+  agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: Date, enCurso: boolean) {
+    const eventoExistente = this.eventosAgenda.some(evento =>
+        evento.nombre === nombre &&
+        evento.horario_start.getTime() === horarioStart.getTime() &&
+        evento.horario_end.getTime() === horarioEnd.getTime() &&
+        enCurso
+    );
+    if (!eventoExistente) {
+        this.eventosAgenda.push({
+            nombre: nombre,
+            meet_url: meetUrl,
+            horario_start: horarioStart,
+            horario_end: horarioEnd,
+            estado: 'pendiente',
+            enCurso
+        });
+    }
+  }
+
+  esEventoEnCurso(inicio: Date, fin: Date): boolean {
+    const ahora = new Date();
+    return ahora >= inicio && ahora <= fin;
+  }
 
   actualizarEstadoEventos(): void {
     this.now = new Date();
@@ -852,7 +769,6 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
   }
 
   openMeetLink(meetUrl: string) {
-    // Abre el enlace en una nueva pestaña
     window.open(meetUrl, '_blank');
   }
 
@@ -860,13 +776,11 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
     evento.expandido = !evento.expandido;
   }
 
-  filtroActivo: string = 'todas'; // Filtro inicial
+  filtroActivo: string = 'todas';
   mostrarTodasEmpresas: boolean = true;
   mostrarInteresadasEnMi: boolean = false;
   mostrarMisInteresesEmpresas: boolean = false;
   empresasVotadas: any[] = [];
-  // mostrarMiVoto: boolean = false;
-  
 
   mostrarTodas(): void {
     this.filtroActivo = 'todas';
@@ -874,58 +788,54 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
     this.mostrarInteresadasEnMi = false;
     this.mostrarMisInteresesEmpresas = false;
   }
-  
+
   mostrarInteresadas(): void {
     this.filtroActivo = 'interesadas';
     this.mostrarTodasEmpresas = false;
     this.mostrarInteresadasEnMi = true;
     this.mostrarMisInteresesEmpresas = false;
-
     const empresaId = this.authService.getLoggedInCompanyId();
     if (empresaId) {
-        this.obtenerRelaciones(empresaId); // Carga las relaciones
+        this.obtenerRelaciones(empresaId);
         this.relacionesCompra.forEach(rel => {
             const empresa = this.empresas.find(e => e.id_empresa === rel.id_empresaVendedora);
             if (empresa) {
-                rel.spotDisponible = !!empresa.spot; // Determina si tiene spot disponible
-                rel.yaVotado = this.haVotadoPorEmpresa(empresa.id_empresa); // Comprueba si ya votó
+                rel.spotDisponible = !!empresa.spot;
+                rel.yaVotado = this.haVotadoPorEmpresa(empresa.id_empresa);
             }
         });
-        this.cdr.detectChanges(); // Refresca la vista para mostrar los cambios
+        this.cdr.detectChanges();
     } else {
         console.error('No se pudo obtener el ID de la empresa logueada.');
     }
-}
-  
+  }
+
   mostrarMisIntereses(): void {
     this.filtroActivo = 'misIntereses';
     this.mostrarTodasEmpresas = false;
     this.mostrarInteresadasEnMi = false;
     this.mostrarMisInteresesEmpresas = true;
-
       const empresaId = this.authService.getLoggedInCompanyId();
     if (empresaId) {
-        this.obtenerRelaciones(empresaId); // Carga las relaciones
+        this.obtenerRelaciones(empresaId);
         this.relacionesCompra.forEach(rel => {
             const empresa = this.empresas.find(e => e.id_empresa === rel.id_empresaVendedora);
             if (empresa) {
-                rel.spotDisponible = !!empresa.spot; // Determina si tiene spot disponible
-                rel.yaVotado = this.haVotadoPorEmpresa(empresa.id_empresa); // Comprueba si ya votó
+                rel.spotDisponible = !!empresa.spot;
+                rel.yaVotado = this.haVotadoPorEmpresa(empresa.id_empresa);
             }
         });
-        this.cdr.detectChanges(); // Refresca la vista para mostrar los cambios
+        this.cdr.detectChanges();
     } else {
         console.error('No se pudo obtener el ID de la empresa logueada.');
     }
   }
+
   mostrarMiVoto(): void {
     this.filtroActivo = 'miVoto';
     this.mostrarTodasEmpresas = false;
     this.mostrarInteresadasEnMi = false;
     this.mostrarMisInteresesEmpresas = false;
-    // this.mostrarMiVoto = true;
-
-    // Filtrar empresas votadas
     const loggedInUserId = this.authService.getUserId();
     if (loggedInUserId) {
         this.empresasVotadas = this.empresas.filter(empresa =>
@@ -934,5 +844,6 @@ esEventoEnCurso(inicio: Date, fin: Date): boolean {
     } else {
         console.error('Usuario no autenticado. No se puede filtrar empresas votadas.');
     }
-}
+  }
+
 }

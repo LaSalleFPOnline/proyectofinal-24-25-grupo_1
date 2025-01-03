@@ -7,8 +7,10 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class EmpresaService {  
-  private apiUrl = environment.apiUrl; // URL del servidor Node.js
+
+export class EmpresaService {
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -17,7 +19,7 @@ export class EmpresaService {
   }
 
   getEmpresaById(id: number): Observable<any> {
-    console.log(id); // Verifica que el id esté llegando correctamente
+    console.log(id);
     return this.http.get<any>(`${this.apiUrl}/empresa/${id}`);
   }
 
@@ -25,9 +27,4 @@ export class EmpresaService {
     return this.http.get<any[]>(`${this.apiUrl}/usuarios-sin-password`);
   }
 
-  /*
-  // Llama a esta función para actualizar la empresa usando los datos del servicio AuthService
-  actualizarEmpresa(empresa: any): Observable<any> {
-    return this.authService.actualizarEmpresa(empresa);
-  }*/
 }

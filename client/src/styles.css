@@ -4,7 +4,6 @@
 *, *::before, *::after {
     box-sizing: border-box;
 }
-
 html, body {
     width: 100%;
     max-width: 1280px;
@@ -14,63 +13,56 @@ html, body {
     height: 100%;
     font-family: 'Indivisa Text Sans', sans-serif;
 }
-
 body {
     margin: 0;
     display: flex;
     flex-direction: column;
 }
-
 main {
     flex: 1;
-  }
-
-  footer {
+}
+footer {
     margin-top: auto;
-  }
+}
 
 /* Font-Face Definitions */
 @font-face {
     font-family: 'Indivisa Display Sans';
     src: url('/assets/fonts/woff2/indivisa_display_sans-regular.woff2') format('woff2'),
-         url('/assets/fonts/woff/indivisa_display_sans-regular.woff') format('woff'),
-         url('/assets/fonts/ttf/indivisa_display_sans-regular.ttf') format('truetype');
+        url('/assets/fonts/woff/indivisa_display_sans-regular.woff') format('woff'),
+        url('/assets/fonts/ttf/indivisa_display_sans-regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Indivisa Display Sans';
     src: url('/assets/fonts/woff2/indivisa_display_sans-heavy.woff2') format('woff2'),
-         url('/assets/fonts/woff/indivisa_display_sans-heavy.woff') format('woff'),
-         url('/assets/fonts/ttf/indivisa_display_sans-heavy.ttf') format('truetype');
+        url('/assets/fonts/woff/indivisa_display_sans-heavy.woff') format('woff'),
+        url('/assets/fonts/ttf/indivisa_display_sans-heavy.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Indivisa Display Serif';
     src: url('/assets/fonts/woff2/indivisa_display_serif_regular.woff2') format('woff2'),
-         url('/assets/fonts/woff/indivisa_display_serif_regular.woff') format('woff'),
-         url('/assets/fonts/ttf/indivisa_display_serif_regular.ttf') format('truetype');
+        url('/assets/fonts/woff/indivisa_display_serif_regular.woff') format('woff'),
+        url('/assets/fonts/ttf/indivisa_display_serif_regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Indivisa Text Sans';
     src: url('/assets/fonts/woff2/indivisa_text_sans-regular.woff2') format('woff2'),
-         url('/assets/fonts/woff/indivisa_text_sans-regular.woff') format('woff'),
-         url('/assets/fonts/ttf/indivisa_text_sans-regular.ttf') format('truetype');
+        url('/assets/fonts/woff/indivisa_text_sans-regular.woff') format('woff'),
+        url('/assets/fonts/ttf/indivisa_text_sans-regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Indivisa Text Serif';
     src: url('/assets/fonts/woff2/indivisa_text_serif_regular.woff2') format('woff2'),
-         url('/assets/fonts/woff/indivisa_text_serif_regular.woff') format('woff'),
-         url('/assets/fonts/ttf/indivisa_text_serif_regular.ttf') format('truetype');
+        url('/assets/fonts/woff/indivisa_text_serif_regular.woff') format('woff'),
+        url('/assets/fonts/ttf/indivisa_text_serif_regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
@@ -81,19 +73,16 @@ h1, h2, h3 {
     font-weight: 700;
     font-style: normal;
 }
-
 h4, h5, h6 {
     font-family: 'Indivisa Text Serif', serif;
     font-weight: 400;
     font-style: normal;
 }
-
 p, li, span {
     font-family: 'Indivisa Text Sans', sans-serif;
     font-weight: 400;
     font-style: normal;
 }
-
 blockquote {
     font-family: 'Indivisa Text Serif', serif;
     font-weight: 400;
@@ -111,12 +100,10 @@ blockquote {
     padding: 0 1rem;
     font-size: clamp(1rem, 2vw, 1.5rem);
 }
-
 .content-wrap {
     width: 100%;
     flex: 1;
 }
-
 .titulo {
     display: inline-flex;
     border-radius: 8px;
@@ -127,13 +114,11 @@ blockquote {
     padding: 0 2rem;
     background-color: #2B2B2A;
 }
-
 .titulo p {
     margin: 2vh;
     font-size: clamp(1rem, 2vw, 1.5rem);
     color: #F3F3F3;
 }
-
 .formulario {
     display: flex;
     flex-direction: column;
@@ -147,7 +132,6 @@ blockquote {
     border: 1px solid #2B2B2A;
     box-shadow: 0px 5px 0px #2B2B2A;
 }
-
 .campo {
     width: 80%;
     background-color: #F3F3F3;
@@ -156,7 +140,6 @@ blockquote {
     box-shadow: 0px 0.3rem 0px #2B2B2A;
     padding: 1rem 2rem;
 }
-
 :root {
     --color-rojo: #AC3635;
     --color-rojo-rgb: 172, 54, 53;
@@ -169,5 +152,4 @@ blockquote {
     --color-negro: #2B2B2A;
     --color-blanco: #F3F3F3;
     --color-gris: #D3D3D3;
-
-  }
+}

@@ -8,14 +8,12 @@
     border: 2px solid var(--color-azul);
     border-radius: 10px;
 }
-
 p {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
     margin: 0;
 }
-
 .titulo-seccion {
     display: flex;
     justify-content: center;
@@ -27,12 +25,10 @@ p {
     /* border: 2px solid var(--color-azul); */
     padding: 10px;
 }
-
-.titulo-seccion p{ 
+.titulo-seccion p{
     font-size: 32px;
     color: var(--color-azul);
 }
-
 .fotos-individuales {
     display: flex;
     justify-content: space-around;
@@ -49,7 +45,6 @@ p {
     margin: 0;
     text-align: center;
 }
-
 .foto-container {
     display: flex;
     flex-direction: column;
@@ -58,7 +53,6 @@ p {
     /* border-radius: 50%; */
     padding: 20px;
 }
-
 .foto-container img {
     width: 150px;
     height: 150px;
@@ -67,14 +61,12 @@ p {
     margin-bottom: 10px;
     border: 2px solid var(--color-azul)
 }
-
 .foto-container p {
     margin: 0;
     font-size: 0.9rem;
     font-weight: bold;
     color: #000;
 }
-
 .foto-container p:nth-of-type(2) {
     font-size: 0.7rem;
     margin-top: 0.2rem;
@@ -83,7 +75,6 @@ p {
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
 .experiencia {
     text-align: justify;
     margin-bottom: 20px;
@@ -93,18 +84,15 @@ p {
     border-radius: 10px;
     border: 2px solid var(--color-rojo);
 }
-
 .experiencia h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--color-rojo);
 }
-
 .foto-grupo {
     text-align: center;
     margin-bottom: 20px;
 }
-
 .foto-grupo img {
     width: 100%;
     height: auto;
@@ -113,6 +101,7 @@ p {
 }
 
 /* Ubicación */
+
 .localizacion {
     display: flex;
     flex-direction: column;
@@ -123,18 +112,15 @@ p {
     text-align: center;
     border: 2px solid rgba(var(--color-azul-rgb), 0.3);
 }
-
 .localizacion h3 {
     color: var(--color-rojo);
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
-
 .localizacion p, .localizacion address {
     color: var(--color-negro);
     margin-bottom: 10px;
 }
-
 .imagen-localizacion-container {
     display: flex;
     justify-content: center;
@@ -142,9 +128,7 @@ p {
     align-items: stretch;
     gap: 20px;
     margin: 20px 0;
-    
 }
-
 .imagen-localizacion {
     display: flex;
     flex-direction: column;
@@ -155,21 +139,18 @@ p {
     display: flex;
     align-items: stretch;
 }
-
 .imagen-localizacion img {
     width: 100%;
     height: 100%;
-    object-fit: contain; 
+    object-fit: contain;
     border-radius: 10px;
     border: 1px solid var(--color-azul);
 }
-
 .center-image {
     width: 100%;
     height: auto;
     border-radius: 10px;
 }
-
 .localizacion a {
     display: inline-block;
     background-color: rgba(var(--color-rojo-rgb), 0.5);
@@ -180,7 +161,6 @@ p {
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
-
 .localizacion a:hover {
     background-color: rgba(var(--color-rojo-rgb), 0.5);
 }
@@ -190,12 +170,10 @@ p {
         flex-direction: column;
         gap: 20px;
     }
-
     .foto-container img {
         width: 100px;
         height: 100px;
     }
-
     .foto-grupo img {
         width: 100%;
         height: auto;
@@ -204,19 +182,17 @@ p {
 
 @media (max-width: 480px) {
     .sobre-nosotros {
-      width: 95%; 
-      margin: 0 auto;
+        width: 95%;
+        margin: 0 auto;
     }
-  
     .imagen-localizacion-container {
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      gap: 10px;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
     }
-  
     .imagen-localizacion {
-      max-width: 100%; 
-      margin: 0 auto;
+        max-width: 100%;
+        margin: 0 auto;
     }
-  }
+}

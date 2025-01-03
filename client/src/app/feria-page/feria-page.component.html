@@ -1,11 +1,11 @@
 <div class="feriaPage" id="feriaPage">
+
     <!-- Agenda -->
     <div class="agenda" id="agenda" *ngIf="userType !== 3">
         <h2>Agenda</h2>
         <div *ngFor="let evento of eventosAgenda; let i = index"
             class="frame"
             [ngClass]="{ 'expanded': evento.isExpanded, 'collapsed': !evento.isExpanded, 'evento-en-curso': evento.enCurso }">
-
             <!-- Encabezado del evento -->
             <div class="frame-header">
                 <div class="time-wrapper">
@@ -39,34 +39,33 @@
 
     <!-- Botones de selección -->
     <div class="filter-buttons">
-        <button 
-            class="md-button" 
-            [ngClass]="{'active-filter': filtroActivo === 'todas'}" 
+        <button
+            class="md-button"
+            [ngClass]="{'active-filter': filtroActivo === 'todas'}"
             (click)="mostrarTodas()">
             Mostrar todas
         </button>
-        <button 
-            class="md-button" 
+        <button
+            class="md-button"
             *ngIf="userType === 1"
-            [ngClass]="{'active-filter': filtroActivo === 'misIntereses'}" 
+            [ngClass]="{'active-filter': filtroActivo === 'misIntereses'}"
             (click)="mostrarMisIntereses()">
             Mis intereses ({{ relacionesVenta.length }})
         </button>
-        <button 
-            class="md-button" 
+        <button
+            class="md-button"
             *ngIf="userType === 1"
-            [ngClass]="{'active-filter': filtroActivo === 'interesadas'}" 
+            [ngClass]="{'active-filter': filtroActivo === 'interesadas'}"
             (click)="mostrarInteresadas()">
             Interesadas en mí ({{ relacionesCompra.length }})
         </button>
-        <button 
-            class="md-button" 
+        <button
+            class="md-button"
             [ngClass]="{'active-filter': filtroActivo === 'miVoto'}"
             (click)="mostrarMiVoto()">
             Mi voto
         </button>
     </div>
-
 
     <!-- Contenedor para mostrar todas las empresas -->
     <div *ngIf="mostrarTodasEmpresas" class="scroll-container-empresas">
@@ -174,7 +173,6 @@
                 -->
             </div>
         </div>
-    
         <!-- Si no hay empresas interesadas, mostramos el mensaje -->
         <div *ngIf="relacionesCompra.length === 0" class="rectangle-empty">
             <p class="txt-empty">Aquí aparecerán las empresas interesadas en mí</p>
@@ -182,17 +180,17 @@
     </div>
 
     <!-- Contenedor para mostrar "Mi voto" -->
-<div *ngIf="filtroActivo === 'miVoto'" class="scroll-empresas-2">
-    <div *ngIf="empresasVotadas.length > 0" class="rectangle-empresas">
-        <div *ngFor="let empresa of empresasVotadas" class="caja-empresa" (click)="mostrarDetalles(empresa.id_empresa)">
-            <img [src]="empresa.logoUrl" alt="{{ empresa.nombre_empresa }}" class="logo-empresa">
-            <p class="nombre-empresa">{{ empresa.nombre_empresa }}</p>
+    <div *ngIf="filtroActivo === 'miVoto'" class="scroll-empresas-2">
+        <div *ngIf="empresasVotadas.length > 0" class="rectangle-empresas">
+            <div *ngFor="let empresa of empresasVotadas" class="caja-empresa" (click)="mostrarDetalles(empresa.id_empresa)">
+                <img [src]="empresa.logoUrl" alt="{{ empresa.nombre_empresa }}" class="logo-empresa">
+                <p class="nombre-empresa">{{ empresa.nombre_empresa }}</p>
+            </div>
+        </div>
+        <div *ngIf="empresasVotadas.length === 0" class="rectangle-empty">
+            <p class="txt-empty">Aquí aparecerán las empresas que has votado</p>
         </div>
     </div>
-    <div *ngIf="empresasVotadas.length === 0" class="rectangle-empty">
-        <p class="txt-empty">Aquí aparecerán las empresas que has votado</p>
-    </div>
-</div>
 
     <!-- Ilustración -->
     <img class="illustration" src="assets/Illustrations/Illustration4.png">
@@ -202,9 +200,7 @@
         <div class="titulo">
             <p>Detalles de {{ empresaSeleccionada.nombre_empresa }}</p>
         </div>
-        
         <img src="assets/Images/icon-plus.png" class="close-icon" alt="Cerrar" (click)="cerrarDetalles()"/>
-
         <div class="contenedor-arriba">
             <div class="rectangle-detalles">
                 <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
@@ -219,7 +215,6 @@
                 <br/><br/><strong>Enlace de MEET:</strong> <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
             </p>
         </div>
-
         <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
             <div class="contenedor-video-descripcion">
                 <!-- Si hay solo video -->
@@ -251,7 +246,6 @@
                 </ng-container>
             </div>
         </div>
-
         <div class="button-container" *ngIf="!ocultarBotonesDeInteraccion">
             <button class="button" *ngIf="!yaVotado && spotUrl" (click)="votar()">Votar</button>
             <button class="button" *ngIf="yaVotado" (click)="eliminarVoto()">Eliminar Voto</button>

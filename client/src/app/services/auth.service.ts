@@ -7,13 +7,13 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private apiUrl = environment.apiUrl; // URL del servidor Node.js
-  private tokenKey = 'authToken';
-  private userIdKey = 'userId'; // Clave para almacenar userId
-  private userKey = 'user'; // Clave para almacenar la información del usuario
 
-  // Definición de BehaviorSubject para role y empresa
+export class AuthService {
+
+  private apiUrl = environment.apiUrl;
+  private tokenKey = 'authToken';
+  private userIdKey = 'userId';
+  private userKey = 'user';
   private roleSubject = new BehaviorSubject<number | null>(null);
   private empresaSubject = new BehaviorSubject<any>(null);
 
@@ -38,31 +38,27 @@ export class AuthService {
     const userId = localStorage.getItem(this.userIdKey) || sessionStorage.getItem(this.userIdKey);
     const user = JSON.parse(localStorage.getItem(this.userKey) || sessionStorage.getItem(this.userKey) || '{}');
     const entidad = localStorage.getItem('entidad') || sessionStorage.getItem('entidad') || '';
-
     if (token) {
       this.roleSubject.next(role);
       sessionStorage.setItem(this.tokenKey, token);
       sessionStorage.setItem('role', role.toString());
       sessionStorage.setItem('empresa', JSON.stringify(empresa));
       sessionStorage.setItem(this.userIdKey, userId || '');
-      sessionStorage.setItem(this.userKey, JSON.stringify(user)); // Guardar el usuario en sessionStorage
-      sessionStorage.setItem('entidad', entidad); // Guardar entidad en sessionStorage
+      sessionStorage.setItem(this.userKey, JSON.stringify(user));
+      sessionStorage.setItem('entidad', entidad);
     }
-
     if (empresa && empresa.id_empresa) {
-      empresa.id = empresa.id || empresa.id_empresa; // Normalizamos "id"
+      empresa.id = empresa.id || empresa.id_empresa;
       this.empresaSubject.next(empresa);
-      sessionStorage.setItem('empresaId', empresa.id.toString()); // Asegurar que el ID de la empresa se guarde
+      sessionStorage.setItem('empresaId', empresa.id.toString());
     } else {
       console.error('No se encontró empresa en sessionStorage.');
     }
-
     if (userId) {
       console.log('User ID:', userId);
     } else {
       console.error('No se encontró User ID en sessionStorage.');
     }
-
     if (user) {
       console.log('Usuario:', user);
     } else {
@@ -77,35 +73,27 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
       map(response => {
-        console.log('Datos recibidos:', response); // Verifica la respuesta en la consola
-
-        // Verifica que la respuesta tenga los datos esperados
+        console.log('Datos recibidos:', response);
         if (response && response.token) {
           this.setToken(response.token, response.rol, response.entidad || '');
-
           if (response.empresa) {
             this.setEmpresa(response.empresa);
           }
-
-          // Decodificar el token JWT para extraer el userId
           try {
             const decodedToken = this.decodeJwtToken(response.token);
             if (decodedToken && decodedToken.id) {
-              this.setUserId(decodedToken.id); // Guardar el userId decodificado
+              this.setUserId(decodedToken.id);
             } else {
               console.error('No se pudo encontrar el ID de usuario en el token decodificado.');
             }
           } catch (error) {
             console.error('Error al decodificar el token JWT:', error);
           }
-
-          // Verificar la presencia de datos del usuario en la respuesta
           if (response.user) {
-            this.setUser(response.user); // Llamar a setUser con los datos del usuario
+            this.setUser(response.user);
           } else {
             console.warn('No se encontraron datos del usuario en la respuesta.');
           }
-
           return response;
         } else {
           console.error('Respuesta inválida del servidor:', response);
@@ -119,23 +107,17 @@ export class AuthService {
     );
   }
 
-
   cambiarContrasena(data: { usuarioId: number; nuevaContrasena: string }) {
     return this.http.put(`${this.apiUrl}/cambiar-contrasena`, data);
   }
-  
 
   setToken(token: string, role: number, entidad: string): void {
-    // Guardar en sessionStorage
     sessionStorage.setItem(this.tokenKey, token);
     sessionStorage.setItem('role', role.toString());
-    sessionStorage.setItem('entidad', entidad); // Guardar entidad
-
-    // Guardar en localStorage
+    sessionStorage.setItem('entidad', entidad);
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem('role', role.toString());
-    localStorage.setItem('entidad', entidad); // Guardar entidad
-
+    localStorage.setItem('entidad', entidad);
     this.roleSubject.next(role);
   }
 
@@ -145,18 +127,15 @@ export class AuthService {
 
   logout(): void {
     sessionStorage.clear();
-    localStorage.clear(); // Limpia también el localStorage
+    localStorage.clear();
     this.roleSubject.next(null);
     this.empresaSubject.next(null);
   }
 
   setEmpresa(empresa: any): void {
-    // Verificar si la respuesta tiene la estructura que incluye 'data'
     if (empresa && empresa.data) {
-        // Extraer los datos reales de la empresa
         empresa = empresa.data;
     }
-    // Guardar los datos de la empresa en sessionStorage y localStorage
     this.empresaSubject.next(empresa);
     sessionStorage.setItem('empresa', JSON.stringify(empresa));
     localStorage.setItem('empresa', JSON.stringify(empresa));
@@ -170,7 +149,7 @@ export class AuthService {
     console.log('Intentando guardar el userId:', userId);
     if (userId !== null && userId !== undefined) {
       sessionStorage.setItem(this.userIdKey, userId.toString());
-      localStorage.setItem(this.userIdKey, userId.toString()); // Guardar también en localStorage
+      localStorage.setItem(this.userIdKey, userId.toString());
     } else {
       console.error('El ID de usuario es inválido');
     }
@@ -181,17 +160,14 @@ export class AuthService {
     return userId ? parseInt(userId, 10) : null;
   }
 
-
   setUser(user: { id: number; email: string; rol: number; entidad?: string }): void {
     sessionStorage.setItem(this.userKey, JSON.stringify(user));
   }
-
 
   getUser(): { id: number; email: string; rol: number; entidad?: string } | null {
     const user = JSON.parse(sessionStorage.getItem(this.userKey) || 'null');
     return user ? user : null;
   }
-
 
   getLoggedInCompanyId(): number | null {
     const id = sessionStorage.getItem('empresaId');
@@ -234,7 +210,6 @@ export class AuthService {
   }
 
   getEmpresaSeleccionadaId(): number | null {
-    // Asegúrate de que el ID de la empresa esté en sessionStorage
     const empresaId = sessionStorage.getItem('empresaId') || localStorage.getItem('empresaId');
     if (empresaId) {
       return parseInt(empresaId, 10);
@@ -255,4 +230,5 @@ export class AuthService {
       params: { email }
     });
   }
+
 }
