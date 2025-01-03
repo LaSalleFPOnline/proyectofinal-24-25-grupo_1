@@ -13,22 +13,43 @@ const createVote = (req, res) => {
     const verificarUsuarioQuery = `SELECT * FROM votacion
                                 WHERE id_usuarioVotante = ?
                                 AND id_empresaVotada = ?`;
-    connection.query(verificarUsuarioQuery, [id_usuarioVotante], (err, results) => {
+    const connection = mysql.createConnection({
+        host: keys.dbHost,
+        // user: keys.dbUser,
+        // password: keys.dbPassword,
+        user: "root",
+        password: "root",
+        port: keys.dbPort,
+        database: keys.dbDatabase,
+        });
+        connection.connect((err) => {
         if (err) {
-            console.error('Error al verificar el voto del usuario: ', err);
-            return res.status(500).json({ error: 'Error al verificar el voto del usuario' });
+            console.error(
+            "Error al reconectar a la base de datos desde /agenda:",
+            err
+            );
         }
-        if (results.length > 0) {
-            return res.status(400).json({ error: 'Ya has votado una vez. No puedes votar más.' });
-        }
-        const query = `INSERT INTO votacion (id_usuarioVotante, id_empresaVotada, voto)
-                    VALUES (?, ?, ?);`;
-        connection.query(query, [id_usuarioVotante, id_empresaVotada, voto], (err) => {
+        connection.query(verificarUsuarioQuery, [id_usuarioVotante], (err, results) => {
             if (err) {
-                console.error('Error al registrar el voto: ', err);
-                return res.status(500).json({ error: 'Error al registrar el voto' });
+                console.error('Error al verificar el voto del usuario: ', err);
+                connection.destroy();
+                return res.status(500).json({ error: 'Error al verificar el voto del usuario' });
             }
-            res.status(200).json({ message: 'Voto registrado exitosamente' });
+            if (results.length > 0) {
+                connection.destroy();
+                return res.status(400).json({ error: 'Ya has votado una vez. No puedes votar más.' });
+            }
+            const query = `INSERT INTO votacion (id_usuarioVotante, id_empresaVotada, voto)
+                        VALUES (?, ?, ?);`;
+            connection.query(query, [id_usuarioVotante, id_empresaVotada, voto], (err) => {
+                if (err) {
+                    console.error('Error al registrar el voto: ', err);
+                    connection.destroy();
+                    return res.status(500).json({ error: 'Error al registrar el voto' });
+                }
+                connection.destroy();
+                res.status(200).json({ message: 'Voto registrado exitosamente' });
+            });
         });
     });
 };
@@ -48,8 +69,8 @@ const getAllVotes = (req, res) => {
         password: "root",
         port: keys.dbPort,
         database: keys.dbDatabase,
-        });
-        connection.connect((err) => {
+    });
+    connection.connect((err) => {
         if (err) {
             console.error(
             "Error al reconectar a la base de datos desde /agenda:",
@@ -65,7 +86,7 @@ const getAllVotes = (req, res) => {
             connection.destroy();
             res.status(200).json(results);
         });
-        });
+    });
 };
 
 const getUserVote = (req, res) => {
@@ -80,8 +101,8 @@ const getUserVote = (req, res) => {
         password: "root",
         port: keys.dbPort,
         database: keys.dbDatabase,
-        });
-        connection.connect((err) => {
+    });
+    connection.connect((err) => {
         if (err) {
             console.error(
             "Error al reconectar a la base de datos desde /agenda:",
@@ -116,8 +137,8 @@ const verificarVoto = (req, res) => {
         password: "root",
         port: keys.dbPort,
         database: keys.dbDatabase,
-        });
-        connection.connect((err) => {
+    });
+    connection.connect((err) => {
         if (err) {
             console.error(
             "Error al reconectar a la base de datos desde /agenda:",
@@ -157,8 +178,8 @@ const deleteVote = (req, res) => {
         password: "root",
         port: keys.dbPort,
         database: keys.dbDatabase,
-        });
-        connection.connect((err) => {
+    });
+    connection.connect((err) => {
         if (err) {
             console.error(
             "Error al reconectar a la base de datos desde /agenda:",
