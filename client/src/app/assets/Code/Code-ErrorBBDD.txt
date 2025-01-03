@@ -1,0 +1,42 @@
+const getAllEvents = (req, res) => {
+  const sql = `SELECT a.*, e.fechaEvento_inicio, e.fechaEvento_fin
+          FROM agenda a
+          CROSS JOIN evento e`;
+
+************************************************************
+  const connection = mysql.createConnection({
+    host: keys.dbHost,
+    // user: keys.dbUser,
+    // password: keys.dbPassword,
+    user: "root",
+    password: "root",
+    port: keys.dbPort,
+    database: keys.dbDatabase,
+  });
+  connection.connect((err) => {
+    if (err) {
+      console.error(
+        "Error al reconectar a la base de datos desde /agenda:",
+        err
+      );
+    }
+***********************************************************
+
+    connection.query(sql, (error, results) => {
+      if (error) {
+        console.error("Error al obtener la agenda:", error);
+
+************************************************************
+        connection.destroy();
+************************************************************
+
+        return res.status(500).json({ error: "Error al obtener la agenda" });
+      }
+
+************************************************************
+      connection.destroy();
+************************************************************
+      res.status(200).json(results);
+    });
+  });
+};
