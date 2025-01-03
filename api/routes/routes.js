@@ -65,15 +65,21 @@ router.get('/protected', authenticateToken, (req, res) => {
 
 // Esta ruta permite actualizar la información de una empresa
 router.post('/actualizar-empresa', (req, res) => {
-  const empresa = req.body;
-  updateEmpresa(empresa, (err, data) => {
-    if (err) {
-      console.error('Error al actualizar la empresa:', err);
-      return res.status(500).json({ message: 'Error al actualizar la empresa: ' + err.message });
-    }
-    console.log('Datos enviados al cliente:', data);
-    res.status(200).json({ message: 'Empresa actualizada correctamente', data });
-  });
+  const { id_usuario, role, nuevaContrasena, ...empresaData } = req.body;
+  if (role === 1) {
+    // Solo actualizar datos de empresa para rol 1
+    updateEmpresa({ ...empresaData, id_usuario, role }, (err, data) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      return res.status(200).json(data);
+    });
+  } else if (role === 2 || role === 3) {
+    // Actualizar solo la contraseña para roles 2 y 3
+    cambiarContrasena({ body: { usuarioId: id_usuario, nuevaContrasena } }, res);
+  } else {
+    return res.status(400).json({ error: 'Rol no válido' });
+  }
 });
 
 // Estas rutas devuelven un listado de todas las empresas y los detalles de una empresa identificada por un ID
