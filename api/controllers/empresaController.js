@@ -46,34 +46,71 @@ const getEmpresaDataByUsuarioId = (id_usuario, callback) => {
   });
 };
 
-const updateEmpresa = (empresa, callback) => {
-  let { id_empresa, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, id_usuario } = empresa;
+const updateEmpresa = (req, callback) => {
+  console.log('Datos de la solicitud:', req);
+  let { id_empresa, nombre_empresa, web, spot, logo, descripcion, url_meet, horario_meet_morning_start, horario_meet_morning_end, horario_meet_afternoon_start, horario_meet_afternoon_end, id_usuario } = req;
+  console.log('Ruta de la imagen:', logo);
   if (!id_empresa) {
     if (!id_usuario) {
       console.error('ID de la empresa no proporcionado y usuario_id no disponible');
       return callback(new Error('ID de la empresa es necesario para la actualización'));
     }
     console.error('ID de la empresa no proporcionado, obteniendo ID utilizando usuario_id');
-    getEmpresaDataByUsuarioId(id_usuario, (err, data) => {
+    const query = `SELECT * FROM empresa WHERE id_usuario = ?`;
+    connection.query(query, [id_usuario], (err, data) => {
       if (err) {
         console.error('Error al obtener datos de la empresa para obtener ID:', err);
         return callback(err);
       }
-      id_empresa = data.id_empresa;
-      proceedWithUpdate();
+      if (data && data.length > 0) {
+        id_empresa = data[0].id_empresa;
+        const empresaData = {
+          ...data[0],
+          ...req.body
+        };
+        // Mantener los datos viejos si no se proporcionan nuevos datos
+        if (!empresaData.nombre_empresa) empresaData.nombre_empresa = data[0].nombre_empresa;
+        if (!empresaData.web) empresaData.web = data[0].web;
+        if (!empresaData.spot) empresaData.spot = data[0].spot;
+        if (!empresaData.logo) empresaData.logo = data[0].logo;
+        if (!empresaData.descripcion) empresaData.descripcion = data[0].descripcion;
+        if (!empresaData.url_meet) empresaData.url_meet = data[0].url_meet;
+        if (!empresaData.horario_meet_morning_start) empresaData.horario_meet_morning_start = data[0].horario_meet_morning_start;
+        if (!empresaData.horario_meet_morning_end) empresaData.horario_meet_morning_end = data[0].horario_meet_morning_end;
+        if (!empresaData.horario_meet_afternoon_start) empresaData.horario_meet_afternoon_start = data[0].horario_meet_afternoon_start;
+        if (!empresaData.horario_meet_afternoon_end) empresaData.horario_meet_afternoon_end = data[0].horario_meet_afternoon_end;
+        proceedWithUpdate(empresaData);
+      } else {
+        console.error('No se encontraron datos de la empresa para el usuario_id:', id_usuario);
+        return callback(new Error('No se encontraron datos de la empresa para el usuario_id'));
+      }
     });
   } else {
-    proceedWithUpdate();
+    const empresaData = {
+      ...req.body
+    };
+    // Mantener los datos viejos si no se proporcionan nuevos datos
+    if (!empresaData.nombre_empresa) empresaData.nombre_empresa = '';
+    if (!empresaData.web) empresaData.web = '';
+    if (!empresaData.spot) empresaData.spot = '';
+    if (!empresaData.logo) empresaData.logo = '';
+    if (!empresaData.descripcion) empresaData.descripcion = '';
+    if (!empresaData.url_meet) empresaData.url_meet = '';
+    if (!empresaData.horario_meet_morning_start) empresaData.horario_meet_morning_start = '';
+    if (!empresaData.horario_meet_morning_end) empresaData.horario_meet_morning_end = '';
+    if (!empresaData.horario_meet_afternoon_start) empresaData.horario_meet_afternoon_start = '';
+    if (!empresaData.horario_meet_afternoon_end) empresaData.horario_meet_afternoon_end = '';
+    proceedWithUpdate(empresaData);
   }
 
   function proceedWithUpdate() {
-    console.log('Datos recibidos para actualizar la empresa:', empresa);
+    console.log('Datos recibidos para actualizar la empresa:', req);
     const updateQuery = `UPDATE empresa
                         SET nombre_empresa = ?, web = ?, spot = ?, logo = ?, descripcion = ?, url_meet = ?, horario_meet_morning_start = ?, horario_meet_morning_end = ?, horario_meet_afternoon_start = ?, horario_meet_afternoon_end = ?
                         WHERE id_empresa = ?`;
     const connection = mysql.createConnection({
       host: keys.dbHost,
-      // user: keys.dbUser,
+      // user: keys.dbUser ,
       // password: keys.dbPassword,
       user: "root",
       password: "root",

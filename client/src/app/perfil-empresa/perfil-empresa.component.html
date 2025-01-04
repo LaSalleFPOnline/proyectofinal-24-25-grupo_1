@@ -37,9 +37,9 @@
 
         <!-- Logotipo -->
         <div class="campo" *ngIf="userRole === 1">
-            <label class="text">* Logotipo</label>
-            <input type="text" [(ngModel)]="logotipo" class="input" [disabled]="!isEditable">
-            <img class="line" src="assets/Images/line.png">
+            <label for="logo_file" class="text">* Logo:</label>
+            <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input"/>
+            <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview"/>
         </div>
 
         <!-- Página web (Producto o servicio) -->

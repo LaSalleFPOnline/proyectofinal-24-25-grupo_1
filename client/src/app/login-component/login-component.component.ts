@@ -65,7 +65,7 @@ export class LoginComponentComponent {
       },
       error: (error) => {
         console.error('Error al intentar iniciar sesión:', error);
-        this.errorMessage = 'En email con es correcto. Por favor, regístrate';
+        this.errorMessage = 'Email o contraseña incorrectos. Por favor, regístrate';
       }
     });
   }

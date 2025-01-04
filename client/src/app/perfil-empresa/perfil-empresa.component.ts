@@ -29,6 +29,8 @@ export class PerfilEmpresaComponent implements OnInit {
   contrasenaErrorMessage: string | null = null;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  logoFile: File | null = null;
+  logoPreview: string | null = null;
   id_usuario: number | null = null;
   id_empresa: number | null = null;
   horarioMananaError: string | null = null;
@@ -151,6 +153,18 @@ export class PerfilEmpresaComponent implements OnInit {
     }
   }
 
+  onLogoFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.logoFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.logoPreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(this.logoFile);
+    }
+  }
+
   validarFormulario() {
     const storedUserId = localStorage.getItem('userId');
     const storedEmpresaId = localStorage.getItem('empresaId');
@@ -195,17 +209,24 @@ export class PerfilEmpresaComponent implements OnInit {
           logo: this.logotipo,
           descripcion: this.descripcionProductos,
           url_meet: this.enlaceSalaEspera,
-          horario_meet_morning_start: this.horario_meet_morning_start || null,
-          horario_meet_morning_end: this.horario_meet_morning_end || null,
-          horario_meet_afternoon_start: this.horario_meet_afternoon_start || null,
-          horario_meet_afternoon_end: this.horario_meet_afternoon_end || null,
+          horario_meet_morning_start: this.horario_meet_morning_start,
+          horario_meet_morning_end: this.horario_meet_morning_end,
+          horario_meet_afternoon_start: this.horario_meet_afternoon_start,
+          horario_meet_afternoon_end: this.horario_meet_afternoon_end,
           entidad: this.entidad,
           role: this.userRole
         };
         if (this.nuevaContrasena) {
           (empresa as any).contrasena = this.nuevaContrasena;
         }
-        this.authService.actualizarEmpresa(empresa).subscribe({
+        const formData = new FormData();
+        if (this.logoFile) {
+          formData.append('logo', this.logoFile);
+        }
+        formData.append('empresa', JSON.stringify(empresa));
+        formData.append('id_usuario', this.id_usuario.toString()); // Agregar el id_usuario como un campo separado
+        formData.append('role', this.userRole.toString()); // Agregar el rol como un campo separado
+        this.authService.actualizarEmpresa(formData).subscribe({
           next: (response: any) => {
             console.log('Datos actualizados:', response);
             this.successMessage = 'Datos de la empresa actualizados correctamente.';

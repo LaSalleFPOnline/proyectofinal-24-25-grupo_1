@@ -178,8 +178,8 @@ export class AuthService {
     return this.empresaSubject.asObservable();
   }
 
-  actualizarEmpresa(empresa: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/actualizar-empresa`, empresa).pipe(
+  actualizarEmpresa(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/actualizar-empresa`, formData).pipe(
       map(response => {
         if (response && response.success && response.empresa) {
           this.setEmpresa(response.empresa);

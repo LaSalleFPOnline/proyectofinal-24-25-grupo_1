@@ -1,3 +1,7 @@
+.formulario {
+    background-color: rgba(var(--color-rojo-rgb), 0.6);
+}
+
 .input, .textarea, select {
     width: 100%;
     border: none;

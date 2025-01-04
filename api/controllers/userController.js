@@ -92,7 +92,8 @@ function registerUser(req, res) {
                 const empresaParams = [
                   user.id_usuario,
                   nombre_empresa,
-                  web, spot,
+                  web,
+                  spot,
                   logoPath,
                   descripcion,
                   url_meet,
