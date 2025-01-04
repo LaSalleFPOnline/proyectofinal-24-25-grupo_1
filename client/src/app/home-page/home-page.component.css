@@ -184,12 +184,13 @@ iframe {
   margin-right: 1rem;
   overflow-wrap: break-word;
   font-size: larger;
-  font-weight: 500;
+  font-weight: bold;
 }
 .event-description {
   margin: 0;
   flex: 2;
   overflow-wrap: break-word;
+  font-weight: bold;
 }
 .plus-icon {
   width: clamp(2rem, 4vw, 4rem);
@@ -291,6 +292,7 @@ iframe {
 .descargas .descarga-guia {
   background-color: var(--color-azul);
 }
+
 .descargas p {
   margin: 0;
   line-height: 1.5;
