@@ -372,9 +372,10 @@ iframe {
   display: flex;
   align-items: center;
   height: 100%;
-  gap: 1rem;
+  gap: 1.1rem;
   justify-content: space-around;
   animation: scroll 20s linear infinite;
+  
 }
 .logo {
   flex: 1;
@@ -416,9 +417,9 @@ iframe {
 
 @keyframes scroll {
   0% { transform: translateX(0); }
-  25% { transform: translateX(-25%); }
+  /* 25% { transform: translateX(-25%); }
   50% { transform: translateX(-50%); }
-  75% { transform: translateX(-75%); }
+  75% { transform: translateX(-75%); } */
   100% { transform: translateX(-100%); }
 }
 
