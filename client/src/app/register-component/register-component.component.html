@@ -13,7 +13,7 @@
     <input type="email" id="email" [(ngModel)]="email" name="email" class="mdc-text-field__input" required aria-labelledby="email-label" [readonly]="isEmailReadOnly">
     <img class="line" src="assets/Images/line.png">
   </div>
-  <div class="enviar">
+  <div *ngIf="!emailValidado" class="enviar">
     <button mat-raised-button color="primary" type="button" (click)="validarEmail()"tabindex="2">Validar Email</button>
   </div>
 
