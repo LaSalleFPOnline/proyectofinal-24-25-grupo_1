@@ -4,41 +4,36 @@
 
 <!-- Botones de filtro -->
 <div class="filter-buttons">
-    <div class="filter-group">
-        <button
-            class="md-button"
-            [class.active-filter]="filtroActivo === 'registradas'"
-            (click)="filtrarEmpresas('registradas')">
-            Registradas
-        </button>
-        <button
-            class="md-button"
-            [class.active-filter]="filtroActivo === 'sin-registrar'"
-            (click)="filtrarEmpresas('sin-registrar')">
-            Sin Registrar
-        </button>
-    </div>
-    <div class="filter-group">
-        <button
-            class="md-button"
-            [class.active-filter]="filtroActivo === 'votaciones'"
-            (click)="filtrarEmpresas('votaciones')">
-            Votaciones
-        </button>
-        <button
-            class="md-button"
-            [class.active-filter]="filtroActivo === 'meets'"
-            (click)="filtrarEmpresas('meets')">
-            Meets
-        </button>
-    </div>
+    <button
+        class="md-button"
+        [class.active-filter]="filtroActivo === 'registradas'"
+        (click)="filtrarEmpresas('registradas')">
+        Registradas
+    </button>
+    <button
+        class="md-button"
+        [class.active-filter]="filtroActivo === 'sin-registrar'"
+        (click)="filtrarEmpresas('sin-registrar')">
+        Sin Registrar
+    </button>
+
+    <button
+        class="md-button"
+        [class.active-filter]="filtroActivo === 'votaciones'"
+        (click)="filtrarEmpresas('votaciones')">
+        Votaciones
+    </button>
+    <button
+        class="md-button"
+        [class.active-filter]="filtroActivo === 'meets'"
+        (click)="filtrarEmpresas('meets')">
+        Meets
+    </button>
+    
 </div>
 
 <!-- Contenedor de empresas filtradas -->
 <div *ngIf="filtroActivo === 'registradas'">
-    <div class="titulo">
-        <p>Empresas registradas</p>
-    </div>
     <div class="scroll-container-empresas">
         <div *ngFor="let empresa of empresasFiltradas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
             <img [src]="empresa.logo" alt="{{ empresa.nombre_empresa }} logo" class="logo-empresa">
@@ -53,9 +48,6 @@
 
 <!-- Usuarios sin contraseña -->
 <div *ngIf="filtroActivo === 'sin-registrar'">
-    <div class="titulo">
-        <p>Usuarios SIN REGISTRAR su Empresa</p>
-    </div>
     <div class="scroll-container-empresas">
         <div *ngFor="let usuario of usuariosSinPassword" class="rectangle-empresas">
             <div class="logo-container">
@@ -71,9 +63,6 @@
 
 <!-- Votaciones top 3 -->
 <div *ngIf="filtroActivo === 'votaciones'">
-    <div class="titulo">
-        <p>Votaciones en tiempo real</p>
-    </div>
     <div class="top3">
         <div class="podium">
             <ng-container *ngIf="empresas.length > 0">
@@ -92,9 +81,6 @@
 
 <!-- Enlaces a meet -->
 <div *ngIf="filtroActivo === 'meets'">
-    <div class="titulo">
-        <p>Enlaces a Meet</p>
-    </div>
     <div class="enlaces">
         <div *ngFor="let empresa of empresas" class="meet-link">
             <a [href]="empresa.url_meet" target="_blank">{{empresa.nombre_empresa}}</a>
