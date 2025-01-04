@@ -4,10 +4,13 @@
     <p>Registro</p>
   </div>
 
+  <!-- POP-UP -->
+  <app-popup #popupEdicionRegistro></app-popup>
+
   <!-- Campo de Email y Validación -->
   <div *ngIf="!emailValidado" class="campo">
     <label class="text">* Email:</label>
-    <input type="email" id="email" name="email" class="mdc-text-field__input" [(ngModel)]="email" required aria-labelledby="email-label">
+    <input type="email" id="email" [(ngModel)]="email" name="email" class="mdc-text-field__input" required aria-labelledby="email-label" [readonly]="isEmailReadOnly">
     <img class="line" src="assets/Images/line.png">
   </div>
   <div class="enviar">
@@ -16,6 +19,13 @@
 
   <!-- Campos adicionales después de validar el email -->
   <div *ngIf="emailValidado">
+
+    <!-- Campo Entidad -->
+  <div class="campo" *ngIf="rol === 2">
+    <label class="text">* Entidad:</label>
+    <input type="text" [(ngModel)]="entidad" name="entidad" class="input" readonly>
+    <img class="line" src="assets/Images/line.png">
+  </div>
 
     <!-- Campo de Email (solo lectura) -->
     <div class="campo">
@@ -142,19 +152,6 @@
       <button mat-raised-button color="primary" type="submit">REGISTRARSE</button>
     </div>
     <!-- <button type="submit" class="button-validar">Registrarse</button> -->
-  </div>
-
-  <!-- Rol Visitante -->
-  <div *ngIf="rol === 2" class="campo">
-    <div class="campo">
-      <label class="text">* Entidad:</label>
-      <input type="text" [(ngModel)]="entidad" name="entidad" class="input" readonly>
-      <img class="line" src="assets/Images/line.png">
-    </div>
-    <img class="line" src="assets/Images/line.png">
-
-    <!-- Botón de Registro -->
-    <button type="submit" class="button-validar">Registrarse</button>
   </div>
 
   <!-- Mensaje de Error -->

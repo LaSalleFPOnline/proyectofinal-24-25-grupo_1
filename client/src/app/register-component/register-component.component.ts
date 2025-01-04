@@ -78,15 +78,17 @@ export class RegisterComponent implements AfterViewInit {
       const fechaFin = new Date(fechaEdicion.fechaEdicionInfoEmpresa_fin);
       const ahora = new Date();
       if (ahora < fechaInicio || ahora > fechaFin) {
-        const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro de nuevas empresas. Este periodo empieza en ${fechaInicio.toLocaleDateString('es-ES')} hasta ${fechaFin.toLocaleDateString('es-ES')}.`;
+        const mensaje = `Lo sentimos, no puedes registrar tu información porque estás fuera del periodo de registro de nuevos usuarios. Este periodo empieza en ${fechaInicio.toLocaleDateString('es-ES')} hasta ${fechaFin.toLocaleDateString('es-ES')}.`;
         console.log('Fecha de inicio:', fechaInicio);
         console.log('Fecha de fin:', fechaFin);
+        this.isEmailReadOnly = true;
         if (this.popupComponent) {
           this.popupComponent.openPopup(true, mensaje, 'error');
         } else {
           console.error('popupComponent no está definido');
         }
       } else {
+        this.isEmailReadOnly = false;
         this.isEditable = true;
       }
     }, error => {
