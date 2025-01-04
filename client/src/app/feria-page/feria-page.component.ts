@@ -67,6 +67,7 @@ export class FeriaPageComponent implements AfterViewInit {
                 ...empresa,
                 logoUrl: `${empresa.logo}`
               }));
+              this.empresas = this.empresas.sort((a, b) => a.nombre_empresa.localeCompare(b.nombre_empresa));
               console.log('Empresas: ', this.empresas);
               this.actualizarVotaciones();
               this.cdr.detectChanges();
@@ -88,6 +89,8 @@ export class FeriaPageComponent implements AfterViewInit {
         console.error('Error al obtener rol del usuario: ', error);
       }
     });
+    this.cargarEventosAgenda();
+    this.mostrarTodasEmpresas = true;
   }
 
   ngAfterViewInit(): void {

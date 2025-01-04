@@ -1,7 +1,7 @@
 <div class="feriaPage" id="feriaPage">
 
     <!-- Agenda -->
-    <div class="agenda" id="agenda" *ngIf="userType !== 3">
+    <div class="agenda" id="agenda" *ngIf="userType === 1">
         <h2>Agenda</h2>
         <div *ngFor="let evento of eventosAgenda; let i = index"
             class="frame"
@@ -83,10 +83,10 @@
                 -->
                     <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
                 <!--
-                    <button 
-                        class="button-pk" 
-                        [disabled]="!empresaSeleccionada?.spot" 
-                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
+                    <button
+                        class="button-pk"
+                        [disabled]="!empresaSeleccionada?.spot"
+                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }"
                         (click)="empresaSeleccionada?.spot ? votar() : null">
                         Votar
                     </button>
@@ -119,10 +119,10 @@
                 -->
                     <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
                 <!--
-                    <button 
-                        class="button-pk" 
-                        [disabled]="!empresaSeleccionada?.spot" 
-                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
+                    <button
+                        class="button-pk"
+                        [disabled]="!empresaSeleccionada?.spot"
+                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }"
                         (click)="empresaSeleccionada?.spot ? votar() : null">
                         Votar
                     </button>
@@ -158,10 +158,10 @@
                 -->
                     <!-- Botón votar (aparece siempre, pero deshabilitado si no tiene spot) -->
                 <!--
-                    <button 
-                        class="button-pk" 
-                        [disabled]="!empresaSeleccionada?.spot" 
-                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }" 
+                    <button
+                        class="button-pk"
+                        [disabled]="!empresaSeleccionada?.spot"
+                        [ngClass]="{ 'disabled': !empresaSeleccionada?.spot }"
                         (click)="empresaSeleccionada?.spot ? votar() : null">
                         Votar
                     </button>
