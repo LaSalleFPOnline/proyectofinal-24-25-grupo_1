@@ -1,5 +1,6 @@
 .formulario {
     background-color: rgba(var(--color-rojo-rgb), 0.6);
+    font-family: 'Indivisa Text Sans', sans-serif;
 }
 
 .input, .textarea, select {
@@ -21,6 +22,7 @@
     align-items: center;
 }
 .button-validar {
+    font-family: 'Indivisa Text Sans', sans-serif;
     padding: 1.25rem 2rem;
     background-color: #F3F3F3;
     border-radius: 14px;

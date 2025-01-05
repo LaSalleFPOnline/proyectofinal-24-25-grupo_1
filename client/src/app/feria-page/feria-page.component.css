@@ -1,8 +1,11 @@
+* {
+    font-family: 'Indivisa Text Sans', sans-serif;
 
+}
 /* #Region Agenda */
 
-.feriapage{
-    font-family: 'Indivisa' sans-serif;
+h2 {
+    font-family: 'Indivisa Display Sans', sans-serif;
 }
 .agenda {
     display: flex;

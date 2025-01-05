@@ -17,7 +17,7 @@
     padding: 2rem;
     left: 50%;
     transform: translateX(-50%);
-    font-family: 'Indivisa', sans-serif;
+    font-family: 'Indivisa Text Sans', sans-serif;
 }
 .header.shrink {
     height: 50px;
@@ -133,6 +133,7 @@
     gap: 0.5rem;
     transition: background-color 0.3s;
     font-size: 1rem;
+    font-family: 'Indivisa Text Sans', sans-serif;
 }
 
 /* Estilo para móviles */

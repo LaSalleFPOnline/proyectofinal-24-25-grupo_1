@@ -2,6 +2,7 @@
   background-color: rgba(var(--color-azul-rgb), 0.6);
   margin: 0 auto;
   margin-bottom: 20px;
+  font-family: 'Indivisa Text Sans', sans-serif;
 }
 .formulario.registro > div {
   margin-bottom: 1.5rem;

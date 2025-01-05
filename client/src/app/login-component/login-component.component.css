@@ -10,7 +10,7 @@
   border: 5px solid var(--color-amarillo);
   padding: 1.5rem;
   margin: 20px auto;
-  font-family: 'Indivisa' sans-serif;
+  font-family: 'Indivisa Text Sans', sans-serif;
 }
 .username,
 .presentacion,
@@ -20,6 +20,10 @@
 .error-message-container,
 .container {
   margin-top: 1.5rem;
+}
+h6 {
+  font-family: 'Indivisa Text Sans', sans-serif;
+
 }
 p {
   font-size: 1rem;

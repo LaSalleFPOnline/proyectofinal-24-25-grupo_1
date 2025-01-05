@@ -17,6 +17,7 @@
 .md-button {
     background-color: var(--color-azul);
     color: var(--color-blanco);
+    font-family: 'Indivisa Text Sans', 'sans serif';
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -223,6 +224,7 @@
     text-decoration: none;
     display: block;
     margin: 0.3rem 0;
+    font-family: 'Indivisa Text Sans', 'sans serif';
     font-size: 1rem;
 }
 .enlaces a:hover {
