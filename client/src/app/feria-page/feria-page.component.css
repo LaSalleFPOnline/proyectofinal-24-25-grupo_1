@@ -513,8 +513,7 @@
     height: auto;
     background-color: transparent;
     border-radius: 45px;
-    border: 2px solid var(--color-amarillo);
-    box-shadow: 0px 5px 0px var(--color-amarillo);
+    border: 5px solid var(--color-amarillo);
     margin: 0 auto;
     top: 10px;
     padding: 50px;

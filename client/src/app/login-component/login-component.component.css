@@ -7,8 +7,7 @@
   max-width: 800px;
   background-color: transparent;
   border-radius: 20px;
-  border: 2px solid var(--color-amarillo);
-  box-shadow: 0 2px 0 var(--color-amarillo);
+  border: 5px solid var(--color-amarillo);
   padding: 1.5rem;
   margin: 20px auto;
   font-family: 'Indivisa' sans-serif;

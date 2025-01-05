@@ -29,7 +29,7 @@ const createVote = (req, res) => {
             err
             );
         }
-        connection.query(verificarUsuarioQuery, [id_usuarioVotante], (err, results) => {
+        connection.query(verificarUsuarioQuery, [id_usuarioVotante, id_empresaVotada], (err, results) => {
             if (err) {
                 console.error('Error al verificar el voto del usuario: ', err);
                 connection.destroy();
