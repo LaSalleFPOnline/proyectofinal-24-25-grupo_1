@@ -373,29 +373,45 @@ export class FeriaPageComponent implements AfterViewInit {
     const usuarioId = this.authService.getUserId();
     const empresaVotadaId = this.empresaSeleccionada?.id_empresa;
     const voto = 1;
+  
+    // Verificar si ya existe un voto en el localStorage
+    const yaVotado = Object.keys(localStorage).some(key => 
+      key.startsWith('voto_') && localStorage.getItem(key) === 'true'
+    );
+  
+    if (yaVotado) {
+      this.popupComponent.openPopup(true, "Ya has votado a una empresa. Solo puedes votar a una empresa.", 'error');
+      return;
+    }
+  
     console.log('Intentando votar...');
     if (usuarioId === null || empresaVotadaId === null) {
       console.error('IDs de las empresas no proporcionados.');
       return;
     }
+  
     this.votacionService.obtenerFechasVotacion().subscribe(fechas => {
       console.log('Fechas de votación:', fechas);
       if (fechas.length === 0) {
         console.error('No se recibieron fechas de votación.');
         return;
       }
+  
       const fechaVotacion = fechas[0];
       const fechaInicio = new Date(fechaVotacion.fechaVotacion_inicio);
       const fechaFin = new Date(fechaVotacion.fechaVotacion_fin);
       const ahora = new Date();
+  
       console.log('Fecha actual:', ahora);
       console.log('Fecha de inicio de votación:', fechaInicio);
       console.log('Fecha de fin de votación:', fechaFin);
+  
       if (ahora < fechaInicio || ahora > fechaFin) {
         console.log('Mostrando pop-up por fuera del periodo de votación');
         this.popupComponent.openPopup(true, `El periodo de votaciones es desde ${fechaInicio.toLocaleDateString()} hasta ${fechaFin.toLocaleDateString()}.`, 'error');
         return;
       }
+  
       this.votacionService.votar(usuarioId, empresaVotadaId, voto).pipe(
         catchError(error => {
           console.error('Error al votar:', error);
