@@ -499,9 +499,6 @@ export class FeriaPageComponent implements AfterViewInit {
     this.filtrarEventosAgenda();
   }
 
- 
-  
-  
   filtrarEventosAgenda() {
     const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
     console.log('Todas las relaciones combinadas:', allEventos);
@@ -558,11 +555,7 @@ export class FeriaPageComponent implements AfterViewInit {
     console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
     this.cdr.detectChanges();
   }
-    
-   
-    
-    
-    
+
   agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: Date, enCurso: boolean) {
     const eventoExistente = this.eventosAgenda.some(evento =>
         evento.nombre === nombre &&
