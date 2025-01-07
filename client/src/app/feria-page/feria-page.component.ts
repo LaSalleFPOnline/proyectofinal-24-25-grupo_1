@@ -207,25 +207,6 @@ export class FeriaPageComponent implements AfterViewInit {
     console.log(`${key} guardadas en sessionStorage.`);
   }
 
-  // toggleFrame(event: Event) {
-  //   const icon = event.target as HTMLImageElement;
-  //   const frame = icon.closest('.frame') as HTMLElement;
-  //   if (!frame) return;
-  //   if (this.expandedFrame && this.expandedFrame !== frame) {
-  //     this.renderer.removeClass(this.expandedFrame, 'expanded');
-  //     this.renderer.addClass(this.expandedFrame, 'collapsed');
-  //   }
-  //   if (frame.classList.contains('expanded')) {
-  //     this.renderer.removeClass(frame, 'expanded');
-  //     this.renderer.addClass(frame, 'collapsed');
-  //     this.expandedFrame = null;
-  //   } else {
-  //     this.renderer.removeClass(frame, 'collapsed');
-  //     this.renderer.addClass(frame, 'expanded');
-  //     this.expandedFrame = frame;
-  //   }
-  // }
-
   toggleFrame(event: Event, evento: any) {
     const icon = event.target as HTMLImageElement;
     const frame = icon.closest('.frame') as HTMLElement;
