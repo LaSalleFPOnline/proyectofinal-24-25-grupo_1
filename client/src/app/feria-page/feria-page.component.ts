@@ -74,7 +74,7 @@ export class FeriaPageComponent implements AfterViewInit {
               const empresaId = this.authService.getLoggedInCompanyId();
               if (empresaId !== null) {
                 this.obtenerRelaciones(empresaId);
-                this.cargarEventosAgenda();
+                //this.cargarEventosAgenda();
               } else {
                 console.error('No se pudo obtener el ID de la empresa logueada.');
               }
@@ -83,13 +83,14 @@ export class FeriaPageComponent implements AfterViewInit {
               console.error('Error al obtener empresas: ', error);
             }
           });
+          this.cargarEventosAgenda();
         }
       },
       error: (error) => {
         console.error('Error al obtener rol del usuario: ', error);
       }
     });
-    this.cargarEventosAgenda();
+   // this.cargarEventosAgenda();
     this.mostrarTodasEmpresas = true;
   }
 
@@ -482,142 +483,9 @@ export class FeriaPageComponent implements AfterViewInit {
     this.filtrarEventosAgenda();
   }
 
-  /*
-  filtrarEventosAgenda() {
-    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-    console.log('Todas las relaciones combinadas:', allEventos);
-    const currentDate = this.now.toISOString().split('T')[0];
-    const eventosUnicos = new Set();
-    this.eventosAgenda = [];
-    allEventos.forEach(rel => {
-        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-            const horarioStart = new Date(`${currentDate}T${rel.horario_meet_morning_start}`);
-            const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
-            const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-            const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-            if (!eventosUnicos.has(eventoId)) {
-                this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-                eventosUnicos.add(eventoId);
-            }
-        }
-        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-            const horarioStart = new Date(`${currentDate}T${rel.horario_meet_afternoon_start}`);
-            const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
-            const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-            const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-            if (!eventosUnicos.has(eventoId)) {
-                this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-                eventosUnicos.add(eventoId); // Agregar el evento al conjunto
-            }
-        }
-    });
-    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-    console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
-    this.cdr.detectChanges();
-  }
-  */
-  /*
-  filtrarEventosAgenda(): void {
-    console.log('Datos iniciales de eventosAgenda:', this.eventosAgenda);
-    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-      console.log('No hay eventos en eventosAgenda. No se realiza filtrado.');
-      return; // Salimos si no hay eventos cargados
-    }
-    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-    console.log('Todas las relaciones combinadas:', allEventos);
-    const eventosUnicos = new Set();
-    const eventosFiltrados: any[] = []; // Lista temporal para los eventos filtrados
-    allEventos.forEach(rel => {
-      this.eventosAgenda.forEach(eventoAgenda => {
-        const currentDate = eventoAgenda.fechaInicio.toISOString().split('T')[0];
-        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-          const horarioStart = new Date(`${currentDate}T${rel.horario_meet_morning_start}`);
-          const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_morning_end}`);
-          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-          if (!eventosUnicos.has(eventoId)) {
-            eventosFiltrados.push({
-              nombre: rel.nombre_empresa,
-              meet_url: rel.meet_url,
-              horario_start: horarioStart,
-              horario_end: horarioEnd,
-              enCurso,
-            });
-            eventosUnicos.add(eventoId);
-          }
-        }
-        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-          const horarioStart = new Date(`${currentDate}T${rel.horario_meet_afternoon_start}`);
-          const horarioEnd = new Date(`${currentDate}T${rel.horario_meet_afternoon_end}`);
-          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-          if (!eventosUnicos.has(eventoId)) {
-            eventosFiltrados.push({
-              nombre: rel.nombre_empresa,
-              meet_url: rel.meet_url,
-              horario_start: horarioStart,
-              horario_end: horarioEnd,
-              enCurso,
-            });
-            eventosUnicos.add(eventoId);
-          }
-        }
-      });
-    });
-    this.eventosAgenda = eventosFiltrados
-      .filter(evento => evento.horario_end > this.now)
-      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-    console.log('Eventos de la agenda filtrados y únicos:', this.eventosAgenda);
-    this.cdr.markForCheck();
-  }
-  */
-  /*
-  filtrarEventosAgenda() {
-    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-    console.log('Todas las relaciones combinadas:', allEventos);
-    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-      console.warn('No hay eventosAgenda cargada con fechas clave.');
-      return;
-    }
-    const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
-    const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
-    const eventosUnicos = new Set();
-    this.eventosAgenda = [];
-    allEventos.forEach(rel => {
-      const currentDate = new Date(fechaInicio);
-      while (currentDate <= fechaFin) {
-        const formattedDate = currentDate.toISOString().split('T')[0];
-        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
-          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
-          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-          if (!eventosUnicos.has(eventoId)) {
-            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-            eventosUnicos.add(eventoId);
-          }
-        }
-        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
-          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
-          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-          if (!eventosUnicos.has(eventoId)) {
-            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-            eventosUnicos.add(eventoId);
-          }
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-    });
-    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-    console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
-    this.cdr.detectChanges();
-  }
-  */
-  /*
+ 
+  
+  
   filtrarEventosAgenda() {
     const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
     console.log('Todas las relaciones combinadas:', allEventos);
@@ -674,73 +542,11 @@ export class FeriaPageComponent implements AfterViewInit {
     console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
     this.cdr.detectChanges();
   }
-  */
-
-  filtrarEventosAgenda() {
-    const allEventos = [...this.relacionesCompra, ...this.relacionesVenta];
-    console.log('Todas las relaciones combinadas:', allEventos);
-    if (!this.eventosAgenda || this.eventosAgenda.length === 0) {
-      console.warn('No hay eventosAgenda cargada con fechas clave.');
-      const empresasVistas = new Set();
-      allEventos.forEach(rel => {
-        const fechaEvento = this.now.toISOString().split('T')[0];
-        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-          if (!empresasVistas.has(`${rel.nombre_empresa}-morning`)) {
-            const horarioStart = new Date(`${fechaEvento}T${rel.horario_meet_morning_start}`);
-            const horarioEnd = new Date(`${fechaEvento}T${rel.horario_meet_morning_end}`);
-            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
-            empresasVistas.add(`${rel.nombre_empresa}-morning`);
-          }
-        }
-        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-          if (!empresasVistas.has(`${rel.nombre_empresa}-afternoon`)) {
-            const horarioStart = new Date(`${fechaEvento}T${rel.horario_meet_afternoon_start}`);
-            const horarioEnd = new Date(`${fechaEvento}T${rel.horario_meet_afternoon_end}`);
-            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, false);
-            empresasVistas.add(`${rel.nombre_empresa}-afternoon`);
-          }
-        }
-      });
-      console.log('Mostrando eventos sin tratamiento:', this.eventosAgenda);
-      this.cdr.detectChanges();
-      return;
-    }
-    const fechaInicio = new Date(this.eventosAgenda[0].fechaEvento_inicio);
-    const fechaFin = new Date(this.eventosAgenda[0].fechaEvento_fin);
-    const eventosUnicos = new Set();
-    const currentDate = new Date(fechaInicio);
-    while (currentDate <= fechaFin) {
-      const formattedDate = currentDate.toISOString().split('T')[0];
-      allEventos.forEach(rel => {
-        if (rel.horario_meet_morning_start && rel.horario_meet_morning_end) {
-          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_morning_start}`);
-          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_morning_end}`);
-          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-          if (!eventosUnicos.has(eventoId)) {
-            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-            eventosUnicos.add(eventoId);
-          }
-        }
-        if (rel.horario_meet_afternoon_start && rel.horario_meet_afternoon_end) {
-          const horarioStart = new Date(`${formattedDate}T${rel.horario_meet_afternoon_start}`);
-          const horarioEnd = new Date(`${formattedDate}T${rel.horario_meet_afternoon_end}`);
-          const enCurso = this.esEventoEnCurso(horarioStart, horarioEnd);
-          const eventoId = `${rel.nombre_empresa}-${horarioStart.toISOString()}-${horarioEnd.toISOString()}`;
-          if (!eventosUnicos.has(eventoId)) {
-            this.agregarEvento(rel.nombre_empresa, rel.meet_url, horarioStart, horarioEnd, enCurso);
-            eventosUnicos.add(eventoId);
-          }
-        }
-      });
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    this.eventosAgenda = this.eventosAgenda.filter(evento => evento.horario_end > this.now)
-      .sort((a, b) => a.horario_start.getTime() - b.horario_start.getTime());
-    console.log('Eventos de la agenda filtrados y únicos para la fecha clave:', this.eventosAgenda);
-    this.cdr.detectChanges();
-  }
-
+    
+   
+    
+    
+    
   agregarEvento(nombre: string, meetUrl: string, horarioStart: Date, horarioEnd: Date, enCurso: boolean) {
     const eventoExistente = this.eventosAgenda.some(evento =>
         evento.nombre === nombre &&
