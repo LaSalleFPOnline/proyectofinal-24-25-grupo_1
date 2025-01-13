@@ -1,3 +1,4 @@
+
 <div class="feriaPage" id="feriaPage">
 
     <!-- Agenda -->
@@ -68,6 +69,10 @@
         <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
             <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
             <p class="txt-logo">{{ empresa.nombre_empresa }}</p>
+            <div class="iconos-container-3" *ngIf="empresa.spot">
+                <img src="assets/Images/Icon_SPOT.png" alt="Icono Spot" class="icono-3">
+              </div>
+            
             <!--
                 <div class="button-container-pk-2">
                 -->
@@ -184,7 +189,7 @@
             </div>
         </div>
         <div *ngIf="empresasVotadas.length === 0" class="rectangle-empty">
-            <p class="txt-empty">Aquí aparecerán las empresas que has votado</p>
+            <p class="txt-empty">Aquí aparecerá la empresa que has votado</p>
         </div>
     </div>
 
@@ -202,14 +207,26 @@
                 <img *ngIf="empresaSeleccionada.logo" [src]="empresaSeleccionada.logo" alt="Logotipo de {{ empresaSeleccionada.nombre_empresa }}" class="logo-img"/>
             </div>
             <p class="empresa">
-                <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span>
+                <!-- <span class="subtitulo-detalles">{{ empresaSeleccionada.nombre_empresa }}</span> -->
                 <br class="text-detalles">
-                <br/><strong>Página web:</strong> <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
+                <br/>
+                <span class="web-link">
+                  <img src="/assets/Images/web.svg" alt="Web Icon" class="web-icon">
+                  <strong>Web:</strong> 
+                </span>
+                <a [href]="empresaSeleccionada.web" target="_blank">{{ empresaSeleccionada.web }}</a>
                 <br/><strong>Horarios de ATENCIÓN CLIENTE:</strong>
                 <br/> - {{ horariosDeAtencionManana }}
                 <br/> - {{ horariosDeAtencionTarde }}
-                <br/><br/><strong>Enlace de MEET:</strong> <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/>
-            </p>
+                <!-- <br/><br/><strong>Enlace de MEET:</strong> <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a><br/> -->
+                <br/>
+                <br/>
+                <br/>
+                <span class="meet-link">
+                  <img src="/assets/Images/Meet.svg" alt="Meet Icon" class="meet-icon">
+                  <strong>Meet:</strong> 
+                </span>
+                <a [href]="empresaSeleccionada.url_meet" target="_blank">{{ empresaSeleccionada.url_meet }}</a>
         </div>
         <div class="contenedor-abajo" *ngIf="empresaSeleccionada">
             <div class="contenedor-video-descripcion">
@@ -251,63 +268,3 @@
         </div>
     </div>
 </div>
-
-
-    <!-- Mis relaciones comerciales -->
-    <!-- <div class="mis-relaciones"  *ngIf="userType !== 3">
-        <div class="titulo-notificaciones">
-            <div class="fondo-notificaciones">
-                <div class="texto-titulo-notificaciones">Mis relaciones comerciales</div>
-            </div>
-        </div>
-        <div class="contenedor-realaciones">
-            <div class="overlap-relaciones-1">
-                <div class="text-relaciones">Mis intereses</div>
-                <div class="scroll-container">
-                    <div *ngIf="relacionesVenta.length === 0" class="mensaje-sin-relaciones">
-                        <p>Aquí aparecerán las empresas que me interesan</p>
-                    </div>
-                    <div *ngFor="let venta of relacionesVenta" class="rectangle-relaciones" (click)="mostrarDetalles(venta.id_empresaCompradora)">
-                        <img *ngIf="venta.logo" [src]="venta.logo" alt="{{ venta.nombre_empresa }}" class="logo-interes">
-                    </div>
-                </div>
-            </div>
-
-            <div class="overlap-relaciones-2">
-                <div class="text-relaciones">Interesados en mí</div>
-                <div class="scroll-container">
-                    <div *ngIf="relacionesCompra.length === 0" class="mensaje-sin-relaciones">
-                        <p>Aquí aparecerán los interesados en mí</p>
-                    </div>
-                    <div *ngFor="let compra of relacionesCompra" class="rectangle-relaciones" (click)="mostrarDetalles(compra.id_empresaVendedora)">
-                        <img *ngIf="compra.logo" [src]="compra.logo" alt="{{ compra.nombre_empresa }}" class="logo-interes">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="contenedor-texto-suma">
-            <div class="text-suma-1">Total: {{ relacionesVenta.length }} <br/>empresas</div>
-            <div class="text-suma-2">Total: {{ relacionesCompra.length }} <br/>empresas</div>
-        </div>
-    </div> -->
-
-        <!-- Listado empresas -->
-    <!-- <div class="titulo" id="empresas">
-        <p>Empresas participantes</p>
-    </div>
-    <div class="scroll-container-2">
-        <div *ngFor="let empresa of empresas" class="rectangle-empresas" (click)="mostrarDetalles(empresa.id_empresa)">
-            <div class="logo-container">
-                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="logo-overlay"></div>
-                <img [src]="empresa.logoUrl" alt="{{ empresa.nombre }}" class="logo-empresa">
-
-                <div *ngIf="haVotadoPorEmpresa(empresa.id_empresa)" class="icono-container">
-                    <img src="assets/Images/Icon_MEGUSTA.svg" alt="Voto" class="icono-gusta" />
-                </div>
-            </div>
-            <p class="txt-logo">
-                {{ empresa.nombre_empresa }}
-            </p>
-        </div>
-    </div> -->

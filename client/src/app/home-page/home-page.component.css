@@ -365,7 +365,7 @@ iframe {
 }
 .scroll-container {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   white-space: nowrap;
   z-index: 1;
   padding: 0;

@@ -4,6 +4,13 @@
     <p>Registro</p>
   </div>
 
+  <div class="text registro-info">
+    <p>Este es un evento privado.
+    <br>Sólo se permite el acceso con email validado por la organización del evento</p>
+    <p>Si tienes algún problema ponte en contacto con tu profesor.
+    </p>
+  </div>
+
   <!-- POP-UP -->
   <app-popup #popupEdicionRegistro></app-popup>
 
@@ -78,7 +85,7 @@
       </div>
       <div class="campo">
         <label for="logo_file" class="text">* Logo:</label>
-        <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input"/>
+        <input type="file" id="logo_file" (change)="onLogoFileChange($event)" accept="image/*" class="input" [disabled]="!isEditable"/>
         <img *ngIf="logoPreview" [src]="logoPreview" alt="Vista previa del logo" class="logo-preview"/>
       </div>
       <div class="campo">

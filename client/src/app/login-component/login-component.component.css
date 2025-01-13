@@ -95,7 +95,16 @@ p {
   font-size: 12px;
   margin-top: 15px;
   color: var(--color-azul);
+
 }
+
+.registro-info-2 {
+  text-align: center;
+  width: 100%; 
+  margin-left: -150px;
+  color: var(--color-azul);
+}
+
 .enlace {
   color: var(--color-azul);
   text-decoration: underline;
@@ -109,7 +118,8 @@ p {
 }
 .error-message-container {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  /* margin: 15px; */
 }
 .error-message {
   color: var(--color-rojo);
@@ -119,9 +129,11 @@ p {
   border: 1px solid var(--color-rojo);
   text-align: center;
   display: inline-block;
+  font-size: 14px;
+  
 }
 
-@media (max-width: 380px) {
+@media (max-width: 350px) {
   .illustration {
     display: none;
   }
@@ -147,5 +159,14 @@ p {
   }
   .error-message-container {
     margin-top: 10px;
+  }
+
+  .registro-info-2 {
+    text-align: left;
+    width: auto; 
+    margin: 10px 0 0 0;
+    color: var(--color-azul);
+    padding: 0;
+    
   }
 }

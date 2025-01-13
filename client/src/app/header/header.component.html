@@ -28,7 +28,12 @@
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
             <button class="login" (click)="toggleDropdown()">
-                <img src="assets/Images/button-login.png" alt="Login">
+                <!-- <img src="assets/Images/button-login.png" alt="Login"> -->
+                <!-- <img src="isLoggedIn ? 'assets/Images/button-login.png' : 'assets/Images/logo_verde.png'" alt="Login"> -->
+                <img *ngIf="isLoggedIn; else defaultLogo" src="assets/Images/Login_EsLogueado.svg" alt="Logged In">
+  <ng-template #defaultLogo>
+    <img src="assets/Images/button-login.png" alt="Login">
+  </ng-template>
                 <div class="dropdown-menu" [ngClass]="{'active': dropdownOpen}">
                     <button class="dropdown-item" (click)="navigateToProfile()">
                         <mat-icon>person</mat-icon> Mi Perfil
@@ -88,3 +93,5 @@
         </ng-template>
     </nav>
 </nav>
+
+<!-- <img [src]="isLoggedIn ? 'assets/Images/login_EstaLogueado.png' : 'assets/Images/logo_verde.png'" alt="Login"> -->
