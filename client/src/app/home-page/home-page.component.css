@@ -426,3 +426,75 @@ iframe {
 }
 
 /* #EndRegion */
+
+/* Sección del ganador del concurso con el mismo estilo que .introcontainer */
+#ganador-concurso {
+  width: 80%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 45px;
+  border: 5px solid var(--color-azul);
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+/* Estilo del título */
+#ganador-concurso .titulo {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: bold;
+  color: var(--color-negro);
+  margin-bottom: 20px;
+}
+
+/* Contenedor del ganador con estructura en dos columnas */
+.ganador-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Estilo del iframe para el video del ganador */
+.video-ganador {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-ganador iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  border: 5px solid var(--color-amarillo);
+}
+
+/* Texto del ganador */
+.texto-ganador {
+  width: 40%;
+  text-align: left;
+}
+
+.descripcion-ganador {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--color-negro);
+  line-height: 1.5;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .ganador-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .video-ganador, .texto-ganador {
+    width: 100%;
+  }
+  .video-ganador {
+    margin-bottom: 1rem;
+  }
+}
