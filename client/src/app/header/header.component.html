@@ -16,12 +16,12 @@
         </ng-container>
         <ng-template #loggedInMenu>
             <!-- Botones para usuarios logueados -->
-            <ng-container *ngIf="userRole === 1 || userRole === 3">
+            <ng-container *ngIf="userRole === 1 || userRole === 2">
                 <!-- Botones para Empresa y Visitante -->
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
-            <ng-container *ngIf="userRole === 2">
+            <ng-container *ngIf="userRole === 3">
                 <!-- Botones para Admin -->
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('admin')">Panel del administrador</button>
@@ -68,12 +68,12 @@
         </ng-container>
         <ng-template #mobileLoggedInMenu>
             <!-- Botones para usuarios logueados -->
-            <ng-container *ngIf="userRole === 1 || userRole === 3">
+            <ng-container *ngIf="userRole === 1 || userRole === 2">
                 <!-- Botones para Empresa y Visitante -->
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('nosotros')">Nosotros</button>
             </ng-container>
-            <ng-container *ngIf="userRole === 2">
+            <ng-container *ngIf="userRole === 3">
                 <!-- Botones para Admin -->
                 <button class="label" (click)="navigateTo('/feria')">Feria Virtual</button>
                 <button class="label" (click)="navigateTo('admin')">Panel del administrador</button>

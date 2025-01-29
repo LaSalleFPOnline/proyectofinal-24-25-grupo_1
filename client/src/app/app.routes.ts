@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponentComponent },
   { path: 'feria', component: FeriaPageComponent, canActivate: [AuthGuard] },
-  { path: 'admin', component: PerfilAdminComponent, canActivate: [RoleGuard], data: { role: 2 } },
+  { path: 'admin', component: PerfilAdminComponent, canActivate: [RoleGuard], data: { role: 3 } },
   { path: 'empresa', component: PerfilEmpresaComponent, canActivate: [AuthGuard] },
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'register', component: RegisterComponent },

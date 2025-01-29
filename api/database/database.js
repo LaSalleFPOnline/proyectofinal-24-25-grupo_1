@@ -169,7 +169,7 @@ const initializeDatabase = (callback) => {
                 (45, 'francinatortella@lasallevp.es', '', 'CC LA SALLE INCA', 2),
                 (46, 'magimenez@lasalle.cat', '', 'La Salle Premià', 2),
                 (47, 'aalcinaa@lasallecadiz.es', '', 'LA SALLE VIÑA', 2),
-                (48, 'gpurti@lasalle.es', '', 'LA SALLE FP ONLINE', 2),
+                (48, 'gpurti@lasalle.es', '', 'LA SALLE FP ONLINE', 3),
                 (49, 'ralegret@lasalle.es', '', 'LA SALLE FP ONLINE', 2),
                 (50, 'denciso@lasallesanasensio.es', '', 'La Salle - La Estrella (1GB)', 2),
                 (51, 'jdiaz@lasallesanasensio.es', '', 'La Salle - La Estrella (2ºGB)', 2),

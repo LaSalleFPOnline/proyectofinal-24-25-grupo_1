@@ -50,9 +50,9 @@ export class LoginComponentComponent {
           if (response.user_id) {
             this.authService.setUserId(response.user_id);
           }
-          if (response.rol === 2) { // Administrador
+          if (response.rol === 3) { // Administrador
             this.router.navigate(['/admin']);
-          } else if (response.rol === 3) { // Visitante
+          } else if (response.rol === 2) { // Visitante
             this.router.navigate(['/feria']);
           } else if (response.rol === 1) { // Empresa
             this.router.navigate(['/feria']);
